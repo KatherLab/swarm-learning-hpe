@@ -1,0 +1,25 @@
+Name: user_env_pyt_build_task
+TaskType: MAKE_USER_CONTAINER
+Author: Jeff
+Prereq: ROOTTASK
+Outcome: user-env-marugoto-swop
+Body:
+    BuildContext: sl-cli-lib
+    BuildType: INLINE
+    BuildSteps:
+    - FROM pytorch/pytorch:1.13.1-cuda11.6-cudnn8-runtime AS develop
+    - WORKDIR /resources
+    - COPY requirements.txt .
+    - RUN set -eux; \
+    - '   apt-get update; \'
+    - '   apt-get install -y gcc git python3-dev libopenslide0 wget; \'
+    - '   pip install -r requirements.txt'
+    - '  '
+    - FROM develop AS deploy
+    - WORKDIR /marugoto
+    - COPY . /marugoto
+    - ENTRYPOINT [ "python3", "-m" ]
+    - ' '
+    - RUN mkdir -p /tmp/hpe-swarmcli-pkg
+    - COPY lib/swarmlearning-client-py3-none-manylinux_2_24_x86_64.whl /tmp/hpe-swarmcli-pkg/swarmlearning-client-py3-none-manylinux_2_24_x86_64.whl
+    - RUN pip install /tmp/hpe-swarmcli-pkg/swarmlearning-client-py3-none-manylinux_2_24_x86_64.whl
