@@ -1,6 +1,3 @@
-######################################################################
-# (C)Copyright 2021,2022 Hewlett Packard Enterprise Development LP
-######################################################################
 Name: swarm_katherlab_task
 TaskType: RUN_SWARM
 Author: Jeff
@@ -13,6 +10,6 @@ Body:
     Envvars: ["DATA_DIR": data-and-scratch/app-data, "SCRATCH_DIR": data-and-scratch/scratch, "MODEL_DIR": model, "MAX_EPOCHS": 2, "MIN_PEERS": 2, 'SWCI_TASK_MAX_WAIT_TIME':500]
     PrivateContent: /tmp/test/data-and-scratch
     SharedContent:
-    -   Src: /opt/hpe/swarm-learning/workspace/katherlab/model
+    -   Src: /opt/hpe/swarm-learning/workspace/katherlab/model/mil
         Tgt: /tmp/test/model
         MType: BIND
