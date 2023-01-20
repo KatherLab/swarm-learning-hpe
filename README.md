@@ -6,11 +6,19 @@ Swarm learning learning and trails based on HPE platform
 
 This repository contains:
 
-1. Nothing at this moment:(
+1. SWARM Learning For Histopathology Image Analysis nad Radiology Image Analysis
 2. [Work flow](https://github.com/users/Ultimate-Storm/projects/4) to help keep track of what's under process.
 3. [Issue section](https://github.com/Ultimate-Storm/swarm-learning-hpe/issues) where people can dump ideas and raise questions encountered when using this repo.
 
+## Brief discription about HPE platform
+Course of Swarm Leaning explained in a generally understandable way: [https://learn.software.hpe.com/swarm-learning-essentials](https://learn.software.hpe.com/swarm-learning-essentials)
 
+HPE Swarm Learning extends the **concept of federated learning** to **decentralized learning** by adding functionality that **obviates the need for a central leader**. It combines the use of **AI**, **edge computing**, and **blockchain**.
+
+HPE Swarm Learning is a **decentralized, privacy-preserving Machine Learning (ML) framework**. Swarm Learning framework uses the computing power at, or near, the distributed data sources to run the ML algorithms that train the models. It uses the security of a blockchain platform to share learning with peers safely and securely. In Swarm Learning, training of the model occurs at the edge, where data is most recent, and where prompt, data-driven decisions are mostly necessary. In this decentralized architecture, **only the insights learned are shared** with the collaborating ML peers, not the raw data. This tremendously enhances data security and privacy.
+
+The following image provides an overview of the Swarm Learning framework. Only the model parameters (learnings) are exchanged between the various edge nodes and not the raw data. This ensures that the privacy of data is preserved.
+![img.png](img.png)
 ## Table of Contents
 
 - [Background](#background)
@@ -30,7 +38,7 @@ This repository contains:
 requirement will follow up soon...
 
 ```sh
-$ git clone https://github.com/Ultimate-Storm/swarm-learning-hpe.git
+$ git clone https://github.com/KatherLab/swarm-learning-hpe.git
 ```
 
 ## Usage
@@ -41,9 +49,11 @@ $
 ```
 
 ## Maintainers
-Software engineering team
+Swarm learning team
 
 [@Jeff](https://github.com/Ultimate-Storm).
+[@Kevin](https://github.com/kevinxpfeiffer).
+[@Oliver](https://github.com/oliversaldanha25).
 
 ## Milestone
 See this [link](https://github.com/Ultimate-Storm/swarm-learning-hpe/milestones)
