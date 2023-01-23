@@ -65,7 +65,7 @@ def get_folder_with_specifc_naming(name: str, path: Path) -> bool:
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Convert from dcm to niix.')
     parser.add_argument('-i', '--cohort_path', type=Path, metavar='', required=False,
-                        default='/mnt/sda1/swarm-learning/radiology-dataset/manifest-1654812109500/Duke-Breast-Cancer-MRI/',
+                        default='/mnt/sda1/swarm-learning/radiology-dataset/original-dataset/manifest-1654812109500/Duke-Breast-Cancer-MRI/',
                         help='Path to the input directory.')
     parser.add_argument('-o', '--outdir', type=Path, metavar='', required=False,
                         default='/mnt/sda1/swarm-learning/radiology-dataset/converted-niix-all-series/',

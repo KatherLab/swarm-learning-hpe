@@ -41,8 +41,10 @@ def main(cohort_path: Path, outdir: Path) -> None:
             if get_folder_with_specifc_naming('ax dyn pre', series):
                 series_path_list.append(series)
 
+    pool = multiprocessing.Pool(processes=multiprocessing.cpu_count())
     for seires in tqdm(series_path_list):
         dcm2niix(outdir, seires)
+        pool.apply_async(dcm2niix, (outdir, seires))
     '''
     pool = threadpool.ThreadPool(1)
     requests = threadpool.makeRequests(dcm2niix(outdir, series), series_path_list)
@@ -63,7 +65,7 @@ def get_folder_with_specifc_naming(name: str, path: Path) -> bool:
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Convert from dcm to niix.')
     parser.add_argument('-i', '--cohort_path', type=Path, metavar='', required=False,
-                        default='/mnt/sda1/swarm-learning/radiology-dataset/manifest-1654812109500/Duke-Breast-Cancer-MRI/',
+                        default='/mnt/sda1/swarm-learning/radiology-dataset/original-dataset/manifest-1654812109500/Duke-Breast-Cancer-MRI/',
                         help='Path to the input directory.')
     parser.add_argument('-o', '--outdir', type=Path, metavar='', required=False,
                         default='/mnt/sda1/swarm-learning/radiology-dataset/converted-niix/',
