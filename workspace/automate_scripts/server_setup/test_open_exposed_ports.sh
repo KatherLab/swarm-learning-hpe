@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eux
+set -eu
 
 script_name=$(basename "${0}")
 script_dir=$(realpath $(dirname "${0}"))
@@ -25,7 +25,7 @@ done
 # checks ports
 test_port(){
 port=$1
-if (iptables -L -n | grep $port | grep tcp); then
+if (sudo iptables -L -n | grep $port | grep tcp); then
 	echo "Port $port: open"
 else
 	echo "Port $port: closed"
@@ -37,9 +37,9 @@ fi
 # open
 open_port(){
 port=$1
-iptables -A INPUT -p tcp --dport $1 -j ACCEPT
-iptables -A OUTPUT -p tcp --dport $1 -j ACCEPT
-iptables -A FORWARD -p tcp --dport $1 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport $1 -j ACCEPT
+sudo iptables -A OUTPUT -p tcp --dport $1 -j ACCEPT
+sudo iptables -A FORWARD -p tcp --dport $1 -j ACCEPT
 test_port $1
 }
 
