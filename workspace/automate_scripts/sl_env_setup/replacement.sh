@@ -14,7 +14,7 @@ help()
 }
 
 # Process command options
-while getopts "t:w:h?" opt
+while getopts "s:w:h?" opt
 do
    case "$opt" in
       s ) sentinal_host="$OPTARG" ;;
