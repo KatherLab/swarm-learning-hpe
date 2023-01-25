@@ -37,7 +37,7 @@ cp workspace/"$workspace"/swci/taskdefs/swarm_task.yaml workspace/"$workspace"/s
 cp workspace/"$workspace"/swci/taskdefs/user_env_pyt_build_task.yaml workspace/"$workspace"/swci/taskdefs/user_env_pyt_build_task_"$ip_addr".yaml
 
 
-sed -i "s+<CURRENT-PATH>+$(pwd)+g" workspace/"$workspace"/swop/swop_profile.yaml workspace/"$workspace"/swci/taskdefs/*.yaml workspace/"$workspace"/swci/swci_init
-sed -i "s+<SN-IPADDRESS>+$(sentinal_host)+g" workspace/"$workspace"/swop/swop_profile.yaml workspace/"$workspace"/swci/taskdefs/*.yaml workspace/"$workspace"/swci/swci_init
-sed -i "s+<HOST-IPADDRESS>+$(ip_addr)+g" workspace/"$workspace"/swop/swop_profile.yaml workspace/"$workspace"/swci/taskdefs/*.yaml workspace/"$workspace"/swci/swci_init
-sed -i "s+<MODULE-NAME>+$(workspace)+g" workspace/"$workspace"/swop/swop_profile.yaml workspace/"$workspace"/swci/taskdefs/*.yaml workspace/"$workspace"/swci/swci_init
+sed -i "s+<CURRENT-PATH>+$(pwd)+g" workspace/"$workspace"/swop/swop_profile_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/swarm_task_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/user_env_pyt_build_task_"$ip_addr".yaml workspace/"$workspace"/swci/swci-init_"$ip_addr"
+sed -i "s+<SN-IPADDRESS>+$(sentinal_host)+g" workspace/"$workspace"/swop/swop_profile_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/swarm_task_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/user_env_pyt_build_task_"$ip_addr".yaml workspace/"$workspace"/swci/swci-init_"$ip_addr"
+sed -i "s+<HOST-IPADDRESS>+$(ip_addr)+g" workspace/"$workspace"/swop/swop_profile_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/swarm_task_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/user_env_pyt_build_task_"$ip_addr".yaml workspace/"$workspace"/swci/swci-init_"$ip_addr"
+sed -i "s+<MODULE-NAME>+$(workspace)+g" workspace/"$workspace"/swop/swop_profile_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/swarm_task_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/user_env_pyt_build_task_"$ip_addr".yaml workspace/"$workspace"/swci/swci-init_"$ip_addr"
