@@ -1,9 +1,9 @@
 #!/bin/sh
 set -eux
 
-sudo apt install python3-pip
-pip install gdown
-gdown --folder https://drive.google.com/drive/folders/1Y6DR-7Gp1uWsqQ1CDZGb6cxMD34-NOtG  # for folders
+sudo apt install python3-pip -y
+sudo pip install gdown
+gdown --folder https://drive.google.com/drive/folders/166t3FPPtI25CQdNXkYtfX7thmXJcnOuO?usp=share_link  # for folders
 
 cd ./pls-9.12/UNIX
 chmod a+x setup.bin
