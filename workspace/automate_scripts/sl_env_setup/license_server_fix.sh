@@ -2,9 +2,8 @@
 set -eux
 
 cd "/opt/HP/HP AutoPass License Server/HP AutoPass License Server/HP AutoPass License Server/conf"
-sudo nano server.xml
 
-sed -i "s+5814+5000+g" server.xml
+sudo sed -i "s+5814+5000+g" server.xml
 
 cd "/opt/HP/HP AutoPass License Server/HP AutoPass License Server/HP AutoPass License Server/bin"
 sudo cp hpLicenseServer  /etc/init.d/hpLicenseServer
