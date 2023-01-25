@@ -1,0 +1,2 @@
+apls-9.12/ filter=lfs diff=lfs merge=lfs -text
+licence_and_softwares/ filter=lfs diff=lfs merge=lfs -text

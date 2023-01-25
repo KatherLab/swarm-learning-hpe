@@ -1,0 +1,59 @@
+---
+######################################################################
+# (C)Copyright 2021,2022 Hewlett Packard Enterprise Development LP
+######################################################################
+groupname  : demo
+taskrunner : defaulttaskbb.taskdb.sml.hpe
+policyuri  : ~
+resourcemgr :
+    mgrtype    : DOCKER
+    accessinfo :
+        accesstype : FROMENV
+network    : host-2-net
+apls :
+    locator :
+        host : 192.168.33.102
+        port : 5000
+apisrv :
+    locator :
+        host : 192.168.33.103
+        port : 30304
+envvars :
+    - SL_LOG_LEVEL : DEBUG
+    - http_proxy : ~
+    - https_proxy : ~
+    - no_proxy : ~
+    - HTTP_PROXY : ~
+    - HTTPS_PROXY : ~
+    - NO_PROXY : ~
+nodes :
+    - slnodedef :
+        idx : 0
+        identity :
+            - attribute :
+                aType : KEY
+                mType : BIND
+                src : "/opt/hpe/swarm-learning/workspace/katherlab/cert/sl-2-key.pem"
+                tgt : "/swarm-cert/sl-3-key.pem"
+                subPath : null
+            - attribute :
+                aType : CERT
+                mType : BIND
+                src : "/opt/hpe/swarm-learning/workspace/katherlab/cert/sl-2-cert.pem"
+                tgt : "/swarm-cert/sl-3-cert.pem"
+                subPath : null
+            - attribute :
+                aType : CAPATH
+                mType : BIND
+                src : "/opt/hpe/swarm-learning/workspace/katherlab/cert/ca/capath"
+                tgt : "/swarm-cert/capath"
+                subPath : null
+        slhostname : sl3
+        slhostip : 192.168.33.103
+        slport : 18000
+        usrhostname : user2
+        privatedata :
+            src: "/opt/hpe/swarm-learning/workspace/katherlab/user2/data-and-scratch"
+            mType : BIND
+        slenvvars : null
+        usrenvvars : null
