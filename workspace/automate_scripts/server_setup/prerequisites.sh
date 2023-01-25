@@ -1,8 +1,8 @@
 #!/bin/sh
 set -eux
 
-sudo snap install docker
-sudo apt install curl
+sudo snap install -y docker
+sudo snap install -y curl
 
 echo Install Docker
 curl -fsSL get.docker.com | sudo sh
