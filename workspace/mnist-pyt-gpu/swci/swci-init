@@ -1,14 +1,10 @@
-######################################################################
-# (C)Copyright 2021,2022 Hewlett Packard Enterprise Development LP
-######################################################################
-
 # Assumption : SWOP is already running
 
 # SWCI context setup
 EXIT ON FAILURE
-wait for 192.168.33.102
-create context test-mnist 192.168.33.102
-switch context test-mnist
+wait for <SN-IPADDRESS>
+create context kathlab-task <SN-IPADDRESS>
+switch context kathlab-task
 EXIT ON FAILURE OFF
 
 #Change to the directory where we are mounting the host
@@ -26,7 +22,7 @@ EXIT ON FAILURE OFF
 # Assign build task to taskrunner
 EXIT ON FAILURE
 RESET TASKRUNNER defaulttaskbb.taskdb.sml.hpe
-ASSIGN TASK user_env_pyt_build_task TO defaulttaskbb.taskdb.sml.hpe WITH 2 PEERS
+ASSIGN TASK user_env_pyt_build_task TO defaulttaskbb.taskdb.sml.hpe WITH <NUM-MIN_PEERS> PEERS
 WAIT FOR TASKRUNNER defaulttaskbb.taskdb.sml.hpe
 EXIT ON FAILURE OFF
 
@@ -34,17 +30,17 @@ EXIT ON FAILURE OFF
 
 # Create and finalize swarm run task
 EXIT ON FAILURE
-create task from taskdefs/swarm_mnist_task.yaml
-finalize task swarm_mnist_task
-get task info swarm_mnist_task
-get task body swarm_mnist_task
+create task from taskdefs/swarm_task.yaml
+finalize task swarm_task
+get task info swarm_task
+get task body swarm_task
 list tasks
 EXIT ON FAILURE OFF
 
 # Assign run task
 EXIT ON FAILURE
 RESET TASKRUNNER defaulttaskbb.taskdb.sml.hpe
-ASSIGN TASK swarm_mnist_task TO defaulttaskbb.taskdb.sml.hpe WITH 2 PEERS
+ASSIGN TASK swarm_ask TO defaulttaskbb.taskdb.sml.hpe WITH <NUM-MIN_PEERS> PEERS
 WAIT FOR TASKRUNNER defaulttaskbb.taskdb.sml.hpe
 # Grace period for ML container to save the model,
 # before the below reset command cleans up the ML and SL Containers.

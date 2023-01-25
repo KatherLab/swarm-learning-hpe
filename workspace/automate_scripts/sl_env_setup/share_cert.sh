@@ -16,11 +16,11 @@ help()
 }
 
 # Process command options
-while getopts "t:e:" opt
+while getopts "t:w:h?" opt
 do
    case "$opt" in
       t ) target_host="$OPTARG" ;;
-      e ) workspace="$OPTARG" ;;
+      w ) workspace="$OPTARG" ;;
       h ) help ;;
       ? ) help ;;
    esac

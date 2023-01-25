@@ -1,7 +1,3 @@
----
-######################################################################
-# (C)Copyright 2021,2022 Hewlett Packard Enterprise Development LP
-######################################################################
 groupname  : demo
 taskrunner : defaulttaskbb.taskdb.sml.hpe
 policyuri  : ~
@@ -9,14 +5,14 @@ resourcemgr :
     mgrtype    : DOCKER
     accessinfo :
         accesstype : FROMENV
-network    : host-1-net
+network    : host-<HOST-IPADDRESS>-net
 apls :
     locator :
-        host : 192.168.33.102
+        host : <SN-IPADDRESS>
         port : ~
 apisrv :
     locator :
-        host : 192.168.33.102
+        host : <HOST-IPADDRESS>
         port : ~
 envvars :
     - SL_LOG_LEVEL : INFO
@@ -33,27 +29,27 @@ nodes :
             - attribute :
                 aType : KEY
                 mType : BIND
-                src : "/opt/hpe/swarm-learning/workspace/mnist-pyt-new/cert/sl-1-key.pem"
-                tgt : "/swarm-cert/sl-1-key.pem"
+                src : "/opt/hpe/swarm-learning-hpe/workspace/<MODULE-NAME>/cert/sl-<HOST-IPADDRESS>-key.pem"
+                tgt : "/swarm-cert/sl-<HOST-IPADDRESS>-key.pem"
                 subPath : null
             - attribute :
                 aType : CERT
                 mType : BIND
-                src : "/opt/hpe/swarm-learning/workspace/mnist-pyt-new/cert/sl-1-cert.pem"
-                tgt : "/swarm-cert/sl-1-cert.pem"
+                src : "/opt/hpe/swarm-learning-hpe/workspace/<MODULE-NAME>/cert/sl-<HOST-IPADDRESS>-cert.pem"
+                tgt : "/swarm-cert/sl-<HOST-IPADDRESS>-cert.pem"
                 subPath : null
             - attribute :
                 aType : CAPATH
                 mType : BIND
-                src : "/opt/hpe/swarm-learning/workspace/mnist-pyt-new/cert/ca/capath"
+                src : "/opt/hpe/swarm-learning-hpe/workspace/<MODULE-NAME>/cert/ca/capath"
                 tgt : "/swarm-cert/capath"
                 subPath : null
-        slhostname : sl1
-        slhostip   : 192.168.33.102
+        slhostname : sl<HOST-IPADDRESS>
+        slhostip   : <HOST-IPADDRESS>
         slport : 16000
-        usrhostname : user1
+        usrhostname : user-<MODULE-NAME>-<HOST-IPADDRESS>
         privatedata :
-            src: "/opt/hpe/swarm-learning/workspace/mnist-pyt-new/user1/data-and-scratch"
+            src: "/opt/hpe/swarm-learning/workspace/mnist-pyt-new/user-<MODULE-NAME>-<HOST-IPADDRESS>/data-and-scratch"
             mType : BIND
         slenvvars : null
         usrenvvars : null
