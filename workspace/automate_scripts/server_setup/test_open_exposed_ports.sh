@@ -32,7 +32,9 @@ else
 	echo "Port $port: will be opened"
 	open_port $port
 fi
-}# open
+}
+
+# open
 open_port(){
 port=$1
 iptables -A INPUT -p tcp --dport $1 -j ACCEPT
