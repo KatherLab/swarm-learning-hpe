@@ -1,0 +1,35 @@
+#!/usr/bin/bash
+
+test_port(){
+port=$1
+if (iptables -L -n | grep $port | grep tcp); then
+	echo "Port $port: open"
+else
+	echo "Port $port: closed"
+	echo "Port $port: will be opened"
+	open_port $port
+fi
+}
+
+open_port(){
+port=$1
+iptables -A INPUT -p tcp --dport $1 -j ACCEPT
+iptables -A OUTPUT -p tcp --dport $1 -j ACCEPT
+iptables -A FORWARD -p tcp --dport $1 -j ACCEPT
+test_port $1
+}
+
+# standard HPE Swarm Learing ports
+test_port 22
+test_port 5814
+test_port 5000
+test_port 30303
+test_port 30304
+test_port 30305
+test_port 30306
+
+# Use case pending ports
+test_port 16000
+test_port 17000
+test_port 18000
+test_port 19000
