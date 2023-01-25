@@ -22,7 +22,7 @@ EXIT ON FAILURE OFF
 # Assign build task to taskrunner
 EXIT ON FAILURE
 RESET TASKRUNNER defaulttaskbb.taskdb.sml.hpe
-ASSIGN TASK user_env_pyt_build_task TO defaulttaskbb.taskdb.sml.hpe WITH <NUM-MIN_PEERS> PEERS
+ASSIGN TASK user_env_pyt_build_task_<HOST-IPADDRESS> TO defaulttaskbb.taskdb.sml.hpe WITH <NUM-MIN_PEERS> PEERS
 WAIT FOR TASKRUNNER defaulttaskbb.taskdb.sml.hpe
 EXIT ON FAILURE OFF
 
