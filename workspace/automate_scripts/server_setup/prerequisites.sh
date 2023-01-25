@@ -11,6 +11,14 @@ newgrp docker
 docker run hello-world
 
 echo Create Folder / Working directory for Swarm Learning:
-sudo mkdir /opt/hpe
-cd /opt/hpe
-sudo git clone https://github.com/KatherLab/swarm-learning-hpe.git
+DIR="/opt/hpe/swarm-learning-hpe"
+if [ -d "$DIR" ]; then
+  # Take action if $DIR exists. #
+  cd "$DIR"
+  git pull
+  git checkout dev_automation
+else
+  sudo mkdir /opt/hpe
+  cd /opt/hpe
+  sudo git clone https://github.com/KatherLab/swarm-learning-hpe.git
+fi
