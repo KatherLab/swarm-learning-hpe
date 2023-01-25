@@ -1,8 +1,8 @@
 Name: swarm_task
 TaskType: RUN_SWARM
 Author: Katherlab Swarm Team
-Prereq: user_env_<MODULE-NAME>_build_task
-Outcome: swarm_<MODULE-NAME>_task
+Prereq: user_env_<MODULE-NAME>_build_task_<HOST-IPADDRESS>
+Outcome: swarm_task
 Body:
     Command: model/main.py
     Entrypoint: python3
