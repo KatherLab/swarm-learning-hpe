@@ -25,3 +25,5 @@ else
   cd /opt/hpe
   sudo git clone https://github.com/KatherLab/swarm-learning-hpe.git
 fi
+
+sudo chmod 777 -R "$DIR"
