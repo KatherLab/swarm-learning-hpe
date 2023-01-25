@@ -1,6 +1,9 @@
 #!/bin/sh
 set -eux
 
+sudo chmod +x ./license_and_softwares/HPE_SWARM_LEARNING_INSTALLER_LINUX_Q2V41-11036
+sudo ./license_and_softwares/HPE_SWARM_LEARNING_INSTALLER_LINUX_Q2V41-11036
+
 echo "Login to hub.myenterpriselicense.hpe.com"
 sudo docker login -u jiefu.zhu@tu-dresden.de -p hpe_eval hub.myenterpriselicense.hpe.com
 # sudo docker login -u kevin.pfeiffer@tu-dresden.de -p hpe_eval hub.myenterpriselicense.hpe.com
