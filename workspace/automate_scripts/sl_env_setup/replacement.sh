@@ -14,18 +14,19 @@ help()
 }
 
 # Process command options
-while getopts "s:w:h?" opt
+while getopts "s:w:n:h?" opt
 do
    case "$opt" in
       s ) sentinal_host="$OPTARG" ;;
       w ) workspace="$OPTARG" ;;
+      n ) num_peers="$OPTARG" ;;
       h ) help ;;
       ? ) help ;;
    esac
 done
 
 # Checks
-if [ -z "$sentinal_host" ] || [ -z "$workspace" ]
+if [ -z "$sentinal_host" ] || [ -z "$workspace" ] || [ -z "$num_peers" ]
 then
    echo "Some or all of the parameters are empty";
    help
@@ -38,6 +39,7 @@ cp workspace/"$workspace"/swci/taskdefs/user_env_pyt_build_task.yaml workspace/"
 
 
 sed -i "s+<CURRENT-PATH>+$(pwd)+g" workspace/"$workspace"/swop/swop_profile_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/swarm_task_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/user_env_pyt_build_task_"$ip_addr".yaml workspace/"$workspace"/swci/swci-init_"$ip_addr"
-sed -i "s+<SN-IPADDRESS>+$(sentinal_host)+g" workspace/"$workspace"/swop/swop_profile_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/swarm_task_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/user_env_pyt_build_task_"$ip_addr".yaml workspace/"$workspace"/swci/swci-init_"$ip_addr"
-sed -i "s+<HOST-IPADDRESS>+$(ip_addr)+g" workspace/"$workspace"/swop/swop_profile_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/swarm_task_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/user_env_pyt_build_task_"$ip_addr".yaml workspace/"$workspace"/swci/swci-init_"$ip_addr"
-sed -i "s+<MODULE-NAME>+$(workspace)+g" workspace/"$workspace"/swop/swop_profile_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/swarm_task_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/user_env_pyt_build_task_"$ip_addr".yaml workspace/"$workspace"/swci/swci-init_"$ip_addr"
+sed -i "s+<SN-IPADDRESS>+$sentinal_host+g" workspace/"$workspace"/swop/swop_profile_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/swarm_task_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/user_env_pyt_build_task_"$ip_addr".yaml workspace/"$workspace"/swci/swci-init_"$ip_addr"
+sed -i "s+<HOST-IPADDRESS>+$ip_addr+g" workspace/"$workspace"/swop/swop_profile_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/swarm_task_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/user_env_pyt_build_task_"$ip_addr".yaml workspace/"$workspace"/swci/swci-init_"$ip_addr"
+sed -i "s+<MODULE-NAME>+$workspace+g" workspace/"$workspace"/swop/swop_profile_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/swarm_task_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/user_env_pyt_build_task_"$ip_addr".yaml workspace/"$workspace"/swci/swci-init_"$ip_addr"
+sed -i "s+<NUM-MIN_PEERS>+$num_peers+g" workspace/"$workspace"/swop/swop_profile_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/swarm_task_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/user_env_pyt_build_task_"$ip_addr".yaml workspace/"$workspace"/swci/swci-init_"$ip_addr"
