@@ -1,5 +1,28 @@
-#!/usr/bin/bash
+#!/bin/sh
+set -eux
 
+script_name=$(basename "${0}")
+script_dir=$(realpath $(dirname "${0}"))
+
+# help function
+help()
+{
+   echo ""
+   echo "Ask kevin how to use the damn script"
+   echo ""
+   exit 1
+}
+
+# Process command options
+while getopts "h?" opt
+do
+   case "$opt" in
+      h ) help ;;
+      ? ) help ;;
+   esac
+done
+
+# checks ports
 test_port(){
 port=$1
 if (iptables -L -n | grep $port | grep tcp); then
@@ -9,8 +32,7 @@ else
 	echo "Port $port: will be opened"
 	open_port $port
 fi
-}
-
+}# open
 open_port(){
 port=$1
 iptables -A INPUT -p tcp --dport $1 -j ACCEPT
