@@ -1,0 +1,21 @@
+{
+    "projectFolder": "Data_set_A",
+    "dataDir_test": [""],
+    "trainFull": "False",
+
+    "targetLabels": ["isMSIH"],
+
+    "maxNumBlocks": 100,
+    "epochs": 5,
+    "batchSize":124,
+     
+    "seed": 1,
+    "k": 2,
+
+    "modelName": "resnet",
+    "opt": "adam",
+    "lr": 0.0001,
+    "reg": 0.00001,
+    "gpuNo": 0,
+    "freezeRatio": 0.2
+}
