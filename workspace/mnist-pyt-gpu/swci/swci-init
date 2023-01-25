@@ -12,10 +12,10 @@ cd /platform/swarm/usr
 
 # Create and finalize build task
 EXIT ON FAILURE
-create task from taskdefs/user_env_pyt_build_task.yaml
-finalize task user_env_pyt_build_task
-get task info user_env_pyt_build_task
-get task body user_env_pyt_build_task
+create task from taskdefs/user_env_pyt_build_task_<HOST-IPADDRESS>.yaml
+finalize task user_env_pyt_build_task_<HOST-IPADDRESS>
+get task info user_env_pyt_build_task_<HOST-IPADDRESS>
+get task body user_env_pyt_build_task_<HOST-IPADDRESS>
 list tasks
 EXIT ON FAILURE OFF
 
