@@ -2,8 +2,6 @@
 set -eux
 
 ip_addr=$(hostname -I | awk '{print $1}')
-script_name=$(basename "${0}")
-script_dir=$(realpath $(dirname "${0}"))
 
 # Help function
 help()
@@ -15,11 +13,9 @@ help()
 }
 
 # Process command options
-while getopts "e:i:h?" opt
+while getopts "h?" opt
 do
    case "$opt" in
-      e ) workspace="$OPTARG" ;;
-      i ) host="$OPTARG" ;;
       h ) help ;;
       ? ) help ;;
    esac

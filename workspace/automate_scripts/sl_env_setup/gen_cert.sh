@@ -32,5 +32,6 @@ then
    help
 fi
 
+
 cp -r workspace/swarm_learning_scripts/gen-cert workspace/"$workspace"/
 sudo ./workspace/"$workspace"/gen-cert -e "$workspace" -i "$ip_addr"
