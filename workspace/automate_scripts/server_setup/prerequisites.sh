@@ -1,11 +1,14 @@
 #!/bin/sh
 set -eux
 
+sudo snap install docker
+sudo apt install curl
+
 echo Install Docker
 curl -fsSL get.docker.com | sudo sh
 
 echo Test Docker installation:
-sudo groupadd docker
+sudo groupadd -f docker
 sudo usermod -aG docker $USER
 newgrp docker
 docker run hello-world
