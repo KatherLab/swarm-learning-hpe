@@ -17,7 +17,7 @@ help()
 while getopts "t:w:h?" opt
 do
    case "$opt" in
-      t ) target_host="$OPTARG" ;;
+      s ) sentinal_host="$OPTARG" ;;
       w ) workspace="$OPTARG" ;;
       h ) help ;;
       ? ) help ;;
@@ -25,13 +25,13 @@ do
 done
 
 # Checks
-if [ -z "$target_host" ] || [ -z "$workspace" ]
+if [ -z "$sentinal_host" ] || [ -z "$workspace" ]
 then
    echo "Some or all of the parameters are empty";
    help
 fi
 
 sed -i "s+<CURRENT-PATH>+$(pwd)+g" workspace/"$workspace"/swop/swop_profile.yaml workspace/"$workspace"/swci/taskdefs/*.yaml workspace/"$workspace"/swci/swci_init
-sed -i "s+<SN-IPADDRESS>+$(target_host)+g" workspace/"$workspace"/swop/swop_profile.yaml workspace/"$workspace"/swci/taskdefs/*.yaml workspace/"$workspace"/swci/swci_init
+sed -i "s+<SN-IPADDRESS>+$(sentinal_host)+g" workspace/"$workspace"/swop/swop_profile.yaml workspace/"$workspace"/swci/taskdefs/*.yaml workspace/"$workspace"/swci/swci_init
 sed -i "s+<HOST-IPADDRESS>+$(ip_addr)+g" workspace/"$workspace"/swop/swop_profile.yaml workspace/"$workspace"/swci/taskdefs/*.yaml workspace/"$workspace"/swci/swci_init
 sed -i "s+<MODULE-NAME>+$(workspace)+g" workspace/"$workspace"/swop/swop_profile.yaml workspace/"$workspace"/swci/taskdefs/*.yaml workspace/"$workspace"/swci/swci_init
