@@ -29,7 +29,7 @@ done
 if [ $ip_addr = $sentinal ]
 then
    echo "This host a sentinal node and will be used for initiating the cluster"
-   sudo ../swarm_learning_scripts/run-swci -it --rm --name=swci"$ip_addr" \
+   sudo $script_dir/../../swarm_learning_scripts/run-swci -it --rm --name=swci"$ip_addr" \
   --network=host-"$ip_addr"-net --usr-dir=workspace/"$workspace"/swci \
   --init-script-name=swci-init --key=workspace/"$workspace"/cert/swci-"$ip_addr"-key.pem \
   --cert=workspace/"$workspace"/cert/swci-"$ip_addr"-cert.pem \

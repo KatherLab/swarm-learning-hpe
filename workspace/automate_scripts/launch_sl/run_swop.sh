@@ -26,7 +26,7 @@ do
    esac
 done
 
-sudo ../swarm_learning_scripts/run-swop -it --rm --name=swop"$ip_addr" \
+sudo $script_dir/../../swarm_learning_scripts/run-swop -it --rm --name=swop"$ip_addr" \
 --network=host-"$ip_addr"-net --usr-dir=workspace/katherlab/swop \
 --profile-file-name=swop"$ip_addr"_profile.yaml \
 --key=workspace/"$workspace"/cert/swop-"$ip_addr"-key.pem \
