@@ -29,7 +29,7 @@ done
 sudo $script_dir/../../swarm_learning_scripts/run-swop -it --rm --name=swop"$ip_addr" \
 --network=host-"$ip_addr"-net --usr-dir=workspace/"$workspace"/swop \
 --profile-file-name=swop_"$ip_addr"_profile.yaml \
---key=workspace/"$workspace"/cert/swop_"$ip_addr"_key.pem \
---cert=workspace/"$workspace"/cert/swop_"$ip_addr"_cert.pem \
+--key=workspace/"$workspace"/cert/swop-"$ip_addr"-key.pem \
+--cert=workspace/"$workspace"/cert/swop-"$ip_addr"-cert.pem \
 --capath=workspace/"$workspace"/cert/ca/capath \
 -e http_proxy= -e https_proxy= --apls-ip="$sentinal" --apls-port 5000 -e SWOP_KEEP_CONTAINERS=True
