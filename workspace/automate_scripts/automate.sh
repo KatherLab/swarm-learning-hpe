@@ -6,35 +6,44 @@ script_name=$(basename "${0}")
 script_dir=$(realpath $(dirname "${0}"))
 cd "$script_dir"/..
 
-ip_addr=$(hostname -I | awk '{print $1}')
-script_name=$(basename "${0}")
-script_dir=$(realpath $(dirname "${0}"))
-
 # Help function
 help()
 {
    echo ""
-   echo "Ask jeff how to use the damn script"
+   echo "Usage: sh workspace/automate_scripts/automate.sh -c -i 192.168.33.103 -s 192.168.33.102 -w mnist-pyt-gpu"
+   echo -e "\\t-w Name of the workspace module e.g. mnist-pyt-gpu, katherlab etc."
+   echo -e "\\t-i Host ip address like 192.168.33.103 etc."
+   echo -e "\\t-s Sentinal ip address like 192.168.33.102."
+   echo -e "\\t-p Number of peers for swarm learning."
+   echo -e "\\t-e Number of epochs for swarm learning."
+
+   echo -e "\\t-a Server setup for swarm learning."
+   echo -e "\\t-b Swarm learning environment setup."
+   echo -e "\\t-c Final setup."
+   echo -e "\\t-h Show help."
    echo ""
    exit 1
 }
 
 # Process command options
-while getopts "w:i:s:n:e:h?" opt
+while getopts "abcw:i:s:p:e:h?" opt
 do
    case "$opt" in
       w ) workspace_name="$OPTARG" ;;
       i ) host_ip="$OPTARG" ;;
       s ) sentinal_ip="$OPTARG" ;;
-      n ) num_peers="$OPTARG" ;;
+      p ) num_peers="$OPTARG" ;;
       e ) num_epochs="$OPTARG" ;;
+      a ) ACTION=server_setup ;;
+      b ) ACTION=sl_env_setup ;;
+      c ) ACTION=final_setup ;;
       h ) help ;;
       ? ) help ;;
    esac
 done
 
 
-if [[ $* == *--server_setup* ]]; then
+if [ $ACTION = server_setup ]; then
   sh ./automate_scripts/server_setup/gpu_env_setup.sh
   sh ./automate_scripts/server_setup/test_open_exposed_ports.sh
   sh ./automate_scripts/server_setup/prerequisites.sh
@@ -42,16 +51,20 @@ if [[ $* == *--server_setup* ]]; then
   sh ./automate_scripts/server_setup/install_containers.sh
 fi
 
-if [[ $* == *--sl_env_setup* ]]; then
+if [ $ACTION = sl_env_setup ]; then
 
   # Checks
-  if [ -z "$host_ip" ] || [ -z "$workspace_name" ]
+
+
+  sh ./automate_scripts/sl_env_setup/gen_cert.sh -w "$workspace_name"
+fi
+
+if [ $ACTION = final_setup ]; then
+  if [ -z "$host_ip" ] || [ -z "$workspace_name" ] || [ -z "$sentinal_ip" ]
     then
        echo "Some or all of the parameters are empty";
        help
     fi
-  sh ./automate_scripts/sl_env_setup/gen_cert.sh -w "$workspace_name"
-
   # Checks
   if [ $ip_addr = $sentinal_ip ]
   then
