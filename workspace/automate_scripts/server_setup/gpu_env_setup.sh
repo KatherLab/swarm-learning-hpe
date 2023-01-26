@@ -1,9 +1,6 @@
 #!/bin/sh
 set -eux
 
-#!/usr/bin/env bash
-set -eux
-
 #echo "Ekfz_swarm_2" | sudo -S su
 #If you decided to use the 'echo <password> | sudo -S' option, to avoid exposing the password on the command history, start the command with a SPACE character. Of course, the best option is to pipe the password from a secure file.
 echo "Check gpu drivers"
