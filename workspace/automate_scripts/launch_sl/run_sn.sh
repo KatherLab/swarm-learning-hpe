@@ -15,10 +15,10 @@ help()
 }
 
 # Process command options
-while getopts "e:i:s:h?" opt
+while getopts "w:i:s:h?" opt
 do
    case "$opt" in
-      e ) workspace="$OPTARG" ;;
+      w ) workspace="$OPTARG" ;;
       i ) host="$OPTARG" ;;
       s ) sentinal="$OPTARG" ;;
       h ) help ;;
