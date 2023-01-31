@@ -87,5 +87,6 @@ if [ $ACTION = final_setup ]; then
   fi
   sh ./automate_scripts/sl_env_setup/replacement.sh -w "$workspace_name" -s "$sentinal_ip" -n "$num_peers" -e "$num_epochs"
   sh ./automate_scripts/sl_env_setup/license_server_fix.sh
+  sh ./automate_scripts/sl_env_setup/create_sldocker_wheel.sh
   cd $workspace_dir
 fi
