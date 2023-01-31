@@ -3,6 +3,8 @@ set -eux
 ip_addr=$(hostname -I | awk '{print $1}')
 script_name=$(basename "${0}")
 script_dir=$(realpath $(dirname "${0}"))
+workspace_dir='/opt/hpe/swarm-learning-hpe/'
+cd $workspace_dir
 
 # Help function
 help()
