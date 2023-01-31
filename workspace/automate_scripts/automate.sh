@@ -37,7 +37,7 @@ do
       e ) num_epochs="$OPTARG" ;;
       a ) ACTION=prerequisite ;;
       b ) ACTION=server_setup ;;
-      c ) ACTION=final_setup ;;
+      c ) ACTION=final_setup ;;# sh workspace/automate_scripts/automate.sh -c -i 192.168.33.103 -w mnist-pyt-gpu -s 192.168.33.102 -p 2 -e 5
       h ) help ;;
       ? ) help ;;
    esac
