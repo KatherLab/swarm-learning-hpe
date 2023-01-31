@@ -4,7 +4,8 @@ set -eux
 ip_addr=$(hostname -I | awk '{print $1}')
 script_name=$(basename "${0}")
 script_dir=$(realpath $(dirname "${0}"))
-cd "$script_dir"/..
+workspace_dir="$script_dir"/..
+cd workspace_dir
 
 # Help function
 help()
@@ -35,7 +36,7 @@ do
       p ) num_peers="$OPTARG" ;;
       e ) num_epochs="$OPTARG" ;;
       a ) ACTION=server_setup ;;
-      b ) ACTION=sl_env_setup ;;
+      b ) ACTION=gen_cert ;;
       c ) ACTION=final_setup ;;
       h ) help ;;
       ? ) help ;;
@@ -44,19 +45,21 @@ done
 
 
 if [ $ACTION = server_setup ]; then
-  sh ./automate_scripts/server_setup/gpu_env_setup.sh
   sh ./automate_scripts/server_setup/test_open_exposed_ports.sh
   sh ./automate_scripts/server_setup/prerequisites.sh
   sh ./automate_scripts/server_setup/server_setup.sh
   sh ./automate_scripts/server_setup/install_containers.sh
+  sh ./automate_scripts/server_setup/gpu_env_setup.sh
+  cd workspace_dir
 fi
 
-if [ $ACTION = sl_env_setup ]; then
+if [ $ACTION = gen_cert ]; then
 
   # Checks
 
 
   sh ./automate_scripts/sl_env_setup/gen_cert.sh -w "$workspace_name"
+  cd workspace_dir
 fi
 
 if [ $ACTION = final_setup ]; then
@@ -83,4 +86,5 @@ if [ $ACTION = final_setup ]; then
   fi
   sh ./automate_scripts/sl_env_setup/replacement.sh -w "$workspace_name" -s "$sentinal_ip" -n "$num_peers" -e "$num_epochs"
   sh ./automate_scripts/sl_env_setup/license_server_fix.sh
+  cd workspace_dir
 fi
