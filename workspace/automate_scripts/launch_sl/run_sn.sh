@@ -21,7 +21,7 @@ do
       w ) workspace="$OPTARG" ;;
       i ) host="$OPTARG" ;;
       s ) sentinal="$OPTARG" ;;
-      h ) help ;;
+      h ) help ;;#sh workspace/automate_scripts/launch_sl/run_sn.sh -w mnist-pyt-gpu -s 192.168.33.102
       ? ) help ;;
    esac
 done
