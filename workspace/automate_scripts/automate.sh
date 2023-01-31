@@ -35,32 +35,33 @@ do
       s ) sentinal_ip="$OPTARG" ;;
       p ) num_peers="$OPTARG" ;;
       e ) num_epochs="$OPTARG" ;;
-      a ) ACTION=server_setup ;;
-      b ) ACTION=gen_cert ;;
+      a ) ACTION=prerequisite ;;
+      b ) ACTION=server_setup ;;
       c ) ACTION=final_setup ;;
       h ) help ;;
       ? ) help ;;
    esac
 done
 
-
-if [ $ACTION = server_setup ]; then
+if [ $ACTION = prerequisite ]; then
   sh ./automate_scripts/server_setup/test_open_exposed_ports.sh
   sh ./automate_scripts/server_setup/prerequisites.sh
+  cd $workspace_dir
+fi
+
+
+if [ $ACTION = server_setup ]; then
+  if [ -z "$workspace_name" ]; then
+       echo "Some or all of the parameters are empty";
+       help
+  fi
   sh ./automate_scripts/server_setup/server_setup.sh
   sh ./automate_scripts/server_setup/install_containers.sh
   sh ./automate_scripts/server_setup/gpu_env_setup.sh
-  cd $workspace_dir
-fi
-
-if [ $ACTION = gen_cert ]; then
-
-  # Checks
-
-
   sh ./automate_scripts/sl_env_setup/gen_cert.sh -w "$workspace_name"
   cd $workspace_dir
 fi
+
 
 if [ $ACTION = final_setup ]; then
   if [ -z "$host_ip" ] || [ -z "$workspace_name" ] || [ -z "$sentinal_ip" ]
