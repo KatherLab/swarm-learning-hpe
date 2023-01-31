@@ -1,4 +1,4 @@
-![Screenshot from 2023-01-31 14-02-44.png](..%2F..%2F..%2F..%2F..%2F..%2Fhome%2Fswarm%2FPictures%2FScreenshots%2FScreenshot%20from%202023-01-31%2014-02-44.png)
+![Screenshot from 2023-01-31 14-02-44.png](..%2F..%2F..%2Fassets%2FScreenshot%20from%202023-01-31%2014-02-44.png)
 
 It could be very tricky to set up the gpu env for SL. 
 First make sure 
