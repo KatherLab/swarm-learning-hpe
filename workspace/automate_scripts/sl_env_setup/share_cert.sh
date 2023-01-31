@@ -5,7 +5,6 @@ ip_addr=$(hostname -I | awk '{print $1}')
 script_name=$(basename "${0}")
 script_dir=$(realpath $(dirname "${0}"))
 
-
 # Help function
 help()
 {
@@ -32,4 +31,4 @@ then
    echo "Some or all of the parameters are empty";
    help
 fi
-sudo scp swarm@"$target_host":/opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/ca/capath/ca-"$target_host"-cert.pem workspace/"$workspace"/cert/ca/capath
+sudo scp swarm@"$target_host":/opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/ca/capath/ca-"$target_host"-cert.pem /opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/ca/capath
