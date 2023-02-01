@@ -7,9 +7,9 @@ Author: HPESwarm
 Prereq: ROOTTASK
 Outcome: user-env-pyt1.5-swop
 Body:
-    BuildContext: sl-cli-lib
-    BuildType: INLINE
-    BuildSteps:
+  BuildContext: sl-cli-lib
+  BuildType: INLINE
+  BuildSteps:
     - FROM nvidia/cuda:10.2-devel-ubuntu18.04
     - ' '
     - RUN apt-get update && apt-get install           \
