@@ -101,3 +101,27 @@ Here’s how:
 - Then run: snap remove docker
 - Reboot.
 - Follow official docker install guide: https://docs.docker.com/engine/install/ubuntu/
+
+
+## 8. Other hosts couldn't connect to sentinal node when running sn
+Log:
+
+`(base) swarm@dl1:/opt/hpe/swarm-learning$ sudo ./scripts/bin/run-sn -it --rm --name=sn2 --network=host-2-net --host-ip=192.168.33.103 --sentinel-ip=192.168.33.102 --sn-p2p-port=30303 --sn-api-port=30304 --key=workspace/mnist-pyt-gpu/cert/sn-2-key.pem --cert=workspace/mnist-pyt-gpu/cert/sn-2-cert.pem --capath=workspace/mnist-pyt-gpu/cert/ca/capath --apls-ip=192.168.33.102 --apls-port 5000
+a67f842daae7e086edbf37e81722a4000336b8d11b71a5f1b62912466ddee859
+######################################################################
+##                    HPE SWARM LEARNING SN NODE                    ##
+######################################################################
+## © Copyright 2019-2022 Hewlett Packard Enterprise Development LP  ##
+######################################################################
+2023-02-01 10:50:16,289 : swarm.blCnt : INFO : Setting up blockchain layer for the swarm node: START
+2023-02-01 10:50:17,526 : swarm.blCnt : INFO : Creating Autopass License Provider
+2023-02-01 10:50:18,264 : swarm.blCnt : INFO : Creating license server
+2023-02-01 10:50:18,264 : swarm.blCnt : INFO : Setting license servers
+2023-02-01 10:50:18,273 : swarm.blCnt : INFO : Acquiring floating license 1100000380:1
+2023-02-01 10:50:18,770 : swarm.SN : INFO : Using URL : https://192.168.33.102:30304/is_up`
+
+SN node will stuck at this line for quite long and raise timeout error: couldn't connect to sentinal node.
+Solustion:
+- Ensure https://localhost:5000 could be accessd on sentinal node
+- Log in and check the validity of licenses
+- Uninstall the license server if necessary by reading the user guide
