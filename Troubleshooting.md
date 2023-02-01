@@ -1,5 +1,7 @@
 # Generic troubleshooting tips
 
+- User account for license server on host1(sentinal node) is: admin Ekfz_swarm_2
+
 - x.509 certificates are not configured correctly – See [https://www.linuxjournal.com/content/understanding-public-key-infrastructure-and-x509-certificates](https://www.linuxjournal.com/content/understanding-public-key-infrastructure-and-x509-certificates).
 - License server is not running or Swarm licenses are not installed - See chapter "HPE AutoPass License Server License Management" in **AutoPass License Server User Guide** for details of the web GUI management interface and how to install license.
 - Swarm core components (Docker containers) are not started or errors while starting. – For more information on how to start Swarm Learning, see [Running Swarm Learning](/docs/Install/Running_Swarm_Learning.md).
