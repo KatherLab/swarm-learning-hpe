@@ -1,0 +1,15 @@
+Name: swarm_task_20230201_171432
+TaskType: RUN_SWARM
+Author: Katherlab Swarm Team
+Prereq: user_env_build_task_20230201_171432
+Outcome: swarm_task
+Body:
+    Command: model/main.py
+    Entrypoint: python3
+    WorkingDir: /tmp/test
+    Envvars: ["DATA_DIR": data-and-scratch/app-data, "SCRATCH_DIR": data-and-scratch/scratch, "MODEL_DIR": model, "MAX_EPOCHS": 2, "MIN_PEERS": 2]
+    PrivateContent: /tmp/test/data-and-scratch
+    SharedContent:
+    -   Src: /opt/hpe/swarm-learning-hpe/workspace/mnist-pyt-gpu/model
+        Tgt: /tmp/test/model
+        MType: BIND
