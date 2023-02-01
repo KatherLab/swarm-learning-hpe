@@ -1,0 +1,57 @@
+groupname  : demo
+taskrunner : defaulttaskbb.taskdb.sml.hpe
+policyuri  : ~
+resourcemgr :
+    mgrtype    : DOCKER
+    accessinfo :
+        accesstype : FROMENV
+network    : host-192.168.33.102-net
+apls :
+    locator :
+        host : 192.168.33.102
+        port : ~
+apisrv :
+    locator :
+        host : 192.168.33.102
+        port : ~
+envvars :
+    - SL_LOG_LEVEL : INFO
+    - http_proxy : ~
+    - https_proxy : ~
+    - no_proxy : ~
+    - HTTP_PROXY : ~
+    - HTTPS_PROXY : ~
+    - NO_PROXY : ~
+nodes :
+    - slnodedef :
+        idx : 0
+        identity :
+            - attribute :
+                aType : KEY
+                mType : BIND
+                src : "/opt/hpe/swarm-learning-hpe/workspace/mnist-pyt-gpu/cert/sl-192.168.33.102-key.pem"
+                tgt : "/swarm-cert/sl-192.168.33.102-key.pem"
+                subPath : null
+            - attribute :
+                aType : CERT
+                mType : BIND
+                src : "/opt/hpe/swarm-learning-hpe/workspace/mnist-pyt-gpu/cert/sl-192.168.33.102-cert.pem"
+                tgt : "/swarm-cert/sl-192.168.33.102-cert.pem"
+                subPath : null
+            - attribute :
+                aType : CAPATH
+                mType : BIND
+                src : "/opt/hpe/swarm-learning-hpe/workspace/mnist-pyt-gpu/cert/ca/capath"
+                tgt : "/swarm-cert/capath"
+                subPath : null
+        slhostname : sl192.168.33.102
+        slhostip   : 192.168.33.102
+        slport : 16000
+        usrhostname : user-mnist-pyt-gpu-192.168.33.102
+        privatedata :
+            src: "/opt/hpe/swarm-learning/workspace/mnist-pyt-new/user-mnist-pyt-gpu-192.168.33.102/data-and-scratch"
+            mType : BIND
+        slenvvars : null
+        usrenvvars : null
+        usrcontaineropts : 
+            - gpus : "device=all"
