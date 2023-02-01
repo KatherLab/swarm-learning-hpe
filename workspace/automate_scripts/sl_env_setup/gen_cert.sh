@@ -32,5 +32,4 @@ fi
 #get current directory
 script_dir=$(realpath $(dirname "${0}"))
 echo $script_dir
-cp -r $script_dir/../../swarm_learning_scripts/gen-cert $script_dir/../..//"$workspace"/
-sudo $script_dir/../../"$workspace"/gen-cert -e "$workspace" -i "$ip_addr"
+sudo $script_dir/../../swarm_learning_scripts/gen-cert -e "$workspace" -i "$ip_addr"
