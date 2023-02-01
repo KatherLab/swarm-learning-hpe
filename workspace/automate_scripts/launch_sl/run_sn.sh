@@ -31,17 +31,16 @@ if [ $ip_addr = $sentinal ]
 then
    echo "This host a sentinal node and will be used for initiating the cluster"
    sn_command="--sentinel"
-   sudo $script_dir/../../swarm_learning_scripts/run-sn -it --rm --name=sn"$ip_addr" --network=host-"$ip_addr"-net --host-ip="$ip_addr" "$sn_command" --sn-p2p-port=30303 --sn-api-port=30304 --key=workspace/"$workspace"/cert/sn-1-key.pem --cert=workspace/"$workspace"/cert/sn-1-cert.pem --capath=workspace/"$workspace"/cert/ca/capath --apls-ip="$sentinal" --apls-port 5000
+   #sudo $script_dir/../../swarm_learning_scripts/run-sn -it --rm --name=sn"$ip_addr" --network=host-"$ip_addr"-net --host-ip="$ip_addr" "$sn_command" --sn-p2p-port=30303 --sn-api-port=30304 --key=workspace/"$workspace"/cert/sn-1-key.pem --cert=workspace/"$workspace"/cert/sn-1-cert.pem --capath=workspace/"$workspace"/cert/ca/capath --apls-ip="$sentinal" --apls-port 5000
 
 else
    echo "This host is not a sentinal node and will not be used for initiating the cluster, only as swarm network node"
    sn_command="--sentinel-ip=$sentinal"
-   sudo $script_dir/../../swarm_learning_scripts/run-sn -it --rm --name=sn"$ip_addr" --network=host-"$ip_addr"-net --host-ip="$ip_addr" "$sn_command" --sn-p2p-port=30303 --sn-api-port=30304 --key=workspace/"$workspace"/cert/sn-2-key.pem --cert=workspace/"$workspace"/cert/sn-2-cert.pem --capath=workspace/"$workspace"/cert/ca/capath --apls-ip="$sentinal" --apls-port 5000
+   #sudo $script_dir/../../swarm_learning_scripts/run-sn -it --rm --name=sn"$ip_addr" --network=host-"$ip_addr"-net --host-ip="$ip_addr" "$sn_command" --sn-p2p-port=30303 --sn-api-port=30304 --key=workspace/"$workspace"/cert/sn-2-key.pem --cert=workspace/"$workspace"/cert/sn-2-cert.pem --capath=workspace/"$workspace"/cert/ca/capath --apls-ip="$sentinal" --apls-port 5000
 
 fi
 
-#sudo $script_dir/../../swarm_learning_scripts/run-sn -it --rm --name=sn"$ip_addr" --network=host-"$ip_addr"-net --host-ip="$ip_addr" "$sn_command" --sn-p2p-port=30303 --sn-api-port=30304 --key=workspace/"$workspace"/cert/sn-"$ip_addr"-key.pem --cert=workspace/"$workspace"/cert/sn-"$ip_addr"-cert.pem --capath=workspace/"$workspace"/cert/ca/capath --apls-ip="$sentinal" --apls-port 5000
-#sudo $script_dir/../../swarm_learning_scripts/run-sn -it --rm --name=sn"$ip_addr" --network=host-"$ip_addr"-net --host-ip="$ip_addr" "$sn_command" --sn-p2p-port=30303 --sn-api-port=30304 --key=workspace/"$workspace"/cert/sn-"$ip_addr"-key.pem --cert=workspace/"$workspace"/cert/sn-"$ip_addr"-cert.pem --capath=workspace/"$workspace"/cert/ca/capath --apls-ip="$sentinal" --apls-port 5000
+sudo $script_dir/../../swarm_learning_scripts/run-sn -it --rm --name=sn"$ip_addr" --network=host-"$ip_addr"-net --host-ip="$ip_addr" "$sn_command" --sn-p2p-port=30303 --sn-api-port=30304 --key=workspace/"$workspace"/cert/sn-"$ip_addr"-key.pem --cert=workspace/"$workspace"/cert/sn-"$ip_addr"-cert.pem --capath=workspace/"$workspace"/cert/ca/capath --apls-ip="$sentinal" --apls-port 5000
 
 #sudo ./scripts/bin/run-sn -it --rm --name=sn1 --network=host-1-net --host-ip=192.168.33.102 "$sn_command" --sn-p2p-port=30303 --sn-api-port=30304 --key=workspace/katherlab/cert/sn-1-key.pem --cert=workspace/katherlab/cert/sn-1-cert.pem --capath=workspace/katherlab/cert/ca/capath --apls-ip=192.168.33.102 --apls-port 5000
 #sudo ./scripts/bin/run-sn -it --rm --name=sn2 --network=host-2-net --host-ip=192.168.33.103 "$sn_command" --sn-p2p-port=30303 --sn-api-port=30304 --key=workspace/katherlab/cert/sn-2-key.pem --cert=workspace/katherlab/cert/sn-2-cert.pem --capath=workspace/katherlab/cert/ca/capath --apls-ip=192.168.33.102 --apls-port 5000
