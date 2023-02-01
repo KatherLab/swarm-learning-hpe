@@ -25,10 +25,10 @@ model_urls = {
     'resnet152': 'https://download.pytorch.org/models/resnet152-b121ed2d.pth',
 }
 
+
 ##############################################################################
 
 class Bottleneck_Baseline(nn.Module):
-    
     expansion = 4
 
     def __init__(self, inplanes, planes, stride=1, downsample=None):
@@ -66,6 +66,7 @@ class Bottleneck_Baseline(nn.Module):
 
         return out
 
+
 ##############################################################################
 
 class ResNet_Baseline(nn.Module):
@@ -81,7 +82,7 @@ class ResNet_Baseline(nn.Module):
         self.layer1 = self._make_layer(block, 64, layers[0])
         self.layer2 = self._make_layer(block, 128, layers[1], stride=2)
         self.layer3 = self._make_layer(block, 256, layers[2], stride=2)
-        self.avgpool = nn.AdaptiveAvgPool2d(1) 
+        self.avgpool = nn.AdaptiveAvgPool2d(1)
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
@@ -122,14 +123,15 @@ class ResNet_Baseline(nn.Module):
 
         return x
 
+
 ##############################################################################
 
 def Resnet50_baseline(pretrained=False):
-
     model = ResNet_Baseline(Bottleneck_Baseline, [3, 4, 6, 3])
     if pretrained:
         model = Load_pretrained_weights(model, 'resnet50')
     return model
+
 
 ##############################################################################
 
@@ -137,5 +139,3 @@ def Load_pretrained_weights(model, name):
     pretrained_dict = model_zoo.load_url(model_urls[name])
     model.load_state_dict(pretrained_dict, strict=False)
     return model
-
-
