@@ -80,16 +80,20 @@ Please remove below directories and re-try pull images: <br> </br>
 
 It could be very tricky to set up the gpu env for SL. First make sure
 
-[] $ nvidia-smi returns the driver status. $ nvcc -V doesn't need to be set up.
-If all the debugging fails, try to $ sudo apt-get purge -y <all nvidia drivers/environments>
-Reinstall nvidia driver as the picture shown
-Rerun the gpu_env_setup.sh
+- `$ nvidia-smi` returns the driver status. `$ nvcc -V` doesn't need to be set up.
+- If all the debugging fails, try to `$ sudo apt-get purge -y <all nvidia drivers/environments>`
+- Reinstall nvidia driver as the picture shown
+- Rerun the gpu_env_setup.sh
 
 ## 7. Docker container problem
 Error message displayed when reaching the step to run sn node:
+
 `Error response from daemon: error while creating mount source path  read-only file system`
+
 It's because of docker-snap. Switching out to docker-ce solved this.
+
 Q: how can I determine what Docker version I’m using and how do I uninstall Docker Snap and re-install the official version of Docker.
+
 Here’s how:
 - Run sudo snap list to see verify that Docker is installed with snap. If you see it on the list, it is.
 - Then run: snap remove docker
