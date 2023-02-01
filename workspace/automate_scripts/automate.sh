@@ -55,7 +55,10 @@ if [ $ACTION = server_setup ]; then
        echo "Some or all of the parameters are empty";
        help
   fi
-  sh ./automate_scripts/server_setup/server_setup.sh
+  if [ $ip_addr = $sentinal_ip ]
+    then
+    sh ./automate_scripts/server_setup/server_setup.sh
+  fi
   sh ./automate_scripts/server_setup/install_containers.sh
   sh ./automate_scripts/server_setup/gpu_env_setup.sh
   sh ./automate_scripts/sl_env_setup/gen_cert.sh -w "$workspace_name"
