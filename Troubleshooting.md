@@ -86,4 +86,12 @@ Reinstall nvidia driver as the picture shown
 Rerun the gpu_env_setup.sh
 
 ## 7. Docker container problem
-
+Error message displayed when reaching the step to run sn node:
+`Error response from daemon: error while creating mount source path  read-only file system`
+It's because of docker-snap. Switching out to docker-ce solved this.
+Q: how can I determine what Docker version I’m using and how do I uninstall Docker Snap and re-install the official version of Docker.
+Here’s how:
+- Run sudo snap list to see verify that Docker is installed with snap. If you see it on the list, it is.
+- Then run: snap remove docker
+- Reboot.
+- Follow official docker install guide: https://docs.docker.com/engine/install/ubuntu/
