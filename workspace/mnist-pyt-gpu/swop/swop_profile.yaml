@@ -49,7 +49,7 @@ nodes :
         slport : 16000
         usrhostname : user-<MODULE-NAME>-<HOST-IPADDRESS>
         privatedata :
-            src: "/opt/hpe/swarm-learning/workspace/mnist-pyt-new/user-<MODULE-NAME>-<HOST-IPADDRESS>/data-and-scratch"
+            src: "/opt/hpe/swarm-learning-hpe/workspace/<MODULE-NAME>/user-<MODULE-NAME>-<HOST-IPADDRESS>/data-and-scratch"
             mType : BIND
         slenvvars : null
         usrenvvars : null

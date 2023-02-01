@@ -1,4 +1,4 @@
-Name: user_env_pyt_build_task_<HOST-IPADDRESS>
+Name: user_env_build_task_<TIME_STAMP>
 TaskType: MAKE_USER_CONTAINER
 Author: Katherlab Swarm Team
 Prereq: ROOTTASK

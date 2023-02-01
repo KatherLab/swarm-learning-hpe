@@ -4,7 +4,7 @@ set -eux
 ip_addr=$(hostname -I | awk '{print $1}')
 script_name=$(basename "${0}")
 script_dir=$(realpath $(dirname "${0}"))
-
+time_stamp=$(date +%Y%m%d_%H%M%S)
 # Help function
 help()
 {
@@ -29,6 +29,10 @@ done
 if [ $ip_addr = $sentinal ]
 then
    echo "This host a sentinal node and will be used for initiating the cluster"
+   cp workspace/"$workspace"/swci/taskdefs/swarm_task_pre.yaml workspace/"$workspace"/swci/taskdefs/swarm_task.yaml
+   cp workspace/"$workspace"/swci/taskdefs/user_env_build_task_pre.yaml workspace/"$workspace"/swci/taskdefs/user_env_build_task.yaml
+   cp workspace/"$workspace"/swci/swci-init_pre workspace/"$workspace"/swci/swci-init
+   sed -i "s+<TIME_STAMP>+$time_stamp+g" workspace/"$workspace"/swci/taskdefs/swarm_task.yaml workspace/"$workspace"/swci/taskdefs/user_env_build_task.yaml workspace/"$workspace"/swci/swci-init
    sudo $script_dir/../../swarm_learning_scripts/run-swci -it --rm --name=swci"$ip_addr" \
   --network=host-"$ip_addr"-net --usr-dir=workspace/"$workspace"/swci \
   --init-script-name=swci-init --key=workspace/"$workspace"/cert/swci-"$ip_addr"-key.pem \
