@@ -49,7 +49,7 @@ nodes :
         slport : 16000
         usrhostname : user-mnist-pyt-gpu-192.168.33.102
         privatedata :
-            src: "/opt/hpe/swarm-learning/workspace/mnist-pyt-new/user-mnist-pyt-gpu-192.168.33.102/data-and-scratch"
+            src: "/opt/hpe/swarm-learning-hpe/workspace/mnist-pyt-gpu/user-mnist-pyt-gpu-192.168.33.102/data-and-scratch"
             mType : BIND
         slenvvars : null
         usrenvvars : null
