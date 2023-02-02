@@ -14,7 +14,7 @@ Body:
     - '   python3-setuptools --no-install-recommends -y'
     - ' '
     - RUN conda install pip
-    - RUN conda env update --file environment.yaml --prune
+    - RUN conda env update --file ./odelia-breast-mri/env_config/environment.yaml --prune
     - ' '
     - RUN pip3 install --upgrade pip protobuf && pip3 install \
     - '   matplotlib pandas sklearn'
