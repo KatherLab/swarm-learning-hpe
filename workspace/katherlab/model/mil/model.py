@@ -3,16 +3,15 @@ from typing import Optional
 import torch
 from torch import nn
 
-
 __all__ = ['MILModel', 'Attention']
 
 
 class MILModel(nn.Module):
     def __init__(
-        self, n_feats: int, n_out: int,
-        encoder: Optional[nn.Module] = None,
-        attention: Optional[nn.Module] = None,
-        head: Optional[nn.Module] = None,
+            self, n_feats: int, n_out: int,
+            encoder: Optional[nn.Module] = None,
+            attention: Optional[nn.Module] = None,
+            head: Optional[nn.Module] = None,
     ) -> None:
         """Create a new attention MIL model.
 
@@ -40,7 +39,7 @@ class MILModel(nn.Module):
         masked_attention_scores = self._masked_attention_scores(
             embeddings, lens)
         weighted_embedding_sums = (
-            masked_attention_scores * embeddings).sum(-2)
+                masked_attention_scores * embeddings).sum(-2)
 
         scores = self.head(weighted_embedding_sums)
 

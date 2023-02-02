@@ -1,40 +1,34 @@
-from dataclasses import dataclass
-from typing import Any, Iterable, Optional, Sequence, Tuple, TypeVar
-from pathlib import Path
 import os
+from pathlib import Path
+from typing import Any, Iterable, Optional, Sequence, Tuple, TypeVar
 
-import h5py
+import numpy as np
+import pandas as pd
 import torch
-from torch import nn
 import torch.nn.functional as F
-from torch.utils.data import Dataset
 from fastai.vision.all import (
     Learner, DataLoader, DataLoaders, RocAuc,
     SaveModelCallback, CSVLogger)
-import pandas as pd
-import numpy as np
-
 from marugoto.data import SKLearnEncoder
+from torch import nn
 
 from .data import make_dataset
 from .model import MILModel
 
-
 __all__ = ['train', 'deploy']
-
 
 T = TypeVar('T')
 
 
 def train(
-    *,
-    bags: Sequence[Iterable[Path]],
-    targets: Tuple[SKLearnEncoder, np.ndarray],
-    add_features: Iterable[Tuple[SKLearnEncoder, Sequence[Any]]] = [],
-    valid_idxs: np.ndarray,
-    n_epoch: int = 32,
-    patience: int = 16,
-    path: Optional[Path] = None,
+        *,
+        bags: Sequence[Iterable[Path]],
+        targets: Tuple[SKLearnEncoder, np.ndarray],
+        add_features: Iterable[Tuple[SKLearnEncoder, Sequence[Any]]] = [],
+        valid_idxs: np.ndarray,
+        n_epoch: int = 32,
+        patience: int = 16,
+        path: Optional[Path] = None,
 ) -> Learner:
     """Train a MLP on image features.
 
@@ -85,7 +79,7 @@ def train(
 
     cbs = [
         SaveModelCallback(fname=f'best_valid'),
-        #EarlyStoppingCallback(monitor='roc_auc_score',
+        # EarlyStoppingCallback(monitor='roc_auc_score',
         #                      min_delta=0.01, patience=patience),
         CSVLogger()]
 
@@ -95,12 +89,12 @@ def train(
 
 
 def deploy(
-    test_df: pd.DataFrame, learn: Learner, *,
-    target_label: Optional[str] = None,
-    cat_labels: Optional[Sequence[str]] = None, cont_labels: Optional[Sequence[str]] = None,
+        test_df: pd.DataFrame, learn: Learner, *,
+        target_label: Optional[str] = None,
+        cat_labels: Optional[Sequence[str]] = None, cont_labels: Optional[Sequence[str]] = None,
 ) -> pd.DataFrame:
     assert test_df.PATIENT.nunique() == len(test_df), 'duplicate patients!'
-    #assert (len(add_label)
+    # assert (len(add_label)
     #        == (n := len(learn.dls.train.dataset._datasets[-2]._datasets))), \
     #    f'not enough additional feature labels: expected {n}, got {len(add_label)}'
     if target_label is None: target_label = learn.target_label
@@ -126,7 +120,7 @@ def deploy(
     test_dl = DataLoader(
         test_ds, batch_size=1, shuffle=False, num_workers=os.cpu_count())
 
-    #removed softmax in forward, but add here to get 0-1 probabilities
+    # removed softmax in forward, but add here to get 0-1 probabilities
     patient_preds, patient_targs = learn.get_preds(dl=test_dl, act=nn.Softmax(dim=1))
 
     # make into DF w/ ground truth
@@ -134,7 +128,7 @@ def deploy(
         'PATIENT': test_df.PATIENT.values,
         target_label: test_df[target_label].values,
         **{f'{target_label}_{cat}': patient_preds[:, i]
-            for i, cat in enumerate(categories)}})
+           for i, cat in enumerate(categories)}})
 
     # calculate loss
     patient_preds = patient_preds_df[[

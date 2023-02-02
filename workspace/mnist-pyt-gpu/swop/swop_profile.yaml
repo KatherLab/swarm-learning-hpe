@@ -1,0 +1,57 @@
+groupname: demo
+taskrunner: defaulttaskbb.taskdb.sml.hpe
+policyuri: ~
+resourcemgr:
+  mgrtype: DOCKER
+  accessinfo:
+    accesstype: FROMENV
+network: host-<HOST-IPADDRESS>-net
+apls:
+  locator:
+    host: <SN-IPADDRESS>
+    port: ~
+apisrv:
+  locator:
+    host: <HOST-IPADDRESS>
+    port: ~
+envvars:
+  - SL_LOG_LEVEL: INFO
+  - http_proxy: ~
+  - https_proxy: ~
+  - no_proxy: ~
+  - HTTP_PROXY: ~
+  - HTTPS_PROXY: ~
+  - NO_PROXY: ~
+nodes:
+  - slnodedef:
+      idx: 0
+      identity:
+        - attribute:
+            aType: KEY
+            mType: BIND
+            src: "/opt/hpe/swarm-learning-hpe/workspace/<MODULE-NAME>/cert/sl-<HOST-IPADDRESS>-key.pem"
+            tgt: "/swarm-cert/sl-<HOST-IPADDRESS>-key.pem"
+            subPath: null
+        - attribute:
+            aType: CERT
+            mType: BIND
+            src: "/opt/hpe/swarm-learning-hpe/workspace/<MODULE-NAME>/cert/sl-<HOST-IPADDRESS>-cert.pem"
+            tgt: "/swarm-cert/sl-<HOST-IPADDRESS>-cert.pem"
+            subPath: null
+        - attribute:
+            aType: CAPATH
+            mType: BIND
+            src: "/opt/hpe/swarm-learning-hpe/workspace/<MODULE-NAME>/cert/ca/capath"
+            tgt: "/swarm-cert/capath"
+            subPath: null
+      slhostname: sl<HOST-IPADDRESS>
+      slhostip: <HOST-IPADDRESS>
+      slport: 16000
+      usrhostname: user-<MODULE-NAME>-<HOST-IPADDRESS>
+      privatedata:
+        src: "/opt/hpe/swarm-learning-hpe/workspace/<MODULE-NAME>/user-<MODULE-NAME>-<HOST-IPADDRESS>/data-and-scratch"
+        mType: BIND
+      slenvvars: null
+      usrenvvars: null
+      usrcontaineropts:
+        - gpus: "device=all"
