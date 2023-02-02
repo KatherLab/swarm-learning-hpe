@@ -1,7 +1,18 @@
+import logging
+
 from odelia.models import BasicClassifier
 import monai.networks.nets as nets
 import torch 
+import torch.nn.functional as F
+from swarmlearning.pyt import SwarmCallback
 
+# ------------ Swarm Callback ------------ #!
+swarmCallback = SwarmCallback(syncFrequency=128,
+                              minPeers=2,
+                              useAdaptiveSync=True,
+                              adsValData=ds_val,
+                              adsValBatchSize=4, )
+swarmCallback.logger.setLevel(logging.DEBUG)
 
 class ResNet(BasicClassifier):
     def __init__(
@@ -26,3 +37,10 @@ class ResNet(BasicClassifier):
     def forward(self, x_in, **kwargs):
         pred_hor = self.model(x_in)
         return pred_hor
+
+    def training_step(self, batch, batch_idx):
+        x, y = batch
+        y_hat = self(x)
+        loss = F.cross_entropy(y_hat, y)
+        swarmCallback.on_batch_end()
+        return loss
