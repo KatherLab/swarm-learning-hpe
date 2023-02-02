@@ -13,17 +13,15 @@
 ## under the License.
 ############################################################################
 
-import datetime
-import numpy as np
 import os
-from swarmlearning.pyt import SwarmCallback
-import time
-import torch 
+
+import numpy as np
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
+from swarmlearning.pyt import SwarmCallback
 
-import pdb
 default_max_epochs = 5
 default_min_peers = 2
 # maxEpochs = 2
@@ -31,7 +29,8 @@ trainPrint = True
 # tell swarm after how many batches
 # should it Sync. We are not doing 
 # adaptiveRV here, its a simple and quick demo run
-swSyncInterval = 128 
+swSyncInterval = 128
+
 
 class mnistNet(nn.Module):
     def __init__(self):
@@ -39,37 +38,39 @@ class mnistNet(nn.Module):
         self.dense = nn.Linear(784, 512)
         self.dropout = nn.Dropout(0.2)
         self.dense1 = nn.Linear(512, 10)
-        
+
     def forward(self, x):
-        x = torch.flatten(x, 1)        
+        x = torch.flatten(x, 1)
         x = self.dense(x)
         x = F.relu(x)
         x = self.dropout(x)
         x = self.dense1(x)
         output = F.log_softmax(x, dim=1)
         return output
-        
+
+
 def loadData(dataDir):
     # load data from npz format to numpy 
-    path = os.path.join(dataDir,'mnist.npz')
+    path = os.path.join(dataDir, 'mnist.npz')
     with np.load(path) as f:
         xTrain, yTrain = f['x_train'], f['y_train']
         xTest, yTest = f['x_test'], f['y_test']
-        xTrain, xTest = xTrain / 255.0, xTest / 255.0        
-        
-    # transform numpy to torch.Tensor
-    xTrain, yTrain, xTest, yTest = map(torch.tensor, (xTrain.astype(np.float32), 
-                                                      yTrain.astype(np.int_), 
+        xTrain, xTest = xTrain / 255.0, xTest / 255.0
+
+        # transform numpy to torch.Tensor
+    xTrain, yTrain, xTest, yTest = map(torch.tensor, (xTrain.astype(np.float32),
+                                                      yTrain.astype(np.int_),
                                                       xTest.astype(np.float32),
-                                                      yTest.astype(np.int_)))    
+                                                      yTest.astype(np.int_)))
     # convert torch.Tensor to a dataset
     yTrain = yTrain.type(torch.LongTensor)
     yTest = yTest.type(torch.LongTensor)
-    trainDs = torch.utils.data.TensorDataset(xTrain,yTrain)
-    testDs = torch.utils.data.TensorDataset(xTest,yTest)
+    trainDs = torch.utils.data.TensorDataset(xTrain, yTrain)
+    testDs = torch.utils.data.TensorDataset(xTest, yTest)
     return trainDs, testDs
-    
-def doTrainBatch(model,device,trainLoader,optimizer,epoch,swarmCallback):
+
+
+def doTrainBatch(model, device, trainLoader, optimizer, epoch, swarmCallback):
     model.train()
     for batchIdx, (data, target) in enumerate(trainLoader):
         data, target = data.to(device), target.to(device)
@@ -80,11 +81,12 @@ def doTrainBatch(model,device,trainLoader,optimizer,epoch,swarmCallback):
         optimizer.step()
         if trainPrint and batchIdx % 100 == 0:
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
-                  epoch, batchIdx * len(data), len(trainLoader.dataset),
-                  100. * batchIdx / len(trainLoader), loss.item()))
+                epoch, batchIdx * len(data), len(trainLoader.dataset),
+                       100. * batchIdx / len(trainLoader), loss.item()))
         # Swarm Learning Interface
         if swarmCallback is not None:
-            swarmCallback.on_batch_end()        
+            swarmCallback.on_batch_end()
+
 
 def test(model, device, testLoader):
     model.eval()
@@ -102,7 +104,8 @@ def test(model, device, testLoader):
 
     print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
         testLoss, correct, len(testLoader.dataset),
-        100. * correct / len(testLoader.dataset)))    
+        100. * correct / len(testLoader.dataset)))
+
 
 def main():
     dataDir = os.getenv('DATA_DIR', '/platform/data')
@@ -118,9 +121,9 @@ def main():
     model = mnistNet().to(device)
     model_name = 'mnist_pyt'
     opt = optim.Adam(model.parameters())
-    trainLoader = torch.utils.data.DataLoader(trainDs,batch_size=batchSz)
-    testLoader = torch.utils.data.DataLoader(testDs,batch_size=batchSz)
-    
+    trainLoader = torch.utils.data.DataLoader(trainDs, batch_size=batchSz)
+    testLoader = torch.utils.data.DataLoader(testDs, batch_size=batchSz)
+
     # Create Swarm callback
     swarmCallback = None
     swarmCallback = SwarmCallback(syncFrequency=swSyncInterval,
@@ -131,10 +134,10 @@ def main():
                                   model=model)
     # initalize swarmCallback and do first sync 
     swarmCallback.on_train_begin()
-        
+
     for epoch in range(1, max_epochs + 1):
-        doTrainBatch(model,device,trainLoader,opt,epoch,swarmCallback)      
-        test(model,device,testLoader)
+        doTrainBatch(model, device, trainLoader, opt, epoch, swarmCallback)
+        test(model, device, testLoader)
         swarmCallback.on_epoch_end(epoch)
 
     # handles what to do when training ends        
@@ -147,6 +150,7 @@ def main():
     os.makedirs(os.path.join(scratchDir, model_name), exist_ok=True)
     torch.save(model, saved_model_path)
     print('Saved the trained model!')
- 
+
+
 if __name__ == '__main__':
-  main()
+    main()

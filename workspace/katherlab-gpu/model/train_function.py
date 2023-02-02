@@ -4,11 +4,10 @@ Created on Thu Jul  8 16:26:43 2021
 
 @author: User
 """
-import torch.nn.functional as F
+# from swarm import SwarmCallback
+import torch
 import torch.nn as nn
 
-#from swarm import SwarmCallback
-import torch
 
 def doTrainBatch(model, device, trainLoader, optimizer, epoch, swarmCallback):
     model.train()
@@ -23,16 +22,15 @@ def doTrainBatch(model, device, trainLoader, optimizer, epoch, swarmCallback):
         trainPrint = True
         if trainPrint and batchIdx % 100 == 0:
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
-                  epoch, batchIdx * len(data), len(trainLoader.dataset),
-                  100. * batchIdx / len(trainLoader), loss.item()))
-    
+                epoch, batchIdx * len(data), len(trainLoader.dataset),
+                       100. * batchIdx / len(trainLoader), loss.item()))
+
         # Swarm Learning Interface
         if swarmCallback is not None:
-            swarmCallback.on_batch_end()     
+            swarmCallback.on_batch_end()
     return model
-    
-    
-            
+
+
 def test(model, device, testLoader):
     model.eval()
     testLoss = 0
@@ -41,16 +39,15 @@ def test(model, device, testLoader):
         for data, target in testLoader:
             data, target = data.to(device), target.to(device)
             output = model(data)
-            #print(output)
+            # print(output)
             criterion = nn.CrossEntropyLoss()
             testLoss += criterion(output, target).item()  # sum up batch loss
             pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
-            #print(pred)
+            # print(pred)
             correct += pred.eq(target.view_as(pred)).sum().item()
-            
+
     testLoss /= len(testLoader.dataset)
 
     print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
         testLoss, correct, len(testLoader.dataset),
-        100. * correct / len(testLoader.dataset)))    # -*- coding: utf-8 -*-
-
+        100. * correct / len(testLoader.dataset)))  # -*- coding: utf-8 -*-
