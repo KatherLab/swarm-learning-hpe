@@ -21,4 +21,4 @@ sudo docker pull hub.myenterpriselicense.hpe.com/hpe_eval/swarm-learning/swci:1.
 echo "Download Swarm Operator (SWOP) Node"
 sudo docker pull hub.myenterpriselicense.hpe.com/hpe_eval/swarm-learning/swop:1.1.0
 
-sudo tar -xf ./$script_dir/license_and_softwares/HPE_SWARM_LEARNING_DOCS_EXAMPLES_SCRIPTS_Q2V41-11033.tar.gz -C /opt/hpe/swarm-learning-hpe/
+sudo tar -xf $script_dir/license_and_softwares/HPE_SWARM_LEARNING_DOCS_EXAMPLES_SCRIPTS_Q2V41-11033.tar.gz -C /opt/hpe/swarm-learning-hpe/
