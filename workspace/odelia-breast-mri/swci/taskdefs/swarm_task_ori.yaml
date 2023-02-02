@@ -10,6 +10,6 @@ Body:
   Envvars: [ "DATA_DIR": data-and-scratch/app-data, "SCRATCH_DIR": data-and-scratch/scratch, "MODEL_DIR": model, "MAX_EPOCHS": 2, "MIN_PEERS": 2 ]
   PrivateContent: /tmp/test/data-and-scratch
   SharedContent:
-    - Src: /opt/hpe/swarm-learning-hpe/workspace/mnist-pyt-gpu/model
+    - Src: /opt/hpe/swarm-learning-hpe/workspace/<MODULE-NAME>/model
       Tgt: /tmp/test/model
       MType: BIND
