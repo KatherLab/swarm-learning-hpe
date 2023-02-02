@@ -13,7 +13,7 @@ help()
 }
 
 # Process command options
-while getopts "h?" opt
+while getopts "w:h?" opt
 do
    case "$opt" in
       h ) help ;;
@@ -33,7 +33,8 @@ if sudo docker volume list | grep -q 'sl-cli-lib'; then sudo docker volume rm sl
 sudo docker volume create sl-cli-lib
 sudo docker container create --name helper -v sl-cli-lib:/data hello-world
 sudo docker cp -L $script_dir/swarmlearning-client-py3-none-manylinux_2_24_x86_64.whl helper:/data
-sudo docker cp -L $script_dir/../../$workspace/env_config/* helper:/data
+sudo docker cp -L $script_dir/../../$workspace/env_config/environment.yaml helper:/data
+sudo docker cp -L $script_dir/../../$workspace/env_config/setup.py helper:/data
 sudo docker rm helper
 
 if sudo docker network list | grep -q host-"$ip_addr"-net; then sudo docker network rm host-"$ip_addr"-net; fi
