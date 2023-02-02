@@ -4,9 +4,9 @@ Author: Jeff
 Prereq: ROOTTASK
 Outcome: user-env-marugoto-swop
 Body:
-    BuildContext: sl-cli-lib
-    BuildType: INLINE
-    BuildSteps:
+  BuildContext: sl-cli-lib
+  BuildType: INLINE
+  BuildSteps:
     - FROM pytorch/pytorch:1.13.1-cuda11.6-cudnn8-runtime AS develop
     - WORKDIR /resources
     - COPY requirements.txt .

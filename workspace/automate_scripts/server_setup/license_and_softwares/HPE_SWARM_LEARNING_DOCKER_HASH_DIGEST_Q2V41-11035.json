@@ -1,0 +1,62 @@
+[
+  {
+    "imageName": "hub.myenterpriselicense.hpe.com/hpe/swarm-learning/swci:1.1.0",
+    "digestHash": "d59add774d66a013dac07ee56756eda244988aaa0907fbb8d73b2de1da816156",
+    "signerName": "hpe-swarm-learning"
+  },
+  {
+    "imageName": "hub.myenterpriselicense.hpe.com/hpe/swarm-learning/sn:1.1.0",
+    "digestHash": "1ca380edc77d67fa9906ecd0a38af14e9eb875b719e2ecb0e839a2cc3235cfee",
+    "signerName": "hpe-swarm-learning"
+  },
+  {
+    "imageName": "hub.myenterpriselicense.hpe.com/hpe/swarm-learning/sl:1.1.0",
+    "digestHash": "a11f1e0812fe9b3e9ed8c7d8e20b5737a9d4a141b8af7dea1ad737321f01bdb4",
+    "signerName": "hpe-swarm-learning"
+  },
+  {
+    "imageName": "hub.myenterpriselicense.hpe.com/hpe/swarm-learning/swop:1.1.0",
+    "digestHash": "2d0da57c87c1b4c3ac4fec755779f44caa59da4bbe1e42af5d170d506c125646",
+    "signerName": "hpe-swarm-learning"
+  },
+  {
+    "imageName": "hub.myenterpriselicense.hpe.com/hpe_eval/swarm-learning/swci:1.1.0",
+    "digestHash": "d59add774d66a013dac07ee56756eda244988aaa0907fbb8d73b2de1da816156",
+    "signerName": "hpe-ai-swarm-learning"
+  },
+  {
+    "imageName": "hub.myenterpriselicense.hpe.com/hpe_eval/swarm-learning/sn:1.1.0",
+    "digestHash": "1ca380edc77d67fa9906ecd0a38af14e9eb875b719e2ecb0e839a2cc3235cfee",
+    "signerName": "hpe-ai-swarm-learning"
+  },
+  {
+    "imageName": "hub.myenterpriselicense.hpe.com/hpe_eval/swarm-learning/sl:1.1.0",
+    "digestHash": "a11f1e0812fe9b3e9ed8c7d8e20b5737a9d4a141b8af7dea1ad737321f01bdb4",
+    "signerName": "hpe-ai-swarm-learning"
+  },
+  {
+    "imageName": "hub.myenterpriselicense.hpe.com/hpe_eval/swarm-learning/swop:1.1.0",
+    "digestHash": "2d0da57c87c1b4c3ac4fec755779f44caa59da4bbe1e42af5d170d506c125646",
+    "signerName": "hpe-ai-swarm-learning"
+  },
+  {
+    "imageName": "hub.myenterpriselicense.hpe.com/hpe_eval/swarm-learning/swci:1.2.0",
+    "digestHash": "1427d11b84e49699cfb9939cca2c31add1459580f0ef43247e6208ccbe37a94b",
+    "signerName": "hpe-ai-swarm-learning"
+  },
+  {
+    "imageName": "hub.myenterpriselicense.hpe.com/hpe_eval/swarm-learning/sn:1.2.0",
+    "digestHash": "1d13391333250d01d4eac8704b059b7402e73505844ae19f336356a0fa529e21",
+    "signerName": "hpe-ai-swarm-learning"
+  },
+  {
+    "imageName": "hub.myenterpriselicense.hpe.com/hpe_eval/swarm-learning/sl:1.2.0",
+    "digestHash": "0b68121348bef09c98ec8314e455aca8369463c55dd018542c7d33c952ce904e",
+    "signerName": "hpe-ai-swarm-learning"
+  },
+  {
+    "imageName": "hub.myenterpriselicense.hpe.com/hpe_eval/swarm-learning/swop:1.2.0",
+    "digestHash": "9fca110461ebf32d6541fa9804d3596b7b85a8a8d18a4d2419853950233a1d00",
+    "signerName": "hpe-ai-swarm-learning"
+  }
+]

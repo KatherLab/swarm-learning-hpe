@@ -9,9 +9,9 @@ __email__ = 'markovantreeck@gmail.com'
 __status__ = 'Development'
 
 import logging
-import threadpool
-from tqdm import tqdm
 import multiprocessing
+
+from tqdm import tqdm
 
 '''
 Common command line usage for our case -ba y -i y -f %i%t%d_%s -w y -o
@@ -22,8 +22,8 @@ Common command line usage for our case -ba y -i y -f %i%t%d_%s -w y -o
 
 import argparse
 from pathlib import Path
-import os
 import subprocess
+
 
 def main(cohort_path: Path, outdir: Path) -> None:
     """Extracts tiles from whole slide images.
@@ -34,7 +34,7 @@ def main(cohort_path: Path, outdir: Path) -> None:
     global series
     series_path_list = []
     outdir.mkdir(exist_ok=True, parents=True)
-    logging.basicConfig(filename=outdir/'logfile', level=logging.DEBUG)
+    logging.basicConfig(filename=outdir / 'logfile', level=logging.DEBUG)
     logging.getLogger().addHandler(logging.StreamHandler())
     for patient_dir in (get_subdirs(cohort_path)):
         for series in (get_subdirs(get_subdirs(patient_dir)[0])):
@@ -51,16 +51,20 @@ def main(cohort_path: Path, outdir: Path) -> None:
     pool.wait()
     '''
 
+
 def dcm2niix(outpath: Path, dcm_path: Path) -> None:
     subprocess.run(["./bin/dcm2niix", "-ba", "y", "-i", "y", "-f", "%i%t%d_%s", "-w", "y", "-o", outpath, dcm_path])
 
+
 def get_subdirs(path: Path) -> list:
     return [x for x in path.iterdir() if x.is_dir()]
+
 
 def get_folder_with_specifc_naming(name: str, path: Path) -> bool:
     # get folder with 'ax dyn pre' in the name
     if name in path.name:
         return True
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Convert from dcm to niix.')

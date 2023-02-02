@@ -1,13 +1,12 @@
 from dataclasses import dataclass
-from typing import Any, Iterable, Optional, Sequence, Tuple, Union
 from pathlib import Path
+from typing import Any, Iterable, Optional, Sequence, Tuple, Union
+
 import h5py
-import torch
-from torch.utils.data import Dataset
 import pandas as pd
-
+import torch
 from marugoto.data import EncodedDataset, MapDataset, SKLearnEncoder
-
+from torch.utils.data import Dataset
 
 __all__ = ['BagDataset', 'make_dataset', 'get_cohort_df']
 
@@ -56,16 +55,16 @@ def _to_fixed_size_bag(bag: torch.Tensor, bag_size: int = 512) -> Tuple[torch.Te
 
     # zero-pad if we don't have enough samples
     zero_padded = torch.cat((bag_samples,
-                             torch.zeros(bag_size-bag_samples.shape[0], bag_samples.shape[1])))
+                             torch.zeros(bag_size - bag_samples.shape[0], bag_samples.shape[1])))
     return zero_padded, min(bag_size, len(bag))
 
 
 def make_dataset(
-    *,
-    bags: Sequence[Iterable[Path]],
-    targets: Tuple[SKLearnEncoder, Sequence[Any]],
-    add_features: Optional[Iterable[Tuple[Any, Sequence[Any]]]] = None,
-    bag_size: Optional[int] = None,
+        *,
+        bags: Sequence[Iterable[Path]],
+        targets: Tuple[SKLearnEncoder, Sequence[Any]],
+        add_features: Optional[Iterable[Tuple[Any, Sequence[Any]]]] = None,
+        bag_size: Optional[int] = None,
 ) -> MapDataset:
     if add_features:
         return _make_multi_input_dataset(
@@ -74,16 +73,17 @@ def make_dataset(
         return _make_basic_dataset(
             bags=bags, target_enc=targets[0], targs=targets[1], bag_size=bag_size)
 
+
 def get_target_enc(mil_learn):
     return mil_learn.dls.train.dataset._datasets[-1].encode
 
 
 def _make_basic_dataset(
-    *,
-    bags: Sequence[Iterable[Path]],
-    target_enc: SKLearnEncoder,
-    targs: Sequence[Any],
-    bag_size: Optional[int] = None,
+        *,
+        bags: Sequence[Iterable[Path]],
+        target_enc: SKLearnEncoder,
+        targs: Sequence[Any],
+        bag_size: Optional[int] = None,
 ) -> MapDataset:
     assert len(bags) == len(targs), \
         'number of bags and ground truths does not match!'
@@ -107,11 +107,11 @@ def zip_bag_targ(bag, targets):
 
 
 def _make_multi_input_dataset(
-    *,
-    bags: Sequence[Iterable[Path]],
-    targets: Tuple[SKLearnEncoder, Sequence[Any]],
-    add_features: Iterable[Tuple[Any, Sequence[Any]]],
-    bag_size: Optional[int] = None
+        *,
+        bags: Sequence[Iterable[Path]],
+        targets: Tuple[SKLearnEncoder, Sequence[Any]],
+        add_features: Iterable[Tuple[Any, Sequence[Any]]],
+        bag_size: Optional[int] = None
 ) -> MapDataset:
     target_enc, targs = targets
     assert len(bags) == len(targs), \
@@ -143,22 +143,24 @@ def _make_multi_input_dataset(
 
 def _splat_concat(*x): return torch.concat(x, dim=1)
 
+
 def _attach_add_to_bag_and_zip_with_targ(bag, add, targ):
     return (
         torch.concat([
-            bag[0], # the bag's features
+            bag[0],  # the bag's features
             add.repeat(bag[0].shape[0], 1)  # the additional features
         ], dim=1),
-        bag[1], # the bag's length
-        targ.squeeze(),   # the ground truth
+        bag[1],  # the bag's length
+        targ.squeeze(),  # the ground truth
     )
 
 
 def get_cohort_df(
-    clini_table: Union[Path, str], slide_csv: Union[Path, str], feature_dir: Union[Path, str],
-    target_label: str, categories: Iterable[str]
+        clini_table: Union[Path, str], slide_csv: Union[Path, str], feature_dir: Union[Path, str],
+        target_label: str, categories: Iterable[str]
 ) -> pd.DataFrame:
-    clini_df = pd.read_csv(clini_table, dtype=str) if Path(clini_table).suffix == '.csv' else pd.read_excel(clini_table, dtype=str)
+    clini_df = pd.read_csv(clini_table, dtype=str) if Path(clini_table).suffix == '.csv' else pd.read_excel(clini_table,
+                                                                                                            dtype=str)
     slide_df = pd.read_csv(slide_csv, dtype=str)
     df = clini_df.merge(slide_df, on='PATIENT')
 
