@@ -5,12 +5,6 @@ Created on Mon Nov 15 08:49:22 2021
 @author: nghaffarilal
 """
 
-import os
-from typing import Optional
-from typing import Tuple
-
-import torch
-import torch.nn as nn
 from fastai.vision.all import *
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
