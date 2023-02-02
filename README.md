@@ -4,6 +4,8 @@
 
 Swarm learning learning and trails based on HPE platform
 
+We now have a "Team Email": katherlab.swarm@gmail.com. With this we can log in to all swarm related things and use it in the code.
+
 This repository contains:
 
 1. SWARM Learning For Histopathology Image Analysis nad Radiology Image Analysis
