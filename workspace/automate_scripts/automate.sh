@@ -47,6 +47,10 @@ if [ $ACTION = prerequisite ]; then
   sh ./automate_scripts/server_setup/test_open_exposed_ports.sh
   sh ./automate_scripts/server_setup/prerequisites.sh
   cd $workspace_dir
+  if [ $ip_addr = $sentinal_ip ]
+    then
+    sh ./automate_scripts/server_setup/install_apls.sh
+  fi
 fi
 
 
@@ -54,10 +58,6 @@ if [ $ACTION = server_setup ]; then
   if [ -z "$workspace_name" ]; then
        echo "Some or all of the parameters are empty";
        help
-  fi
-  if [ $ip_addr = $sentinal_ip ]
-    then
-    sh ./automate_scripts/server_setup/server_setup.sh
   fi
   sh ./automate_scripts/server_setup/install_containers.sh
   sh ./automate_scripts/server_setup/gpu_env_setup.sh
