@@ -1,19 +1,17 @@
-from datetime import datetime
 import json
+from datetime import datetime
 from pathlib import Path
-from pyexpat import features
 from typing import Iterable, Optional, Sequence, Union
 
 import numpy as np
 import pandas as pd
+import torch
+from fastai.vision.learner import load_learner
+from marugoto.data import SKLearnEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import StratifiedKFold, train_test_split
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
-from fastai.vision.learner import load_learner
-import torch
-
-from marugoto.data import SKLearnEncoder
 
 from ._mil import train, deploy
 from .data import get_cohort_df, get_target_enc
@@ -21,20 +19,19 @@ from .data import get_cohort_df, get_target_enc
 __all__ = [
     'train_categorical_model_', 'deploy_categorical_model_', 'categorical_crossval_']
 
-
 PathLike = Union[str, Path]
 
 
 def train_categorical_model_(
-    clini_table: PathLike,
-    slide_csv: PathLike,
-    feature_dir: PathLike,
-    output_path: PathLike,
-    *,
-    target_label: str,
-    cat_labels: Sequence[str] = [],
-    cont_labels: Sequence[str] = [],
-    categories: Optional[Iterable[str]] = None,
+        clini_table: PathLike,
+        slide_csv: PathLike,
+        feature_dir: PathLike,
+        output_path: PathLike,
+        *,
+        target_label: str,
+        cat_labels: Sequence[str] = [],
+        cont_labels: Sequence[str] = [],
+        categories: Optional[Iterable[str]] = None,
 ) -> None:
     """Train a categorical model on a cohort's tile's features.
 
@@ -65,12 +62,13 @@ def train_categorical_model_(
         'output_path': str(output_path.absolute()),
         'datetime': datetime.now().astimezone().isoformat()}
 
-    model_path = output_path/'export.pkl'
+    model_path = output_path / 'export.pkl'
     if model_path.exists():
         print(f'{model_path} already exists. Skipping...')
         return
 
-    clini_df = pd.read_csv(clini_table, dtype=str) if Path(clini_table).suffix == '.csv' else pd.read_excel(clini_table, dtype=str)
+    clini_df = pd.read_csv(clini_table, dtype=str) if Path(clini_table).suffix == '.csv' else pd.read_excel(clini_table,
+                                                                                                            dtype=str)
     slide_df = pd.read_csv(slide_csv, dtype=str)
     df = clini_df.merge(slide_df, on='PATIENT')
 
@@ -94,15 +92,15 @@ def train_categorical_model_(
     train_patients, valid_patients = train_test_split(df.PATIENT, stratify=df[target_label])
     train_df = df[df.PATIENT.isin(train_patients)]
     valid_df = df[df.PATIENT.isin(valid_patients)]
-    train_df.drop(columns='slide_path').to_csv(output_path/'train.csv', index=False)
-    valid_df.drop(columns='slide_path').to_csv(output_path/'valid.csv', index=False)
+    train_df.drop(columns='slide_path').to_csv(output_path / 'train.csv', index=False)
+    valid_df.drop(columns='slide_path').to_csv(output_path / 'valid.csv', index=False)
 
-    info['class distribution']['training'] = {      # type: ignore
+    info['class distribution']['training'] = {  # type: ignore
         k: int(v) for k, v in train_df[target_label].value_counts().items()}
-    info['class distribution']['validation'] = {    # type: ignore
+    info['class distribution']['validation'] = {  # type: ignore
         k: int(v) for k, v in valid_df[target_label].value_counts().items()}
 
-    with open(output_path/'info.json', 'w') as f:
+    with open(output_path / 'info.json', 'w') as f:
         json.dump(info, f)
 
     target_enc = OneHotEncoder(sparse=False).fit(categories.reshape(-1, 1))
@@ -154,15 +152,15 @@ def _make_cont_enc(df, conts) -> SKLearnEncoder:
 
 
 def deploy_categorical_model_(
-    clini_table: PathLike,
-    slide_csv: PathLike,
-    feature_dir: PathLike,
-    model_path: PathLike,
-    output_path: PathLike,
-    *,
-    target_label: Optional[str] = None,
-    cat_labels: Optional[str] = None,
-    cont_labels: Optional[str] = None,
+        clini_table: PathLike,
+        slide_csv: PathLike,
+        feature_dir: PathLike,
+        model_path: PathLike,
+        output_path: PathLike,
+        *,
+        target_label: Optional[str] = None,
+        cat_labels: Optional[str] = None,
+        cont_labels: Optional[str] = None,
 ) -> None:
     """Deploy a categorical model on a cohort's tile's features.
 
@@ -177,7 +175,7 @@ def deploy_categorical_model_(
     feature_dir = Path(feature_dir)
     model_path = Path(model_path)
     output_path = Path(output_path)
-    if (preds_csv := output_path/'patient-preds.csv').exists():
+    if (preds_csv := output_path / 'patient-preds.csv').exists():
         print(f'{preds_csv} already exists!  Skipping...')
         return
 
@@ -197,14 +195,14 @@ def deploy_categorical_model_(
 
 
 def categorical_crossval_(
-    clini_table: PathLike, slide_csv: PathLike, feature_dir: PathLike, output_path: PathLike,
-    *,
-    target_label: str,
-    cat_labels: Sequence[str] = [],
-    cont_labels: Sequence[str] = [],
-    n_splits: int = 5,
-    fixed_folds: Optional[PathLike] = None, #added option to use fixed folds from previous experiment
-    categories: Optional[Iterable[str]] = None,
+        clini_table: PathLike, slide_csv: PathLike, feature_dir: PathLike, output_path: PathLike,
+        *,
+        target_label: str,
+        cat_labels: Sequence[str] = [],
+        cont_labels: Sequence[str] = [],
+        n_splits: int = 5,
+        fixed_folds: Optional[PathLike] = None,  # added option to use fixed folds from previous experiment
+        categories: Optional[Iterable[str]] = None,
 ) -> None:
     """Performs a cross-validation for a categorical target.
 
@@ -237,7 +235,8 @@ def categorical_crossval_(
         'n_splits': n_splits,
         'datetime': datetime.now().astimezone().isoformat()}
 
-    clini_df = pd.read_csv(clini_table, dtype=str) if Path(clini_table).suffix == '.csv' else pd.read_excel(clini_table, dtype=str)
+    clini_df = pd.read_csv(clini_table, dtype=str) if Path(clini_table).suffix == '.csv' else pd.read_excel(clini_table,
+                                                                                                            dtype=str)
     slide_df = pd.read_csv(slide_csv, dtype=str)
     df = clini_df.merge(slide_df, on='PATIENT')
 
@@ -256,17 +255,17 @@ def categorical_crossval_(
 
     target_enc = OneHotEncoder(sparse=False).fit(categories.reshape(-1, 1))
 
-    if (fold_path := output_path/'folds.pt').exists():
+    if (fold_path := output_path / 'folds.pt').exists():
         folds = torch.load(fold_path)
-    
+
     elif (fixed_folds is not None):
         folds = torch.load(fixed_folds)
-        torch.save(folds, output_path/'folds.pt')
+        torch.save(folds, output_path / 'folds.pt')
         print(f"Successfully loaded and saved fixed folds from {fixed_folds}")
 
     else:
-        #check the maximum amount of splits that can be made
-        distrib=info['class distribution']['overall']        
+        # check the maximum amount of splits that can be made
+        distrib = info['class distribution']['overall']
         least_populated_class = min(distrib, key=distrib.get)
         if distrib[least_populated_class] < n_splits:
             print(f"Warning: Cannot make requested {n_splits} folds due to having \
@@ -274,8 +273,8 @@ def categorical_crossval_(
                     reduced to {distrib[least_populated_class]} folds.")
             n_splits = distrib[least_populated_class]
             info['n_splits'] = distrib[least_populated_class]
-        
-        #added shuffling with seed 1337
+
+        # added shuffling with seed 1337
         skf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=1337)
         patient_df = df.groupby('PATIENT').first().reset_index()
         folds = tuple(skf.split(patient_df.PATIENT, patient_df[target_label]))
@@ -286,18 +285,18 @@ def categorical_crossval_(
             part: list(df.PATIENT[folds[fold][i]])
             for i, part in enumerate(['train', 'test'])
         }
-        for fold in range(info['n_splits']) ]
+        for fold in range(info['n_splits'])]
 
-    with open(output_path/'info.json', 'w') as f:
+    with open(output_path / 'info.json', 'w') as f:
         json.dump(info, f)
 
     for fold, (train_idxs, test_idxs) in enumerate(folds):
-        fold_path = output_path/f'fold-{fold}'
-        if (preds_csv := fold_path/'patient-preds.csv').exists():
+        fold_path = output_path / f'fold-{fold}'
+        if (preds_csv := fold_path / 'patient-preds.csv').exists():
             print(f'{preds_csv} already exists!  Skipping...')
             continue
-        elif (fold_path/'export.pkl').exists():
-            learn = load_learner(fold_path/'export.pkl')
+        elif (fold_path / 'export.pkl').exists():
+            learn = load_learner(fold_path / 'export.pkl')
         else:
             fold_train_df = df.iloc[train_idxs]
             learn = _crossval_train(
@@ -307,7 +306,7 @@ def categorical_crossval_(
             learn.export()
 
         fold_test_df = df.iloc[test_idxs]
-        fold_test_df.drop(columns='slide_path').to_csv(fold_path/'test.csv', index=False)
+        fold_test_df.drop(columns='slide_path').to_csv(fold_path / 'test.csv', index=False)
         patient_preds_df = deploy(
             test_df=fold_test_df, learn=learn,
             target_label=target_label, cat_labels=cat_labels, cont_labels=cont_labels)
@@ -315,7 +314,7 @@ def categorical_crossval_(
 
 
 def _crossval_train(
-    *, fold_path, fold_df, fold, info, target_label, target_enc, cat_labels, cont_labels
+        *, fold_path, fold_df, fold, info, target_label, target_enc, cat_labels, cont_labels
 ):
     """Helper function for training the folds."""
     assert fold_df.PATIENT.nunique() == len(fold_df)
@@ -328,8 +327,8 @@ def _crossval_train(
         fold_df.PATIENT, stratify=fold_df[target_label], random_state=1337)
     train_df = fold_df[fold_df.PATIENT.isin(train_patients)]
     valid_df = fold_df[fold_df.PATIENT.isin(valid_patients)]
-    train_df.drop(columns='slide_path').to_csv(fold_path/'train.csv', index=False)
-    valid_df.drop(columns='slide_path').to_csv(fold_path/'valid.csv', index=False)
+    train_df.drop(columns='slide_path').to_csv(fold_path / 'train.csv', index=False)
+    valid_df.drop(columns='slide_path').to_csv(fold_path / 'valid.csv', index=False)
 
     info['class distribution'][f'fold {fold}']['training'] = {
         k: int(v) for k, v in train_df[target_label].value_counts().items()}
