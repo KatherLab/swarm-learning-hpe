@@ -10,26 +10,73 @@ from torch.utils.data.dataset import Subset
 
 from data.datasets import DUKE_Dataset3D
 from data.datamodules import DataModule
-from models import ResNet, swarmCallback
 
 import os  # !
+import logging
+
+from models import BasicClassifier
+import monai.networks.nets as nets
+import torch
+import torch.nn.functional as F
+from swarmlearning.pyt import SwarmCallback
+
+# ------------ Swarm Callback ------------ #!
+
+
+
+class ResNet(BasicClassifier):
+    def __init__(
+            self,
+            in_ch,
+            out_ch,
+            spatial_dims=3,
+            block='basic',
+            layers=[3, 4, 6, 3],
+            block_inplanes=[64, 128, 256, 512],
+            feed_forward=True,
+            loss=torch.nn.CrossEntropyLoss,
+            loss_kwargs={},
+            optimizer=torch.optim.AdamW,
+            optimizer_kwargs={},
+            lr_scheduler=None,
+            lr_scheduler_kwargs={}
+    ):
+        super().__init__(in_ch, out_ch, spatial_dims, loss, loss_kwargs, optimizer, optimizer_kwargs, lr_scheduler,
+                         lr_scheduler_kwargs)
+        self.model = nets.ResNet(block, layers, block_inplanes, spatial_dims, in_ch, 7, 1, False, 'B', 1.0, out_ch,
+                                 feed_forward, True)
+
+    def forward(self, x_in, **kwargs):
+        pred_hor = self.model(x_in)
+        return pred_hor
+
+    def training_step(self, batch, batch_idx):
+        x, y = batch
+        y_hat = self(x)
+        loss = F.cross_entropy(y_hat, y)
+        swarmCallback.on_batch_end()
+        return loss
+
 
 max_expochs = 50
 if __name__ == "__main__":
     # ------------ Settings/Defaults ----------------
     scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')  # !
+    print(f"Using {scratchDir} for training")
     current_time = datetime.now().strftime("%Y_%m_%d_%H%M%S")
     path_run_dir = os.path.join(scratchDir, str(current_time))  # !
     # path_run_dir = Path.cwd() / 'runs' / str(current_time)
-    path_run_dir.mkdir(parents=True, exist_ok=True)
+    #path_run_dir.mkdir(parents=True, exist_ok=True)
     accelerator = 'gpu' if torch.cuda.is_available() else 'cpu'
+    print(f"Using {accelerator} for training")
 
     # ------------ Load Data ----------------
-    dataDir = os.getenv('DATA_DIR', '/platform/data')  # !
-
+    #dataDir = os.getenv('DATA_DIR', '/tmp/test/host1-partial-data')  # !
+    #print current directory
+    print("Current Directory " , os.getcwd())
     ds = DUKE_Dataset3D(
         flip=True,
-        path_root='/mnt/sda1/swarm-learning/radiology-dataset/odelia_dataset_unilateral_256x256x32/'
+        path_root='/tmp/test'
         # path_root = '/mnt/sda1/swarm-learning/radiology-dataset/odelia_dataset_unilateral_256x256x32/'
     )
 
@@ -41,6 +88,8 @@ if __name__ == "__main__":
     ds_val = Subset(ds, list(range(train_size, train_size + val_size)))
     ds_test = Subset(ds, list(range(train_size + val_size, len(ds))))
 
+
+
     dm = DataModule(
         ds_train=ds_train,
         ds_val=ds_val,
@@ -50,10 +99,12 @@ if __name__ == "__main__":
         # pin_memory=True,
     )
 
+    print('========1========')
 
     # ------------ Initialize Model ------------
     model = ResNet(in_ch=2, out_ch=2, spatial_dims=3)
 
+    print('========1========')
     # -------------- Training Initialization ---------------
     to_monitor = "val/loss"
     min_max = "min"
@@ -73,8 +124,17 @@ if __name__ == "__main__":
         save_top_k=1,
         mode=min_max,
     )
+    model = model.to(torch.device("cpu"))
+    swarmCallback = SwarmCallback(syncFrequency=128,
+                                  minPeers=2,
+                                  useAdaptiveSync=False,
+                                  adsValData=ds_val,
+                                  adsValBatchSize=4,
+                                  model=model)
+    print('========1========')
+    swarmCallback.logger.setLevel(logging.DEBUG)
     swarmCallback.on_train_begin()  # !
-
+    print('========2========')
     for epoch in max_expochs:
         trainer = Trainer(
             accelerator=accelerator,
