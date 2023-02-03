@@ -14,12 +14,14 @@ Body:
     - '   python3-setuptools --no-install-recommends -y'
     - ' '
     - RUN conda install pip
-    - RUN conda env update --file ./odelia-breast-mri/env_config/environment.yaml --prune
     - ' '
     - RUN pip3 install --upgrade pip protobuf && pip3 install \
     - '   matplotlib pandas sklearn'
     - ' '
     - RUN mkdir -p /tmp/hpe-swarmcli-pkg
     - COPY swarmlearning-client-py3-none-manylinux_2_24_x86_64.whl /tmp/hpe-swarmcli-pkg/swarmlearning-client-py3-none-manylinux_2_24_x86_64.whl
+    - COPY environment.yaml /tmp/hpe-swarmcli-pkg/environment.yaml
+    - COPY setup.py /tmp/hpe-swarmcli-pkg/setup.py
+    - RUN conda env update --file /tmp/hpe-swarmcli-pkg/environment.yaml --prune
     - RUN pip3 install /tmp/hpe-swarmcli-pkg/swarmlearning-client-py3-none-manylinux_2_24_x86_64.whl
-    - RUN pip3 install -e .
+    - RUN pip3 install -e ./tmp/hpe-swarmcli-pkg/
