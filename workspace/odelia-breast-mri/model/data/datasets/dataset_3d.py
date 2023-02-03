@@ -3,7 +3,7 @@ from pathlib import Path
 import torch.utils.data as data 
 import torchio as tio 
 
-from odelia.data.augmentation.augmentations_3d import ImageToTensor, RescaleIntensity, ZNormalization
+from data.augmentation.augmentations_3d import ImageToTensor, RescaleIntensity, ZNormalization
 
 
 class SimpleDataset3D(data.Dataset):

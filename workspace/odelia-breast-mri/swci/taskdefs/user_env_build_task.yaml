@@ -1,4 +1,4 @@
-Name: user_env_build_task_<TIME_STAMP>
+Name: user_env_build_task_20230203_222032
 TaskType: MAKE_USER_CONTAINER
 Author: Katherlab Swarm Team
 Prereq: ROOTTASK

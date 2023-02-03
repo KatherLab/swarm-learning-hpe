@@ -38,7 +38,7 @@ then
   --init-script-name=swci-init --key=workspace/"$workspace"/cert/swci-"$ip_addr"-key.pem \
   --cert=workspace/"$workspace"/cert/swci-"$ip_addr"-cert.pem \
   --capath=workspace/"$workspace"/cert/ca/capath \
--e http_proxy= -e https_proxy= --apls-ip="$sentinal" --apls-port 5000 --apls-ip="$sentinal" --apls-port 5000 -e SWOP_KEEP_CONTAINERS=True
+  -e http_proxy= -e https_proxy= --apls-ip="$sentinal" --apls-port 5000
 else
    echo "This host is not a sentinal node and will not be used for initiating the cluster, only as swarm network node"
    exit 1
