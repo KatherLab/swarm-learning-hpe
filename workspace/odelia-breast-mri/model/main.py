@@ -104,7 +104,7 @@ if __name__ == "__main__":
         ds_train=ds_train,
         ds_val=ds_val,
         ds_test=ds_test,
-        batch_size=2,
+        batch_size=1,
         # num_workers=0,
         # pin_memory=True,
     )
