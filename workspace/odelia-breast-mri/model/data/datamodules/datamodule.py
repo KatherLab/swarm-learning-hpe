@@ -14,7 +14,7 @@ class DataModule(pl.LightningDataModule):
                  ds_val:object =None,
                  ds_test:object =None,
                  batch_size: int = 1,
-                 num_workers: int = mp.cpu_count(),
+                 num_workers: int = 1,
                  seed: int = 0, 
                  pin_memory: bool = False,
                  weights: list = None 
