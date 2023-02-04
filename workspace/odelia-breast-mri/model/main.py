@@ -82,8 +82,7 @@ if __name__ == "__main__":
         # path_root = '/mnt/sda1/swarm-learning/radiology-dataset/odelia_dataset_unilateral_256x256x32/'
     )
     print("++++++++++")
-    print(ds)
-
+    print(len(ds))
     print(ds[0])
 
     # WARNING: Very simple split approach
@@ -96,16 +95,16 @@ if __name__ == "__main__":
     print(train_size)
     print(val_size)
     print(ds_train)
-    print(ds_train[0])
-    print(ds_val[0])
-    print(ds_test[0])
+    #print(ds_train[0])
+    #print(ds_val[0])
+    #print(ds_test[0])
 
 
     dm = DataModule(
         ds_train=ds_train,
         ds_val=ds_val,
         ds_test=ds_test,
-        batch_size=1,
+        batch_size=2,
         # num_workers=0,
         # pin_memory=True,
     )
@@ -115,7 +114,7 @@ if __name__ == "__main__":
     # ------------ Initialize Model ------------
     model = ResNet(in_ch=2, out_ch=2, spatial_dims=3)
 
-    print('========1========')
+    print('========2========')
     # -------------- Training Initialization ---------------
     to_monitor = "val/loss"
     min_max = "min"
@@ -140,13 +139,14 @@ if __name__ == "__main__":
                                   minPeers=2,
                                   useAdaptiveSync=False,
                                   adsValData=ds_val,
-                                  adsValBatchSize=1,
+                                  adsValBatchSize=2,
                                   model=model)
-    print('========1========')
+    print('========3========')
     swarmCallback.logger.setLevel(logging.DEBUG)
     swarmCallback.on_train_begin()  # !
-    print('========2========')
+    print('========4========')
     for epoch in range(max_expochs):
+        print('---------epoch: ', epoch, '---------')
         trainer = Trainer(
             accelerator=accelerator,
             # devices=[0],
@@ -167,9 +167,11 @@ if __name__ == "__main__":
 
     # ---------------- Execute Training ----------------
     swarmCallback.on_train_end()  # !
+    print('========5========')
 
     # ------------- Save path to best model -------------
     model.save_best_checkpoint(trainer.logger.log_dir, checkpointing.best_model_path)
+    print('========6========')
 
 # ? where place "swarmCallback.on_batch_end()" and "swarmCallback.on_epoch_end(epoch)"
 
