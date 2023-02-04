@@ -58,7 +58,7 @@ class ResNet(BasicClassifier):
         return loss
 
 
-max_expochs = 50
+max_expochs = 10
 if __name__ == "__main__":
     # ------------ Settings/Defaults ----------------
     scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')  # !
@@ -135,7 +135,7 @@ if __name__ == "__main__":
         mode=min_max,
     )
     model = model.to(torch.device("cpu"))
-    swarmCallback = SwarmCallback(syncFrequency=128,
+    swarmCallback = SwarmCallback(syncFrequency=10,
                                   minPeers=2,
                                   useAdaptiveSync=False,
                                   adsValData=ds_val,
