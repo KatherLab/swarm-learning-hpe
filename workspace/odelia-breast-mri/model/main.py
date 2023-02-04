@@ -51,7 +51,7 @@ class ResNet(BasicClassifier):
         return pred_hor
 
     def training_step(self, batch, batch_idx):
-        x, y = batch
+        x, y = batch['source'], batch['target']
         y_hat = self(x)
         loss = F.cross_entropy(y_hat, y)
         swarmCallback.on_batch_end()
