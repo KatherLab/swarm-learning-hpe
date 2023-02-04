@@ -78,7 +78,7 @@ if __name__ == "__main__":
     print("Current Directory " , os.getcwd())
     ds = DUKE_Dataset3D(
         flip=True,
-        path_root=dataDir
+        path_root="/tmp/test"
         # path_root = '/mnt/sda1/swarm-learning/radiology-dataset/odelia_dataset_unilateral_256x256x32/'
     )
     print("++++++++++")
