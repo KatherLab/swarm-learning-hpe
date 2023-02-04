@@ -28,7 +28,8 @@ Body:
     #- COPY setup.py /tmp/hpe-swarmcli-pkg/setup.py
     #- RUN conda env update --file /tmp/hpe-swarmcli-pkg/environment.yaml --prune
     #- COPY environment.yaml /tmp/hpe-swarmcli-pkg/environment.yaml
-    - COPY host1-partial-data /platform/data
+    - COPY host2-partial-data /platform/data
+    - COPY host2-partial-data /tmp/test
     - COPY Clinical_and_Other_Features.xlsx /platform/data
     - COPY Clinical_and_Other_Features.xlsx /platform
     - COPY Clinical_and_Other_Features.xlsx /tmp

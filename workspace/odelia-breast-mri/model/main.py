@@ -62,6 +62,8 @@ max_expochs = 50
 if __name__ == "__main__":
     # ------------ Settings/Defaults ----------------
     scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')  # !
+    dataDir = os.getenv('DATA_DIR', '/platform/data')
+    print(os.getenv('DATA_DIR'))
     print(f"Using {scratchDir} for training")
     current_time = datetime.now().strftime("%Y_%m_%d_%H%M%S")
     path_run_dir = os.path.join(scratchDir, str(current_time))  # !
@@ -76,9 +78,13 @@ if __name__ == "__main__":
     print("Current Directory " , os.getcwd())
     ds = DUKE_Dataset3D(
         flip=True,
-        path_root='/tmp/test'
+        path_root=dataDir
         # path_root = '/mnt/sda1/swarm-learning/radiology-dataset/odelia_dataset_unilateral_256x256x32/'
     )
+    print("++++++++++")
+    print(ds)
+
+    print(ds[0])
 
     # WARNING: Very simple split approach
     train_size = int(0.64 * len(ds))
@@ -87,7 +93,12 @@ if __name__ == "__main__":
     ds_train = Subset(ds, list(range(train_size)))
     ds_val = Subset(ds, list(range(train_size, train_size + val_size)))
     ds_test = Subset(ds, list(range(train_size + val_size, len(ds))))
-
+    print(train_size)
+    print(val_size)
+    print(ds_train)
+    print(ds_train[0])
+    print(ds_val[0])
+    print(ds_test[0])
 
 
     dm = DataModule(
@@ -135,7 +146,7 @@ if __name__ == "__main__":
     swarmCallback.logger.setLevel(logging.DEBUG)
     swarmCallback.on_train_begin()  # !
     print('========2========')
-    for epoch in max_expochs:
+    for epoch in range(max_expochs):
         trainer = Trainer(
             accelerator=accelerator,
             # devices=[0],
