@@ -100,8 +100,8 @@ if __name__ == "__main__":
         # path_root = '/mnt/sda1/swarm-learning/radiology-dataset/odelia_dataset_unilateral_256x256x32/'
     )
     print("++++++++++")
-    print(len(ds))
-    print(ds[0])
+    print('len(ds): ',len(ds))
+    #print(ds[0])
 
     # WARNING: Very simple split approach
     train_size = int(0.64 * len(ds))
@@ -110,9 +110,9 @@ if __name__ == "__main__":
     ds_train = Subset(ds, list(range(train_size)))
     ds_val = Subset(ds, list(range(train_size, train_size + val_size)))
     ds_test = Subset(ds, list(range(train_size + val_size, len(ds))))
-    print(train_size)
-    print(val_size)
-    print(ds_train)
+    print('train_size: ',train_size)
+    print('val_size: ',val_size)
+    print('test_size: ',ds_train)
     #print(ds_train[0])
     #print(ds_val[0])
     #print(ds_test[0])
@@ -156,7 +156,7 @@ if __name__ == "__main__":
 
     device = torch.device("cuda" if useCuda else "cpu")
     model = model.to(torch.device(device))
-    swarmCallback = SwarmCallback(syncFrequency=4,
+    swarmCallback = SwarmCallback(syncFrequency=8,
                                   minPeers=2,
                                   useAdaptiveSync=False,
                                   adsValData=ds_val,
