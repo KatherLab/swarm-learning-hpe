@@ -49,14 +49,14 @@ class ResNet(BasicClassifier):
     def forward(self, x_in, **kwargs):
         pred_hor = self.model(x_in)
         return pred_hor
-
+'''
     def training_step(self, batch, batch_idx):
         x, y = batch['source'], batch['target']
         y_hat = self(x)
         loss = F.cross_entropy(y_hat, y)
         swarmCallback.on_batch_end()
         return loss
-
+'''
 
 max_expochs = 10
 if __name__ == "__main__":
@@ -118,7 +118,7 @@ if __name__ == "__main__":
     # -------------- Training Initialization ---------------
     to_monitor = "val/loss"
     min_max = "min"
-    log_every_n_steps = 50
+    log_every_n_steps = 10
 
     early_stopping = EarlyStopping(
         monitor=to_monitor,
@@ -134,8 +134,11 @@ if __name__ == "__main__":
         save_top_k=1,
         mode=min_max,
     )
-    model = model.to(torch.device("cpu"))
-    swarmCallback = SwarmCallback(syncFrequency=10,
+    useCuda = torch.cuda.is_available()
+
+    device = torch.device("cuda" if useCuda else "cpu")
+    model = model.to(torch.device("device"))
+    swarmCallback = SwarmCallback(syncFrequency=64,
                                   minPeers=2,
                                   useAdaptiveSync=False,
                                   adsValData=ds_val,
@@ -144,7 +147,7 @@ if __name__ == "__main__":
     torch.autograd.set_detect_anomaly(True)
     print('========3========')
     swarmCallback.logger.setLevel(logging.DEBUG)
-    swarmCallback.on_train_begin()  # !
+    #swarmCallback.on_train_begin()  # !
     print('========4========')
     for epoch in range(max_expochs):
         print('---------epoch: ', epoch, '---------')
@@ -154,7 +157,7 @@ if __name__ == "__main__":
             # precision=16,
             # gradient_clip_val=0.5,
             default_root_dir=str(path_run_dir),
-            callbacks=[checkpointing, early_stopping],
+            callbacks=[checkpointing, early_stopping, swarmCallback],
             enable_checkpointing=True,
             check_val_every_n_epoch=1,
             log_every_n_steps=log_every_n_steps,
@@ -165,9 +168,9 @@ if __name__ == "__main__":
             logger=TensorBoardLogger(save_dir=path_run_dir)
         )
         trainer.fit(model, datamodule=dm)
-
+        #swarmCallback.on_epoch_end()
     # ---------------- Execute Training ----------------
-    swarmCallback.on_train_end()  # !
+    #swarmCallback.on_train_end()  # !
     print('========5========')
 
     # ------------- Save path to best model -------------
