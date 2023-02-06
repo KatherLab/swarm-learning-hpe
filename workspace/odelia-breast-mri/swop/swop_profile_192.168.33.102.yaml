@@ -55,3 +55,4 @@ nodes:
       usrenvvars: null
       usrcontaineropts:
         - gpus: "device=all"
+        - shm-size : "16G"
