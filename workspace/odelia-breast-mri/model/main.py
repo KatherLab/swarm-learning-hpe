@@ -104,7 +104,7 @@ if __name__ == "__main__":
         ds_train=ds_train,
         ds_val=ds_val,
         ds_test=ds_test,
-        batch_size=1,
+        batch_size=4,
         # num_workers=0,
         # pin_memory=True,
     )
@@ -141,6 +141,7 @@ if __name__ == "__main__":
                                   adsValData=ds_val,
                                   adsValBatchSize=2,
                                   model=model)
+    torch.autograd.set_detect_anomaly(True)
     print('========3========')
     swarmCallback.logger.setLevel(logging.DEBUG)
     swarmCallback.on_train_begin()  # !
