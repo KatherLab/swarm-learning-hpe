@@ -64,17 +64,17 @@ class User_swarm_callback(Callback):
     def __init__(self, swarmCallback):
         self.swarmCallback = swarmCallback
 
-    def on_train_start(self, trainer, pl_module):
-        self.swarmCallback.on_train_begin()
+    #def on_train_start(self, trainer, pl_module):
+    #    self.swarmCallback.on_train_begin()
 
     def on_train_batch_end(self, trainer, pl_module, outputs, batch, batch_idx):
         self.swarmCallback.on_batch_end()
 
-    def on_train_epoch_end(self, trainer, pl_module):
-        self.swarmCallback.on_epoch_end(epoch)
+    #def on_train_epoch_end(self, trainer, pl_module):
+    #    self.swarmCallback.on_epoch_end(epoch)
 
-    def on_train_end(self, trainer, pl_module):
-        self.swarmCallback.on_train_end()
+    #def on_train_end(self, trainer, pl_module):
+    #    self.swarmCallback.on_train_end()
 
 max_expochs = 100
 if __name__ == "__main__":
@@ -122,7 +122,7 @@ if __name__ == "__main__":
         ds_train=ds_train,
         ds_val=ds_val,
         ds_test=ds_test,
-        batch_size=4,
+        batch_size=2,
         # num_workers=0,
         # pin_memory=True,
     )
@@ -156,7 +156,7 @@ if __name__ == "__main__":
 
     device = torch.device("cuda" if useCuda else "cpu")
     model = model.to(torch.device(device))
-    swarmCallback = SwarmCallback(syncFrequency=64,
+    swarmCallback = SwarmCallback(syncFrequency=4,
                                   minPeers=2,
                                   useAdaptiveSync=False,
                                   adsValData=ds_val,
@@ -165,7 +165,7 @@ if __name__ == "__main__":
     torch.autograd.set_detect_anomaly(True)
     print('========3========')
     swarmCallback.logger.setLevel(logging.DEBUG)
-    #swarmCallback.on_train_begin()  # !
+    swarmCallback.on_train_begin()  # !
     print('========4========')
     for epoch in range(max_expochs):
         print('---------epoch: ', epoch, '---------')
@@ -186,9 +186,9 @@ if __name__ == "__main__":
             logger=TensorBoardLogger(save_dir=path_run_dir)
         )
         trainer.fit(model, datamodule=dm)
-        #swarmCallback.on_epoch_end()
+        swarmCallback.on_epoch_end()
     # ---------------- Execute Training ----------------
-    #swarmCallback.on_train_end()  # !
+    swarmCallback.on_train_end()  # !
     print('========5========')
 
     # ------------- Save path to best model -------------
