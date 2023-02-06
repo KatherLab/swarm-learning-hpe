@@ -23,7 +23,7 @@ Body:
     - '  torchio torchaudio monai pytorch-lightning tensorboard scikit-learn matplotlib seaborn'
     - ' '
     - RUN mkdir -p /tmp/hpe-swarmcli-pkg
-    #- COPY swarmlearning-client-py3-none-manylinux_2_24_x86_64.whl /tmp/hpe-swarmcli-pkg/swarmlearning-client-py3-none-manylinux_2_24_x86_64.whl
+    - COPY swarmlearning-client-py3-none-manylinux_2_24_x86_64.whl /tmp/hpe-swarmcli-pkg/swarmlearning-client-py3-none-manylinux_2_24_x86_64.whl
     #- COPY environment.yaml /tmp/hpe-swarmcli-pkg/environment.yaml
     #- COPY setup.py /tmp/hpe-swarmcli-pkg/setup.py
     #- RUN conda env update --file /tmp/hpe-swarmcli-pkg/environment.yaml --prune
