@@ -73,7 +73,7 @@ class User_swarm_callback(Callback):
         self.swarmCallback.on_batch_end()
 
     def on_train_epoch_end(self, trainer, pl_module):
-        self.swarmCallback.on_epoch_end(epoch)
+        self.swarmCallback.on_epoch_end()
 
     #def on_train_end(self, trainer, pl_module):
     #    self.swarmCallback.on_train_end()
@@ -160,7 +160,7 @@ if __name__ == "__main__":
 
     device = torch.device("cuda" if useCuda else "cpu")
     model = model.to(torch.device(device))
-    swarmCallback = SwarmCallback(syncFrequency=512,
+    swarmCallback = SwarmCallback(syncFrequency=1024,
                                   minPeers=2,
                                   useAdaptiveSync=False,
                                   adsValData=ds_val,
