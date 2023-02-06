@@ -147,7 +147,7 @@ if __name__ == "__main__":
     torch.autograd.set_detect_anomaly(True)
     print('========3========')
     swarmCallback.logger.setLevel(logging.DEBUG)
-    #swarmCallback.on_train_begin()  # !
+    swarmCallback.on_train_begin()  # !
     print('========4========')
     for epoch in range(max_expochs):
         print('---------epoch: ', epoch, '---------')
@@ -157,7 +157,7 @@ if __name__ == "__main__":
             # precision=16,
             # gradient_clip_val=0.5,
             default_root_dir=str(path_run_dir),
-            callbacks=[checkpointing, early_stopping, swarmCallback],
+            callbacks=[checkpointing, early_stopping],
             enable_checkpointing=True,
             check_val_every_n_epoch=1,
             log_every_n_steps=log_every_n_steps,
@@ -168,9 +168,9 @@ if __name__ == "__main__":
             logger=TensorBoardLogger(save_dir=path_run_dir)
         )
         trainer.fit(model, datamodule=dm)
-        #swarmCallback.on_epoch_end()
+        swarmCallback.on_epoch_end()
     # ---------------- Execute Training ----------------
-    #swarmCallback.on_train_end()  # !
+    swarmCallback.on_train_end()  # !
     print('========5========')
 
     # ------------- Save path to best model -------------
