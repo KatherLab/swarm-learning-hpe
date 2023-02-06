@@ -34,12 +34,14 @@ class ResNet(BasicClassifier):
             layers=[3, 4, 6, 3],
             block_inplanes=[64, 128, 256, 512],
             feed_forward=True,
-            loss=torch.nn.CrossEntropyLoss,
+            loss=torch.nn.BCEWithLogitsLoss,
             loss_kwargs={},
             optimizer=torch.optim.AdamW,
-            optimizer_kwargs={},
+            optimizer_kwargs={'lr': 1e-4},
             lr_scheduler=None,
-            lr_scheduler_kwargs={}
+            lr_scheduler_kwargs={},
+            aucroc_kwargs={"task": "binary"},
+            acc_kwargs={"task": "binary"}
     ):
         super().__init__(in_ch, out_ch, spatial_dims, loss, loss_kwargs, optimizer, optimizer_kwargs, lr_scheduler,
                          lr_scheduler_kwargs)
@@ -120,35 +122,35 @@ if __name__ == "__main__":
 
 
     dm = DataModule(
-        ds_train=ds_train,
-        ds_val=ds_val,
-        ds_test=ds_test,
-        batch_size=2,
+        ds_train = ds_train,
+        ds_val = ds_val,
+        ds_test = ds_test,
+        batch_size=1,
         # num_workers=0,
-        # pin_memory=True,
+        pin_memory=True,
     )
 
     print('========1========')
 
     # ------------ Initialize Model ------------
-    model = ResNet(in_ch=2, out_ch=2, spatial_dims=3)
+    model = ResNet(in_ch=1, out_ch=1, spatial_dims=3)
 
-    print('========2========')
+
     # -------------- Training Initialization ---------------
-    to_monitor = "val/loss"
-    min_max = "min"
-    log_every_n_steps = 10
-
+    to_monitor = "val/AUC_ROC"
+    min_max = "max"
+    log_every_n_steps = 1
+    print('========2========')
     early_stopping = EarlyStopping(
         monitor=to_monitor,
         min_delta=0.0,  # minimum change in the monitored quantity to qualify as an improvement
-        patience=30,  # number of checks with no improvement
+        patience=5,  # number of checks with no improvement
         mode=min_max
     )
     checkpointing = ModelCheckpoint(
         dirpath=str(path_run_dir),  # dirpath
         monitor=to_monitor,
-        every_n_train_steps=log_every_n_steps,
+        #every_n_train_steps=log_every_n_steps,
         save_last=True,
         save_top_k=1,
         mode=min_max,
@@ -173,12 +175,13 @@ if __name__ == "__main__":
         trainer = Trainer(
             accelerator=accelerator,
             # devices=[0],
-            # precision=16,
+            precision=16,
             # gradient_clip_val=0.5,
             default_root_dir=str(path_run_dir),
             callbacks=[checkpointing, early_stopping, User_swarm_callback(swarmCallback)],
             enable_checkpointing=True,
             check_val_every_n_epoch=1,
+            min_epochs=20,
             log_every_n_steps=log_every_n_steps,
             auto_lr_find=False,
             # limit_val_batches=0, # 0 = disable validation - Note: Early Stopping no longer available

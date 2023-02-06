@@ -59,8 +59,8 @@ class ZNormalization(tio.ZNormalization):
   
 
     def _znorm(self, image_data, mask, image_name, image_path):
-        cutoff = torch.quantile(image_data, torch.tensor(self.percentiles)/100.0)
-        torch.clamp(image_data, *cutoff.tolist(), out=image_data)
+        cutoff = torch.quantile(image_data.masked_select(mask).float(), torch.tensor(self.percentiles)/100.0)
+        torch.clamp(image_data, *cutoff.to(image_data.dtype).tolist(), out=image_data)
 
         standardized = self.znorm(image_data, mask)
         if standardized is None:
