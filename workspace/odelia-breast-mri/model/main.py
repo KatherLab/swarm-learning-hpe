@@ -37,7 +37,7 @@ class ResNet(BasicClassifier):
             loss=torch.nn.BCEWithLogitsLoss,
             loss_kwargs={},
             optimizer=torch.optim.AdamW,
-            optimizer_kwargs={'lr': 1e-5},
+            optimizer_kwargs={'lr': 1e-4},
             lr_scheduler=None,
             lr_scheduler_kwargs={},
             aucroc_kwargs={"task": "binary"},
@@ -160,7 +160,7 @@ if __name__ == "__main__":
 
     device = torch.device("cuda" if useCuda else "cpu")
     model = model.to(torch.device(device))
-    swarmCallback = SwarmCallback(syncFrequency=1024,
+    swarmCallback = SwarmCallback(syncFrequency=512,
                                   minPeers=2,
                                   useAdaptiveSync=False,
                                   adsValData=ds_val,
