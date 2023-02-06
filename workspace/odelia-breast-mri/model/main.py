@@ -186,7 +186,7 @@ if __name__ == "__main__":
         log_every_n_steps=log_every_n_steps,
         auto_lr_find=False,
         # limit_val_batches=0, # 0 = disable validation - Note: Early Stopping no longer available
-        max_epochs=50,
+        max_epochs=200,
         num_sanity_val_steps=2,
         logger=TensorBoardLogger(save_dir=path_run_dir)
     )
