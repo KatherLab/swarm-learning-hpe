@@ -72,8 +72,8 @@ class User_swarm_callback(Callback):
     def on_train_batch_end(self, trainer, pl_module, outputs, batch, batch_idx):
         self.swarmCallback.on_batch_end()
 
-    #def on_train_epoch_end(self, trainer, pl_module):
-    #    self.swarmCallback.on_epoch_end(epoch)
+    def on_train_epoch_end(self, trainer, pl_module):
+        self.swarmCallback.on_epoch_end(epoch)
 
     #def on_train_end(self, trainer, pl_module):
     #    self.swarmCallback.on_train_end()
@@ -170,27 +170,27 @@ if __name__ == "__main__":
     swarmCallback.logger.setLevel(logging.DEBUG)
     swarmCallback.on_train_begin()  # !
     print('========4========')
-    for epoch in range(max_expochs):
-        print('---------epoch: ', epoch, '---------')
-        trainer = Trainer(
-            accelerator=accelerator,
-            # devices=[0],
-            precision=16,
-            # gradient_clip_val=0.5,
-            default_root_dir=str(path_run_dir),
-            callbacks=[checkpointing, early_stopping, User_swarm_callback(swarmCallback)],
-            enable_checkpointing=True,
-            check_val_every_n_epoch=1,
-            min_epochs=20,
-            log_every_n_steps=log_every_n_steps,
-            auto_lr_find=False,
-            # limit_val_batches=0, # 0 = disable validation - Note: Early Stopping no longer available
-            max_epochs=1,
-            num_sanity_val_steps=2,
-            logger=TensorBoardLogger(save_dir=path_run_dir)
-        )
-        trainer.fit(model, datamodule=dm)
-        swarmCallback.on_epoch_end()
+    #for epoch in range(max_expochs):
+        #print('---------epoch: ', epoch, '---------')
+    trainer = Trainer(
+        accelerator=accelerator,
+        # devices=[0],
+        precision=16,
+        # gradient_clip_val=0.5,
+        default_root_dir=str(path_run_dir),
+        callbacks=[checkpointing, early_stopping, User_swarm_callback(swarmCallback)],
+        enable_checkpointing=True,
+        check_val_every_n_epoch=1,
+        min_epochs=20,
+        log_every_n_steps=log_every_n_steps,
+        auto_lr_find=False,
+        # limit_val_batches=0, # 0 = disable validation - Note: Early Stopping no longer available
+        max_epochs=50,
+        num_sanity_val_steps=2,
+        logger=TensorBoardLogger(save_dir=path_run_dir)
+    )
+    trainer.fit(model, datamodule=dm)
+        #swarmCallback.on_epoch_end()
     # ---------------- Execute Training ----------------
     swarmCallback.on_train_end()  # !
     print('========5========')
