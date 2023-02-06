@@ -152,7 +152,8 @@ if __name__ == "__main__":
         monitor=to_monitor,
         #every_n_train_steps=log_every_n_steps,
         save_last=True,
-        save_top_k=1,
+        save_top_k=10,
+        filename='sample-mnist-epoch{epoch:02d}-val_AUC_ROC{val/AUC_ROC:.2f}',
         mode=min_max,
     )
     useCuda = torch.cuda.is_available()
