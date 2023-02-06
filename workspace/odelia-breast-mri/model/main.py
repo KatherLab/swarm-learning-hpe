@@ -144,7 +144,7 @@ if __name__ == "__main__":
     early_stopping = EarlyStopping(
         monitor=to_monitor,
         min_delta=0.0,  # minimum change in the monitored quantity to qualify as an improvement
-        patience=5,  # number of checks with no improvement
+        patience=10,  # number of checks with no improvement
         mode=min_max
     )
     checkpointing = ModelCheckpoint(
