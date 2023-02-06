@@ -137,7 +137,7 @@ if __name__ == "__main__":
     useCuda = torch.cuda.is_available()
 
     device = torch.device("cuda" if useCuda else "cpu")
-    model = model.to(torch.device("device"))
+    model = model.to(torch.device(device))
     swarmCallback = SwarmCallback(syncFrequency=64,
                                   minPeers=2,
                                   useAdaptiveSync=False,
