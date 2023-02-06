@@ -37,7 +37,7 @@ class ResNet(BasicClassifier):
             loss=torch.nn.BCEWithLogitsLoss,
             loss_kwargs={},
             optimizer=torch.optim.AdamW,
-            optimizer_kwargs={'lr': 1e-4},
+            optimizer_kwargs={'lr': 1e-5},
             lr_scheduler=None,
             lr_scheduler_kwargs={},
             aucroc_kwargs={"task": "binary"},
@@ -153,7 +153,7 @@ if __name__ == "__main__":
         #every_n_train_steps=log_every_n_steps,
         save_last=True,
         save_top_k=10,
-        filename='sample-mnist-epoch{epoch:02d}-val_AUC_ROC{val/AUC_ROC:.2f}',
+        filename='odelia-epoch{epoch:02d}-val_AUC_ROC{val/AUC_ROC:.2f}',
         mode=min_max,
     )
     useCuda = torch.cuda.is_available()
