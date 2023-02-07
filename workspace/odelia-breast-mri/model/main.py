@@ -167,7 +167,7 @@ class User_swarm_callback(Callback):
     #def on_train_end(self, trainer, pl_module):
     #    self.swarmCallback.on_train_end()
 
-max_expochs = 100
+max_expochs = 200
 if __name__ == "__main__":
     # ------------ Settings/Defaults ----------------
     task_data_name = '40-30-10-20'
@@ -234,7 +234,7 @@ if __name__ == "__main__":
     early_stopping = EarlyStopping(
         monitor=to_monitor,
         min_delta=0.0,  # minimum change in the monitored quantity to qualify as an improvement
-        patience=10,  # number of checks with no improvement
+        #patience=10,  # number of checks with no improvement
         mode=min_max
     )
     checkpointing = ModelCheckpoint(
@@ -272,7 +272,7 @@ if __name__ == "__main__":
         callbacks=[checkpointing, early_stopping, User_swarm_callback(swarmCallback)],
         enable_checkpointing=True,
         check_val_every_n_epoch=1,
-        min_epochs=30,
+        min_epochs=50,
         log_every_n_steps=log_every_n_steps,
         auto_lr_find=False,
         # limit_val_batches=0, # 0 = disable validation - Note: Early Stopping no longer available
