@@ -86,7 +86,7 @@ if __name__ == "__main__":
     ds = DUKE_Dataset3D(
         flip=False,
         #path_root="/tmp/test"
-        path_root=os.path.join(dataDir, task_data_name,'train')
+        path_root=os.path.join(dataDir, task_data_name,'train_val')
         # path_root = '/mnt/sda1/swarm-learning/radiology-dataset/odelia_dataset_unilateral_256x256x32/'
     )
     #print("++++++++++")
