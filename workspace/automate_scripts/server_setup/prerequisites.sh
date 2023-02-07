@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eux
 
-sudo snap install docker
+#sudo snap install docker
 sudo snap install curl
 
 echo Install Docker
