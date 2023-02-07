@@ -31,14 +31,16 @@ then
    echo "This host a sentinal node and will be used for initiating the cluster"
    cp workspace/"$workspace"/swci/taskdefs/swarm_task_pre.yaml workspace/"$workspace"/swci/taskdefs/swarm_task.yaml
    cp workspace/"$workspace"/swci/taskdefs/user_env_build_task_pre.yaml workspace/"$workspace"/swci/taskdefs/user_env_build_task.yaml
+   cp workspace/"$workspace"/swci/taskdefs/swarm_task_local_compare_pre.yaml workspace/"$workspace"/swci/taskdefs/swarm_task_local_compare.yaml
    cp workspace/"$workspace"/swci/swci-init_pre workspace/"$workspace"/swci/swci-init
-   sed -i "s+<TIME_STAMP>+$time_stamp+g" workspace/"$workspace"/swci/taskdefs/swarm_task.yaml workspace/"$workspace"/swci/taskdefs/user_env_build_task.yaml workspace/"$workspace"/swci/swci-init
+   sed -i "s+<TIME_STAMP>+$time_stamp+g" workspace/"$workspace"/swci/taskdefs/swarm_task.yaml workspace/"$workspace"/swci/taskdefs/user_env_build_task.yaml workspace/"$workspace"/swci/taskdefs/swarm_task_local_compare.yaml workspace/"$workspace"/swci/swci-init
    sudo $script_dir/../../swarm_learning_scripts/run-swci -it --rm --name=swci"$ip_addr" \
   --network=host-"$ip_addr"-net --usr-dir=workspace/"$workspace"/swci \
   --init-script-name=swci-init --key=workspace/"$workspace"/cert/swci-"$ip_addr"-key.pem \
   --cert=workspace/"$workspace"/cert/swci-"$ip_addr"-cert.pem \
   --capath=workspace/"$workspace"/cert/ca/capath \
-  -e http_proxy= -e https_proxy= --apls-ip="$sentinal" --apls-port 5000
+  -e http_proxy= -e https_proxy= --apls-ip="$sentinal" --apls-port 5000 -e SWCI_TASK_MAX_WAIT_TIME=500
+
 else
    echo "This host is not a sentinal node and will not be used for initiating the cluster, only as swarm network node"
    exit 1
