@@ -35,34 +35,6 @@ import torch.nn.functional as F
 from swarmlearning.pyt import SwarmCallback
 from pytorch_lightning.callbacks import Callback
 #from main_predict import predict
-class ResNet(BasicClassifier):
-    def __init__(
-            self,
-            in_ch,
-            out_ch,
-            spatial_dims=3,
-            block='basic',
-            layers=[3, 4, 6, 3],
-            block_inplanes=[64, 128, 256, 512],
-            feed_forward=True,
-            loss=torch.nn.BCEWithLogitsLoss,
-            loss_kwargs={},
-            optimizer=torch.optim.AdamW,
-            optimizer_kwargs={'lr': 1e-4},
-            lr_scheduler=None,
-            lr_scheduler_kwargs={},
-            aucroc_kwargs={"task": "binary"},
-            acc_kwargs={"task": "binary"}
-    ):
-        super().__init__(in_ch, out_ch, spatial_dims, loss, loss_kwargs, optimizer, optimizer_kwargs, lr_scheduler,
-                         lr_scheduler_kwargs)
-        self.model = nets.ResNet(block, layers, block_inplanes, spatial_dims, in_ch, 7, 1, False, 'B', 1.0, out_ch,
-                                 feed_forward, True)
-
-    def forward(self, x_in, **kwargs):
-        pred_hor = self.model(x_in)
-        return pred_hor
-
 def predict(model_dir, test_data_dir):
     # ------------ Settings/Defaults ----------------
     # path_run = Path.cwd() / 'runs/2023_02_06_175325'
@@ -82,7 +54,7 @@ def predict(model_dir, test_data_dir):
 
     # ------------ Load Data ----------------
     ds = DUKE_Dataset3D(
-        flip=True,
+        flip=False,
         path_root=test_data_dir
     )
 
@@ -151,6 +123,34 @@ def predict(model_dir, test_data_dir):
     logger.info("Sensitivity {:.2f}".format(sens))
     logger.info("Specificity {:.2f}".format(spec))
 
+class ResNet(BasicClassifier):
+    def __init__(
+            self,
+            in_ch,
+            out_ch,
+            spatial_dims=3,
+            block='basic',
+            layers=[3, 4, 6, 3],
+            block_inplanes=[64, 128, 256, 512],
+            feed_forward=True,
+            loss=torch.nn.BCEWithLogitsLoss,
+            loss_kwargs={},
+            optimizer=torch.optim.AdamW,
+            optimizer_kwargs={'lr': 1e-4},
+            lr_scheduler=None,
+            lr_scheduler_kwargs={},
+            aucroc_kwargs={"task": "binary"},
+            acc_kwargs={"task": "binary"}
+    ):
+        super().__init__(in_ch, out_ch, spatial_dims, loss, loss_kwargs, optimizer, optimizer_kwargs, lr_scheduler,
+                         lr_scheduler_kwargs)
+        self.model = nets.ResNet(block, layers, block_inplanes, spatial_dims, in_ch, 7, 1, False, 'B', 1.0, out_ch,
+                                 feed_forward, True)
+
+    def forward(self, x_in, **kwargs):
+        pred_hor = self.model(x_in)
+        return pred_hor
+
 class User_swarm_callback(Callback):
     def __init__(self, swarmCallback):
         self.swarmCallback = swarmCallback
@@ -158,11 +158,11 @@ class User_swarm_callback(Callback):
     #def on_train_start(self, trainer, pl_module):
     #    self.swarmCallback.on_train_begin()
 
-    def on_train_batch_end(self, trainer, pl_module, outputs, batch, batch_idx):
-        self.swarmCallback.on_batch_end()
+    #def on_train_batch_end(self, trainer, pl_module, outputs, batch, batch_idx):
+        #self.swarmCallback.on_batch_end()
 
-    def on_train_epoch_end(self, trainer, pl_module):
-        self.swarmCallback.on_epoch_end()
+    #def on_train_epoch_end(self, trainer, pl_module):
+        #self.swarmCallback.on_epoch_end()
 
     #def on_train_end(self, trainer, pl_module):
     #    self.swarmCallback.on_train_end()
@@ -187,7 +187,7 @@ if __name__ == "__main__":
     #print current directory
     print("Current Directory " , os.getcwd())
     ds = DUKE_Dataset3D(
-        flip=False,
+        flip=True,
         #path_root="/tmp/test"
         path_root=os.path.join(dataDir, task_data_name,'train_val')
         # path_root = '/mnt/sda1/swarm-learning/radiology-dataset/odelia_dataset_unilateral_256x256x32/'
@@ -272,7 +272,7 @@ if __name__ == "__main__":
         callbacks=[checkpointing, early_stopping, User_swarm_callback(swarmCallback)],
         enable_checkpointing=True,
         check_val_every_n_epoch=1,
-        min_epochs=50,
+        min_epochs=30,
         log_every_n_steps=log_every_n_steps,
         auto_lr_find=False,
         # limit_val_batches=0, # 0 = disable validation - Note: Early Stopping no longer available
