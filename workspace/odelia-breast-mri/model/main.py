@@ -250,7 +250,7 @@ if __name__ == "__main__":
 
     device = torch.device("cuda" if useCuda else "cpu")
     model = model.to(torch.device(device))
-    swarmCallback = SwarmCallback(syncFrequency=2048,
+    swarmCallback = SwarmCallback(syncFrequency=1024,
                                   minPeers=3,
                                   useAdaptiveSync=False,
                                   adsValData=ds_val,
@@ -269,7 +269,7 @@ if __name__ == "__main__":
         precision=16,
         # gradient_clip_val=0.5,
         default_root_dir=str(path_run_dir),
-        callbacks=[checkpointing, early_stopping, User_swarm_callback(swarmCallback)],
+        callbacks=[checkpointing, User_swarm_callback(swarmCallback)],#early_stopping
         enable_checkpointing=True,
         check_val_every_n_epoch=1,
         min_epochs=50,
