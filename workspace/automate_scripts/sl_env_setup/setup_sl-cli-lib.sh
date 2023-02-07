@@ -33,10 +33,10 @@ if sudo docker volume list | grep -q 'sl-cli-lib'; then sudo docker volume rm -f
 sudo docker volume create sl-cli-lib
 sudo docker container create --name helper -v sl-cli-lib:/data hello-world
 sudo docker cp -L $script_dir/swarmlearning-client-py3-none-manylinux_2_24_x86_64.whl helper:/data
-sudo docker cp -L $script_dir/../../$workspace/env_config/environment.yaml helper:/data
-sudo docker cp -L $script_dir/../../$workspace/env_config/setup.py helper:/data
-sudo docker cp -L $script_dir/../../$workspace/user-odelia-breast-mri-192.168.33.102/data-and-scratch/app-data/host2-partial-data helper:/data
-sudo docker cp -L $script_dir/../../$workspace/user-odelia-breast-mri-192.168.33.102/data-and-scratch/app-data/Clinical_and_Other_Features.xlsx helper:/data
+#sudo docker cp -L $script_dir/../../$workspace/env_config/environment.yaml helper:/data
+#sudo docker cp -L $script_dir/../../$workspace/env_config/setup.py helper:/data
+#sudo docker cp -L $script_dir/../../$workspace/user-odelia-breast-mri-192.168.33.102/data-and-scratch/app-data/host2-partial-data helper:/data
+#sudo docker cp -L $script_dir/../../$workspace/user-odelia-breast-mri-192.168.33.102/data-and-scratch/app-data/Clinical_and_Other_Features.xlsx helper:/data
 sudo docker rm helper
 
 if sudo docker network list | grep -q host-"$ip_addr"-net; then sudo docker network rm host-"$ip_addr"-net; fi
