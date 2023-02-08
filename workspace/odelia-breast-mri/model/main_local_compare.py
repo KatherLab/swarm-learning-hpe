@@ -250,16 +250,10 @@ if __name__ == "__main__":
 
     device = torch.device("cuda" if useCuda else "cpu")
     model = model.to(torch.device(device))
-    swarmCallback = SwarmCallback(syncFrequency=2048,
-                                  minPeers=3,
-                                  useAdaptiveSync=False,
-                                  adsValData=ds_val,
-                                  adsValBatchSize=2,
-                                  model=model)
+
     torch.autograd.set_detect_anomaly(True)
     #print('========3========')
-    swarmCallback.logger.setLevel(logging.DEBUG)
-    swarmCallback.on_train_begin()  # !
+
     #print('========4========')
     #for epoch in range(max_expochs):
         #print('---------epoch: ', epoch, '---------')
@@ -269,10 +263,10 @@ if __name__ == "__main__":
         precision=16,
         # gradient_clip_val=0.5,
         default_root_dir=str(path_run_dir),
-        callbacks=[checkpointing, User_swarm_callback(swarmCallback)],#early_stopping
+        callbacks=[checkpointing],#early_stopping
         enable_checkpointing=True,
         check_val_every_n_epoch=1,
-        min_epochs=30,
+        min_epochs=50,
         log_every_n_steps=log_every_n_steps,
         auto_lr_find=False,
         # limit_val_batches=0, # 0 = disable validation - Note: Early Stopping no longer available
@@ -281,9 +275,7 @@ if __name__ == "__main__":
         logger=TensorBoardLogger(save_dir=path_run_dir)
     )
     trainer.fit(model, datamodule=dm)
-        #swarmCallback.on_epoch_end()
     # ---------------- Execute Training ----------------
-    swarmCallback.on_train_end()  # !
     #print('========5========')
 
     # ------------- Save path to best model -------------
