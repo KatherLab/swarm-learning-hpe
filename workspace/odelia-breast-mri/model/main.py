@@ -167,7 +167,7 @@ class User_swarm_callback(Callback):
     #def on_train_end(self, trainer, pl_module):
     #    self.swarmCallback.on_train_end()
 
-max_expochs = 200
+max_expochs = 10000
 if __name__ == "__main__":
     # ------------ Settings/Defaults ----------------
     task_data_name = '40-30-10-20'
@@ -250,7 +250,7 @@ if __name__ == "__main__":
 
     device = torch.device("cuda" if useCuda else "cpu")
     model = model.to(torch.device(device))
-    swarmCallback = SwarmCallback(syncFrequency=128,
+    swarmCallback = SwarmCallback(syncFrequency=512,
                                   minPeers=3,
                                   useAdaptiveSync=False,
                                   adsValData=ds_val,
