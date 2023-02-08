@@ -187,7 +187,7 @@ if __name__ == "__main__":
     #print current directory
     print("Current Directory " , os.getcwd())
     ds = DUKE_Dataset3D(
-        flip=False,
+        flip=True,
         #path_root="/tmp/test"
         path_root=os.path.join(dataDir, task_data_name,'train_val')
         # path_root = '/mnt/sda1/swarm-learning/radiology-dataset/odelia_dataset_unilateral_256x256x32/'
@@ -250,7 +250,7 @@ if __name__ == "__main__":
 
     device = torch.device("cuda" if useCuda else "cpu")
     model = model.to(torch.device(device))
-    swarmCallback = SwarmCallback(syncFrequency=1024,
+    swarmCallback = SwarmCallback(syncFrequency=128,
                                   minPeers=3,
                                   useAdaptiveSync=False,
                                   adsValData=ds_val,
