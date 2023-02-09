@@ -5,14 +5,14 @@ resourcemgr:
   mgrtype: DOCKER
   accessinfo:
     accesstype: FROMENV
-network: host-192.168.33.102-net
+network: host-<HOST-IPADDRESS>-net
 apls:
   locator:
-    host: 192.168.33.102
+    host: <SN-IPADDRESS>
     port: ~
 apisrv:
   locator:
-    host: 192.168.33.102
+    host: <HOST-IPADDRESS>
     port: ~
 envvars:
   - SL_LOG_LEVEL: INFO
@@ -29,27 +29,27 @@ nodes:
         - attribute:
             aType: KEY
             mType: BIND
-            src: "/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/cert/sl-192.168.33.102-key.pem"
-            tgt: "/swarm-cert/sl-192.168.33.102-key.pem"
+            src: "/opt/hpe/swarm-learning-hpe/workspace/<MODULE-NAME>/cert/sl-<HOST-IPADDRESS>-key.pem"
+            tgt: "/swarm-cert/sl-<HOST-IPADDRESS>-key.pem"
             subPath: null
         - attribute:
             aType: CERT
             mType: BIND
-            src: "/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/cert/sl-192.168.33.102-cert.pem"
-            tgt: "/swarm-cert/sl-192.168.33.102-cert.pem"
+            src: "/opt/hpe/swarm-learning-hpe/workspace/<MODULE-NAME>/cert/sl-<HOST-IPADDRESS>-cert.pem"
+            tgt: "/swarm-cert/sl-<HOST-IPADDRESS>-cert.pem"
             subPath: null
         - attribute:
             aType: CAPATH
             mType: BIND
-            src: "/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/cert/ca/capath"
+            src: "/opt/hpe/swarm-learning-hpe/workspace/<MODULE-NAME>/cert/ca/capath"
             tgt: "/swarm-cert/capath"
             subPath: null
-      slhostname: sl192.168.33.102
-      slhostip: 192.168.33.102
+      slhostname: sl<HOST-IPADDRESS>
+      slhostip: <HOST-IPADDRESS>
       slport: 16000
-      usrhostname: user-odelia-breast-mri-192.168.33.102
+      usrhostname: user-<MODULE-NAME>-<HOST-IPADDRESS>
       privatedata:
-        src: "/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user-odelia-breast-mri-192.168.33.102/data-and-scratch"
+        src: "/opt/hpe/swarm-learning-hpe/workspace/<MODULE-NAME>/user/data-and-scratch"
         mType: BIND
       slenvvars: null
       usrenvvars: null
