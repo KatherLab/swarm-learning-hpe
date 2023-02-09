@@ -1,14 +1,10 @@
-######################################################################
-# (C)Copyright 2021,2022 Hewlett Packard Enterprise Development LP
-######################################################################
-
 # Assumption : SWOP is already running
 
 # SWCI context setup
 EXIT ON FAILURE
-wait for 192.168.33.102
-create context test-katherlab 192.168.33.102
-switch context test-katherlab
+wait for ip <SN-IPADDRESS>
+create context kathlab-task with ip <SN-IPADDRESS>
+switch context kathlab-task
 EXIT ON FAILURE OFF
 
 #Change to the directory where we are mounting the host
@@ -16,17 +12,17 @@ cd /platform/swarm/usr
 
 # Create and finalize build task
 EXIT ON FAILURE
-create task from taskdefs/user_env_pyt_build_task.yaml
-finalize task user_env_pyt_build_task
-get task info user_env_pyt_build_task
-get task body user_env_pyt_build_task
+create task from taskdefs/user_env_build_task.yaml
+finalize task user_env_build_task_<TIME_STAMP>
+get task info user_env_build_task_<TIME_STAMP>
+get task body user_env_build_task_<TIME_STAMP>
 list tasks
 EXIT ON FAILURE OFF
 
 # Assign build task to taskrunner
 EXIT ON FAILURE
 RESET TASKRUNNER defaulttaskbb.taskdb.sml.hpe
-ASSIGN TASK user_env_pyt_build_task TO defaulttaskbb.taskdb.sml.hpe WITH 2 PEERS
+ASSIGN TASK user_env_build_task_<TIME_STAMP> TO defaulttaskbb.taskdb.sml.hpe WITH <NUM-MIN_PEERS> PEERS
 WAIT FOR TASKRUNNER defaulttaskbb.taskdb.sml.hpe
 EXIT ON FAILURE OFF
 
@@ -34,20 +30,18 @@ EXIT ON FAILURE OFF
 
 # Create and finalize swarm run task
 EXIT ON FAILURE
-create task from taskdefs/swarm_katherlab_task.yaml
-finalize task swarm_katherlab_task
-get task info swarm_katherlab_task
-get task body swarm_katherlab_task
+create task from taskdefs/swarm_task.yaml
+finalize task swarm_task_<TIME_STAMP>
+get task info swarm_task_<TIME_STAMP>
+get task body swarm_task_<TIME_STAMP>
 list tasks
 EXIT ON FAILURE OFF
 
 # Assign run task
 EXIT ON FAILURE
 RESET TASKRUNNER defaulttaskbb.taskdb.sml.hpe
-ASSIGN TASK swarm_katherlab_task TO defaulttaskbb.taskdb.sml.hpe WITH 2 PEERS
-
+ASSIGN TASK swarm_task_<TIME_STAMP> TO defaulttaskbb.taskdb.sml.hpe WITH <NUM-MIN_PEERS> PEERS
 WAIT FOR TASKRUNNER defaulttaskbb.taskdb.sml.hpe
-
 # Grace period for ML container to save the model,
 # before the below reset command cleans up the ML and SL Containers.
 SLEEP 15
