@@ -1,0 +1,33 @@
+#!/usr/bin/env python3
+
+__author__ = "Jeff"
+__copyright__ = "Copyright 2023, Kather Lab"
+__license__ = "MIT"
+__version__ = "0.1.0"
+__maintainer__ = ["Jeff"]
+__email__ = "jiefu.zhu@tu-dresden.de"
+
+import os
+from datetime import datetime
+from pathlib import Path
+
+from .helpers import (
+    train_categorical_model_,
+    deploy_categorical_model_,
+    categorical_crossval_,
+)
+
+scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
+dataDir = os.getenv('DATA_DIR', '/platform/data/')
+current_time = datetime.now().strftime("%Y_%m_%d_%H%M%S")
+
+feature_dir_path = os.path.join(dataDir, 'features_odelia_sub_imagenet')
+out_dir = os.path.join(scratchDir, (str(current_time) + '_' + 'swarm_learning'))
+
+if __name__ == "__main__":
+    train_categorical_model_(
+    clini_table = Path(os.path.join(dataDir, 'clinical_table.csv')),
+    slide_csv = Path(os.path.join(dataDir, 'slide_table.csv')),
+    feature_dir = Path(feature_dir_path),
+    output_path = Path(out_dir),
+    target_label = "Malign")
