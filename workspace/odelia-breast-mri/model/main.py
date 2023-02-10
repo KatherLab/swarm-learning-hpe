@@ -167,16 +167,16 @@ class User_swarm_callback(Callback):
     #def on_train_end(self, trainer, pl_module):
     #    self.swarmCallback.on_train_end()
 
-max_expochs = 200
+max_expochs = 100
 if __name__ == "__main__":
     # ------------ Settings/Defaults ----------------
-    task_data_name = '40-30-10-20'
+    task_data_name = '25-25-25-25'
     scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')  # !
     dataDir = os.getenv('DATA_DIR', '/platform/data/')
     #print(os.getenv('DATA_DIR'))
     #print(f"Using {scratchDir} for training")
     current_time = datetime.now().strftime("%Y_%m_%d_%H%M%S")
-    path_run_dir = os.path.join(scratchDir, (str(current_time)+ '_' +task_data_name))  # !
+    path_run_dir = os.path.join(scratchDir, (str(current_time)+ '_' +task_data_name + 'swarm_learning'))  # !
     # path_run_dir = Path.cwd() / 'runs' / str(current_time)
     #path_run_dir.mkdir(parents=True, exist_ok=True)
     accelerator = 'gpu' if torch.cuda.is_available() else 'cpu'
@@ -242,7 +242,7 @@ if __name__ == "__main__":
         monitor=to_monitor,
         #every_n_train_steps=log_every_n_steps,
         save_last=True,
-        save_top_k=5,
+        save_top_k=2,
         #filename='odelia-epoch{epoch:02d}-val_AUC_ROC{val/AUC_ROC:.2f}',
         mode=min_max,
     )
