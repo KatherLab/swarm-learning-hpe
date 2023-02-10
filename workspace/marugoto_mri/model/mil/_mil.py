@@ -3,6 +3,10 @@ from typing import Any, Iterable, Optional, Sequence, Tuple, TypeVar
 from pathlib import Path
 import os
 
+from setuptools import logging
+from swarmlearning.pyt import SwarmCallback
+
+from fastai.callback.core import Callback
 from fastai.vision.all import (
     Learner,
     DataLoader,
@@ -30,7 +34,22 @@ __all__ = ["train", "deploy"]
 
 
 T = TypeVar("T")
+class User_swarm_callback(Callback):
+    def __init__(self, swarmCallback, **kwargs):
+        super().__init__(**kwargs)
+        self.swarmCallback = swarmCallback
 
+    #def on_train_start(self, trainer, pl_module):
+    #    self.swarmCallback.on_train_begin()
+
+    def on_train_batch_end(self, trainer, pl_module, outputs, batch, batch_idx):
+        self.swarmCallback.on_batch_end()
+
+    def on_train_epoch_end(self, trainer, pl_module):
+        self.swarmCallback.on_epoch_end()
+
+    #def on_train_end(self, trainer, pl_module):
+    #    self.swarmCallback.on_train_end()
 
 def train(
     *,
@@ -66,7 +85,7 @@ def train(
 
     # build dataloaders
     train_dl = DataLoader(
-        train_ds, batch_size=64, shuffle=True, num_workers=1, drop_last=True
+        train_ds, batch_size=32, shuffle=True, num_workers=1, drop_last=True
     )
     valid_dl = DataLoader(
         valid_ds, batch_size=1, shuffle=False, num_workers=os.cpu_count()
@@ -84,14 +103,26 @@ def train(
         list(map(weight.get, target_enc.categories_[0])), dtype=torch.float32
     )
     loss_func = nn.CrossEntropyLoss(weight=weight)
+    useCuda = torch.cuda.is_available()
 
+    device = torch.device("cuda" if useCuda else "cpu")
     dls = DataLoaders(train_dl, valid_dl)
+    model = model.to(torch.device(device))
+    swarmCallback = SwarmCallback(syncFrequency=1024,
+                                  minPeers=2,
+                                  useAdaptiveSync=False,
+                                  adsValData=valid_ds,
+                                  adsValBatchSize=2,
+                                  model=model)
+    swarmCallback.logger.setLevel(logging.DEBUG)
+    swarmCallback.on_train_begin()  # !
     learn = Learner(dls, model, loss_func=loss_func, metrics=[RocAuc()], path=path)
-
     cbs = [
         SaveModelCallback(fname=f"best_valid"),
         CSVLogger(),
+        User_swarm_callback(swarmCallback),
     ]
+    swarmCallback.on_train_end()  # !
 
     learn.fit_one_cycle(n_epoch=n_epoch, lr_max=1e-4, cbs=cbs)
 
