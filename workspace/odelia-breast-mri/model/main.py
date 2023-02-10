@@ -186,22 +186,19 @@ if __name__ == "__main__":
     #dataDir = os.getenv('DATA_DIR', '/tmp/test/host1-partial-data')  # !
     #print current directory
     print("Current Directory " , os.getcwd())
-    ds = DUKE_Dataset3D(
+    ds_train = DUKE_Dataset3D(
         flip=True,
-        #path_root="/tmp/test"
-        path_root=os.path.join(dataDir, task_data_name,'train_val')
-        # path_root = '/mnt/sda1/swarm-learning/radiology-dataset/odelia_dataset_unilateral_256x256x32/'
+        path_root=os.path.join(dataDir, task_data_name,'train')
+    )
+    ds_val = DUKE_Dataset3D(
+        flip=True,
+        path_root=os.path.join(dataDir, task_data_name,'val')
     )
     #print("++++++++++")
     #print('len(ds): ',len(ds))
     #print(ds[0])
-
-    # WARNING: Very simple split approach
-    train_size = int(0.80 * len(ds))
-    val_size = int(0.20* len(ds))
-    #test_size = len(ds) - train_size - val_size
-    ds_train = Subset(ds, list(range(train_size)))
-    ds_val = Subset(ds, list(range(train_size, train_size + val_size)))
+    train_size = int(len(ds_train))
+    val_size = int(len(ds_val))
     #ds_test = Subset(ds, list(range(train_size + val_size, len(ds))))
     print('train_size: ',train_size)
     print('val_size: ',val_size)
@@ -250,7 +247,7 @@ if __name__ == "__main__":
 
     device = torch.device("cuda" if useCuda else "cpu")
     model = model.to(torch.device(device))
-    swarmCallback = SwarmCallback(syncFrequency=512,
+    swarmCallback = SwarmCallback(syncFrequency=1024,
                                   minPeers=3,
                                   useAdaptiveSync=False,
                                   adsValData=ds_val,
