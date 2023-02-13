@@ -10,7 +10,7 @@ import pandas as pd
 import torch
 from torch.utils.data import Dataset
 
-from marugoto.data import EncodedDataset, MapDataset, SKLearnEncoder
+from common.data import EncodedDataset, MapDataset, SKLearnEncoder
 
 
 __all__ = ["BagDataset", "make_dataset", "get_cohort_df"]

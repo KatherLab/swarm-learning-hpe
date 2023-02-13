@@ -1,4 +1,4 @@
-Name: swarm_task
+Name: swarm_task_<TIME_STAMP>
 TaskType: RUN_SWARM
 Author: Jeff
 Prereq: user_env_build_task_<TIME_STAMP>

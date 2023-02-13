@@ -1,7 +1,7 @@
-Name: swarm_task_<TIME_STAMP>
+Name: swarm_task_20230213_103308
 TaskType: RUN_SWARM
 Author: Jeff
-Prereq: user_env_build_task_<TIME_STAMP>
+Prereq: user_env_build_task_20230213_103308
 Outcome: swarm_task
 Body:
   Command: model/main.py

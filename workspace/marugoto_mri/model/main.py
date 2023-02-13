@@ -11,7 +11,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-from .helpers import (
+from mil.helpers import (
     train_categorical_model_,
     deploy_categorical_model_,
     categorical_crossval_,
