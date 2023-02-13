@@ -58,7 +58,7 @@ def train(
     targets: Tuple[SKLearnEncoder, npt.NDArray],
     add_features: Iterable[Tuple[SKLearnEncoder, npt.NDArray]] = [],
     valid_idxs: npt.NDArray[np.int_],
-    n_epoch: int = 64,
+    n_epoch: int = 100,
     path: Optional[Path] = None,
 local_compare_flag = False
 ) -> Learner:
@@ -71,11 +71,12 @@ local_compare_flag = False
         valid_idxs:  Indices of the datasets to use for validation.
     """
     target_enc, targs = targets
+    batch_size = 8
     train_ds = make_dataset(
         bags=bags[~valid_idxs],  # type: ignore  # arrays cannot be used a slices yet
         targets=(target_enc, targs[~valid_idxs]),
         add_features=[(enc, vals[~valid_idxs]) for enc, vals in add_features],
-        bag_size=32,
+        bag_size=batch_size,
     )
 
 
@@ -120,7 +121,7 @@ local_compare_flag = False
 
         learn.fit_one_cycle(n_epoch=n_epoch, lr_max=1e-4, cbs=cbs)
     else:
-        swarmCallback = SwarmCallback(syncFrequency=64,
+        swarmCallback = SwarmCallback(syncFrequency=128,
                                       minPeers=3,
                                       useAdaptiveSync=False,
                                       adsValData=valid_ds,

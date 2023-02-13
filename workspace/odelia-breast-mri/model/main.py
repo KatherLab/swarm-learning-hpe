@@ -240,7 +240,7 @@ if __name__ == "__main__":
 
     device = torch.device("cuda" if useCuda else "cpu")
     model = model.to(torch.device(device))
-    swarmCallback = SwarmCallback(syncFrequency=2*int(len(ds_train)/batch_size),
+    swarmCallback = SwarmCallback(syncFrequency=512,
                                   minPeers=3,
                                   useAdaptiveSync=False,
                                   adsValData=ds_val,
