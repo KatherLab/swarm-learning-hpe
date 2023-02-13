@@ -41,5 +41,5 @@ if __name__ == "__main__":
     slide_csv = Path(os.path.join(dataDir, 'slide_table.csv')),
     feature_dir = Path(test_dir),
     output_path = Path(out_dir),
-    model_path= Path(os.path.join(out_dir, 'models')),
+    model_path= Path(os.path.join(out_dir, 'export.pkl')),
     target_label = "Malign")
