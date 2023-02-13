@@ -25,7 +25,7 @@ data_split = '40-30-10-20'
 
 feature_dir_path = os.path.join(dataDir, data_split, 'train_val')
 test_dir = os.path.join(dataDir, data_split, 'test')
-out_dir = os.path.join(scratchDir, (str(current_time) + '_' +data_split+'_' + 'swarm_learning'))
+out_dir = os.path.join(scratchDir, (str(current_time) + '_' +data_split+'_' + 'local_compare'))
 
 if __name__ == "__main__":
     train_categorical_model_(
