@@ -58,7 +58,7 @@ def train(
     targets: Tuple[SKLearnEncoder, npt.NDArray],
     add_features: Iterable[Tuple[SKLearnEncoder, npt.NDArray]] = [],
     valid_idxs: npt.NDArray[np.int_],
-    n_epoch: int = 100,
+    n_epoch: int = 50,
     path: Optional[Path] = None,
 local_compare_flag = False
 ) -> Learner:
