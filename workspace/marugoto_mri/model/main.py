@@ -10,7 +10,8 @@ __email__ = "jiefu.zhu@tu-dresden.de"
 import os
 from datetime import datetime
 from pathlib import Path
-
+from categorical import categorical_aggregated_
+from roc import plot_roc_curves_
 from mil.helpers import (
     train_categorical_model_,
     deploy_categorical_model_,
@@ -43,3 +44,7 @@ if __name__ == "__main__":
     output_path = Path(out_dir),
     model_path= Path(os.path.join(out_dir, 'export.pkl')),
     target_label = "Malign")
+
+    categorical_aggregated_(os.path.join(out_dir,'patient-preds.csv'), outpath = (out_dir), target_label = "Malign")
+
+    plot_roc_curves_(os.path.join(out_dir,'patient-preds.csv'), outpath = (out_dir), target_label = "Malign", true_label='1')
