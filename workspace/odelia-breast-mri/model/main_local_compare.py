@@ -170,7 +170,7 @@ class User_swarm_callback(Callback):
 max_expochs = 100
 if __name__ == "__main__":
     # ------------ Settings/Defaults ----------------
-    task_data_name = '40-30-10-20'
+    task_data_name = '25-25-25-25'
     scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')  # !
     dataDir = os.getenv('DATA_DIR', '/platform/data/')
     #print(os.getenv('DATA_DIR'))
@@ -186,16 +186,15 @@ if __name__ == "__main__":
     #dataDir = os.getenv('DATA_DIR', '/tmp/test/host1-partial-data')  # !
     #print current directory
     print("Current Directory " , os.getcwd())
-    ds_train = DUKE_Dataset3D(
+    ds = DUKE_Dataset3D(
         flip=True,
         path_root=os.path.join(dataDir, task_data_name,'train_val')
     )
-    ds_val = DUKE_Dataset3D(
-        flip=True,
-        path_root=os.path.join(dataDir, task_data_name,'val')
-    )
-    train_size = int(len(ds_train))
-    val_size = int(len(ds_val))
+    train_size = int(0.8 * len(ds))
+    val_size = int(0.2 * len(ds))
+    ds_train = Subset(ds, list(range(train_size)))
+    ds_val = Subset(ds, list(range(train_size, train_size+val_size)))
+    #ds_test = Subset(ds, list(range(train_size + val_size, len(ds))))
     print('train_size: ',train_size)
     print('val_size: ',val_size)
     #print('test_size: ',ds_train)
