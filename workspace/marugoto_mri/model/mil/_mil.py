@@ -92,7 +92,7 @@ def train(
         valid_ds, batch_size=1, shuffle=False, num_workers=os.cpu_count()
     )
     batch = train_dl.one_batch()
-    swarmCallback = SwarmCallback(syncFrequency=2,
+    swarmCallback = SwarmCallback(syncFrequency=64,
                                   minPeers=2,
                                   useAdaptiveSync=False,
                                   adsValData=valid_ds,
