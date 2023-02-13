@@ -1,7 +1,7 @@
-Name: swarm_task_local_compare_20230207_174429
+Name: swarm_task_local_compare_20230210_185851
 TaskType: RUN_SWARM
 Author: Katherlab Swarm Team
-Prereq: user_env_build_task_20230207_174429
+Prereq: user_env_build_task_20230210_185851
 Outcome: swarm_task_local_compare
 Body:
   Command: model/main_local_compare.py

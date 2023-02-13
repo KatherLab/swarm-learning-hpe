@@ -1,13 +1,13 @@
-Name: swarm_task_20230206_234655
+Name: swarm_task_20230210_185851
 TaskType: RUN_SWARM
 Author: Katherlab Swarm Team
-Prereq: user_env_build_task_20230206_234655
+Prereq: user_env_build_task_20230210_185851
 Outcome: swarm_task
 Body:
   Command: model/main.py
   Entrypoint: python3
   WorkingDir: /tmp/test
-  Envvars: [ "DATA_DIR": data-and-scratch/app-data/deployment_dataset, "SCRATCH_DIR": data-and-scratch/scratch, "MODEL_DIR": model, "MAX_EPOCHS": 2, "MIN_PEERS": 2 ]
+  Envvars: [ "DATA_DIR": data-and-scratch/data, "SCRATCH_DIR": data-and-scratch/scratch, "MODEL_DIR": model, "MAX_EPOCHS": 100, "MIN_PEERS": 3 ]
   PrivateContent: /tmp/test/data-and-scratch
   SharedContent:
     - Src: /opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/model
