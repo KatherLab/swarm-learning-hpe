@@ -76,7 +76,7 @@ local_compare_flag = False
         bags=bags[~valid_idxs],  # type: ignore  # arrays cannot be used a slices yet
         targets=(target_enc, targs[~valid_idxs]),
         add_features=[(enc, vals[~valid_idxs]) for enc, vals in add_features],
-        bag_size=batch_size,
+        bag_size=32,
     )
 
 
@@ -89,7 +89,7 @@ local_compare_flag = False
     print('training and validation dataset size: ', len(train_ds), len(valid_ds))
     # build dataloaders
     train_dl = DataLoader(
-        train_ds, batch_size=32, shuffle=True, num_workers=1, drop_last=True
+        train_ds, batch_size=batch_size, shuffle=True, num_workers=1, drop_last=True
     )
     valid_dl = DataLoader(
         valid_ds, batch_size=1, shuffle=False, num_workers=os.cpu_count()
