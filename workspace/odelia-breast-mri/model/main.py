@@ -168,7 +168,7 @@ class User_swarm_callback(Callback):
 max_expochs = 100
 if __name__ == "__main__":
     # ------------ Settings/Defaults ----------------
-    task_data_name = '25-25-25-25'
+    task_data_name = '40-30-10-20'
     scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
     dataDir = os.getenv('DATA_DIR', '/platform/data/')
     #print(os.getenv('DATA_DIR'))
@@ -200,12 +200,11 @@ if __name__ == "__main__":
     #print(ds_val[0])
     #print(ds_test[0])
 
-    batch_size = 8
     dm = DataModule(
         ds_train = ds_train,
         ds_val = ds_val,
         #ds_test = ds_test,
-        batch_size=batch_size,
+        batch_size=1,
         # num_workers=0,
         pin_memory=True,
     )
@@ -245,6 +244,7 @@ if __name__ == "__main__":
                                   useAdaptiveSync=False,
                                   adsValData=ds_val,
                                   adsValBatchSize=2,
+                                  node_weightage=100,
                                   model=model)
     torch.autograd.set_detect_anomaly(True)
     #print('========3========')
