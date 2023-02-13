@@ -109,7 +109,7 @@ def train(
     #device = torch.device("cuda" if useCuda else "cpu")
     dls = DataLoaders(train_dl, valid_dl)
     #model = model.to(torch.device(device))
-    swarmCallback = SwarmCallback(syncFrequency=100,
+    swarmCallback = SwarmCallback(syncFrequency=2,
                                   minPeers=2,
                                   useAdaptiveSync=False,
                                   adsValData=valid_ds,
