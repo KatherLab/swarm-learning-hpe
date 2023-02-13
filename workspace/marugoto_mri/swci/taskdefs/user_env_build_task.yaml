@@ -1,4 +1,4 @@
-Name: user_env_build_task_<TIME_STAMP>
+Name: user_env_build_task_20230213_103308
 TaskType: MAKE_USER_CONTAINER
 Author: Jeff
 Prereq: ROOTTASK

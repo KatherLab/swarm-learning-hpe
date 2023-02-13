@@ -16,7 +16,7 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 
-from marugoto.data import SKLearnEncoder
+from common.data import SKLearnEncoder
 
 from ._mil import train, deploy
 from .data import get_cohort_df, get_target_enc

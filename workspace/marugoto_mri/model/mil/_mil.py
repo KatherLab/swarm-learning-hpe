@@ -3,7 +3,7 @@ from typing import Any, Iterable, Optional, Sequence, Tuple, TypeVar
 from pathlib import Path
 import os
 
-from setuptools import logging
+import logging
 from swarmlearning.pyt import SwarmCallback
 
 from fastai.callback.core import Callback
@@ -23,8 +23,9 @@ from torch.utils.data import Dataset
 import numpy as np
 import numpy.typing as npt
 import pandas as pd
-
-from marugoto.data import SKLearnEncoder
+import sys
+sys.path.append("..")
+from common.data import SKLearnEncoder
 
 from .data import make_dataset
 from .model import MILModel
