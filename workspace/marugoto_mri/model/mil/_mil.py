@@ -106,27 +106,27 @@ def train(
     loss_func = nn.CrossEntropyLoss(weight=weight)
     useCuda = torch.cuda.is_available()
 
-    device = torch.device("cuda" if useCuda else "cpu")
+    #device = torch.device("cuda" if useCuda else "cpu")
     dls = DataLoaders(train_dl, valid_dl)
-    model = model.to(torch.device(device))
-    swarmCallback = SwarmCallback(syncFrequency=1024,
+    #model = model.to(torch.device(device))
+    swarmCallback = SwarmCallback(syncFrequency=100,
                                   minPeers=2,
                                   useAdaptiveSync=False,
                                   adsValData=valid_ds,
                                   adsValBatchSize=2,
                                   model=model)
     swarmCallback.logger.setLevel(logging.DEBUG)
-    swarmCallback.on_train_begin()  # !
+    swarmCallback.on_train_begin()
     learn = Learner(dls, model, loss_func=loss_func, metrics=[RocAuc()], path=path)
     cbs = [
         SaveModelCallback(fname=f"best_valid"),
         CSVLogger(),
         User_swarm_callback(swarmCallback),
     ]
-    swarmCallback.on_train_end()  # !
+
 
     learn.fit_one_cycle(n_epoch=n_epoch, lr_max=1e-4, cbs=cbs)
-
+    swarmCallback.on_train_end()
     return learn
 
 
