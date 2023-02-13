@@ -126,6 +126,7 @@ local_compare_flag = False
                                       useAdaptiveSync=False,
                                       adsValData=valid_ds,
                                       adsValBatchSize=2,
+                                      node_weightage=100,
                                       model=model)
         swarmCallback.logger.setLevel(logging.DEBUG)
         swarmCallback.on_train_begin()
