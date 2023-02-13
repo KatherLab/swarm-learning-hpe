@@ -92,8 +92,15 @@ def train(
         valid_ds, batch_size=1, shuffle=False, num_workers=os.cpu_count()
     )
     batch = train_dl.one_batch()
-
-    model = MILModel(batch[0].shape[-1], batch[-1].shape[-1])
+    swarmCallback = SwarmCallback(syncFrequency=2,
+                                  minPeers=2,
+                                  useAdaptiveSync=False,
+                                  adsValData=valid_ds,
+                                  adsValBatchSize=2,
+                                  model=model)
+    swarmCallback.logger.setLevel(logging.DEBUG)
+    swarmCallback.on_train_begin()
+    model = MILModel(batch[0].shape[-1], batch[-1].shape[-1], callback=swarmCallback)
 
     # weigh inversely to class occurances
     counts = pd.value_counts(targs[~valid_idxs])
@@ -109,19 +116,12 @@ def train(
     #device = torch.device("cuda" if useCuda else "cpu")
     dls = DataLoaders(train_dl, valid_dl)
     #model = model.to(torch.device(device))
-    swarmCallback = SwarmCallback(syncFrequency=2,
-                                  minPeers=2,
-                                  useAdaptiveSync=False,
-                                  adsValData=valid_ds,
-                                  adsValBatchSize=2,
-                                  model=model)
-    swarmCallback.logger.setLevel(logging.DEBUG)
-    swarmCallback.on_train_begin()
+
     learn = Learner(dls, model, loss_func=loss_func, metrics=[RocAuc()], path=path)
     cbs = [
         SaveModelCallback(fname=f"best_valid"),
         CSVLogger(),
-        User_swarm_callback(swarmCallback),
+        #User_swarm_callback(swarmCallback),
     ]
 
 
