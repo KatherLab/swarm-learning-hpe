@@ -168,7 +168,7 @@ class User_swarm_callback(Callback):
 max_expochs = 100
 if __name__ == "__main__":
     # ------------ Settings/Defaults ----------------
-    task_data_name = '40-30-10-20'
+    task_data_name = '25-25-25-25'
     scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
     dataDir = os.getenv('DATA_DIR', '/platform/data/')
     #print(os.getenv('DATA_DIR'))
@@ -184,19 +184,14 @@ if __name__ == "__main__":
     #dataDir = os.getenv('DATA_DIR', '/tmp/test/host1-partial-data')  # !
     #print current directory
     print("Current Directory " , os.getcwd())
-    ds_train = DUKE_Dataset3D(
+    ds = DUKE_Dataset3D(
         flip=True,
         path_root=os.path.join(dataDir, task_data_name,'train_val')
     )
-    ds_val = DUKE_Dataset3D(
-        flip=True,
-        path_root=os.path.join(dataDir, task_data_name,'val')
-    )
-    #print("++++++++++")
-    #print('len(ds): ',len(ds))
-    #print(ds[0])
-    train_size = int(len(ds_train))
-    val_size = int(len(ds_val))
+    train_size = int(0.8 * len(ds))
+    val_size = int(0.2 * len(ds))
+    ds_train = Subset(ds, list(range(train_size)))
+    ds_val = Subset(ds, list(range(train_size, train_size+val_size)))
     #ds_test = Subset(ds, list(range(train_size + val_size, len(ds))))
     print('train_size: ',train_size)
     print('val_size: ',val_size)
@@ -205,12 +200,12 @@ if __name__ == "__main__":
     #print(ds_val[0])
     #print(ds_test[0])
 
-
+    batch_size = 8
     dm = DataModule(
         ds_train = ds_train,
         ds_val = ds_val,
         #ds_test = ds_test,
-        batch_size=1,
+        batch_size=batch_size,
         # num_workers=0,
         pin_memory=True,
     )
@@ -245,7 +240,7 @@ if __name__ == "__main__":
 
     device = torch.device("cuda" if useCuda else "cpu")
     model = model.to(torch.device(device))
-    swarmCallback = SwarmCallback(syncFrequency=1024,
+    swarmCallback = SwarmCallback(syncFrequency=2*int(len(ds_train)/batch_size),
                                   minPeers=3,
                                   useAdaptiveSync=False,
                                   adsValData=ds_val,
