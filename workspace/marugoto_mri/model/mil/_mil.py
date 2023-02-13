@@ -43,10 +43,10 @@ class User_swarm_callback(Callback):
     #def on_train_start(self, trainer, pl_module):
     #    self.swarmCallback.on_train_begin()
 
-    def on_train_batch_end(self, trainer, pl_module, outputs, batch, batch_idx):
+    def after_batch(self):
         self.swarmCallback.on_batch_end()
 
-    def on_train_epoch_end(self, trainer, pl_module):
+    def after_epoch(self):
         self.swarmCallback.on_epoch_end()
 
     #def on_train_end(self, trainer, pl_module):
@@ -92,15 +92,8 @@ def train(
         valid_ds, batch_size=1, shuffle=False, num_workers=os.cpu_count()
     )
     batch = train_dl.one_batch()
-    swarmCallback = SwarmCallback(syncFrequency=64,
-                                  minPeers=2,
-                                  useAdaptiveSync=False,
-                                  adsValData=valid_ds,
-                                  adsValBatchSize=2,
-                                  model=model)
-    swarmCallback.logger.setLevel(logging.DEBUG)
-    swarmCallback.on_train_begin()
-    model = MILModel(batch[0].shape[-1], batch[-1].shape[-1], callback=swarmCallback)
+
+    model = MILModel(batch[0].shape[-1], batch[-1].shape[-1])
 
     # weigh inversely to class occurances
     counts = pd.value_counts(targs[~valid_idxs])
@@ -116,12 +109,19 @@ def train(
     #device = torch.device("cuda" if useCuda else "cpu")
     dls = DataLoaders(train_dl, valid_dl)
     #model = model.to(torch.device(device))
-
+    swarmCallback = SwarmCallback(syncFrequency=64,
+                                  minPeers=2,
+                                  useAdaptiveSync=False,
+                                  adsValData=valid_ds,
+                                  adsValBatchSize=2,
+                                  model=model)
+    swarmCallback.logger.setLevel(logging.DEBUG)
+    swarmCallback.on_train_begin()
     learn = Learner(dls, model, loss_func=loss_func, metrics=[RocAuc()], path=path)
     cbs = [
         SaveModelCallback(fname=f"best_valid"),
         CSVLogger(),
-        #User_swarm_callback(swarmCallback),
+        User_swarm_callback(swarmCallback),
     ]
 
 
