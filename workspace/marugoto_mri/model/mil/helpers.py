@@ -95,8 +95,7 @@ def train_categorical_model_(
 
     # Split off validation set
     train_patients, valid_patients = train_test_split(
-        df.PATIENT, stratify=df[target_label]
-    )
+        df.PATIENT, stratify=df[target_label], test_size=0.2)
     train_df = df[df.PATIENT.isin(train_patients)]
     valid_df = df[df.PATIENT.isin(valid_patients)]
     train_df.drop(columns="slide_path").to_csv(output_path / "train.csv", index=False)
