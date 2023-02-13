@@ -6,7 +6,7 @@ import os
 import logging
 from swarmlearning.pyt import SwarmCallback
 
-from fastai.callback.core import Callback
+from fastai.callback.core import *
 from fastai.vision.all import (
     Learner,
     DataLoader,
@@ -35,7 +35,7 @@ __all__ = ["train", "deploy"]
 
 
 T = TypeVar("T")
-class User_swarm_callback(Callback):
+class User_swarm_callback(TrainEvalCallback):
     def __init__(self, swarmCallback, **kwargs):
         super().__init__(**kwargs)
         self.swarmCallback = swarmCallback
