@@ -170,7 +170,7 @@ class User_swarm_callback(Callback):
 max_expochs = 100
 if __name__ == "__main__":
     # ------------ Settings/Defaults ----------------
-    task_data_name = '25-25-25-25'
+    task_data_name = '40-30-10-20'
     scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')  # !
     dataDir = os.getenv('DATA_DIR', '/platform/data/')
     #print(os.getenv('DATA_DIR'))
@@ -188,7 +188,7 @@ if __name__ == "__main__":
     print("Current Directory " , os.getcwd())
     ds_train = DUKE_Dataset3D(
         flip=True,
-        path_root=os.path.join(dataDir, task_data_name,'train')
+        path_root=os.path.join(dataDir, task_data_name,'train_val')
     )
     ds_val = DUKE_Dataset3D(
         flip=True,

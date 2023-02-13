@@ -1,4 +1,3 @@
-import logging
 from pathlib import Path
 from datetime import datetime
 
@@ -11,7 +10,6 @@ from data.datasets import DUKE_Dataset3D
 from data.datamodules import DataModule
 
 import os
-import logging
 from pathlib import Path
 import logging
 from tqdm import tqdm
@@ -170,8 +168,8 @@ class User_swarm_callback(Callback):
 max_expochs = 100
 if __name__ == "__main__":
     # ------------ Settings/Defaults ----------------
-    task_data_name = '25-25-25-25'
-    scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')  # !
+    task_data_name = '40-30-10-20'
+    scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
     dataDir = os.getenv('DATA_DIR', '/platform/data/')
     #print(os.getenv('DATA_DIR'))
     #print(f"Using {scratchDir} for training")
@@ -188,7 +186,7 @@ if __name__ == "__main__":
     print("Current Directory " , os.getcwd())
     ds_train = DUKE_Dataset3D(
         flip=True,
-        path_root=os.path.join(dataDir, task_data_name,'train')
+        path_root=os.path.join(dataDir, task_data_name,'train_val')
     )
     ds_val = DUKE_Dataset3D(
         flip=True,
