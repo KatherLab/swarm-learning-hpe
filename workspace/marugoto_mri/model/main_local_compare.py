@@ -33,7 +33,8 @@ if __name__ == "__main__":
     slide_csv = Path(os.path.join(dataDir, 'slide_table.csv')),
     feature_dir = Path(feature_dir_path),
     output_path = Path(out_dir),
-    target_label = "Malign")
+    target_label = "Malign",
+    local_compare_flag = True)
 
     deploy_categorical_model_(
     clini_table = Path(os.path.join(dataDir, 'clinical_table.csv')),

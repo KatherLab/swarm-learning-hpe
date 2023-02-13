@@ -58,8 +58,9 @@ def train(
     targets: Tuple[SKLearnEncoder, npt.NDArray],
     add_features: Iterable[Tuple[SKLearnEncoder, npt.NDArray]] = [],
     valid_idxs: npt.NDArray[np.int_],
-    n_epoch: int = 32,
+    n_epoch: int = 64,
     path: Optional[Path] = None,
+local_compare_flag = False
 ) -> Learner:
     """Train a MLP on image features.
 
@@ -77,13 +78,14 @@ def train(
         bag_size=32,
     )
 
+
     valid_ds = make_dataset(
         bags=bags[valid_idxs],  # type: ignore  # arrays cannot be used a slices yet
         targets=(target_enc, targs[valid_idxs]),
         add_features=[(enc, vals[valid_idxs]) for enc, vals in add_features],
         bag_size=None,
     )
-
+    print('training and validation dataset size: ', len(train_ds), len(valid_ds))
     # build dataloaders
     train_dl = DataLoader(
         train_ds, batch_size=32, shuffle=True, num_workers=1, drop_last=True
@@ -109,24 +111,32 @@ def train(
     #device = torch.device("cuda" if useCuda else "cpu")
     dls = DataLoaders(train_dl, valid_dl)
     #model = model.to(torch.device(device))
-    swarmCallback = SwarmCallback(syncFrequency=64,
-                                  minPeers=2,
-                                  useAdaptiveSync=False,
-                                  adsValData=valid_ds,
-                                  adsValBatchSize=2,
-                                  model=model)
-    swarmCallback.logger.setLevel(logging.DEBUG)
-    swarmCallback.on_train_begin()
-    learn = Learner(dls, model, loss_func=loss_func, metrics=[RocAuc()], path=path)
-    cbs = [
-        SaveModelCallback(fname=f"best_valid"),
-        CSVLogger(),
-        User_swarm_callback(swarmCallback),
-    ]
+    if local_compare_flag:
+        learn = Learner(dls, model, loss_func=loss_func, metrics=[RocAuc()], path=path)
+        cbs = [
+            SaveModelCallback(fname=f"best_valid"),
+            CSVLogger(),
+        ]
 
+        learn.fit_one_cycle(n_epoch=n_epoch, lr_max=1e-4, cbs=cbs)
+    else:
+        swarmCallback = SwarmCallback(syncFrequency=64,
+                                      minPeers=3,
+                                      useAdaptiveSync=False,
+                                      adsValData=valid_ds,
+                                      adsValBatchSize=2,
+                                      model=model)
+        swarmCallback.logger.setLevel(logging.DEBUG)
+        swarmCallback.on_train_begin()
+        learn = Learner(dls, model, loss_func=loss_func, metrics=[RocAuc()], path=path)
+        cbs = [
+            SaveModelCallback(fname=f"best_valid"),
+            CSVLogger(),
+            User_swarm_callback(swarmCallback),
+        ]
 
-    learn.fit_one_cycle(n_epoch=n_epoch, lr_max=1e-4, cbs=cbs)
-    swarmCallback.on_train_end()
+        learn.fit_one_cycle(n_epoch=n_epoch, lr_max=1e-4, cbs=cbs)
+        swarmCallback.on_train_end()
     return learn
 
 
