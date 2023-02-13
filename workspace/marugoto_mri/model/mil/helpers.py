@@ -40,6 +40,7 @@ def train_categorical_model_(
     cat_labels: Sequence[str] = [],
     cont_labels: Sequence[str] = [],
     categories: Optional[npt.NDArray] = None,
+    local_compare_flag: bool = False,
 ) -> None:
     """Train a categorical model on a cohort's tile's features.
 
@@ -129,6 +130,7 @@ def train_categorical_model_(
         add_features=add_features,
         valid_idxs=df.PATIENT.isin(valid_patients).values,
         path=output_path,
+        local_compare_flag = local_compare_flag
     )
 
     # save some additional information to the learner to make deployment easier
