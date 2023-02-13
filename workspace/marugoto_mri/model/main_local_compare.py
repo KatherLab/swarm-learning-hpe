@@ -48,4 +48,4 @@ if __name__ == "__main__":
 
     categorical_aggregated_(os.path.join(out_dir,'patient-preds.csv'), outpath = (out_dir), target_label = "Malign")
 
-    plot_roc_curves_(os.path.join(out_dir,'patient-preds.csv'), outpath = (out_dir), target_label = "Malign", true_label='1')
+    plot_roc_curves_(os.path.join(out_dir,'patient-preds.csv'), outpath = Path(out_dir), target_label = "Malign", true_label='1', subgroup_label=None, clini_table=None, subgroups=None)
