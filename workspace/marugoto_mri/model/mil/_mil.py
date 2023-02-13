@@ -121,7 +121,7 @@ local_compare_flag = False
 
         learn.fit_one_cycle(n_epoch=n_epoch, lr_max=1e-4, cbs=cbs)
     else:
-        swarmCallback = SwarmCallback(syncFrequency=64,
+        swarmCallback = SwarmCallback(syncFrequency=16,
                                       minPeers=3,
                                       useAdaptiveSync=False,
                                       adsValData=valid_ds,
