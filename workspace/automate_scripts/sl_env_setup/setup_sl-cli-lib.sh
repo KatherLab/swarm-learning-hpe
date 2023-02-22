@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eux
 script_dir=$(realpath $(dirname "${0}"))
-ip_addr=$(hostname -I | awk '{print $1}')
+ip_addr=$(ip addr show | awk '/inet 10\./{print $2}' | cut -d'/' -f1)
 
 # Help function
 help()

@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eux
 
-ip_addr=$(hostname -I | awk '{print $1}')
+ip_addr=$(ip addr show | awk '/inet 10\./{print $2}' | cut -d'/' -f1)
 script_name=$(basename "${0}")
 script_dir=$(realpath $(dirname "${0}"))
 time_stamp=$(date +%Y%m%d_%H%M%S)
@@ -39,7 +39,7 @@ then
   --init-script-name=swci-init --key=workspace/"$workspace"/cert/swci-"$ip_addr"-key.pem \
   --cert=workspace/"$workspace"/cert/swci-"$ip_addr"-cert.pem \
   --capath=workspace/"$workspace"/cert/ca/capath \
-  -e http_proxy= -e https_proxy= --apls-ip="$sentinal" --apls-port 5000 -e SWCI_TASK_MAX_WAIT_TIME=500
+  -e http_proxy= -e https_proxy= --apls-ip="$sentinal" --apls-port 5000 -e SWCI_TASK_MAX_WAIT_TIME=5000
 
 else
    echo "This host is not a sentinal node and will not be used for initiating the cluster, only as swarm network node"
