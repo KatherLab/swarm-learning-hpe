@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eux
-ip_addr=$(hostname -I | awk '{print $1}')
+ip_addr=$(ip addr show | awk '/inet 10\./{print $2}' | cut -d'/' -f1)
 script_name=$(basename "${0}")
 script_dir=$(realpath $(dirname "${0}"))
 workspace_dir='/opt/hpe/swarm-learning-hpe/'
