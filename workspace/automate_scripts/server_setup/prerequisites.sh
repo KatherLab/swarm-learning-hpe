@@ -46,8 +46,8 @@ else
   git checkout dev_radiology #TODO: change to master after merge
 fi
 
-echo "Setting permissions for Swarm Learning folder"
-sudo chmod 777 -R "$DIR"
+#echo "Setting permissions for Swarm Learning folder"
+#sudo chmod 777 -R "$DIR"
 
 echo setup vpn tunnel for swarm learning
 sudo sh ./workspace/automate_scripts/server_setup/setup_vpntunnel.sh
