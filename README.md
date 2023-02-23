@@ -47,17 +47,42 @@ exchanged between the various edge nodes and not the raw data. This ensures that
 ## Background
 
 ## Install
-
-requirement will follow up soon...
+Create a user named "swarm" and add it to the sudoers group.
+Login with user "swarm" and run the following commands:
 
 ```sh
+$ cd /
+$ sudo mkdir opt/hpe
+$ cd opt/hpe
+$ sudo chmod 777 -R /opt/hpe
 $ git clone https://github.com/KatherLab/swarm-learning-hpe.git
+$ cd swarm-learning-hpe
+$ git checkout dev_radiology
 ```
+Requirements and dependencies will be automatically installed by the script mentioned in the following sction.
 
 ## Usage
-
+### Setting up the Swarm Learning Environment
 ```sh
-$ 
+$ sh workspace/automate_scripts/automate.sh -<build stage> -i <target host ip to share cert> -s <sentinal host ip> -w <workspace> -n <num_peers> -e <num_epochs>"
+```
+Please observe this [README.md](workspace%2Fautomate_scripts%2FREADME.md) file for more details.
+All the processes are automated, so you can just run the above command and wait for the process to finish.
+### Running Swarm Learning Nodes
+To run a Swarm Network node -> Swarm SWOP Node -> Swarm SWCI node, observe the following commands:
+- To run a Swarm Network (or sentinel) node:
+```sh
+$ ./workspace/automate_scripts/launch_sl/run_sn.sh -w <workspace_name> -s <sentinel_ip_address>
+```
+
+- To run a Swarm SWOP node:
+```sh
+$ ./workspace/automate_scripts/launch_sl/run_swop.sh -w <workspace_name> -s <sentinel_ip_address>
+```
+
+- To run a Swarm SWCI node:
+```sh
+$ ./workspace/automate_scripts/launch_sl/run_swci.sh -w <workspace_name> -s <sentinel_ip_address>
 ```
 
 ## Maintainers
@@ -65,8 +90,7 @@ $
 Swarm learning team
 
 [@Jeff](https://github.com/Ultimate-Storm).
-[@Kevin](https://github.com/kevinxpfeiffer).
-[@Oliver](https://github.com/oliversaldanha25).
+
 
 ## Milestone
 
@@ -87,6 +111,8 @@ documentation. Don't need to follow all of the guidelines at this moment, but it
 ### Contributors
 
 This project exists thanks to all the people who contribute.
+
+[@Kevin]()
 
 ## License
 

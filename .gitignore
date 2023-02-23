@@ -133,3 +133,4 @@ dmypy.json
 
 # Certificates
 *.pem
+/workspace/marugoto_mri/user/
