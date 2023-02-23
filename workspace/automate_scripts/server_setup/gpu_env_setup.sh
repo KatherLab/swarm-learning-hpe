@@ -1,22 +1,55 @@
-#!/bin/sh
+#!/bin/bash
+
 set -eux
 
-echo "Check gpu drivers"
-if nvidia-smi | grep -q 'NVIDIA-SMI' || 'Driver Version' ; then   echo "gpu driver set up"; fi
+# Help function
+help()
+{
+   echo "Usage: $0 [-h]"
+   echo "Installs and configures NVIDIA container runtime."
+   echo ""
+   echo "Options:"
+   echo "  -h    show help message and exit"
+   exit 1
+}
 
-echo "Set install nvidia-container-runtime env"
+while getopts ":h" opt; do
+  case ${opt} in
+    h )
+      help
+      ;;
+    \? )
+      echo "Invalid option: $OPTARG" 1>&2
+      exit 1
+      ;;
+  esac
+done
+
+# Check if NVIDIA drivers are installed
+echo "Checking NVIDIA drivers..."
+if nvidia-smi | grep -q 'NVIDIA-SMI' || nvidia-smi | grep -q 'Driver Version'; then
+  echo "GPU drivers are set up."
+else
+  echo "Please install NVIDIA GPU drivers."
+  exit 1
+fi
+
+# Set up nvidia-container-runtime
+echo "Setting up nvidia-container-runtime..."
 distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
 curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
 curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
-
 sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
 sudo systemctl restart docker
 
-echo "install nvidia-container-runtime"
+# Install nvidia-container-runtime
+echo "Installing nvidia-container-runtime..."
 sudo apt-get install nvidia-container-runtime -y
 
-echo "Ensure the nvidia-container-runtime-hook is accessible from $PATH"
+# Ensure nvidia-container-runtime-hook is accessible
+echo "Ensuring the nvidia-container-runtime-hook is accessible from $PATH..."
 which nvidia-container-runtime-hook
 
-echo Expose GPUs for use
+# Expose GPUs for use
+echo "Exposing GPUs for use..."
 sudo docker run -it --rm --gpus all ubuntu nvidia-smi

@@ -1,47 +1,80 @@
 #!/bin/sh
-set -eux
 
-ip_addr=$(ip addr show | awk '/inet 10\./{print $2}' | cut -d'/' -f1)
-script_name=$(basename "${0}")
-script_dir=$(realpath $(dirname "${0}"))
-time_stamp=$(date +%Y%m%d_%H%M%S)
-# Help function
-help()
-{
-   echo ""
-   echo "Ask jeff how to use the damn script"
-   echo ""
-   exit 1
+# Print usage message
+usage() {
+  echo "Usage: $0 [-w <workspace>] [-s <sentinel IP>] [-h]"
+  echo "Starts the SWCI container on the specified sentinel node."
+  echo ""
+  echo "Options:"
+  echo "  -w <workspace>   Workspace directory (default: workspace)"
+  echo "  -s <sentinel IP> IP address of the sentinel node"
+  echo "  -h               Show this help message"
+  exit 1
 }
 
-# Process command options
-while getopts "w:i:s:h?" opt
-do
-   case "$opt" in
-      w ) workspace="$OPTARG" ;;
-      i ) host="$OPTARG" ;;
-      s ) sentinal="$OPTARG" ;;
-      h ) help ;;
-      ? ) help ;;
-   esac
+# Set default values
+workspace="workspace"
+
+# Parse command line arguments
+while getopts ":w:s:h" opt; do
+  case $opt in
+    w)
+      workspace="$OPTARG"
+      ;;
+    s)
+      sentinel="$OPTARG"
+      ;;
+    h)
+      usage
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      usage
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      usage
+      ;;
+  esac
 done
 
-if [ $ip_addr = $sentinal ]
-then
-   echo "This host a sentinal node and will be used for initiating the cluster"
-   cp workspace/"$workspace"/swci/taskdefs/swarm_task_pre.yaml workspace/"$workspace"/swci/taskdefs/swarm_task.yaml
-   cp workspace/"$workspace"/swci/taskdefs/user_env_build_task_pre.yaml workspace/"$workspace"/swci/taskdefs/user_env_build_task.yaml
-   cp workspace/"$workspace"/swci/taskdefs/swarm_task_local_compare_pre.yaml workspace/"$workspace"/swci/taskdefs/swarm_task_local_compare.yaml
-   cp workspace/"$workspace"/swci/swci-init_pre workspace/"$workspace"/swci/swci-init
-   sed -i "s+<TIME_STAMP>+$time_stamp+g" workspace/"$workspace"/swci/taskdefs/swarm_task.yaml workspace/"$workspace"/swci/taskdefs/user_env_build_task.yaml workspace/"$workspace"/swci/taskdefs/swarm_task_local_compare.yaml workspace/"$workspace"/swci/swci-init
-   sudo $script_dir/../../swarm_learning_scripts/run-swci -it --rm --name=swci"$ip_addr" \
-  --network=host-"$ip_addr"-net --usr-dir=workspace/"$workspace"/swci \
-  --init-script-name=swci-init --key=workspace/"$workspace"/cert/swci-"$ip_addr"-key.pem \
-  --cert=workspace/"$workspace"/cert/swci-"$ip_addr"-cert.pem \
-  --capath=workspace/"$workspace"/cert/ca/capath \
-  -e http_proxy= -e https_proxy= --apls-ip="$sentinal" --apls-port 5000 -e SWCI_TASK_MAX_WAIT_TIME=5000
-
-else
-   echo "This host is not a sentinal node and will not be used for initiating the cluster, only as swarm network node"
-   exit 1
+# Verify that sentinel IP is set
+if [ -z "$sentinel" ]; then
+  echo "Error: Sentinel IP address must be specified using -i" >&2
+  usage
 fi
+
+# Check if this host is the sentinel
+ip_addr=$(ip addr show | awk '/inet 10\./{print $2}' | cut -d'/' -f1)
+if [ "$ip_addr" != "$sentinel" ]; then
+  echo "Error: This host is not the sentinel node" >&2
+  exit 1
+fi
+
+# Set script variables
+script_name=$(basename "$0")
+script_dir=$(realpath "$(dirname "$0")")
+time_stamp=$(date +%Y%m%d_%H%M%S)
+
+# Print configuration info
+echo "Starting SWCI container..."
+echo "  Workspace: $workspace"
+echo "  Sentinel IP: $sentinel"
+echo "  Timestamp: $time_stamp"
+
+# Update configuration files
+cp "workspace/$workspace/swci/taskdefs/swarm_task_pre.yaml" "workspace/$workspace/swci/taskdefs/swarm_task.yaml"
+cp "workspace/$workspace/swci/taskdefs/user_env_build_task_pre.yaml" "workspace/$workspace/swci/taskdefs/user_env_build_task.yaml"
+cp "workspace/$workspace/swci/taskdefs/swarm_task_local_compare_pre.yaml" "workspace/$workspace/swci/taskdefs/swarm_task_local_compare.yaml"
+cp "workspace/$workspace/swci/swci-init_pre" "workspace/$workspace/swci/swci-init"
+sed -i "s+<TIME_STAMP>+$time_stamp+g" "workspace/$workspace/swci/taskdefs/swarm_task.yaml" "workspace/$workspace/swci/taskdefs/user_env_build_task.yaml" "workspace/$workspace/swci/taskdefs/swarm_task_local_compare.yaml" "workspace/$workspace/swci/swci-init"
+
+# Start the SWCI container
+sudo "$script_dir/../../swarm_learning_scripts/run-swci" \
+  -it --rm --name="swci-$ip_addr" \
+  --network="host-$ip_addr-net" --usr-dir="workspace/$workspace/swci" \
+  --init-script-name="swci-init" --key="workspace/$workspace/cert/swci-$ip_addr-key.pem" \
+  --cert="workspace/$workspace/cert/swci-$ip_addr-cert.pem" \
+  --capath="workspace/$workspace/cert/ca/capath" \
+  -e "http_proxy=" -e "https_proxy=" --apls-ip="$sentinel" --apls-port=5000 \
+  -e "SWCI_TASK_MAX_WAIT_TIME=5000"

@@ -1,43 +1,53 @@
 #!/bin/sh
-set -eux
-script_dir=$(realpath $(dirname "${0}"))
-ip_addr=$(ip addr show | awk '/inet 10\./{print $2}' | cut -d'/' -f1)
 
-# Help function
-help()
-{
-   echo ""
-   echo "Ask jeff how to use the damn script"
-   echo ""
-   exit 1
+# Print usage information
+usage() {
+    echo "Usage: $0 -w WORKSPACE" >&2
+    echo "  -w WORKSPACE   path to the Swarm Learning workspace directory" >&2
+    echo "  -h             display this help and exit" >&2
+    exit 1
 }
 
-# Process command options
-while getopts "w:h?" opt
-do
-   case "$opt" in
-      h ) help ;;
-      w ) workspace="$OPTARG" ;;
-      ? ) help ;;
-   esac
+# Parse command-line options
+while getopts ":w:h" opt; do
+    case $opt in
+        w)
+            workspace=$OPTARG
+            ;;
+        h)
+            usage
+            ;;
+        \?)
+            echo "Invalid option: -$OPTARG" >&2
+            usage
+            ;;
+        :)
+            echo "Option -$OPTARG requires an argument." >&2
+            usage
+            ;;
+    esac
 done
 
-# Checks
-if [ -z "$workspace" ]
-then
-   echo "Some or all of the parameters are empty";
-   help
+# Check that the workspace option is set
+if [ -z "$workspace" ]; then
+    echo "Error: WORKSPACE is a required option." >&2
+    usage
 fi
 
-if sudo docker volume list | grep -q 'sl-cli-lib'; then sudo docker volume rm -f sl-cli-lib; fi
-sudo docker volume create sl-cli-lib
-sudo docker container create --name helper -v sl-cli-lib:/data hello-world
-sudo docker cp -L $script_dir/swarmlearning-client-py3-none-manylinux_2_24_x86_64.whl helper:/data
-#sudo docker cp -L $script_dir/../../$workspace/env_config/environment.yaml helper:/data
-#sudo docker cp -L $script_dir/../../$workspace/env_config/setup.py helper:/data
-#sudo docker cp -L $script_dir/../../$workspace/user-odelia-breast-mri-192.168.33.102/data-and-scratch/app-data/host2-partial-data helper:/data
-#sudo docker cp -L $script_dir/../../$workspace/user-odelia-breast-mri-192.168.33.102/data-and-scratch/app-data/Clinical_and_Other_Features.xlsx helper:/data
+# Set up the SL CLI library volume
+sl_cli_lib="sl-cli-lib"
+if sudo docker volume list | grep -q "$sl_cli_lib"; then
+    sudo docker volume rm -f "$sl_cli_lib"
+fi
+sudo docker volume create "$sl_cli_lib"
+sudo docker container create --name helper -v "$sl_cli_lib":/data hello-world
+sudo docker cp -L "${0%/*}"/swarmlearning-client-py3-none-manylinux_2_24_x86_64.whl helper:/data
 sudo docker rm helper
 
-if sudo docker network list | grep -q host-"$ip_addr"-net; then sudo docker network rm host-"$ip_addr"-net; fi
-sudo docker network create host-"$ip_addr"-net
+# Create a Docker network for the host
+ip_addr=$(ip addr show | awk '/inet 10\./{print $2}' | cut -d'/' -f1)
+host_network="host-$ip_addr-net"
+if sudo docker network list | grep -q "$host_network"; then
+    sudo docker network rm "$host_network"
+fi
+sudo docker network create "$host_network"

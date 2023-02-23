@@ -1,7 +1,10 @@
 #!/bin/sh
 set -eux
 
-ip_addr=$(ip addr show | awk '/inet 10\./{print $2}' | cut -d'/' -f1)
+# Default values
+workspace=""
+host=""
+sentinel=""
 script_name=$(basename "${0}")
 script_dir=$(realpath $(dirname "${0}"))
 
@@ -9,38 +12,63 @@ script_dir=$(realpath $(dirname "${0}"))
 help()
 {
    echo ""
-   echo "Ask jeff how to use the damn script"
+   echo "Usage: sh ${script_name} -w <workspace> -i <host> -s <sentinel_ip>"
+   echo ""
+   echo "Options:"
+   echo "-w    The workspace name"
+   echo "-i    The host IP address"
+   echo "-s    The sentinel IP address"
+   echo "-h    Show help"
    echo ""
    exit 1
 }
 
 # Process command options
-while getopts "w:i:s:h?" opt
+while getopts "w:i:s:h" opt
 do
    case "$opt" in
       w ) workspace="$OPTARG" ;;
       i ) host="$OPTARG" ;;
-      s ) sentinal="$OPTARG" ;;
-      h ) help ;;#sh workspace/automate_scripts/launch_sl/run_sn.sh -w mnist-pyt-gpu -s 192.168.33.102
+      s ) sentinel="$OPTARG" ;;
+      h ) help ;;
       ? ) help ;;
    esac
 done
 
-# Checks
-if [ $ip_addr = $sentinal ]
+# Check required options are set
+if [ -z "$workspace" ] || [ -z "$host" ] || [ -z "$sentinel" ]
 then
-   echo "This host a sentinal node and will be used for initiating the cluster"
-   sn_command="--sentinel"
-   #sudo $script_dir/../../swarm_learning_scripts/run-sn -it --rm --name=sn"$ip_addr" --network=host-"$ip_addr"-net --host-ip="$ip_addr" "$sn_command" --sn-p2p-port=30303 --sn-api-port=30304 --key=workspace/"$workspace"/cert/sn-1-key.pem --cert=workspace/"$workspace"/cert/sn-1-cert.pem --capath=workspace/"$workspace"/cert/ca/capath --apls-ip="$sentinal" --apls-port 5000
-
-else
-   echo "This host is not a sentinal node and will not be used for initiating the cluster, only as swarm network node"
-   sn_command="--sentinel-ip=$sentinal"
-   #sudo $script_dir/../../swarm_learning_scripts/run-sn -it --rm --name=sn"$ip_addr" --network=host-"$ip_addr"-net --host-ip="$ip_addr" "$sn_command" --sn-p2p-port=30303 --sn-api-port=30304 --key=workspace/"$workspace"/cert/sn-2-key.pem --cert=workspace/"$workspace"/cert/sn-2-cert.pem --capath=workspace/"$workspace"/cert/ca/capath --apls-ip="$sentinal" --apls-port 5000
-
+   echo "Error: missing required options"
+   help
 fi
 
-sudo $script_dir/../../swarm_learning_scripts/run-sn -it --rm --name=sn"$ip_addr" --network=host-"$ip_addr"-net --host-ip="$ip_addr" "$sn_command" --sn-p2p-port=30303 --sn-api-port=30304 --key=workspace/"$workspace"/cert/sn-"$ip_addr"-key.pem --cert=workspace/"$workspace"/cert/sn-"$ip_addr"-cert.pem --capath=workspace/"$workspace"/cert/ca/capath --apls-ip="$sentinal" --apls-port 5000
+ip_addr=$(ip addr show | awk -v host="$host" '/inet /{if($2 == host){print $2}}' | cut -d'/' -f1)
 
-#sudo ./scripts/bin/run-sn -it --rm --name=sn1 --network=host-1-net --host-ip=192.168.33.102 "$sn_command" --sn-p2p-port=30303 --sn-api-port=30304 --key=workspace/katherlab/cert/sn-1-key.pem --cert=workspace/katherlab/cert/sn-1-cert.pem --capath=workspace/katherlab/cert/ca/capath --apls-ip=192.168.33.102 --apls-port 5000
-#sudo ./scripts/bin/run-sn -it --rm --name=sn2 --network=host-2-net --host-ip=192.168.33.103 "$sn_command" --sn-p2p-port=30303 --sn-api-port=30304 --key=workspace/katherlab/cert/sn-2-key.pem --cert=workspace/katherlab/cert/sn-2-cert.pem --capath=workspace/katherlab/cert/ca/capath --apls-ip=192.168.33.102 --apls-port 5000
+if [ -z "$ip_addr" ]
+then
+   echo "Error: invalid host IP address"
+   exit 1
+fi
+
+if [ $ip_addr = $sentinel ]
+then
+   echo "This host is a sentinel node and will be used for initiating the cluster"
+   sn_command="--sentinel"
+else
+   echo "This host is not a sentinel node and will not be used for initiating the cluster, only as a swarm network node"
+   sn_command="--sentinel-ip=$sentinel"
+fi
+
+sudo $script_dir/../../swarm_learning_scripts/run-sn \
+     -it --rm \
+     --name=sn"$ip_addr" \
+     --network=host-"$ip_addr"-net \
+     --host-ip="$ip_addr" \
+     "$sn_command" \
+     --sn-p2p-port=30303 \
+     --sn-api-port=30304 \
+     --key=workspace/"$workspace"/cert/sn-"$ip_addr"-key.pem \
+     --cert=workspace/"$workspace"/cert/sn-"$ip_addr"-cert.pem \
+     --capath=workspace/"$workspace"/cert/ca/capath \
+     --apls-ip="$sentinel" \
+     --apls-port=5000
