@@ -63,10 +63,13 @@ done
 if [ $ACTION = prerequisite ]; then
   sh ./workspace/automate_scripts/server_setup/test_open_exposed_ports.sh
   sh ./workspace/automate_scripts/server_setup/prerequisites.sh
-  if [ $ip_addr = $sentinal_ip ]
-    then
-    sh ./workspace/automate_scripts/server_setup/install_apls.sh
+  if [ -z "$sentinel" ]; then
+  echo "Specified sentinal node address, will install apls server"
   fi
+    if [ $ip_addr = $sentinal_ip ]
+      then
+      sudo sh ./workspace/automate_scripts/server_setup/install_apls.sh
+    fi
 fi
 
 
