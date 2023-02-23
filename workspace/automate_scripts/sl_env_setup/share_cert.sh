@@ -39,4 +39,4 @@ fi
 # Modify the following line to match the path to the certificate on the target host
 # Modify the user name to match the user name on the target host, for example change swarm here to root
 sudo scp swarm@"$target_host":/opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/ca/capath/ca-"$target_host"-cert.pem /opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/ca/capath
-sudo scp /opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/ca/capath/ca-"$target_host"-cert.pem swarm@"$target_host":/opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/ca/capath/
+sudo scp /opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/ca/capath/ca-"$ip_addr"-cert.pem swarm@"$target_host":/opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/ca/capath/

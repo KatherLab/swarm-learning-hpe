@@ -18,15 +18,15 @@ while [ $# -gt 0 ]; do
 done
 
 # Update server.xml to use port 5000
-sed -i "s+5814+5000+g" "/opt/HP/HP AutoPass License Server/HP AutoPass License Server/HP AutoPass License Server/conf/server.xml"
+sudo sed -i "s+5814+5000+g" "/opt/HP/HP AutoPass License Server/HP AutoPass License Server/HP AutoPass License Server/conf/server.xml"
 
 # Create startup script for hpLicenseServer
-cp "/opt/HP/HP AutoPass License Server/HP AutoPass License Server/HP AutoPass License Server/bin/hpLicenseServer" "/etc/init.d/hpLicenseServer"
-chmod 755 "/etc/init.d/hpLicenseServer"
+sudo cp "/opt/HP/HP AutoPass License Server/HP AutoPass License Server/HP AutoPass License Server/bin/hpLicenseServer" "/etc/init.d/hpLicenseServer"
+sudo chmod 755 "/etc/init.d/hpLicenseServer"
 
 # Configure hpLicenseServer to start at boot
-update-rc.d "hpLicenseServer" defaults 97 03
+sudo update-rc.d "hpLicenseServer" defaults 97 03
 
 # Start hpLicenseServer and check status
-service "hpLicenseServer" start
-service "hpLicenseServer" status
+sudo service "hpLicenseServer" start
+sudo service "hpLicenseServer" status

@@ -24,11 +24,10 @@ help()
 }
 
 # Process command options
-while getopts "w:i:s:h" opt
+while getopts "w:s:h" opt
 do
    case "$opt" in
       w ) workspace="$OPTARG" ;;
-      i ) host="$OPTARG" ;;
       s ) sentinel="$OPTARG" ;;
       h ) help ;;
       ? ) help ;;
@@ -36,13 +35,13 @@ do
 done
 
 # Check required options are set
-if [ -z "$workspace" ] || [ -z "$host" ] || [ -z "$sentinel" ]
+if [ -z "$workspace" ] || [ -z "$sentinel" ]
 then
    echo "Error: missing required options"
    help
 fi
 
-ip_addr=$(ip addr show | awk -v host="$host" '/inet /{if($2 == host){print $2}}' | cut -d'/' -f1)
+ip_addr=$(ip addr show | awk '/inet 10\./{print $2}' | cut -d'/' -f1)
 
 if [ -z "$ip_addr" ]
 then

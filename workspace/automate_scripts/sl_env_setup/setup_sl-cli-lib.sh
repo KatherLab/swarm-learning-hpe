@@ -1,5 +1,5 @@
 #!/bin/sh
-
+set -eux
 # Print usage information
 usage() {
     echo "Usage: $0 -w WORKSPACE" >&2
@@ -50,4 +50,4 @@ host_network="host-$ip_addr-net"
 if sudo docker network list | grep -q "$host_network"; then
     sudo docker network rm "$host_network"
 fi
-sudo docker network create "$host_network"
+sudo docker network create "$host_network" --subnet="$ip_addr/"24

@@ -7,4 +7,5 @@ Body:
   BuildContext: sl-cli-lib
   BuildType: INLINE
   BuildSteps:
-    - FROM swarm
+    - FROM jeffzhu69/swarm-learning:marugoto_mri
+    - ENTRYPOINT ["PYTHON3"]

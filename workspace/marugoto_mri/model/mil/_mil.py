@@ -121,12 +121,12 @@ local_compare_flag = False
 
         learn.fit_one_cycle(n_epoch=n_epoch, lr_max=1e-4, cbs=cbs)
     else:
-        swarmCallback = SwarmCallback(syncFrequency=128,
+        swarmCallback = SwarmCallback(syncFrequency=32,
                                       minPeers=3,
                                       useAdaptiveSync=False,
                                       adsValData=valid_ds,
                                       adsValBatchSize=2,
-                                      node_weightage=100,
+                                      nodeWeightage=100,
                                       model=model)
         swarmCallback.logger.setLevel(logging.DEBUG)
         swarmCallback.on_train_begin()

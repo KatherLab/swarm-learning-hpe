@@ -244,7 +244,7 @@ if __name__ == "__main__":
                                   useAdaptiveSync=False,
                                   adsValData=ds_val,
                                   adsValBatchSize=2,
-                                  node_weightage=100,
+                                  nodeWeightage=100,
                                   model=model)
     torch.autograd.set_detect_anomaly(True)
     #print('========3========')

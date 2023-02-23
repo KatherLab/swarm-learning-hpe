@@ -1,4 +1,4 @@
-Name: user_env_build_task_20230213_103308
+Name: user_env_build_task_20230214_154043
 TaskType: MAKE_USER_CONTAINER
 Author: Jeff
 Prereq: ROOTTASK
@@ -7,4 +7,5 @@ Body:
   BuildContext: sl-cli-lib
   BuildType: INLINE
   BuildSteps:
-    - FROM swarm
+    - FROM jeffzhu69/swarm-learning:marugoto_mri
+    - ENTRYPOINT ["PYTHON3"]

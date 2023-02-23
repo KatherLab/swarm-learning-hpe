@@ -89,7 +89,7 @@ fi
 
 if [ $ACTION = final_setup ]; then
   echo Please ensure the previous steps are completed on all the other hosts before running this step
-  if [ -z "$host_ip" ] || [ -z "$workspace_name" ] || [ -z "$sentinal_ip" ]
+  if [ -z "$workspace_name" ] || [ -z "$sentinal_ip" ]
     then
        echo "Some or all of the parameters are empty";
        help
