@@ -31,13 +31,7 @@ sudo apt-get install -y docker.io curl git openssh-server openssh-client
 # Update package manager and install pip
 sudo apt install python3-pip -y
 # Install gdown package for downloading from Google Drive
-sudo pip install -U --no-cache-dir gdown --pre
-
-echo "Testing Docker installation"
-sudo groupadd -f docker
-sudo usermod -aG docker $USER
-newgrp docker
-docker run hello-world
+pip install -U --no-cache-dir gdown --pre
 
 echo "Creating folder for Swarm Learning"
 DIR="/opt/hpe/swarm-learning-hpe"
@@ -56,6 +50,6 @@ echo "Setting permissions for Swarm Learning folder"
 sudo chmod 777 -R "$DIR"
 
 echo setup vpn tunnel for swarm learning
-sh "$DIR"/automate_scripts/server_setup/setup_vpntunnel.sh
+sudo sh ./workspace/automate_scripts/server_setup/setup_vpntunnel.sh
 
 echo "Installation completed successfully!"
