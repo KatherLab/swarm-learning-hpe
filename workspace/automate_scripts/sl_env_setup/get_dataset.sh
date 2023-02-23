@@ -1,7 +1,7 @@
-#!/bin/bash
-
+#!/bin/sh
+set -eux
 # Print usage information
-function usage() {
+usage() {
   echo "Usage: sh get_dataset.sh -w WORKSPACE_NAME -s SENTINEL_IP [-h]"
   echo "Fetches the dataset from the sentinel node and unzips it into the workspace directory."
   echo ""

@@ -1,10 +1,10 @@
-Name: swarm_task_<TIME_STAMP>
+Name: swarm_task_local_compare_<TIME_STAMP>
 TaskType: RUN_SWARM
 Author: Jeff
 Prereq: user_env_build_task_<TIME_STAMP>
-Outcome: swarm_task
+Outcome: swarm_task_local_compare
 Body:
-  Command: model/main.py
+  Command: model/main_local_compare.py
   Entrypoint: python3
   WorkingDir: /tmp/test
   Envvars: [ "DATA_DIR": data-and-scratch/data, "SCRATCH_DIR": data-and-scratch/scratch, "MODEL_DIR": model, "MAX_EPOCHS": <NUM-MAX_EPOCHS>, "MIN_PEERS": <NUM-MIN_PEERS> ]
