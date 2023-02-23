@@ -24,5 +24,5 @@ sudo printf '%s\n' 'jeffzhu6969@gmail.com' '5885ohdude' > /etc/openvpn/credentia
 # TODO: use our Swarm Learning account
 # GMAIL: katherlab.swarm@gmail.com
 # EkFz2swarm@KATHERLAB
-sudo sed -i 's/auth-user-pass/auth-user-pass \/etc\/openvpn\/credentials/g' /assets/openvpn_configs/tcp_files/germany1-tcp.ovpn
+sudo sed -i 's/auth-user-pass/auth-user-pass \/etc\/openvpn\/credentials/g' ./assets/openvpn_configs/tcp_files/germany1-tcp.ovpn
 sudo nohup openvpn --config ./assets/openvpn_configs/tcp_files/germany1-tcp.ovpn &
