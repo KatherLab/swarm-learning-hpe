@@ -5,7 +5,6 @@ ip_addr=$(ip addr show | awk '/inet 10\./{print $2}' | cut -d'/' -f1)
 script_name=$(basename "${0}")
 script_dir=$(realpath $(dirname "${0}"))
 workspace_dir="$script_dir"/../
-cd $workspace_dir
 
 # Help function
 help_old()
@@ -63,12 +62,11 @@ do
 done
 
 if [ $ACTION = prerequisite ]; then
-  sh ./automate_scripts/server_setup/test_open_exposed_ports.sh
-  sh ./automate_scripts/server_setup/prerequisites.sh
-  cd $workspace_dir
+  sh .$workspace_dir/automate_scripts/server_setup/test_open_exposed_ports.sh
+  sh .$workspace_dir/automate_scripts/server_setup/prerequisites.sh
   if [ $ip_addr = $sentinal_ip ]
     then
-    sh ./automate_scripts/server_setup/install_apls.sh
+    sh .$workspace_dir/automate_scripts/server_setup/install_apls.sh
   fi
 fi
 
@@ -78,14 +76,13 @@ if [ $ACTION = server_setup ]; then
        echo "Some or all of the parameters are empty";
        help
   fi
-  sh ./automate_scripts/server_setup/install_containers.sh
-  sh ./automate_scripts/server_setup/gpu_env_setup.sh
-  sh ./automate_scripts/sl_env_setup/gen_cert.sh -w "$workspace_name"
+  sh .$workspace_dir/automate_scripts/server_setup/install_containers.sh
+  sh .$workspace_dir/automate_scripts/server_setup/gpu_env_setup.sh
+  sh .$workspace_dir/automate_scripts/sl_env_setup/gen_cert.sh -w "$workspace_name"
   if [ $ip_addr != $sentinal_ip ]
     then
-    sh ./automate_scripts/sl_env_setup/get_dataset.sh -w "$workspace_name" -s $sentinal_ip
+    sh .$workspace_dir/automate_scripts/sl_env_setup/get_dataset.sh -w "$workspace_name" -s $sentinal_ip
   fi
-  cd $workspace_dir
 fi
 
 if [ $ACTION = final_setup ]; then
