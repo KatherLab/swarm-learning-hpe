@@ -45,9 +45,9 @@ sudo docker cp -L "${0%/*}"/swarmlearning-client-py3-none-manylinux_2_24_x86_64.
 sudo docker rm helper
 
 # Create a Docker network for the host
-ip_addr=$(ip addr show | awk '/inet 10\./{print $2}' | cut -d'/' -f1)
+ip_addr=$(ip addr show tun0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
 host_network="host-$ip_addr-net"
 if sudo docker network list | grep -q "$host_network"; then
     sudo docker network rm "$host_network"
 fi
-sudo docker network create "$host_network" --subnet="$ip_addr/"24
+sudo docker network create "$host_network" #--subnet="$ip_addr/"24

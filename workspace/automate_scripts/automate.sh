@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eux
 
-ip_addr=$(ip addr show | awk '/inet 10\./{print $2}' | cut -d'/' -f1)
+ip_addr=$(ip addr show tun0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
 script_name=$(basename "${0}")
 script_dir=$(realpath $(dirname "${0}"))
 
@@ -81,6 +81,7 @@ if [ $ACTION = server_setup ]; then
   sh ./workspace/automate_scripts/server_setup/install_containers.sh
   sh ./workspace/automate_scripts/server_setup/gpu_env_setup.sh
   sh ./workspace/automate_scripts/sl_env_setup/gen_cert.sh -w "$workspace_name"
+  sudo sh ./workspace/automate_scripts/server_setup/setup_vpntunnel.sh
   if [ $ip_addr != $sentinal_ip ]
     then
     sh ./workspace/automate_scripts/sl_env_setup/get_dataset.sh -w "$workspace_name" -s $sentinal_ip
@@ -110,6 +111,14 @@ if [ $ACTION = final_setup ]; then
      sn_command="--sentinel-ip=$sentinal_ip"
      #sh ./workspace/automate_scripts/sl_env_setup/share_cert.sh -t "$sentinal_ip" -w "$workspace_name"
 
+  fi
+  # set default values if num_peers or num_epochs not specified
+  if [ -z "$num_peers" ]; then
+    num_peers=2
+  fi
+
+  if [ -z "$num_epochs" ]; then
+    num_epochs=100
   fi
   sh ./workspace/automate_scripts/sl_env_setup/replacement.sh -w "$workspace_name" -s "$sentinal_ip" -n "$num_peers" -e "$num_epochs"
   sh ./workspace/automate_scripts/sl_env_setup/setup_sl-cli-lib.sh -w "$workspace_name"

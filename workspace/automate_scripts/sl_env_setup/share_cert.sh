@@ -2,7 +2,7 @@
 set -eux
 
 # Obtain IP address of current machine
-ip_addr=$(ip addr show | awk '/inet 10\./{print $2}' | cut -d'/' -f1)
+ip_addr=$(ip addr show tun0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
 
 # Obtain script name and directory
 script_name=$(basename "${0}")
