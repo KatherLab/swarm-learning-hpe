@@ -19,7 +19,7 @@ do
 done
 
 sudo apt-get -y install openvpn
-if sudo ls /etc/openvpn/credentials >/dev/null 2>&1; then
+if ! sudo ls /etc/openvpn/credentials >/dev/null 2>&1; then
     # The file exists, continue with the following commands
     sudo touch /etc/openvpn/credentials
     sudo printf '%s\n' 'jeffzhu6969@gmail.com' '5885ohdude' > /etc/openvpn/credentials
