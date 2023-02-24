@@ -113,6 +113,7 @@ documentation. Don't need to follow all of the guidelines at this moment, but it
 This project exists thanks to all the people who contribute.
 
 [@Kevin]()
+[@Oliver]()
 
 ## License
 
