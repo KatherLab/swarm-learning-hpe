@@ -3,7 +3,7 @@
 set -eux
 
 # Get the IP address of the current machine
-ip_addr=$(ip addr show | awk '/inet 10\./{print $2}' | cut -d'/' -f1)
+ip_addr=$(ip addr show tun0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
 
 # Get the name of this script, the directory it is in, and the current timestamp
 script_name=$(basename "${0}")

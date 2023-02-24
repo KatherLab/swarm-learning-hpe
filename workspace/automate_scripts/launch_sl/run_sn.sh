@@ -41,7 +41,7 @@ then
    help
 fi
 
-ip_addr=$(ip addr show | awk '/inet 10\./{print $2}' | cut -d'/' -f1)
+ip_addr=$(ip addr show tun0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
 
 if [ -z "$ip_addr" ]
 then

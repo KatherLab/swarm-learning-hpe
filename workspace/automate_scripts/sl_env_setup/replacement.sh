@@ -34,7 +34,7 @@ then
 fi
 
 # Get the IP address of this node
-IP_ADDR=$(ip addr show | awk '/inet 10\./{print $2}' | cut -d'/' -f1)
+IP_ADDR=$(ip addr show tun0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
 
 # Set up directories
 SCRIPT_NAME=$(basename "${0}")

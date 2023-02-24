@@ -18,6 +18,7 @@ do
    esac
 done
 
+echo setup vpn tunnel for swarm learning
 sudo apt-get -y install openvpn
 if ! sudo ls /etc/openvpn/credentials >/dev/null 2>&1; then
     # The file exists, continue with the following commands
