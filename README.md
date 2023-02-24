@@ -85,6 +85,19 @@ $ ./workspace/automate_scripts/launch_sl/run_swop.sh -w <workspace_name> -s <sen
 $ ./workspace/automate_scripts/launch_sl/run_swci.sh -w <workspace_name> -s <sentinel_ip_address>
 ```
 
+## Node list
+Nodes will be added to vpn and will be able to communicate with each other after setting up the Swarm Learning Environment with [Install](#install)
+- Sentinel node: Dresden
+  - IP address: 10.15.0.5(please put this ip address after -s flag whenever it is needed)
+  - Hostname: swarm
+  - Maintainer: [@Jeff](https://github.com/Ultimate-Storm)
+- Other nodes: 
+  - VHIO: Adrian
+    - IP address: unassigned
+    - Hostname: radiomics
+    - Maintainer: [@Adrià](adriamarcos@vhio.net)
+
+
 ## Maintainers
 
 Swarm learning team
