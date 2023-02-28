@@ -133,4 +133,15 @@ dmypy.json
 
 # Certificates
 *.pem
-/workspace/marugoto_mri/user/
+
+# user dataset and results
+
+# intermidiate files
+*_pre
+swop_profile_*
+
+# config files for sentinel node
+swci-init
+swarm_task_local_compare.yaml
+swarm_task.yaml
+user_env_build_task.yaml

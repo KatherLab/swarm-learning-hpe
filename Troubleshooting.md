@@ -78,7 +78,7 @@ Please remove below directories and re-try pull images: <br> </br>
 ~/.docker/trust/tuf/hub.myenterpriselicense.hpe.com/hpe_eval/swarm-learning/sl/
 
 ## 6. GPU env setup
-![Screenshot](asset/gpu-driver-setup.png)
+![gpu-driver-setup.png](assets%2Fgpu-driver-setup.png)
 
 It could be very tricky to set up the gpu env for SL. First make sure
 
@@ -105,7 +105,7 @@ Here’s how:
 
 ## 8. Other hosts couldn't connect to sentinal node when running sn
 Log:
-
+```
 `(base) swarm@dl1:/opt/hpe/swarm-learning$ sudo ./scripts/bin/run-sn -it --rm --name=sn2 --network=host-2-net --host-ip=192.168.33.103 --sentinel-ip=192.168.33.102 --sn-p2p-port=30303 --sn-api-port=30304 --key=workspace/mnist-pyt-gpu/cert/sn-2-key.pem --cert=workspace/mnist-pyt-gpu/cert/sn-2-cert.pem --capath=workspace/mnist-pyt-gpu/cert/ca/capath --apls-ip=192.168.33.102 --apls-port 5000
 a67f842daae7e086edbf37e81722a4000336b8d11b71a5f1b62912466ddee859
 ######################################################################
@@ -119,9 +119,64 @@ a67f842daae7e086edbf37e81722a4000336b8d11b71a5f1b62912466ddee859
 2023-02-01 10:50:18,264 : swarm.blCnt : INFO : Setting license servers
 2023-02-01 10:50:18,273 : swarm.blCnt : INFO : Acquiring floating license 1100000380:1
 2023-02-01 10:50:18,770 : swarm.SN : INFO : Using URL : https://192.168.33.102:30304/is_up`
-
+```
 SN node will stuck at this line for quite long and raise timeout error: couldn't connect to sentinal node.
 Solustion:
 - Ensure https://localhost:5000 could be accessd on sentinal node
 - Log in and check the validity of licenses
 - Uninstall the license server if necessary by reading the user guide
+
+## 9. Swarm Learning container couldn't access GPU device(CUDA Runtime Error: no CUDA-capable device is detected)
+Verify if the problem also appears in your local machine env or just in swarm docker env.
+Try:
+```
+$ sudo service docker restart
+$ sudo docker run --gpus all nvidia/cuda:11.0-base nvidia-smi
+```
+Ultimate solution: RESTART!
+
+
+## 10. Stuck at running swarm nodes
+- swarm network nodes
+- correct logs for sentinal nodes should be like this:
+  ```
+  bd63c696052db1ed6edb49720fd322d4fb2d934851776948d2554229a2ff00ab
+  ######################################################################
+  ##                    HPE SWARM LEARNING SN NODE                    ##
+  ######################################################################
+  ## © Copyright 2019-2022 Hewlett Packard Enterprise Development LP  ##
+  ######################################################################
+  2023-02-27 15:59:04,822 : swarm.blCnt : INFO : Setting up blockchain layer for the swarm node: START
+  2023-02-27 15:59:06,216 : swarm.blCnt : INFO : Creating Autopass License Provider
+  2023-02-27 15:59:07,103 : swarm.blCnt : INFO : Creating license server
+  2023-02-27 15:59:07,104 : swarm.blCnt : INFO : Setting license servers
+  2023-02-27 15:59:07,116 : swarm.blCnt : INFO : Acquiring floating license 1100000380:1
+  2023-02-27 15:59:37,235 : swarm.SN : INFO : SMLETHNode: Starting GETH ... 
+  2023-02-27 15:59:47,285 : swarm.SN : WARNING : SMLETHNode: Enode list is empty: Node is standalone
+  2023-02-27 16:01:57,471 : swarm.SN : INFO : SMLETHNode: Started I-am-Alive thread
+  2023-02-27 16:01:57,472 : swarm.blCnt : INFO : Setting up blockchain layer for the swarm node: FINISHED
+  2023-02-27 16:01:58,108 : swarm.blCnt : INFO : Starting SWARM-API-SERVER on port: 30304
+  ```
+
+  - correct logs for swarm nodes should be like this:
+
+  ```
+  bd63c696052db1ed6edb49720fd322d4fb2d934851776948d2554229a2ff00ab
+  ######################################################################
+  ##                    HPE SWARM LEARNING SN NODE                    ##
+  ######################################################################
+  ## © Copyright 2019-2022 Hewlett Packard Enterprise Development LP  ##
+  ######################################################################
+  2023-02-27 15:59:04,822 : swarm.blCnt : INFO : Setting up blockchain layer for the swarm node: START
+  2023-02-27 15:59:06,216 : swarm.blCnt : INFO : Creating Autopass License Provider
+  2023-02-27 15:59:07,103 : swarm.blCnt : INFO : Creating license server
+  2023-02-27 15:59:07,104 : swarm.blCnt : INFO : Setting license servers
+  2023-02-27 15:59:07,116 : swarm.blCnt : INFO : Acquiring floating license 1100000380:1
+  2023-02-27 16:01:57,471 : swarm.SN : INFO : Sentinel Node is up
+  2023-02-27 16:01:57,471 : swarm.SN : INFO : SMLETHNode: Starting GETH ...
+  2023-02-27 16:01:57,471 : swarm.SN : INFO : SMLETHNode: Started I-am-Alive thread
+  2023-02-27 16:01:57,472 : swarm.blCnt : INFO : Setting up blockchain layer for the swarm node: FINISHED
+  2023-02-27 16:01:58,108 : swarm.blCnt : INFO : Starting SWARM-API-SERVER on port: 30304
+  ```
+  If the SN nodes stuck at 'swarm.SN : INFO : Sentinel Node is up', please verify the network connection between the swarm nodes and the sentinal nodes. Ensure the lab network or VPN is correctly set up.
+  Else if any error message is shown about the license, please check the license server is correctly installed on Sentinal node and the license is valid and correctly shared between the Sentinal nodes and the Swarm nodes.

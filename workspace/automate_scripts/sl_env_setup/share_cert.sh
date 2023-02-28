@@ -10,23 +10,26 @@ script_dir=$(realpath $(dirname "${0}"))
 
 # Help function
 help() {
-    echo ""
-    echo "Usage: $script_name -t <target_host> -w <workspace>"
-    echo "Options:"
-    echo "  -t : The target host to copy the certificate from."
-    echo "  -w : The workspace to copy the certificate to."
-    echo ""
-    exit 1
+      echo ""
+      echo "Usage: $script_name -u <username> -t <target_host> -w <workspace>"
+      echo "Options:"
+      echo " -u : The username to use when connecting to the target host."
+      echo " If not specified, the default is 'swarm'."
+      echo " -t : The target host to copy the certificate from."
+      echo " -w : The workspace to copy the certificate to."
+      echo ""
+      exit 1
 }
 
 # Process command options
-while getopts "t:w:h?" opt; do
+while getopts "u:t:w:h?" opt; do
     case "$opt" in
-        t ) target_host="$OPTARG" ;;
-        w ) workspace="$OPTARG" ;;
-        h ) help ;;
-        ? ) help ;;
-    esac
+      u ) username="$OPTARG" ;;
+      t ) target_host="$OPTARG" ;;
+      w ) workspace="$OPTARG" ;;
+      h ) help ;;
+      ? ) help ;;
+  esac
 done
 
 # Check if required parameters are provided
@@ -38,5 +41,6 @@ fi
 # Copy the certificate from target_host to current machine's workspace
 # Modify the following line to match the path to the certificate on the target host
 # Modify the user name to match the user name on the target host, for example change swarm here to root
-sudo scp swarm@"$target_host":/opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/ca/capath/ca-"$target_host"-cert.pem /opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/ca/capath
-sudo scp /opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/ca/capath/ca-"$ip_addr"-cert.pem swarm@"$target_host":/opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/ca/capath/
+sudo scp $username@"$target_host":/opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/ca/capath/ca-"$target_host"-cert.pem /opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/ca/capath
+sudo chmod 777 /opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/ca/capath/ca-"$ip_addr"-cert.pem
+sudo scp /opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/ca/capath/ca-"$ip_addr"-cert.pem $username@"$target_host":/opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/ca/capath/

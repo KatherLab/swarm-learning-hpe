@@ -31,7 +31,7 @@ not the raw data. This tremendously enhances data security and privacy.
 
 The following image provides an overview of the Swarm Learning framework. Only the model parameters (learnings) are
 exchanged between the various edge nodes and not the raw data. This ensures that the privacy of data is preserved.
-![img.png](assets/img.png)
+![img.png](assets/SL structure.png)
 
 ## Table of Contents
 
@@ -66,8 +66,9 @@ Requirements and dependencies will be automatically installed by the script ment
 ```sh
 $ sh workspace/automate_scripts/automate.sh -<build stage> -i <target host ip to share cert> -s <sentinal host ip> -w <workspace> -n <num_peers> -e <num_epochs>"
 ```
-Please observe this [README.md](workspace%2Fautomate_scripts%2FREADME.md) file for more details.
+Please observe this [README.md](workspace%2Fautomate_scripts%2FREADME.md) file for more details. Specific instructions are given about how to run the commands.
 All the processes are automated, so you can just run the above command and wait for the process to finish.
+If any problem occurs, please first try to find solution in [Troubleshooting.md](Troubleshooting.md). Then contact the maintainer of the Swarm Learning Environment and document the error in the Troubleshooting.md file.
 ### Running Swarm Learning Nodes
 To run a Swarm Network node -> Swarm SWOP Node -> Swarm SWCI node, observe the following commands:
 - To run a Swarm Network (or sentinel) node:
@@ -80,10 +81,20 @@ $ ./workspace/automate_scripts/launch_sl/run_sn.sh -w <workspace_name> -s <senti
 $ ./workspace/automate_scripts/launch_sl/run_swop.sh -w <workspace_name> -s <sentinel_ip_address>
 ```
 
-- To run a Swarm SWCI node:
+- To run a Swarm SWCI node(Currently only sentinel node needs to run this):
 ```sh
 $ ./workspace/automate_scripts/launch_sl/run_swci.sh -w <workspace_name> -s <sentinel_ip_address>
 ```
+
+- To check the logs from training:
+```sh
+$ ./workspace/automate_scripts/launch_sl/check_latest_logs.sh
+```
+
+
+## Workflow
+![Workflow.png](assets%2FWorkflow.png)
+![Swarm model training protocol .png](assets%2FSwarm%20model%20training%20protocol%20.png)
 
 ## Node list
 Nodes will be added to vpn and will be able to communicate with each other after setting up the Swarm Learning Environment with [Install](#install)
@@ -93,14 +104,18 @@ Nodes will be added to vpn and will be able to communicate with each other after
   - Maintainer: [@Jeff](https://github.com/Ultimate-Storm)
 - Other nodes: 
   - VHIO: Adrian
-    - IP address: 10.15.0.17
+    - IP address: 10.15.0.16
     - Hostname: radiomics
     - Maintainer: [@Adrià](adriamarcos@vhio.net)
 
+## Models implemented
+
+TUD benchmarking on Duke breast mri dataset:![TUD experiments result.png](assets%2FTUD%20experiments%20result.png)
+Report: [Swarm learning report.pdf](assets%2FSwarm%20learning%20report.pdf)
 
 ## Maintainers
 
-Swarm learning team
+TUD Swarm learning team
 
 [@Jeff](https://github.com/Ultimate-Storm).
 
@@ -124,9 +139,9 @@ documentation. Don't need to follow all of the guidelines at this moment, but it
 ### Contributors
 
 This project exists thanks to all the people who contribute.
-
-[@Kevin]()
 [@Oliver]()
+[@Kevin]()
+
 
 ## License
 
