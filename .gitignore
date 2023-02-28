@@ -135,13 +135,14 @@ dmypy.json
 *.pem
 
 # user dataset and results
+**/user/
 
 # intermidiate files
-*_pre
-swop_profile_*
+**/*_pre
+**/swop_profile_*
 
 # config files for sentinel node
-swci-init
-swarm_task_local_compare.yaml
-swarm_task.yaml
-user_env_build_task.yaml
+**/swci-init
+**/swarm_task_local_compare.yaml
+**/swarm_task.yaml
+**/user_env_build_task.yaml
