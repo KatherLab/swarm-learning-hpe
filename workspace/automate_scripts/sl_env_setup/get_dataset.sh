@@ -22,7 +22,7 @@ while getopts ":w:s:h" opt; do
             usage
             ;;
         s)
-            sentinal_ip=$OPTARG
+            sentinel_ip=$OPTARG
             ;;
         \?)
             echo "Invalid option: -$OPTARG" >&2
@@ -36,11 +36,14 @@ while getopts ":w:s:h" opt; do
 done
 
 # Check that required options were provided
-if [[ -z "$workspace" || -z "$sentinal_ip" ]]; then
-  echo "Missing required options."
+if [[ -z "$sentinel_ip" ]]; then
+  echo "Missing sentinel node ."
   usage
 fi
 
 # Fetch and unzip the dataset
-scp -r swarm@$sentinal_ip:/mnt/sda1/swarm-learning/radiology-dataset/odelia_dataset_unilateral_256x256x32.zip workspace/$workspace/user/data-and-scratch/data
-unzip workspace/$workspace/user/data-and-scratch/data/odelia_dataset_unilateral_256x256x32.zip -d workspace/$workspace/user/data-and-scratch/data
+scp swarm@$sentinel_ip:/mnt/dlhd1/swarm-learning/odelia_dataset_unilateral_256x256x32.zip workspace/odelia-breast-mri/user/data-and-scratch/data
+scp swarm@$sentinel_ip:/mnt/dlhd1/swarm-learning/features_odelia_sub_imagenet.zip workspace/marugoto_mri/user/data-and-scratch/data
+scp -r swarm@$sentinel_ip:/mnt/dlhd1/swarm-learning/tables/ workspace/odelia-breast-mri/user/data-and-scratch/data
+unzip workspace/odelia-breast-mri/user/data-and-scratch/data/odelia_dataset_unilateral_256x256x32.zip -d workspace/odelia-breast-mri/user/data-and-scratch/data
+unzip workspace/marugoto_mri/user/data-and-scratch/data/features_odelia_sub_imagenet.zip -d workspace/marugoto_mri/user/data-and-scratch/data

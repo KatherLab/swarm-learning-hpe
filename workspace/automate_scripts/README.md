@@ -20,7 +20,7 @@ This script automates the process of setting up a workspace for swarm learning. 
 To use the scripts, clone this repository onto your machine and run `automate.sh` with the required flags:
 
 ```sh
-$ sh workspace/automate_scripts/automate.sh -<build stage> -i <target host ip to share cert> -s <sentinal host ip> -w <workspace> -n <num_peers> -e <num_epochs>"
+$ sh workspace/automate_scripts/automate.sh -<build stage> -i <target host ip to share cert> -s <sentinel host ip> -w <workspace> -n <num_peers> -e <num_epochs>"
 ```
 
 ## Help
@@ -46,11 +46,11 @@ $ sh workspace/automate_scripts/automate.sh -a
 ```
 - `server_setup`: Runs scripts that set up the swarm learning environment on a server.
 ```sh
-$ sh workspace/automate_scripts/automate.sh -b -w <workspace_name> -s <sentinal_ip>
+$ sh workspace/automate_scripts/automate.sh -b -w <workspace_name> -s <sentinel_ip>
 ```
-- `final_setup`: Runs scripts that finalize the setup of the swarm learning environment. The [-i list_of_ip] flag is necessary only for sentinal node. If it is specified, the script will share the SSL certificate with the nodes listed in the cluster.
+- `final_setup`: Runs scripts that finalize the setup of the swarm learning environment. The [-i list_of_ip] flag is necessary only for sentinel node. If it is specified, the script will share the SSL certificate with the nodes listed in the cluster.
 ```sh
-$ sh workspace/automate_scripts/automate.sh -c -w <workspace_name> -s <sentinal_ip> [-n num_peers] [-e num_epochs] [-i list_of_ip]
+$ sh workspace/automate_scripts/automate.sh -c -w <workspace_name> -s <sentinel_ip> [-n num_peers] [-e num_epochs] [-i list_of_ip]
 ```
 Here is an example usage for flag -c:
 ```sh
