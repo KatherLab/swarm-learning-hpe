@@ -136,6 +136,8 @@ dmypy.json
 
 # user dataset and results
 **/user/
+**/data-and-scratch/
+*.nii.gz
 
 # intermidiate files
 **/*_pre
@@ -146,3 +148,7 @@ dmypy.json
 **/swarm_task_local_compare.yaml
 **/swarm_task.yaml
 **/user_env_build_task.yaml
+/workspace/automate_scripts/server_setup/nohup.out
+
+# test files
+**/test_*
