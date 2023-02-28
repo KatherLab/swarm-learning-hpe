@@ -136,6 +136,7 @@ dmypy.json
 
 # user dataset and results
 **/user/
+**/user-*
 **/data-and-scratch/
 *.nii.gz
 
