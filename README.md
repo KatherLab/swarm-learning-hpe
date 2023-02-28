@@ -64,7 +64,7 @@ Requirements and dependencies will be automatically installed by the script ment
 ## Usage
 ### Setting up the Swarm Learning Environment
 ```sh
-$ sh workspace/automate_scripts/automate.sh -<build stage> -i <target host ip to share cert> -s <sentinal host ip> -w <workspace> -n <num_peers> -e <num_epochs>"
+$ sh workspace/automate_scripts/automate.sh -<build stage> -i <target host ip to share cert> -s <sentinel host ip> -w <workspace> -n <num_peers> -e <num_epochs>"
 ```
 Please observe this [README.md](workspace%2Fautomate_scripts%2FREADME.md) file for more details. Specific instructions are given about how to run the commands.
 All the processes are automated, so you can just run the above command and wait for the process to finish.

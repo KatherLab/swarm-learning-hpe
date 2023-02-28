@@ -1,6 +1,6 @@
 # Generic troubleshooting tips
 
-- User account for license server on host1(sentinal node) is: admin Ekfz_swarm_2
+- User account for license server on host1(sentinel node) is: admin Ekfz_swarm_2
 
 - x.509 certificates are not configured correctly – See [https://www.linuxjournal.com/content/understanding-public-key-infrastructure-and-x509-certificates](https://www.linuxjournal.com/content/understanding-public-key-infrastructure-and-x509-certificates).
 - License server is not running or Swarm licenses are not installed - See chapter "HPE AutoPass License Server License Management" in **AutoPass License Server User Guide** for details of the web GUI management interface and how to install license.
@@ -103,7 +103,7 @@ Here’s how:
 - Follow official docker install guide: https://docs.docker.com/engine/install/ubuntu/
 
 
-## 8. Other hosts couldn't connect to sentinal node when running sn
+## 8. Other hosts couldn't connect to sentinel node when running sn
 Log:
 ```
 `(base) swarm@dl1:/opt/hpe/swarm-learning$ sudo ./scripts/bin/run-sn -it --rm --name=sn2 --network=host-2-net --host-ip=192.168.33.103 --sentinel-ip=192.168.33.102 --sn-p2p-port=30303 --sn-api-port=30304 --key=workspace/mnist-pyt-gpu/cert/sn-2-key.pem --cert=workspace/mnist-pyt-gpu/cert/sn-2-cert.pem --capath=workspace/mnist-pyt-gpu/cert/ca/capath --apls-ip=192.168.33.102 --apls-port 5000
@@ -120,9 +120,9 @@ a67f842daae7e086edbf37e81722a4000336b8d11b71a5f1b62912466ddee859
 2023-02-01 10:50:18,273 : swarm.blCnt : INFO : Acquiring floating license 1100000380:1
 2023-02-01 10:50:18,770 : swarm.SN : INFO : Using URL : https://192.168.33.102:30304/is_up`
 ```
-SN node will stuck at this line for quite long and raise timeout error: couldn't connect to sentinal node.
+SN node will stuck at this line for quite long and raise timeout error: couldn't connect to sentinel node.
 Solustion:
-- Ensure https://localhost:5000 could be accessd on sentinal node
+- Ensure https://localhost:5000 could be accessd on sentinel node
 - Log in and check the validity of licenses
 - Uninstall the license server if necessary by reading the user guide
 
@@ -138,7 +138,7 @@ Ultimate solution: RESTART!
 
 ## 10. Stuck at running swarm nodes
 - swarm network nodes
-- correct logs for sentinal nodes should be like this:
+- correct logs for sentinel nodes should be like this:
   ```
   bd63c696052db1ed6edb49720fd322d4fb2d934851776948d2554229a2ff00ab
   ######################################################################
@@ -178,5 +178,5 @@ Ultimate solution: RESTART!
   2023-02-27 16:01:57,472 : swarm.blCnt : INFO : Setting up blockchain layer for the swarm node: FINISHED
   2023-02-27 16:01:58,108 : swarm.blCnt : INFO : Starting SWARM-API-SERVER on port: 30304
   ```
-  If the SN nodes stuck at 'swarm.SN : INFO : Sentinel Node is up', please verify the network connection between the swarm nodes and the sentinal nodes. Ensure the lab network or VPN is correctly set up.
-  Else if any error message is shown about the license, please check the license server is correctly installed on Sentinal node and the license is valid and correctly shared between the Sentinal nodes and the Swarm nodes.
+  If the SN nodes stuck at 'swarm.SN : INFO : Sentinel Node is up', please verify the network connection between the swarm nodes and the sentinel nodes. Ensure the lab network or VPN is correctly set up.
+  Else if any error message is shown about the license, please check the license server is correctly installed on Sentinel node and the license is valid and correctly shared between the Sentinel nodes and the Swarm nodes.

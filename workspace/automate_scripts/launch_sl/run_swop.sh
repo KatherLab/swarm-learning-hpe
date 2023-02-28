@@ -13,11 +13,11 @@ time_stamp=$(date +%Y%m%d_%H%M%S)
 # Help function
 help() {
   echo ""
-  echo "Usage: sh $script_name -w <workspace> -s <sentinal>"
+  echo "Usage: sh $script_name -w <workspace> -s <sentinel>"
   echo ""
   echo "Options:"
   echo "-w <workspace>   The name of the workspace directory to use."
-  echo "-s <sentinal>    The IP address of the machine acting as the swarm sentinel."
+  echo "-s <sentinel>    The IP address of the machine acting as the swarm sentinel."
   echo "-h               Show this help message."
   echo ""
   exit 1
@@ -30,7 +30,7 @@ while getopts "w:s:h" opt; do
       workspace="${OPTARG}"
       ;;
     s)
-      sentinal="${OPTARG}"
+      sentinel="${OPTARG}"
       ;;
     h)
       help
@@ -42,7 +42,7 @@ while getopts "w:s:h" opt; do
 done
 
 # Check that the required options are set
-if [ -z "$workspace" ] || [ -z "$sentinal" ]; then
+if [ -z "$workspace" ] || [ -z "$sentinel" ]; then
   echo "Error: The -w and -s options are required."
   help
 fi
@@ -57,6 +57,6 @@ sudo $script_dir/../../swarm_learning_scripts/run-swop -it --rm \
   --cert=workspace/"$workspace"/cert/swop-"$ip_addr"-cert.pem \
   --capath=workspace/"$workspace"/cert/ca/capath \
   -e http_proxy= -e https_proxy= \
-  --apls-ip="$sentinal" \
+  --apls-ip="$sentinel" \
   --apls-port=5000 \
   -e SWOP_KEEP_CONTAINERS=True
