@@ -18,7 +18,7 @@ help_old()
 
    echo -e "\\t-a Server setup for swarm learning."
    echo -e "\\t-b Swarm learning environment setup."
-   echo -e "\\t-c Final setup, flage -i for this step accepts a list of target host ip address to share certificates."
+   echo -e "\\t-c Final setup, flag -i for this step accepts a list of target host ip address to share certificates."
    echo -e "\\t-h Show help."
    echo ""
    exit 1
