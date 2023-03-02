@@ -49,7 +49,7 @@ if [ -z "$sentinel" ] || [ -z "$host_index" ]; then
 fi
 
 # Check if this host is the sentinel
-#ip_addr=$(ip addr show tun0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
+ip_addr=$(ip addr show tun0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
 #if [ "$ip_addr" != "$sentinel" ]; then
   #echo "Error: This host is not the sentinel node" >&2
   #exit 1
