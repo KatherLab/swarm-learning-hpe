@@ -165,12 +165,15 @@ class User_swarm_callback(Callback):
     #def on_train_end(self, trainer, pl_module):
     #    self.swarmCallback.on_train_end()
 
-max_expochs = 100
+default_max_epochs = 100
 if __name__ == "__main__":
     # ------------ Settings/Defaults ----------------
     task_data_name = '40-30-10-20'
     scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
     dataDir = os.getenv('DATA_DIR', '/platform/data/')
+    max_epochs = int(os.getenv('MAX_EPOCHS', str(default_max_epochs)))
+    min_peers = int(os.getenv('MIN_PEERS', '2'))
+
     #print(os.getenv('DATA_DIR'))
     #print(f"Using {scratchDir} for training")
     current_time = datetime.now().strftime("%Y_%m_%d_%H%M%S")
@@ -240,8 +243,9 @@ if __name__ == "__main__":
     device = torch.device("cuda" if useCuda else "cpu")
     model = model.to(torch.device(device))
     swarmCallback = SwarmCallback(syncFrequency=512,
-                                  minPeers=2,
-                                  useAdaptiveSync=False,
+                                  minPeers=min_peers,
+                                  maxPeers=5,
+                                  useAdaptiveSync=True,
                                   adsValData=ds_val,
                                   adsValBatchSize=2,
                                   nodeWeightage=100,
@@ -266,7 +270,7 @@ if __name__ == "__main__":
         log_every_n_steps=log_every_n_steps,
         auto_lr_find=False,
         # limit_val_batches=0, # 0 = disable validation - Note: Early Stopping no longer available
-        max_epochs=max_expochs,
+        max_epochs=max_epochs,
         num_sanity_val_steps=2,
         logger=TensorBoardLogger(save_dir=path_run_dir)
     )

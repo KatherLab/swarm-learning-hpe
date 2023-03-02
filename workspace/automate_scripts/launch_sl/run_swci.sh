@@ -8,6 +8,7 @@ usage() {
   echo "Options:"
   echo "  -w <workspace>   Workspace directory (default: workspace)"
   echo "  -s <sentinel IP> IP address of the sentinel node"
+  echo "  -d <host_index>  Chose from [TUD, Ribera, VHIO, Radboud, UKA, Utrecht, Mitera, Cambridge, Zurich] for your site"
   echo "  -h               Show this help message"
   exit 1
 }
@@ -16,13 +17,16 @@ usage() {
 workspace="workspace"
 
 # Parse command line arguments
-while getopts ":w:s:h" opt; do
+while getopts ":w:s:d:h" opt; do
   case $opt in
     w)
       workspace="$OPTARG"
       ;;
     s)
       sentinel="$OPTARG"
+      ;;
+    d)
+      host_index="$OPTARG"
       ;;
     h)
       usage
@@ -39,8 +43,8 @@ while getopts ":w:s:h" opt; do
 done
 
 # Verify that sentinel IP is set
-if [ -z "$sentinel" ]; then
-  echo "Error: Sentinel IP address must be specified using -i" >&2
+if [ -z "$sentinel" ] || [ -z "$host_index" ]; then
+  echo "Error: Sentinel IP address must be specified using -i, host_index is also required" >&2
   usage
 fi
 
@@ -73,8 +77,8 @@ sed -i "s+<TIME_STAMP>+$time_stamp+g" "workspace/$workspace/swci/taskdefs/swarm_
 sudo "$script_dir/../../swarm_learning_scripts/run-swci" \
   -it --rm --name="swci-$ip_addr" \
   --network="host-$ip_addr-net" --usr-dir="workspace/$workspace/swci" \
-  --init-script-name="swci-init" --key="workspace/$workspace/cert/swci-$ip_addr-key.pem" \
-  --cert="workspace/$workspace/cert/swci-$ip_addr-cert.pem" \
-  --capath="workspace/$workspace/cert/ca/capath" \
+  --init-script-name="swci-init" --key="cert/swci-$ip_addr-key.pem" \
+  --cert="cert/swci-$ip_addr-cert.pem" \
+  --capath="cert/ca/capath" \
   -e "http_proxy=" -e "https_proxy=" --apls-ip="$sentinel" --apls-port=5000 \
   -e "SWCI_TASK_MAX_WAIT_TIME=5000"
