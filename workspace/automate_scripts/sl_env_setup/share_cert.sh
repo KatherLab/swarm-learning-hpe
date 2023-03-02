@@ -45,4 +45,4 @@ sudo apt-get -y install sshpass
 echo "Please ask TUD maintainer for the password on sentinel host if you don't have one"
 sudo scp $username@"$target_host":/opt/hpe/swarm-learning-hpe/cert/ca/capath/ca-TUD-cert.pem /opt/hpe/swarm-learning-hpe/cert/ca/capath
 #sudo chmod 777 /opt/hpe/swarm-learning-hpe/cert/ca/capath/{!ca-TUD,}*"-cert.pem"
-sudo scp /opt/hpe/swarm-learning-hpe/cert/ca/capath/{!ca-TUD,}*"-cert.pem" $username@"$target_host":/opt/hpe/swarm-learning-hpe/cert/ca/capath/
+sudo scp /opt/hpe/swarm-learning-hpe/cert/ca/capath/*-cert.pem $username@"$target_host":/opt/hpe/swarm-learning-hpe/cert/ca/capath/
