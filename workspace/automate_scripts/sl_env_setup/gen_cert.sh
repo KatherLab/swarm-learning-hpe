@@ -10,25 +10,25 @@ help()
    echo "Generate SSL certificates for HPE Swarm Learning nodes."
    echo ""
    echo "Options:"
-   echo "-w <workspace>   Required. The directory where SSL certificates will be generated."
+   echo "-i <host_index>  Required. The host index for SSL certificates that will be generated."
    echo "-h               Display this help message."
    exit 1
 }
 
 # Process command options
-while getopts "w:h" opt
+while getopts "i:h" opt
 do
    case "$opt" in
-      w ) workspace="$OPTARG" ;;
+      i ) host_index="$OPTARG" ;;
       h ) help ;;
       * ) help ;;
    esac
 done
 
 # Checks
-if [ -z "$workspace" ]
+if [ -z "$host_index" ]
 then
-   echo "Error: The '-w' option is required."
+   echo "Error: The '-i' option is required."
    help
 fi
 
@@ -37,4 +37,5 @@ ip_addr=$(ip addr show tun0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
 
 # Generate SSL certificates
 script_dir=$(realpath $(dirname "${0}"))
-sudo "$script_dir"/../../swarm_learning_scripts/gen-cert -e "$workspace" -i "$ip_addr"
+
+sudo "$script_dir"/../../swarm_learning_scripts/gen-cert -i "$host_index"
