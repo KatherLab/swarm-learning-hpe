@@ -29,19 +29,19 @@ nodes:
         - attribute:
             aType: KEY
             mType: BIND
-            src: "/opt/hpe/swarm-learning-hpe/workspace/<MODULE-NAME>/cert/sl-<HOST-IPADDRESS>-key.pem"
-            tgt: "/swarm-cert/sl-<HOST-IPADDRESS>-key.pem"
+            src: "/cert/sl-<HOST-INDEX>-key.pem"
+            tgt: "/swarm-cert/sl-<HOST-INDEX>-key.pem"
             subPath: null
         - attribute:
             aType: CERT
             mType: BIND
-            src: "/opt/hpe/swarm-learning-hpe/workspace/<MODULE-NAME>/cert/sl-<HOST-IPADDRESS>-cert.pem"
-            tgt: "/swarm-cert/sl-<HOST-IPADDRESS>-cert.pem"
+            src: "/cert/sl-<HOST-INDEX>-cert.pem"
+            tgt: "/swarm-cert/sl-<HOST-INDEX>-cert.pem"
             subPath: null
         - attribute:
             aType: CAPATH
             mType: BIND
-            src: "/opt/hpe/swarm-learning-hpe/workspace/<MODULE-NAME>/cert/ca/capath"
+            src: "/cert/ca/capath"
             tgt: "/swarm-cert/capath"
             subPath: null
       slhostname: sl<HOST-IPADDRESS>
