@@ -9,16 +9,18 @@ print_help() {
    echo "  -w: Name of the workspace directory"
    echo "  -n: Number of minimum peers"
    echo "  -e: Number of maximum epochs"
+   echo "  -d: Hose index"
    echo "  -h: Print this help text"
 }
 
 # Parse command line options
-while getopts ":s:w:n:e:h" opt; do
+while getopts ":s:w:d:n:e:h" opt; do
    case $opt in
       s) SENTINEL_HOST="$OPTARG" ;;
       w) WORKSPACE="$OPTARG" ;;
       n) NUM_PEERS="$OPTARG" ;;
       e) NUM_EPOCHS="$OPTARG" ;;
+      d) HOST_INDEX="$OPTARG" ;;
       h) print_help; exit 0 ;;
       \?) echo "Invalid option -$OPTARG" >&2; print_help; exit 1 ;;
       :) echo "Option -$OPTARG requires an argument." >&2; print_help; exit 1 ;;
@@ -26,7 +28,7 @@ while getopts ":s:w:n:e:h" opt; do
 done
 
 # Check required options
-if [ -z "$SENTINEL_HOST" ] || [ -z "$WORKSPACE" ] || [ -z "$NUM_PEERS" ] || [ -z "$NUM_EPOCHS" ]
+if [ -z "$SENTINEL_HOST" ] || [ -z "$WORKSPACE" ] || [ -z "$NUM_PEERS" ] || [ -z "$NUM_EPOCHS" ] || [ -z "$HOST_INDEX" ];
 then
    echo "Error: Missing required option(s)." >&2
    print_help
@@ -59,4 +61,5 @@ do
    sed -i "s+<MODULE-NAME>+$WORKSPACE+g" "$file"
    sed -i "s+<NUM-MIN_PEERS>+$NUM_PEERS+g" "$file"
    sed -i "s+<NUM-MAX_EPOCHS>+$NUM_EPOCHS+g" "$file"
+   sed -i "s+<HOST-INDEX>+$HOST_INDEX+g" "$file"
 done
