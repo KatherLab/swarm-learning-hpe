@@ -30,17 +30,18 @@ while getopts ":w:h" opt; do
     : ) echo "Option -$OPTARG requires an argument." >&2; exit 1 ;;
   esac
 done
+ip_addr=$(ip addr show tun0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
 
 # Launch the swarm learning container with the specified options
 "$script_dir"/../../swarm_learning_scripts/run-sl \
   --name=sl1 \
-  --host-ip=192.168.33.102 \
-  --sn-ip=192.168.33.102 \
+  --host-ip="$ip_addr" \
+  --sn-ip="$ip_addr"\
   --sn-api-port=30304 \
   --sl-fs-port=16000 \
-  --key=/opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/sl-192.168.33.102-key.pem \
-  --cert=/opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/sl-192.168.33.102-cert.pem \
-  --capath=workspace/"$workspace"/cert/ca/capath \
+  --key=/opt/hpe/swarm-learning-hpe/cert/sl-TUD-key.pem \
+  --cert=/opt/hpe/swarm-learning-hpe/cert/sl-TUD-cert.pem \
+  --capath=/cert/ca/capath \
   --ml-it \
   --ml-image=swarm \
   --ml-name=ml1 \
@@ -52,4 +53,4 @@ done
   --ml-e MAX_EPOCHS=5 \
   --ml-e MIN_PEERS=2 \
   --ml-e https_proxy= \
-  --apls-ip=192.168.33.102
+  --apls-ip="$ip_addr"

@@ -18,19 +18,23 @@ help() {
   echo "Options:"
   echo "-w <workspace>   The name of the workspace directory to use."
   echo "-s <sentinel>    The IP address of the machine acting as the swarm sentinel."
+  echo "-d <host_index>  Chose from [TUD, Ribera, VHIO, Radboud, UKA, Utrecht, Mitera, Cambridge, Zurich] for your site"
   echo "-h               Show this help message."
   echo ""
   exit 1
 }
 
 # Process command line options
-while getopts "w:s:h" opt; do
+while getopts "w:s:d:h" opt; do
   case "${opt}" in
     w)
       workspace="${OPTARG}"
       ;;
     s)
       sentinel="${OPTARG}"
+      ;;
+    d)
+      host_index="${OPTARG}"
       ;;
     h)
       help
@@ -42,7 +46,7 @@ while getopts "w:s:h" opt; do
 done
 
 # Check that the required options are set
-if [ -z "$workspace" ] || [ -z "$sentinel" ]; then
+if [ -z "$workspace" ] || [ -z "$sentinel" ] || [ -z "$host_index" ]; then
   echo "Error: The -w and -s options are required."
   help
 fi
@@ -53,9 +57,9 @@ sudo $script_dir/../../swarm_learning_scripts/run-swop -it --rm \
   --network=host-"$ip_addr"-net \
   --usr-dir=workspace/"$workspace"/swop \
   --profile-file-name=swop_profile_"$ip_addr".yaml \
-  --key=workspace/"$workspace"/cert/swop-"$ip_addr"-key.pem \
-  --cert=workspace/"$workspace"/cert/swop-"$ip_addr"-cert.pem \
-  --capath=workspace/"$workspace"/cert/ca/capath \
+  --key=cert/swop-"$host_index"-key.pem \
+  --cert=cert/swop-"$host_index"-cert.pem \
+  --capath=cert/ca/capath \
   -e http_proxy= -e https_proxy= \
   --apls-ip="$sentinel" \
   --apls-port=5000 \

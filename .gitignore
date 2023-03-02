@@ -142,6 +142,7 @@ dmypy.json
 
 # intermidiate files
 **/*_pre
+**/*_pre.yaml
 **/swop_profile_*
 
 # config files for sentinel node
