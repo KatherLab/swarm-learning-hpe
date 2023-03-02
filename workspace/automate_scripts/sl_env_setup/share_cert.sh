@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -eux
 
 # Obtain IP address of current machine
