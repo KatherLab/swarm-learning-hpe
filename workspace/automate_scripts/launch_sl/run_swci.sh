@@ -77,8 +77,8 @@ sed -i "s+<TIME_STAMP>+$time_stamp+g" "workspace/$workspace/swci/taskdefs/swarm_
 sudo "$script_dir/../../swarm_learning_scripts/run-swci" \
   -it --rm --name="swci-$ip_addr" \
   --network="host-$ip_addr-net" --usr-dir="workspace/$workspace/swci" \
-  --init-script-name="swci-init" --key="cert/swci-$ip_addr-key.pem" \
-  --cert="cert/swci-$ip_addr-cert.pem" \
+  --init-script-name="swci-init" --key="cert/swci-$host_index-key.pem" \
+  --cert="cert/swci-$host_index-cert.pem" \
   --capath="cert/ca/capath" \
   -e "http_proxy=" -e "https_proxy=" --apls-ip="$sentinel" --apls-port=5000 \
   -e "SWCI_TASK_MAX_WAIT_TIME=5000"
