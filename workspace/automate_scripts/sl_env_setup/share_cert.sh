@@ -41,6 +41,8 @@ sudo apt-get -y install sshpass
 # Copy the certificate from target_host to current machine's workspace
 # Modify the following line to match the path to the certificate on the target host
 # Modify the user name to match the user name on the target host, for example change swarm here to root
-sshpass -p 'Ekfz2ekfz' sudo scp $username@"$target_host":/opt/hpe/swarm-learning-hpe/cert/ca/capath/ca-TUD-cert.pem /opt/hpe/swarm-learning-hpe/cert/ca/capath
+
+echo "Please ask TUD maintainer for the password on sentinel host if you don't have one"
+sudo scp $username@"$target_host":/opt/hpe/swarm-learning-hpe/cert/ca/capath/ca-TUD-cert.pem /opt/hpe/swarm-learning-hpe/cert/ca/capath
 sudo chmod 777 /opt/hpe/swarm-learning-hpe/cert/ca/capath/*-cert.pem
-sshpass -p 'Ekfz2ekfz' sudo scp /opt/hpe/swarm-learning-hpe/cert/ca/capath/*-cert.pem $username@"$target_host":/opt/hpe/swarm-learning-hpe/cert/ca/capath/
+sudo scp /opt/hpe/swarm-learning-hpe/cert/ca/capath/*-cert.pem $username@"$target_host":/opt/hpe/swarm-learning-hpe/cert/ca/capath/
