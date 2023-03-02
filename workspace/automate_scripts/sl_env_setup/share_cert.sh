@@ -23,18 +23,17 @@ help() {
 
 username="swarm"
 # Process command options
-while getopts "u:t:w:h?" opt; do
+while getopts "u:t:h?" opt; do
     case "$opt" in
       u ) username="$OPTARG" ;;
       t ) target_host="$OPTARG" ;;
-      w ) workspace="$OPTARG" ;;
       h ) help ;;
       ? ) help ;;
   esac
 done
 
 # Check if required parameters are provided
-if [ -z "$target_host" ] || [ -z "$workspace" ]; then
+if [ -z "$target_host" ]; then
     echo "Some or all of the parameters are empty"
     help
 fi
