@@ -44,9 +44,9 @@ The script has three main actions:
 ```sh
 $ sh workspace/automate_scripts/automate.sh -a
 ```
-- `server_setup`: Runs scripts that set up the swarm learning environment on a server.
+- `server_setup`: Runs scripts that set up the swarm learning environment on a server. Host index should be chosen from [TUD, Ribera, VHIO, Radboud, UKA, Utrecht, Mitera, Cambridge, Zurich]
 ```sh
-$ sh workspace/automate_scripts/automate.sh -b -w <workspace_name> -s <sentinel_ip>
+$ sh workspace/automate_scripts/automate.sh -b -w <workspace_name> -s <sentinel_ip> -d <host_index>
 ```
 - `final_setup`: Runs scripts that finalize the setup of the swarm learning environment. The [-i list_of_ip] flag is necessary only for sentinel node. If it is specified, the script will share the SSL certificate with the nodes listed in the cluster.
 ```sh

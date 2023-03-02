@@ -21,6 +21,7 @@ help() {
       exit 1
 }
 
+username="swarm"
 # Process command options
 while getopts "u:t:w:h?" opt; do
     case "$opt" in
@@ -37,10 +38,10 @@ if [ -z "$target_host" ] || [ -z "$workspace" ]; then
     echo "Some or all of the parameters are empty"
     help
 fi
-
+sudo apt-get -y install sshpass
 # Copy the certificate from target_host to current machine's workspace
 # Modify the following line to match the path to the certificate on the target host
 # Modify the user name to match the user name on the target host, for example change swarm here to root
-sudo scp $username@"$target_host":/opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/ca/capath/ca-"$target_host"-cert.pem /opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/ca/capath
-sudo chmod 777 /opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/ca/capath/ca-"$ip_addr"-cert.pem
-sudo scp /opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/ca/capath/ca-"$ip_addr"-cert.pem $username@"$target_host":/opt/hpe/swarm-learning-hpe/workspace/"$workspace"/cert/ca/capath/
+sshpass -p 'Ekfz2ekfz' sudo scp $username@"$target_host":/opt/hpe/swarm-learning-hpe/cert/ca/capath/ca-"$target_host"-cert.pem /opt/hpe/swarm-learning-hpe/cert/ca/capath
+sudo chmod 777 /opt/hpe/swarm-learning-hpe/cert/ca/capath/ca-"$ip_addr"-cert.pem
+sshpass -p 'Ekfz2ekfz' sudo scp /opt/hpe/swarm-learning-hpe/cert/ca/capath/ca-"$ip_addr"-cert.pem $username@"$target_host":/opt/hpe/swarm-learning-hpe/cert/ca/capath/
