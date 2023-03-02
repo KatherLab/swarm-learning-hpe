@@ -73,17 +73,17 @@ If any problem occurs, please first try to find solution in [Troubleshooting.md]
 To run a Swarm Network node -> Swarm SWOP Node -> Swarm SWCI node, observe the following commands:
 - To run a Swarm Network (or sentinel) node:
 ```sh
-$ ./workspace/automate_scripts/launch_sl/run_sn.sh -w <workspace_name> -s <sentinel_ip_address>
+$ ./workspace/automate_scripts/launch_sl/run_sn.sh -s <sentinel_ip_address> -d <host_index>
 ```
 
 - To run a Swarm SWOP node:
 ```sh
-$ ./workspace/automate_scripts/launch_sl/run_swop.sh -w <workspace_name> -s <sentinel_ip_address>
+$ ./workspace/automate_scripts/launch_sl/run_swop.sh -w <workspace_name> -s <sentinel_ip_address>  -d <host_index>
 ```
 
-- To run a Swarm SWCI node(Currently only sentinel node needs to run this):
+- To run a Swarm SWCI node(SWCI node is used to generate training task runners, could be initiated by and host, but currently we suggest only the sentinel host is allowed to initiate):
 ```sh
-$ ./workspace/automate_scripts/launch_sl/run_swci.sh -w <workspace_name> -s <sentinel_ip_address>
+$ ./workspace/automate_scripts/launch_sl/run_swci.sh -w <workspace_name> -s <sentinel_ip_address>  -d <host_index>
 ```
 
 - To check the logs from training:
