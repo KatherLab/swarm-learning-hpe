@@ -28,7 +28,7 @@ while getopts ":s:w:d:n:e:h" opt; do
 done
 
 # Check required options
-if [ -z "$SENTINEL_HOST" ] || [ -z "$WORKSPACE" ] || [ -z "$NUM_PEERS" ] || [ -z "$NUM_EPOCHS" ] || [ -z "$HOST_INDEX" ];
+if [ -z "$SENTINEL_HOST" ] || [ -z "$WORKSPACE" ] || [ -z "$NUM_PEERS" ] || [ -z "$HOST_INDEX" ];
 then
    echo "Error: Missing required option(s)." >&2
    print_help

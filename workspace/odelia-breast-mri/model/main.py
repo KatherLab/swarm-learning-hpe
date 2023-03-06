@@ -1,153 +1,26 @@
-from pathlib import Path
 from datetime import datetime
-
 from pytorch_lightning.trainer import Trainer
 from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 from pytorch_lightning.loggers import TensorBoardLogger
-from torch.utils.data.dataset import Subset
-
-from data.datasets import DUKE_Dataset3D
-from data.datamodules import DataModule
-
 import os
 from pathlib import Path
 import logging
 from tqdm import tqdm
-import torch
-import torch.nn.functional as F
 import numpy as np
 from torch.utils.data.dataset import Subset
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
-
 from data.datasets import DUKE_Dataset3D
 from data.datamodules import DataModule
 from utils.roc_curve import plot_roc_curve, cm2acc, cm2x
-
-from models import BasicClassifier
 import monai.networks.nets as nets
 import torch
-import torch.nn.functional as F
 from swarmlearning.pyt import SwarmCallback
 from pytorch_lightning.callbacks import Callback
-#from main_predict import predict
-class ResNet(BasicClassifier):
-    def __init__(
-            self,
-            in_ch,
-            out_ch,
-            spatial_dims=3,
-            block='basic',
-            layers=[3, 4, 6, 3],
-            block_inplanes=[64, 128, 256, 512],
-            feed_forward=True,
-            loss=torch.nn.BCEWithLogitsLoss,
-            loss_kwargs={},
-            optimizer=torch.optim.AdamW,
-            optimizer_kwargs={'lr': 1e-4},
-            lr_scheduler=None,
-            lr_scheduler_kwargs={},
-            aucroc_kwargs={"task": "binary"},
-            acc_kwargs={"task": "binary"}
-    ):
-        super().__init__(in_ch, out_ch, spatial_dims, loss, loss_kwargs, optimizer, optimizer_kwargs, lr_scheduler,
-                         lr_scheduler_kwargs)
-        self.model = nets.ResNet(block, layers, block_inplanes, spatial_dims, in_ch, 7, 1, False, 'B', 1.0, out_ch,
-                                 feed_forward, True)
-
-    def forward(self, x_in, **kwargs):
-        pred_hor = self.model(x_in)
-        return pred_hor
-
-def predict(model_dir, test_data_dir):
-    # ------------ Settings/Defaults ----------------
-    # path_run = Path.cwd() / 'runs/2023_02_06_175325'
-    # path_run = Path('/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user-odelia-breast-mri-192.168.33.102/data-and-scratch/scratch/2023_02_06_205810/')
-    path_run = Path(model_dir)
-    #path_run = Path(
-        #'/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user-odelia-breast-mri-192.168.33.102/data-and-scratch/scratch/2023_02_06_224851')
-    #path_out = Path().cwd() / 'results' / path_run.name
-    path_out = Path(path_run) / 'results' / path_run.name
-    path_out.mkdir(parents=True, exist_ok=True)
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    fontdict = {'fontsize': 10, 'fontweight': 'bold'}
-
-    # ------------ Logging --------------------
-    logger = logging.getLogger(__name__)
-    logging.basicConfig(level=logging.INFO)
-
-    # ------------ Load Data ----------------
-    ds = DUKE_Dataset3D(
-        flip=True,
-        path_root=test_data_dir
-    )
-
-    ds_test = ds
-
-    dm = DataModule(
-        ds_test=ds_test,
-        batch_size=1,
-        # num_workers=0,
-        # pin_memory=True,
-    )
-
-    # ------------ Initialize Model ------------
-    model = ResNet.load_best_checkpoint(path_run, version=0)
-    model.to(device)
-    model.eval()
-
-    results = {'GT': [], 'NN': [], 'NN_pred': []}
-    for batch in tqdm(dm.test_dataloader()):
-        source, target = batch['source'], batch['target']
-
-        # Run Model
-        pred = model(source.to(device)).cpu()
-        pred = torch.sigmoid(pred)
-        pred_binary = torch.argmax(pred, dim=1)
-
-        results['GT'].extend(target.tolist())
-        results['NN'].extend(pred_binary.tolist())
-        results['NN_pred'].extend(pred[:, 0].tolist())
-
-    df = pd.DataFrame(results)
-    df.to_csv(path_out / 'results.csv')
-
-    #  -------------------------- Confusion Matrix -------------------------
-    cm = confusion_matrix(df['GT'], df['NN'])
-    tn, fp, fn, tp = cm.ravel()
-    n = len(df)
-    logger.info(
-        "Confusion Matrix: TN {} ({:.2f}%), FP {} ({:.2f}%), FN {} ({:.2f}%), TP {} ({:.2f}%)".format(tn, tn / n * 100,
-                                                                                                      fp, fp / n * 100,
-                                                                                                      fn, fn / n * 100,
-                                                                                                      tp, tp / n * 100))
-
-    # ------------------------------- ROC-AUC ---------------------------------
-    fig, axis = plt.subplots(ncols=1, nrows=1, figsize=(6, 6))
-    y_pred_lab = np.asarray(df['NN_pred'])
-    y_true_lab = np.asarray(df['GT'])
-    tprs, fprs, auc_val, thrs, opt_idx, cm = plot_roc_curve(y_true_lab, y_pred_lab, axis, fontdict=fontdict)
-    fig.tight_layout()
-    fig.savefig(path_out / f'roc.png', dpi=300)
-
-    #  -------------------------- Confusion Matrix -------------------------
-    acc = cm2acc(cm)
-    _, _, sens, spec = cm2x(cm)
-    df_cm = pd.DataFrame(data=cm, columns=['False', 'True'], index=['False', 'True'])
-    fig, axis = plt.subplots(1, 1, figsize=(4, 4))
-    sns.heatmap(df_cm, ax=axis, cbar=False, fmt='d', annot=True)
-    axis.set_title(f'Confusion Matrix ACC={acc:.2f}', fontdict=fontdict)  # CM =  [[TN, FP], [FN, TP]]
-    axis.set_xlabel('Prediction', fontdict=fontdict)
-    axis.set_ylabel('True', fontdict=fontdict)
-    fig.tight_layout()
-    fig.savefig(path_out / f'confusion_matrix.png', dpi=300)
-
-    logger.info(f"Malign  Objects: {np.sum(y_true_lab)}")
-    logger.info("Confusion Matrix {}".format(cm))
-    logger.info("Sensitivity {:.2f}".format(sens))
-    logger.info("Specificity {:.2f}".format(spec))
+from models import ResNet
+from predict import predict
 
 class User_swarm_callback(Callback):
     def __init__(self, swarmCallback):
@@ -165,14 +38,21 @@ class User_swarm_callback(Callback):
     #def on_train_end(self, trainer, pl_module):
     #    self.swarmCallback.on_train_end()
 
-default_max_epochs = 100
+def cal_weightage(train_size):
+    full_dataset_size = 922
+    return train_size / full_dataset_size
+
 if __name__ == "__main__":
     # ------------ Settings/Defaults ----------------
     task_data_name = '40-30-10-20'
     scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
     dataDir = os.getenv('DATA_DIR', '/platform/data/')
-    max_epochs = int(os.getenv('MAX_EPOCHS', str(default_max_epochs)))
-    min_peers = int(os.getenv('MIN_PEERS', '2'))
+    max_epochs = os.getenv('MAX_EPOCHS', 100)
+    min_peers = os.getenv('MIN_PEERS', 2)
+    max_peers = os.getenv('MAX_PEERS', 7)
+    local_compare_flag = os.getenv('LOCAL_COMPARE_FLAG', False)
+    useAdaptiveSync = os.getenv('USE_ADAPTIVE_SYNC', False)
+    syncFrequency = os.getenv('SYNC_FREQUENCY', 512)
 
     #print(os.getenv('DATA_DIR'))
     #print(f"Using {scratchDir} for training")
@@ -234,7 +114,7 @@ if __name__ == "__main__":
         monitor=to_monitor,
         #every_n_train_steps=log_every_n_steps,
         save_last=True,
-        save_top_k=2,
+        #save_top_k=2,
         #filename='odelia-epoch{epoch:02d}-val_AUC_ROC{val/AUC_ROC:.2f}',
         mode=min_max,
     )
@@ -242,13 +122,13 @@ if __name__ == "__main__":
 
     device = torch.device("cuda" if useCuda else "cpu")
     model = model.to(torch.device(device))
-    swarmCallback = SwarmCallback(syncFrequency=512,
+    swarmCallback = SwarmCallback(syncFrequency=syncFrequency,
                                   minPeers=min_peers,
-                                  maxPeers=5,
-                                  useAdaptiveSync=True,
+                                  maxPeers=max_peers,
+                                  useAdaptiveSync=useAdaptiveSync,
                                   adsValData=ds_val,
                                   adsValBatchSize=2,
-                                  nodeWeightage=100,
+                                  nodeWeightage=cal_weightage(train_size),
                                   model=model)
     torch.autograd.set_detect_anomaly(True)
     #print('========3========')

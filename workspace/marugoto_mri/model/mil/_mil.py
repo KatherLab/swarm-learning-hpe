@@ -60,7 +60,11 @@ def train(
     valid_idxs: npt.NDArray[np.int_],
     n_epoch: int = 50,
     path: Optional[Path] = None,
-local_compare_flag = False
+    local_compare_flag = False,
+    min_peers = 1,
+    max_peers = 5,
+    syncFrequency = 32,
+    useAdaptiveSync = True,
 ) -> Learner:
     """Train a MLP on image features.
 
@@ -121,13 +125,13 @@ local_compare_flag = False
 
         learn.fit_one_cycle(n_epoch=n_epoch, lr_max=1e-4, cbs=cbs)
     else:
-        swarmCallback = SwarmCallback(syncFrequency=32,
-                                      minPeers=2,
-                                      maxPeers=5,
-                                      useAdaptiveSync=True,
+        swarmCallback = SwarmCallback(syncFrequency=syncFrequency,
+                                      minPeers=min_peers,
+                                      maxPeers=max_peers,
+                                      useAdaptiveSync=useAdaptiveSync,
                                       adsValData=valid_ds,
                                       adsValBatchSize=2,
-                                      nodeWeightage=100,
+                                      nodeWeightage=cal_weightage(len(train_ds)),
                                       model=model)
         swarmCallback.logger.setLevel(logging.DEBUG)
         swarmCallback.on_train_begin()
@@ -142,7 +146,9 @@ local_compare_flag = False
         swarmCallback.on_train_end()
     return learn
 
-
+def cal_weightage(train_size):
+    full_dataset_size = 922
+    return train_size / full_dataset_size
 def deploy(
     test_df: pd.DataFrame,
     learn: Learner,
