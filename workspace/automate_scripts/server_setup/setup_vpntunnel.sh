@@ -28,7 +28,7 @@ sudo chmod 777 /etc/openvpn/credentials
 echo please input your vpn account and password
 echo "ask TUD maintainer for the account and password if you don't have one"
 read -p "vpn account: " vpn_account
-read -p "vpn password: " vpn_password
+read -s -p "vpn password: " vpn_password
 sudo printf '%s\n' $vpn_account $vpn_password > /etc/openvpn/credentials
 # TODO: use our Swarm Learning account
 # GMAIL: katherlab.swarm@gmail.com
