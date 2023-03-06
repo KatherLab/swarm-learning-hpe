@@ -41,6 +41,11 @@ def train_categorical_model_(
     cont_labels: Sequence[str] = [],
     categories: Optional[npt.NDArray] = None,
     local_compare_flag: bool = False,
+    n_epoch: int = 50,
+    min_peers = 1,
+    max_peers = 5,
+    syncFrequency=32,
+    useAdaptiveSync=True,
 ) -> None:
     """Train a categorical model on a cohort's tile's features.
 
@@ -129,7 +134,12 @@ def train_categorical_model_(
         add_features=add_features,
         valid_idxs=df.PATIENT.isin(valid_patients).values,
         path=output_path,
-        local_compare_flag = local_compare_flag
+        local_compare_flag = local_compare_flag,
+        n_epoch = n_epoch,
+        min_peers = min_peers,
+        max_peers = max_peers,
+        syncFrequency = syncFrequency,
+        useAdaptiveSync = useAdaptiveSync,
     )
 
     # save some additional information to the learner to make deployment easier

@@ -34,6 +34,11 @@ create task from taskdefs/swarm_task.yaml
 finalize task swarm_task_<TIME_STAMP>
 get task info swarm_task_<TIME_STAMP>
 get task body swarm_task_<TIME_STAMP>
+
+create task from taskdefs/swarm_task_local_compare.yaml
+finalize task swarm_task_local_compare_<TIME_STAMP>
+get task info swarm_task_local_compare_<TIME_STAMP>
+get task body swarm_task_local_compare_<TIME_STAMP>
 list tasks
 EXIT ON FAILURE OFF
 
@@ -41,16 +46,6 @@ EXIT ON FAILURE OFF
 EXIT ON FAILURE
 RESET TASKRUNNER defaulttaskbb.taskdb.sml.hpe
 ASSIGN TASK swarm_task_<TIME_STAMP> TO defaulttaskbb.taskdb.sml.hpe WITH <NUM-MIN_PEERS> PEERS
-WAIT FOR TASKRUNNER defaulttaskbb.taskdb.sml.hpe
-# Grace period for ML container to save the model,
-# before the below reset command cleans up the ML and SL Containers.
-SLEEP 15
-RESET TASKRUNNER defaulttaskbb.taskdb.sml.hpe
-EXIT ON FAILURE OFF
-
-# Assign run compare task
-EXIT ON FAILURE
-RESET TASKRUNNER defaulttaskbb.taskdb.sml.hpe
 ASSIGN TASK swarm_task_local_compare_<TIME_STAMP> TO defaulttaskbb.taskdb.sml.hpe WITH <NUM-MIN_PEERS> PEERS
 WAIT FOR TASKRUNNER defaulttaskbb.taskdb.sml.hpe
 # Grace period for ML container to save the model,
