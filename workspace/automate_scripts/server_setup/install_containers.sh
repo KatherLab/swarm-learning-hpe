@@ -31,7 +31,7 @@ done
 
 # Login to HPE hub
 echo "Login to hub.myenterpriselicense.hpe.com"
-sudo docker login -u jiefu.zhu@tu-dresden.de -p hpe_eval hub.myenterpriselicense.hpe.com
+sudo docker login -u katherlab.swarm@gmail.com -p hpe_eval hub.myenterpriselicense.hpe.com
 
 # Pull images
 echo "Download Swarm Network (SN) Node"
