@@ -30,7 +30,6 @@ sudo apt-get update
 #sudo apt-get purge container.io -y
 echo "Installing docker environment"
 sudo apt-get remove docker -y
-sudo apt-get remove docker-engine -y
 sudo apt-get remove docker.io -y
 sudo apt-get remove containerd -y
 sudo apt-get remove runc -y
