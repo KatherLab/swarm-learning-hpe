@@ -63,14 +63,16 @@ $ git checkout dev_radiology
 ```
 Requirements and dependencies will be automatically installed by the script mentioned in the following sction.
 
-## Usage
+
 ### Setting up the Swarm Learning Environment
 ```sh
-$ sh workspace/automate_scripts/automate.sh -<build stage> -i <target host ip to share cert> -s <sentinel host ip> -w <workspace> -n <num_peers> -e <num_epochs>"
+$ sh workspace/automate_scripts/automate.sh [-a|-b|-c] [-w workspace_name] [-d host_index] [-s sentinel_ip] [-n num_peers] [-e num_epochs] [-h]"
 ```
-Please observe this [README.md](workspace%2Fautomate_scripts%2FREADME.md) file for more details. Specific instructions are given about how to run the commands.
+Please observe this [README.md](workspace%2Fautomate_scripts%2FREADME.md) file for step-by-step setup. Specific instructions are given about how to run the commands.
 All the processes are automated, so you can just run the above command and wait for the process to finish.
 If any problem occurs, please first try to find solution in [Troubleshooting.md](Troubleshooting.md). Then contact the maintainer of the Swarm Learning Environment and document the error in the Troubleshooting.md file.
+
+## Usage
 ### Running Swarm Learning Nodes
 To run a Swarm Network node -> Swarm SWOP Node -> Swarm SWCI node, observe the following commands:
 - To run a Swarm Network (or sentinel) node:
