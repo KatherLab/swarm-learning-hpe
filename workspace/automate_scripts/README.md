@@ -52,13 +52,6 @@ $ sh workspace/automate_scripts/automate.sh -a
 ```sh
 $ sh workspace/automate_scripts/automate.sh -b -s <sentinel_ip> -d <host_index>
 ```
-- `Download dataset`: Downloads the dataset for the workspace. This will take a long time, could run it at any time. Just run with either command, get_dataset_gdown.sh without vpn, or get_dataset_scp.sh with vpn. The [-s sentinel_ip] flag is only necessary for get_dataset_scp.sh The script will download the dataset from the sentinel node.
-```sh
-$ sh workspace/automate_scripts/sl_env_setup/get_dataset_gdown.sh
-```
-```sh
-$ sh workspace/automate_scripts/sl_env_setup/get_dataset_scp.sh -s <sentinel_ip>
-```
 
 - `Final sl setup`: Runs scripts that finalize the setup of the swarm learning environment. Only <> is required. The [-n num_peers] and [-e num_epochs] flags are optional.
 ```sh
@@ -71,3 +64,14 @@ $ sh workspace/automate_scripts/automate.sh -c -w odelia-breast-mri -s 10.15.0.1
 
 
 This will run the `prerequisite`, `server_setup`, and `final_setup` actions with the specified parameters.
+
+## Downloading the preprocessed dataset
+- `Download dataset`: Downloads the dataset for the workspace. This will take a long time, could run it at any time. Just run with either command, get_dataset_gdown.sh without vpn, or get_dataset_scp.sh with vpn.
+get_dataset_gdown.sh will download the dataset from google drive.
+```sh
+$ sh workspace/automate_scripts/sl_env_setup/get_dataset_gdown.sh
+```
+The [-s sentinel_ip] flag is only necessary for get_dataset_scp.sh The script will download the dataset from the sentinel node.
+```sh
+$ sh workspace/automate_scripts/sl_env_setup/get_dataset_scp.sh -s <sentinel_ip>
+```
