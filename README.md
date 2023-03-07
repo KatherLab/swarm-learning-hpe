@@ -88,6 +88,15 @@ Requirements and dependencies will be automatically installed by the script ment
 `<host_index>` = Your institute's name. For ODELIA project should be chosen from `TUD` `Ribera` `VHIO` `Radboud` `UKA` `Utrecht` `Mitera` `Cambridge` `Zurich`
 
 `<workspace_name>` = The name of the workspace you want to work on. You can find available modules under `workspace/` folder. Each module corresonds to a radiology model. Currently we suggest to use `odelia-breast-mri` or `marogoto_mri` here.
+0. Optional: download preprocessed datasets. This will take a long time. Just run with either command, get_dataset_gdown.sh is recommended to run before you have done step 2, get_dataset_scp.sh is recommended to run after you have done step 2.
+get_dataset_gdown.sh will download the dataset from Google Drive.
+```sh
+$ sh workspace/automate_scripts/sl_env_setup/get_dataset_gdown.sh
+```
+The [-s sentinel_ip] flag is only necessary for get_dataset_scp.sh The script will download the dataset from the sentinel node.
+```sh
+$ sh workspace/automate_scripts/sl_env_setup/get_dataset_scp.sh -s <sentinel_ip>
+```
 1. `Prerequisite`: Runs scripts that check for required software and open/exposed ports.
 ```sh
 $ sh workspace/automate_scripts/automate.sh -a
@@ -99,16 +108,6 @@ $ sh workspace/automate_scripts/automate.sh -b -s <sentinel_ip> -d <host_index>
 3. `Final setup`: Runs scripts that finalize the setup of the swarm learning environment. Only <> is required. The [-n num_peers] and [-e num_epochs] flags are optional.
 ```sh
 $ sh workspace/automate_scripts/automate.sh -c -w <workspace_name> -s <sentinel_ip> -d <host_index> [-n num_peers] [-e num_epochs]
-```
-
-0. Optional: download preprocessed datasets. This will take a long time, could run it at any time. Just run with either command, get_dataset_gdown.sh without vpn, or get_dataset_scp.sh with vpn.
-get_dataset_gdown.sh will download the dataset from Google Drive.
-```sh
-$ sh workspace/automate_scripts/sl_env_setup/get_dataset_gdown.sh
-```
-The [-s sentinel_ip] flag is only necessary for get_dataset_scp.sh The script will download the dataset from the sentinel node.
-```sh
-$ sh workspace/automate_scripts/sl_env_setup/get_dataset_scp.sh -s <sentinel_ip>
 ```
 
 If problem encountered, please observe this [README.md](workspace%2Fautomate_scripts%2FREADME.md) file for step-by-step setup. Specific instructions are given about how to run the commands.
@@ -165,7 +164,7 @@ Nodes will be added to vpn and will be able to communicate with each other after
     - Hostname: swarm
     - Maintainer: [@Gustav](gumueller@ukaachen.de)
   - Radboud: Tianyu
-    - IP address: TBD
+    - IP address: 10.15.0.9
     - Hostname: swarm
     - Maintainer: [@Tianyu](t.zhang@nki.nl)
 - Other nodes:
