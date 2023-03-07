@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eu
+set -eux
 
 # Define script name and directory
 script_name=$(basename "${0}")

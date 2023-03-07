@@ -1,9 +1,7 @@
 #!/bin/sh
 set -eux
 
-ip_addr=$(ip addr show tun0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
 script_name=$(basename "${0}")
-script_dir=$(realpath $(dirname "${0}"))
 
 # Help function
 help_old()
@@ -63,15 +61,11 @@ do
 done
 
 if [ $ACTION = prerequisite ]; then
-  sh ./workspace/automate_scripts/server_setup/test_open_exposed_ports.sh
+
   sh ./workspace/automate_scripts/server_setup/prerequisites.sh
   if [ -z "$sentinel" ]; then
   echo "Specified sentinel node address, will install apls server"
   fi
-    if [ $ip_addr = $sentinel_ip ]
-      then
-      sudo sh ./workspace/automate_scripts/server_setup/install_apls.sh
-    fi
 fi
 
 
@@ -84,6 +78,12 @@ if [ $ACTION = server_setup ]; then
   sh ./workspace/automate_scripts/server_setup/gpu_env_setup.sh
   sh ./workspace/automate_scripts/sl_env_setup/gen_cert.sh -i "$host_index"
   sudo sh ./workspace/automate_scripts/server_setup/setup_vpntunnel.sh
+  ip_addr=$(ip addr show tun0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
+  if [ $ip_addr = $sentinel_ip ]
+      then
+      sudo sh ./workspace/automate_scripts/server_setup/install_apls.sh
+  fi
+  sh ./workspace/automate_scripts/server_setup/test_open_exposed_ports.sh
   if [ $ip_addr != $sentinel_ip ]
     then
       echo "please download the dataset from the sentinel node if needed, this will take some time"
@@ -111,6 +111,7 @@ if [ $ACTION = final_setup ]; then
 
   echo Please ensure the previous steps are completed on all the other hosts before running this step
   sh ./workspace/automate_scripts/sl_env_setup/share_cert.sh -t "$sentinel_ip"
+  ip_addr=$(ip addr show tun0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
   # Checks
   if [ $ip_addr = $sentinel_ip ]
   then
