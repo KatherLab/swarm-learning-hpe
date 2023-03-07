@@ -27,7 +27,7 @@ help() {
     echo ""
     echo "Options:"
     echo "  -a                  Run prerequisite setup steps (test_open_exposed_ports.sh and prerequisites.sh)"
-    echo "  -b                  Run server setup steps (install_containers.sh, gpu_env_setup.sh, gen_cert.sh, and get_dataset.sh)"
+    echo "  -b                  Run server setup steps (install_containers.sh, gpu_env_setup.sh, gen_cert.sh, and get_dataset_scp.sh)"
     echo "  -c                  Run final setup steps (share_cert.sh, replacement.sh, setup_sl-cli-lib.sh, and license_server_fix.sh)"
     echo "  -w workspace_name   Set the workspace name for the distributed system"
     #echo "  -i host_ip          Set the IP address of the target host"
@@ -88,9 +88,10 @@ if [ $ACTION = server_setup ]; then
   if [ $ip_addr != $sentinel_ip ]
     then
       echo "please download the dataset from the sentinel node if needed, this will take some time"
-      echo "run with command"
-      echo "sh ./workspace/automate_scripts/sl_env_setup/get_dataset.sh-s $sentinel_ip"
-    #sh ./workspace/automate_scripts/sl_env_setup/get_dataset.sh -w "$workspace_name" -s $sentinel_ip
+      echo "run with either command, get_dataset_gdown without vpn, get_dataset_scp with vpn"
+      echo "sh ./workspace/automate_scripts/sl_env_setup/get_dataset_gdown.sh"
+      echo "sh ./workspace/automate_scripts/sl_env_setup/get_dataset_scp.sh -s $sentinel_ip"
+    #sh ./workspace/automate_scripts/sl_env_setup/get_dataset_scp.sh -w "$workspace_name" -s $sentinel_ip
   fi
 fi
 
