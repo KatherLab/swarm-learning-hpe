@@ -61,7 +61,7 @@ This is the Swarm Learning framework:
 * Ubuntu 20.04 LTS
   * We have tested the Swarm Learning Environment on [Ubuntu 20.04 LTS, Ubuntu 22.04.2 LTS, Ubuntu 20.04.5 LTS] and they work fine. 
   *  Any experimental release of Ubuntu greater than LTS 20.04 MAY result in unsuccessful swop node running.
-  * It also works on wsl2 on Windows systems. But may have some issues with the docker installation.
+  * It also works on WSL1(Ubuntu 20.04.2 LTS) on Windows systems. WSL1 may have some issues with the docker service.
 
 ### Setting up the user and repository
 1. Create a user named "swarm" and add it to the sudoers group.
