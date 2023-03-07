@@ -74,7 +74,7 @@ If any problem occurs, please first try to find solution in [Troubleshooting.md]
 
 ## Usage
 ### Running Swarm Learning Nodes
-To run a Swarm Network node -> Swarm SWOP Node -> Swarm SWCI node, observe the following commands:
+To run a Swarm Network node -> Swarm SWOP Node -> Swarm SWCI node. Please open a terminal for each of the nodes to run. Observe the following commands:
 - To run a Swarm Network (or sentinel) node:
 ```sh
 $ ./workspace/automate_scripts/launch_sl/run_sn.sh -s <sentinel_ip_address> -d <host_index>
@@ -95,7 +95,12 @@ $ ./workspace/automate_scripts/launch_sl/run_swci.sh -w <workspace_name> -s <sen
 $ ./workspace/automate_scripts/launch_sl/check_latest_logs.sh
 ```
 
+- To stop the Swarm Learning nodes, --[node_type] is optional, if not specified, all the nodes will be stopped. Otherwise, could specify --sn, --swop for example.
+```sh
+$ ./workspace/swarm_learning_scripts/stop-swarm --[node_type]
+```
 
+Please observe [Troubleshooting.md](Troubleshooting.md) section 10 for successful running logs of swop and sn nodes. The process will be keep running and displaying logs so you will need to open new terminal to run other commands.
 ## Workflow
 ![Workflow.png](assets%2FWorkflow.png)
 ![Swarm model training protocol .png](assets%2FSwarm%20model%20training%20protocol%20.png)
