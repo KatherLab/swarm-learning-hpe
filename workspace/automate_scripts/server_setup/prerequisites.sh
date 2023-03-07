@@ -27,7 +27,7 @@ done
 
 echo "Installing required packages"
 sudo apt-get update
-sudo apt-get purge container.io -y
+#sudo apt-get purge container.io -y
 sudo apt-get install -y docker.io curl git openssh-server openssh-client
 sudo systemctl start docker
 # Update package manager and install pip
