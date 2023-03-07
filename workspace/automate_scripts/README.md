@@ -54,7 +54,7 @@ $ sh workspace/automate_scripts/automate.sh -b -s <sentinel_ip> -d <host_index>
 ```
 - `Download dataset`: Downloads the dataset for the workspace. This will take a long time. The [-s sentinel_ip] flag is necessary. The script will download the dataset from the sentinel node.
 ```sh
-$ sh workspace/automate_scripts/sl_env_setup/get_dataset.sh -s <sentinel_ip>
+$ sh workspace/automate_scripts/sl_env_setup/get_dataset_scp.sh -s <sentinel_ip>
 ```
 
 - `Final sl setup`: Runs scripts that finalize the setup of the swarm learning environment. Only <> is required. The [-n num_peers] and [-e num_epochs] flags are optional.
