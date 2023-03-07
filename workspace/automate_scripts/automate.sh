@@ -9,9 +9,9 @@ script_dir=$(realpath $(dirname "${0}"))
 help_old()
 {
    echo ""
-   echo "Example usage: sh workspace/automate_scripts/automate.sh -c -i 192.168.33.103 -s 192.168.33.102 -w mnist-pyt-gpu"
+   echo "Example usage: sh workspace/automate_scripts/automate.sh -c -s 192.168.33.102 -w mnist-pyt-gpu"
    echo -e "\\t-w Name of the workspace module e.g. mnist-pyt-gpu, katherlab etc."
-   echo -e "\\t-i Host ip address like 192.168.33.103 etc."
+   #echo -e "\\t-i Host ip address like 192.168.33.103 etc."
    echo -e "\\t-s Sentinel ip address like 192.168.33.102."
    echo -e "\\t-n Number of peers for swarm learning."
    echo -e "\\t-e Number of epochs for swarm learning."
@@ -25,14 +25,14 @@ help_old()
 }
 
 help() {
-    echo "Usage: $script_name [-a|-b|-c] [-w workspace_name] [-i host_ip] [-d host_index] [-s sentinel_ip] [-n num_peers] [-e num_epochs] [-h]"
+    echo "Usage: $script_name [-a|-b|-c] [-w workspace_name] [-d host_index] [-s sentinel_ip] [-n num_peers] [-e num_epochs] [-h]"
     echo ""
     echo "Options:"
     echo "  -a                  Run prerequisite setup steps (test_open_exposed_ports.sh and prerequisites.sh)"
     echo "  -b                  Run server setup steps (install_containers.sh, gpu_env_setup.sh, gen_cert.sh, and get_dataset.sh)"
     echo "  -c                  Run final setup steps (share_cert.sh, replacement.sh, setup_sl-cli-lib.sh, and license_server_fix.sh)"
     echo "  -w workspace_name   Set the workspace name for the distributed system"
-    echo "  -i host_ip          Set the IP address of the target host"
+    #echo "  -i host_ip          Set the IP address of the target host"
     echo "  -d host_index       Set the host index for generating SSL certificates"
     echo "  -s sentinel_ip      Set the IP address of the sentinel node"
     echo "  -n num_peers        Set the minimum number of peers for sync in the distributed system"
@@ -49,7 +49,7 @@ while getopts "abcw:i:d:s:n:e:h?" opt
 do
    case "$opt" in
       w ) workspace_name="$OPTARG" ;;
-      i ) host_ip="$OPTARG" ;;
+      #i ) host_ip="$OPTARG" ;;
       d ) host_index="$OPTARG" ;;
       s ) sentinel_ip="$OPTARG" ;;
       n ) num_peers="$OPTARG" ;;
@@ -76,9 +76,9 @@ fi
 
 
 if [ $ACTION = server_setup ]; then
-  if [ -z "$workspace_name" ]; then
-       echo "Some or all of the parameters are empty";
-       help
+  if [ -z "$host_index" ]; then
+       echo "Please specify your host index"
+       echo "Host index should be chosen from [TUD, Ribera, VHIO, Radboud, UKA, Utrecht, Mitera, Cambridge, Zurich]"
   fi
   sh ./workspace/automate_scripts/server_setup/install_containers.sh
   sh ./workspace/automate_scripts/server_setup/gpu_env_setup.sh
@@ -88,20 +88,29 @@ if [ $ACTION = server_setup ]; then
     then
       echo "please download the dataset from the sentinel node if needed, this will take some time"
       echo "run with command"
-      echo "sh ./workspace/automate_scripts/sl_env_setup/get_dataset.sh -w "$workspace_name" -s $sentinel_ip"
+      echo "sh ./workspace/automate_scripts/sl_env_setup/get_dataset.sh-s $sentinel_ip"
     #sh ./workspace/automate_scripts/sl_env_setup/get_dataset.sh -w "$workspace_name" -s $sentinel_ip
   fi
 fi
 
 if [ $ACTION = final_setup ]; then
+  if [ -z "$workspace_name" ] || [ -z "$sentinel_ip" ] || [ -z "$host_index" ];
+    then
+       echo "workspace_name and sentinel_ip are required"
+       help
+  fi
+  if [ -z "$num_peers" ]; then
+    echo "Number of peers not specified, setting default value to 2"
+    num_peers=2
+  fi
+
+  if [ -z "$num_epochs" ]; then
+    echo "Number of epochs not specified, setting default value to 100"
+    num_epochs=100
+  fi
+
   echo Please ensure the previous steps are completed on all the other hosts before running this step
   sh ./workspace/automate_scripts/sl_env_setup/share_cert.sh -t "$sentinel_ip"
-
-  if [ -z "$workspace_name" ] || [ -z "$sentinel_ip" ]
-    then
-       echo "Some or all of the parameters are empty";
-       help
-    fi
   # Checks
   if [ $ip_addr = $sentinel_ip ]
   then
@@ -120,14 +129,8 @@ if [ $ACTION = final_setup ]; then
 
   fi
   # set default values if num_peers or num_epochs not specified
-  if [ -z "$num_peers" ]; then
-    num_peers=2
-  fi
 
-  if [ -z "$num_epochs" ]; then
-    num_epochs=100
-  fi
-  sh ./workspace/automate_scripts/sl_env_setup/replacement.sh -w "$workspace_name" -s "$sentinel_ip" -n "$num_peers" -e "$num_epochs"
+  sh ./workspace/automate_scripts/sl_env_setup/replacement.sh -w "$workspace_name" -s "$sentinel_ip" -n "$num_peers" -e "$num_epochs" -d "$host_index"
   sh ./workspace/automate_scripts/sl_env_setup/setup_sl-cli-lib.sh -w "$workspace_name"
 
 fi

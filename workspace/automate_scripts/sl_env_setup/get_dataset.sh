@@ -13,11 +13,8 @@ usage() {
 }
 
 # Parse command-line options
-while getopts ":w:s:h" opt; do
+while getopts ":s:h" opt; do
     case $opt in
-        w)
-            workspace=$OPTARG
-            ;;
         h)
             usage
             ;;
