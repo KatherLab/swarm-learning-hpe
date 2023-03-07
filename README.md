@@ -14,7 +14,19 @@ This repository contains:
    questions encountered when using this repo.
 4. Working version of mnist-pyt-gpu with automated scripts, tried on hosts 192.168.33.102 and 192.168.33.103
 
-## Brief discription about HPE platform
+## Table of Contents
+
+- [Background](#background)
+- [Install](#install)
+- [Usage](#usage)
+- [Maintainers](#maintainers)
+- [Milestone](#milestone)
+- [NotionPage](#notionpage)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Background
+### Brief discription about HPE platform
 
 Course of Swarm Leaning explained in a generally understandable
 way: [https://learn.software.hpe.com/swarm-learning-essentials](https://learn.software.hpe.com/swarm-learning-essentials)
@@ -35,22 +47,26 @@ exchanged between the various edge nodes and not the raw data. This ensures that
 
 This is the Swarm Learning framework:
 ![sl_node_structure.png](assets%2Fsl_node_structure.png)
-## Table of Contents
-
-- [Background](#background)
-- [Install](#install)
-- [Usage](#usage)
-- [Maintainers](#maintainers)
-- [Milestone](#milestone)
-- [NotionPage](#notionpage)
-- [Contributing](#contributing)
-- [License](#license)
-
-## Background
 
 ## Install
-Create a user named "swarm" and add it to the sudoers group.
-Login with user "swarm" and run the following commands:
+### Prerequisites
+#### Hardware recommendations
+* 64 GB of RAM (32 GB is the absolute minimum)
+* 16 CPU cores (8 is the absolute minimum)
+* an NVIDIA GPU with 48 GB of RAM (24 is the  minimum)
+* 8 TB of Storage (4 TB is the absolute minimum)
+* We deliberately want to show that we can work with lightweight hardware like this. Here are three quotes for systems like this for less than 10k EUR (Lambda, Dell Precision, and Dell Alienware)
+
+#### Operating System
+* Ubuntu 20.04 LTS
+  * We have tested the Swarm Learning Environment on [Ubuntu 20.04 LTS, Ubuntu 22.04.2 LTS, Ubuntu 20.04.5 LTS] and they work fine. 
+  *  Any experimental release of Ubuntu greater than LTS 20.04 MAY result in unsuccessful swop node running.
+  * It also works on wsl2 on Windows systems. But may have some issues with the docker installation.
+
+### Setting up the user and repository
+1. Create a user named "swarm" and add it to the sudoers group.
+Login with user "swarm" and r
+2. Run the following commands:
 
 ```sh
 $ cd /
@@ -65,12 +81,40 @@ Requirements and dependencies will be automatically installed by the script ment
 
 
 ### Setting up the Swarm Learning Environment
+**PLEASE REPLACE THE `<PLACEHOLDER>` WITH THE CORRESPONDING VALUE!**
+
+`<sentinel_ip>` = `10.15.0.15` currently it's the IP assigned by VPN server for TUD host.
+
+`<host_index>` = Your institute's name. For ODELIA project should be chosen from `TUD` `Ribera` `VHIO` `Radboud` `UKA` `Utrecht` `Mitera` `Cambridge` `Zurich`
+
+`<workspace_name>` = The name of the workspace you want to work on. You can find available modules under `workspace/` folder. Each module corresonds to a radiology model. Currently we suggest to use `odelia-breast-mri` or `marogoto_mri` here.
+1. `Prerequisite`: Runs scripts that check for required software and open/exposed ports.
 ```sh
-$ sh workspace/automate_scripts/automate.sh [-a|-b|-c] [-w workspace_name] [-d host_index] [-s sentinel_ip] [-n num_peers] [-e num_epochs] [-h]"
+$ sh workspace/automate_scripts/automate.sh -a
 ```
-Please observe this [README.md](workspace%2Fautomate_scripts%2FREADME.md) file for step-by-step setup. Specific instructions are given about how to run the commands.
+2. `Server setup`: Runs scripts that set up the swarm learning environment on a server.
+```sh
+$ sh workspace/automate_scripts/automate.sh -b -s <sentinel_ip> -d <host_index>
+```
+3. `Final setup`: Runs scripts that finalize the setup of the swarm learning environment. Only <> is required. The [-n num_peers] and [-e num_epochs] flags are optional.
+```sh
+$ sh workspace/automate_scripts/automate.sh -c -w <workspace_name> -s <sentinel_ip> -d <host_index> [-n num_peers] [-e num_epochs]
+```
+
+0. Optional: download preprocessed datasets. This will take a long time, could run it at any time. Just run with either command, get_dataset_gdown.sh without vpn, or get_dataset_scp.sh with vpn.
+get_dataset_gdown.sh will download the dataset from Google Drive.
+```sh
+$ sh workspace/automate_scripts/sl_env_setup/get_dataset_gdown.sh
+```
+The [-s sentinel_ip] flag is only necessary for get_dataset_scp.sh The script will download the dataset from the sentinel node.
+```sh
+$ sh workspace/automate_scripts/sl_env_setup/get_dataset_scp.sh -s <sentinel_ip>
+```
+
+If problem encountered, please observe this [README.md](workspace%2Fautomate_scripts%2FREADME.md) file for step-by-step setup. Specific instructions are given about how to run the commands.
 All the processes are automated, so you can just run the above command and wait for the process to finish.
-If any problem occurs, please first try to find solution in [Troubleshooting.md](Troubleshooting.md). Then contact the maintainer of the Swarm Learning Environment and document the error in the Troubleshooting.md file.
+
+If any problem occurs, please first try to figure out which step is going wrong, try to google for solutions and find solution in [Troubleshooting.md](Troubleshooting.md). Then contact the maintainer of the Swarm Learning Environment and document the error in the Troubleshooting.md file.
 
 ## Usage
 ### Running Swarm Learning Nodes
