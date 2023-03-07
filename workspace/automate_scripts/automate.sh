@@ -41,7 +41,8 @@ help() {
     echo "This script automates the setup of a distributed system for machine learning. The script takes command line options and arguments to execute various steps. The steps are broken down into three actions - prerequisite, server_setup, and final_setup. The script first checks the options provided by the user, and based on that it executes the appropriate steps."
     exit 0
 }
-
+num_peers=2
+num_epochs=100
 # Process command options
 while getopts "abcw:i:d:s:n:e:h?" opt
 do
@@ -98,15 +99,6 @@ if [ $ACTION = final_setup ]; then
     then
        echo "workspace_name and sentinel_ip are required"
        help
-  fi
-  if [ -z "$num_peers" ]; then
-    echo "Number of peers not specified, setting default value to 2"
-    num_peers=2
-  fi
-
-  if [ -z "$num_epochs" ]; then
-    echo "Number of epochs not specified, setting default value to 100"
-    num_epochs=100
   fi
 
   echo Please ensure the previous steps are completed on all the other hosts before running this step

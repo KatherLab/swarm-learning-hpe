@@ -25,11 +25,35 @@ while getopts ":h" opt; do
   esac
 done
 
-echo "Installing required packages"
+
 sudo apt-get update
 #sudo apt-get purge container.io -y
-sudo apt-get install -y docker.io curl git openssh-server openssh-client
-sudo systemctl start docker
+echo "Installing docker environment"
+sudo apt-get remove docker -y
+sudo apt-get remove docker-engine -y
+sudo apt-get remove docker.io -y
+sudo apt-get remove containerd -y
+sudo apt-get remove runc -y
+sudo apt-get update
+sudo apt-get install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+sudo mkdir -m 0755 -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo docker run hello-world
+
+echo "Installing required packages"
+sudo apt-get install -y curl git openssh-server openssh-client
+sudo service docker start
 # Update package manager and install pip
 sudo apt install python3-pip -y
 # Install gdown package for downloading from Google Drive
