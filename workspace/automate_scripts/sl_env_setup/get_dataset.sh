@@ -39,8 +39,10 @@ if [[ -z "$sentinel_ip" ]]; then
 fi
 
 # Fetch and unzip the dataset
-scp swarm@$sentinel_ip:/mnt/sda1/swarm-learning/radiology-dataset/odelia_dataset_unilateral_256x256x32.zip workspace/odelia-breast-mri/user/data-and-scratch/data
-scp swarm@$sentinel_ip:/mnt/sda1/swarm-learning/radiology-dataset/features_odelia_sub_imagenet.zip workspace/marugoto_mri/user/data-and-scratch/data
-scp -r swarm@$sentinel_ip:/mnt/sda1/swarm-learning/radiology-dataset/tables/ workspace/odelia-breast-mri/user/data-and-scratch/data
+sudo mkdir -p workspace/odelia-breast-mri/user/data-and-scratch/data
+sudo mkdir -p workspace/marugoto_mri/user/data-and-scratch/data
+sudo scp swarm@$sentinel_ip:/mnt/sda1/swarm-learning/radiology-dataset/odelia_dataset_unilateral_256x256x32.zip workspace/odelia-breast-mri/user/data-and-scratch/data
+sudo scp swarm@$sentinel_ip:/mnt/sda1/swarm-learning/radiology-dataset/features_odelia_sub_imagenet.zip workspace/marugoto_mri/user/data-and-scratch/data
+sudo scp -r swarm@$sentinel_ip:/mnt/sda1/swarm-learning/radiology-dataset/tables/ workspace/odelia-breast-mri/user/data-and-scratch/data
 unzip workspace/odelia-breast-mri/user/data-and-scratch/data/odelia_dataset_unilateral_256x256x32.zip -d workspace/odelia-breast-mri/user/data-and-scratch/data
 unzip workspace/marugoto_mri/user/data-and-scratch/data/features_odelia_sub_imagenet.zip -d workspace/marugoto_mri/user/data-and-scratch/data
