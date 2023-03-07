@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eux
+set -eu
 
 # Obtain IP address of current machine
 ip_addr=$(ip addr show tun0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
@@ -46,3 +46,9 @@ echo "Please ask TUD maintainer for the password on sentinel host if you don't h
 sudo scp $username@"$target_host":/opt/hpe/swarm-learning-hpe/cert/ca/capath/ca-TUD-cert.pem /opt/hpe/swarm-learning-hpe/cert/ca/capath
 #sudo chmod 777 /opt/hpe/swarm-learning-hpe/cert/ca/capath/{!ca-TUD,}*"-cert.pem"
 sudo scp /opt/hpe/swarm-learning-hpe/cert/ca/capath/*-cert.pem $username@"$target_host":/opt/hpe/swarm-learning-hpe/cert/ca/capath/
+# If an error occurs, print an error message and exit
+if [ $? -ne 0 ]; then
+    echo "An error occurred while running the script. Please check the output above for more details."
+    exit 1
+fi
+echo "Certificate copied successfully."
