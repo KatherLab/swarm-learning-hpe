@@ -33,6 +33,8 @@ The following image provides an overview of the Swarm Learning framework. Only t
 exchanged between the various edge nodes and not the raw data. This ensures that the privacy of data is preserved.
 ![img.png](assets/SL structure.png)
 
+This is the Swarm Learning framework:
+![sl_node_structure.png](assets%2Fsl_node_structure.png)
 ## Table of Contents
 
 - [Background](#background)
@@ -99,7 +101,7 @@ $ ./workspace/automate_scripts/launch_sl/check_latest_logs.sh
 ## Node list
 Nodes will be added to vpn and will be able to communicate with each other after setting up the Swarm Learning Environment with [Install](#install)
 - Sentinel node: Dresden
-  - IP address: 10.15.0.18(please put this ip address after -s flag whenever it is needed)
+  - IP address: 10.15.0.15(please put this ip address after -s flag whenever it is needed)
   - Hostname: swarm
   - Maintainer: [@Jeff](https://github.com/Ultimate-Storm)
 - Other nodes: 
