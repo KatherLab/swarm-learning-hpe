@@ -65,7 +65,7 @@ This is the Swarm Learning framework:
 
 ### Setting up the user and repository
 1. Create a user named "swarm" and add it to the sudoers group.
-Login with user "swarm" and r
+Login with user "swarm".
 2. Run the following commands:
 
 ```sh
@@ -155,11 +155,24 @@ Nodes will be added to vpn and will be able to communicate with each other after
   - IP address: 10.15.0.15(please put this ip address after -s flag whenever it is needed)
   - Hostname: swarm
   - Maintainer: [@Jeff](https://github.com/Ultimate-Storm)
-- Other nodes: 
+- ODELIA nodes: 
   - VHIO: Adrian
     - IP address: 10.15.0.16
     - Hostname: radiomics
     - Maintainer: [@Adrià](adriamarcos@vhio.net)
+  - UKA: Gustav
+    - IP address: 10.15.0.13
+    - Hostname: swarm
+    - Maintainer: [@Gustav](gumueller@ukaachen.de)
+  - Radboud: Tianyu
+    - IP address: TBD
+    - Hostname: swarm
+    - Maintainer: [@Tianyu](t.zhang@nki.nl)
+- Other nodes:
+  - UCHICAGO: TBD
+    - IP address: TBD
+    - Hostname: TBD
+    - Maintainer: TBD
 
 ## Models implemented
 
@@ -194,6 +207,12 @@ documentation. Don't need to follow all of the guidelines at this moment, but it
 This project exists thanks to all the people who contribute.
 [@Oliver]()
 [@Kevin]()
+
+## Credits
+
+This project uses platform from the following repositories:
+
+- [HewlettPackard/swarm-learning](https://github.com/HewlettPackard/swarm-learning): Created by [HewlettPackard](https://github.com/HewlettPackard)
 
 
 ## License
