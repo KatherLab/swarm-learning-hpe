@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eux
+set -eu
 
 help() {
   echo "Usage: $0 [-h]"
@@ -73,4 +73,9 @@ fi
 #echo "Setting permissions for Swarm Learning folder"
 #sudo chmod 777 -R "$DIR"
 
-echo "Installation completed successfully!"
+# If an error occurs, print an error message and exit
+if [ $? -ne 0 ]; then
+    echo "An error occurred while running the script. Please check the output above for more details."
+    exit 1
+fi
+echo "Pre-requisites installed successfully."

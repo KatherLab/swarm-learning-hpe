@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eux
+set -eu
 script_dir=$(realpath $(dirname "${0}"))
 #docker rm $(docker ps -a -q)
 docker rm $(docker ps --filter status=exited -q)

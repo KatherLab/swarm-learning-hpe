@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -eux
+set -eu
 
 # Get the IP address of the current machine
 ip_addr=$(ip addr show tun0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')

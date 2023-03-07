@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eux
+set -eu
 # Print usage information
 usage() {
     echo "Usage: $0 -w WORKSPACE" >&2
@@ -51,3 +51,9 @@ if sudo docker network list | grep -q "$host_network"; then
     sudo docker network rm "$host_network"
 fi
 sudo docker network create "$host_network" #--subnet="$ip_addr/"24
+# If an error occurs, print an error message and exit
+if [ $? -ne 0 ]; then
+    echo "An error occurred while running the script. Please check the output above for more details."
+    exit 1
+fi
+echo "SL CLI library volume created successfully."

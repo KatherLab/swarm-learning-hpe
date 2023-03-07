@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eux
+set -eu
 
 # Help function
 help()
@@ -53,3 +53,9 @@ which nvidia-container-runtime-hook
 # Expose GPUs for use
 echo "Exposing GPUs for use..."
 sudo docker run -it --rm --gpus all ubuntu nvidia-smi
+# If an error occurs, print an error message and exit
+if [ $? -ne 0 ]; then
+    echo "An error occurred while running the script. Please check the output above for more details."
+    exit 1
+fi
+echo "NVIDIA container runtime set up successfully."

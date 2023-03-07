@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eux
+set -eu
 
 # Function to print help text
 print_help() {
@@ -63,3 +63,9 @@ do
    sed -i "s+<NUM-MAX_EPOCHS>+$NUM_EPOCHS+g" "$file"
    sed -i "s+<HOST-INDEX>+$HOST_INDEX+g" "$file"
 done
+# If an error occurs, print an error message and exit
+if [ $? -ne 0 ]; then
+    echo "An error occurred while running the script. Please check the output above for more details."
+    exit 1
+fi
+echo "Replacement completed successfully."

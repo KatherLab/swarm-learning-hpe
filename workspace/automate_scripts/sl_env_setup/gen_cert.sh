@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eux
+set -eu
 
 # Help function
 help()
@@ -39,3 +39,9 @@ ip_addr=$(ip addr show tun0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
 script_dir=$(realpath $(dirname "${0}"))
 
 sudo "$script_dir"/../../swarm_learning_scripts/gen-cert -i "$host_index"
+# If an error occurs, print an error message and exit
+if [ $? -ne 0 ]; then
+    echo "An error occurred while running the script. Please check the output above for more details."
+    exit 1
+fi
+echo "SSL certificates generated successfully."

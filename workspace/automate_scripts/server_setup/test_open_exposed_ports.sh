@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eux
+set -eu
 
 # Define script name and directory
 script_name=$(basename "${0}")
@@ -63,3 +63,10 @@ test_port 16000
 test_port 17000
 test_port 18000
 test_port 19000
+
+# If an error occurs, print an error message and exit
+if [ $? -ne 0 ]; then
+    echo "An error occurred while running the script. Please check the output above for more details."
+    exit 1
+fi
+echo "All required ports are open."

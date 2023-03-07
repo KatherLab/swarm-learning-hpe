@@ -1,6 +1,5 @@
 #!/bin/sh
-set -eux
-
+set -eu
 script_name=$(basename "${0}")
 
 # Help function
@@ -36,6 +35,7 @@ help() {
     echo "  -n num_peers        Set the minimum number of peers for sync in the distributed system"
     echo "  -e num_epochs       Set the number of epochs for the machine learning model"
     echo "  -h                  Display this help message"
+    echo "  --debug             Enable debugging mode (enables error checking, unset variable checking, and debugging output)"
     echo ""
     echo "Description:"
     echo "This script automates the setup of a distributed system for machine learning. The script takes command line options and arguments to execute various steps. The steps are broken down into three actions - prerequisite, server_setup, and final_setup. The script first checks the options provided by the user, and based on that it executes the appropriate steps."
@@ -57,6 +57,7 @@ do
       b ) ACTION=server_setup ;;
       c ) ACTION=final_setup ;;# sh workspace/automate_scripts/automate.sh -c -i 192.168.33.103 -w mnist-pyt-gpu -s 192.168.33.102 -p 2 -e 5
       h ) help ;;
+      --debug ) set -eux ;;  # Enable debugging mode
       ? ) help ;;
    esac
 done
@@ -64,9 +65,11 @@ done
 if [ $ACTION = prerequisite ]; then
 
   sh ./workspace/automate_scripts/server_setup/prerequisites.sh
-  if [ -z "$sentinel" ]; then
-  echo "Specified sentinel node address, will install apls server"
-  fi
+  #if [ -z "$sentinel" ]; then
+  #echo "Specified sentinel node address, will install apls server"
+  #fi
+  echo "Prerequisite setup steps completed successfully."
+
 fi
 
 
@@ -93,6 +96,7 @@ if [ $ACTION = server_setup ]; then
       echo "sh ./workspace/automate_scripts/sl_env_setup/get_dataset_scp.sh -s $sentinel_ip"
     #sh ./workspace/automate_scripts/sl_env_setup/get_dataset_scp.sh -w "$workspace_name" -s $sentinel_ip
   fi
+  echo "Server setup steps completed successfully."
 fi
 
 if [ $ACTION = final_setup ]; then
@@ -126,5 +130,11 @@ if [ $ACTION = final_setup ]; then
 
   sh ./workspace/automate_scripts/sl_env_setup/replacement.sh -w "$workspace_name" -s "$sentinel_ip" -n "$num_peers" -e "$num_epochs" -d "$host_index"
   sh ./workspace/automate_scripts/sl_env_setup/setup_sl-cli-lib.sh -w "$workspace_name"
+  echo "Final setup steps completed successfully."
+fi
 
+# If an error occurs, print an error message and exit
+if [ $? -ne 0 ]; then
+    echo "An error occurred while running the script. Please check the output above for more details."
+    exit 1
 fi
