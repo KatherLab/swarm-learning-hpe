@@ -52,7 +52,10 @@ $ sh workspace/automate_scripts/automate.sh -a
 ```sh
 $ sh workspace/automate_scripts/automate.sh -b -s <sentinel_ip> -d <host_index>
 ```
-- `Download dataset`: Downloads the dataset for the workspace. This will take a long time. The [-s sentinel_ip] flag is necessary. The script will download the dataset from the sentinel node.
+- `Download dataset`: Downloads the dataset for the workspace. This will take a long time, could run it at any time. Just run with either command, get_dataset_gdown.sh without vpn, or get_dataset_scp.sh with vpn. The [-s sentinel_ip] flag is only necessary for get_dataset_scp.sh The script will download the dataset from the sentinel node.
+```sh
+$ sh workspace/automate_scripts/sl_env_setup/get_dataset_gdown.sh
+```
 ```sh
 $ sh workspace/automate_scripts/sl_env_setup/get_dataset_scp.sh -s <sentinel_ip>
 ```
