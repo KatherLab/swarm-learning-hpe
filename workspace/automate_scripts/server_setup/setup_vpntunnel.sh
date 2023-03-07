@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -eux
 
 # Help function
@@ -28,7 +28,9 @@ sudo chmod 777 /etc/openvpn/credentials
 echo please input your vpn account and password
 echo "ask TUD maintainer for the account and password if you don't have one"
 read -p "vpn account: " vpn_account
-read -s -p "vpn password: " vpn_password
+stty -echo
+read -p "vpn password: " vpn_password
+stty echo
 sudo printf '%s\n' $vpn_account $vpn_password > /etc/openvpn/credentials
 # TODO: use our Swarm Learning account
 # GMAIL: katherlab.swarm@gmail.com
