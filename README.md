@@ -88,12 +88,14 @@ Requirements and dependencies will be automatically installed by the script ment
 `<host_index>` = Your institute's name. For ODELIA project should be chosen from `TUD` `Ribera` `VHIO` `Radboud` `UKA` `Utrecht` `Mitera` `Cambridge` `Zurich`
 
 `<workspace_name>` = The name of the workspace you want to work on. You can find available modules under `workspace/` folder. Each module corresonds to a radiology model. Currently we suggest to use `odelia-breast-mri` or `marogoto_mri` here.
-0. Optional: download preprocessed datasets. This will take a long time. Just run with either command, get_dataset_gdown.sh is recommended to run before you have done step 2, get_dataset_scp.sh is recommended to run after you have done step 2.
-get_dataset_gdown.sh will download the dataset from Google Drive.
+
+**Please only proceed to the next step by observing "... is done successfully" from the log**
+0. Optional: download preprocessed datasets. This will take a long time. Just run with either command, `get_dataset_gdown.sh` is recommended to run before you have done step 2, `get_dataset_scp.sh` is recommended to run after you have done step 2.
+`get_dataset_gdown.sh` will download the dataset from Google Drive.
 ```sh
 $ sh workspace/automate_scripts/sl_env_setup/get_dataset_gdown.sh
 ```
-The [-s sentinel_ip] flag is only necessary for get_dataset_scp.sh The script will download the dataset from the sentinel node.
+The [-s sentinel_ip] flag is only necessary for `get_dataset_scp.sh` The script will download the dataset from the sentinel node.
 ```sh
 $ sh workspace/automate_scripts/sl_env_setup/get_dataset_scp.sh -s <sentinel_ip>
 ```

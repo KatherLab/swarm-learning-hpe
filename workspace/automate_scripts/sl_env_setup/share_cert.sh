@@ -42,7 +42,8 @@ sudo apt-get -y install sshpass
 # Modify the following line to match the path to the certificate on the target host
 # Modify the user name to match the user name on the target host, for example change swarm here to root
 
-echo "Please ask TUD maintainer for the password on sentinel host if you don't have one"
+echo "First ensure you are connected with vpn with step 2 by checking with command 'hostname -I' to see if there is a IP address like 10.15.0.*"
+echo "Sharing certifcates, please ask TUD maintainer for the password on sentinel host if you don't have one"
 sudo scp $username@"$target_host":/opt/hpe/swarm-learning-hpe/cert/ca/capath/ca-TUD-cert.pem /opt/hpe/swarm-learning-hpe/cert/ca/capath
 #sudo chmod 777 /opt/hpe/swarm-learning-hpe/cert/ca/capath/{!ca-TUD,}*"-cert.pem"
 sudo scp /opt/hpe/swarm-learning-hpe/cert/ca/capath/*-cert.pem $username@"$target_host":/opt/hpe/swarm-learning-hpe/cert/ca/capath/

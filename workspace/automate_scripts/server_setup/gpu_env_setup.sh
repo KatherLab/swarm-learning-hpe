@@ -30,7 +30,7 @@ echo "Checking NVIDIA drivers..."
 if nvidia-smi | grep -q 'NVIDIA-SMI' || nvidia-smi | grep -q 'Driver Version'; then
   echo "GPU drivers are set up."
 else
-  echo "Please install NVIDIA GPU drivers."
+  echo "GPU env failed. Please install NVIDIA GPU drivers, try command 'nvidia-smi' to check if it is installed successfully, if not follow the instruction in your terminal to install it."
   exit 1
 fi
 

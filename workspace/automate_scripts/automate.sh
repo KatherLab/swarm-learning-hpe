@@ -68,8 +68,7 @@ if [ $ACTION = prerequisite ]; then
   #if [ -z "$sentinel" ]; then
   #echo "Specified sentinel node address, will install apls server"
   #fi
-  echo "Prerequisite setup steps completed successfully."
-
+  echo "Prerequisite setup steps completed successfully. Please proceed to the next step."
 fi
 
 
@@ -96,7 +95,7 @@ if [ $ACTION = server_setup ]; then
       echo "sh ./workspace/automate_scripts/sl_env_setup/get_dataset_scp.sh -s $sentinel_ip"
     #sh ./workspace/automate_scripts/sl_env_setup/get_dataset_scp.sh -w "$workspace_name" -s $sentinel_ip
   fi
-  echo "Server setup steps completed successfully."
+  echo "Server setup steps completed successfully. Please proceed to final setup."
 fi
 
 if [ $ACTION = final_setup ]; then
@@ -130,7 +129,7 @@ if [ $ACTION = final_setup ]; then
 
   sh ./workspace/automate_scripts/sl_env_setup/replacement.sh -w "$workspace_name" -s "$sentinel_ip" -n "$num_peers" -e "$num_epochs" -d "$host_index"
   sh ./workspace/automate_scripts/sl_env_setup/setup_sl-cli-lib.sh -w "$workspace_name"
-  echo "Final setup steps completed successfully."
+  echo "Final setup steps completed successfully. Please proceed to the next step for running Swarm Learning nodes."
 fi
 
 # If an error occurs, print an error message and exit
