@@ -28,7 +28,7 @@ while getopts ":h" opt; do
 done
 
 
-
+pip install -U --no-cache-dir gdown --pre
 # Fetch and unzip the dataset
 sudo mkdir -p workspace/odelia-breast-mri/user/data-and-scratch/data
 sudo mkdir -p workspace/marugoto_mri/user/data-and-scratch/data
