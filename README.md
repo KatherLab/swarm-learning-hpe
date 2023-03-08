@@ -4,7 +4,6 @@
 
 Swarm learning learning and trails based on HPE platform
 
-We now have a "Team Email": katherlab.swarm@gmail.com. With this we can log in to all swarm related things and use it in the code.
 
 This repository contains:
 
@@ -12,7 +11,8 @@ This repository contains:
 2. [Work flow](https://github.com/users/Ultimate-Storm/projects/4) to help keep track of what's under process.
 3. [Issue section](https://github.com/Ultimate-Storm/swarm-learning-hpe/issues) where people can dump ideas and raise
    questions encountered when using this repo.
-4. Working version of mnist-pyt-gpu with automated scripts, tried on hosts 192.168.33.102 and 192.168.33.103
+4. Working version of [marugoto_mri](workspace%2Fmarugoto_mri) for Attention MIL based model, originally suitable for histopathology images but Marta has modified it to work with MRI images.
+5. Working version of [odelia-breast-mri](workspace%2Fodelia-breast-mri) for 3D-CNN model by [@Gustav](gumueller@ukaachen.de).
 
 ## Table of Contents
 
