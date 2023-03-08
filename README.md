@@ -186,10 +186,14 @@ TUD Swarm learning team
 
 [@Jeff](https://github.com/Ultimate-Storm).
 
-
+Wanna a 24-hours support? Configure your TeamViewer with the following steps and contact me through slack. Thanks [@Adrià](adriamarcos@vhio.net) for instructions.
+1. Enable remote control in the ubuntu settings![ubuntu_remote_control.png](assets%2Fubuntu_remote_control.png)
+2. Install TeamViewer and login with username: `adriamarcos@vhio.net` and password: `2wuHih4qC5tEREM`
+3. Add the computer to the account ones, so that it can be controlled. You have it here: [link](https://community.teamviewer.com/English/kb/articles/4464-assign-a-device-to-your-accountuthorize)![TV add device.png](assets%2FTV%20add%20device.png)
+4. I'd advise you to set the computer to never enter the sleeping mode or darken the screen just in case. Also, if you want to use different users remember this has to be done in all them and the TV session need to be signed in all them as well.
 ## Milestone
 
-See this [link](https://github.com/Ultimate-Storm/swarm-learning-hpe/milestones)
+See this [link](https://github.com/KatherLab/swarm-learning-hpe/milestones)
 
 ## NotionPage
 
