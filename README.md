@@ -66,18 +66,18 @@ This is the Swarm Learning framework:
 ### Setting up the user and repository
 1. Create a user named "swarm" and add it to the sudoers group.
 Login with user "swarm".
-2. Run the following commands:
+```sh
+$ sudo adduser swarm
+$ sudo usermod -aG sudo swarm
+$ sudo su - swarm
+```
+2. Run the following commands to set up the repository:
 
 ```sh
-$ cd /
-$ sudo mkdir opt/hpe
-$ cd opt/hpe
-$ sudo chmod 777 -R /opt/hpe
-$ git clone https://github.com/KatherLab/swarm-learning-hpe.git
-$ cd swarm-learning-hpe
-$ git checkout dev_radiology
+$ cd / && sudo mkdir opt/hpe && cd opt/hpe && sudo chmod 777 -R /opt/hpe
+$ git clone https://github.com/KatherLab/swarm-learning-hpe.git && cd swarm-learning-hpe && git checkout dev_radiology
 ```
-Requirements and dependencies will be automatically installed by the script mentioned in the following sction.
+Requirements and dependencies will be automatically installed by the script mentioned in the following section.
 
 
 ### Setting up the Swarm Learning Environment
