@@ -37,8 +37,8 @@ sudo mkdir -p $workspace_dir/marugoto_mri/user/data-and-scratch/data
 #sudo scp swarm@$sentinel_ip:/mnt/sda1/swarm-learning/radiology-dataset/features_odelia_sub_imagenet.zip workspace/marugoto_mri/user/data-and-scratch/data
 #sudo scp -r swarm@$sentinel_ip:/mnt/sda1/swarm-learning/radiology-dataset/tables/ workspace/odelia-breast-mri/user/data-and-scratch/data
 gdown --fuzzy https://drive.google.com/drive/folders/1clbK91sQv8bYtGAhC9AmZAbgVo473yrz?usp=share_link -O $workspace_dir/odelia-breast-mri/user/data-and-scratch/data --folder
-gdown --fuzzy https://drive.google.com/file/d/1igy2emjH4HmLf_KNbv-4aLv5_8GeFoPq/view?usp=share_link -O $workspace_dir/marugoto_mri/user/data-and-scratch/data
-gdown --fuzzy https://drive.google.com/file/d/1HKjqbALJgZCqLeNJ-_xKk0lEDNcJV_5Z/view?usp=share_link -O $workspace_dir/odelia-breast-mri/user/data-and-scratch/data
+gdown --fuzzy https://drive.google.com/file/d/1igy2emjH4HmLf_KNbv-4aLv5_8GeFoPq/view?usp=share_link -O $workspace_dir/marugoto_mri/user/data-and-scratch/data/features_odelia_sub_imagenet.zip
+gdown --fuzzy https://drive.google.com/file/d/1HKjqbALJgZCqLeNJ-_xKk0lEDNcJV_5Z/view?usp=share_link -O $workspace_dir/odelia-breast-mri/user/data-and-scratch/data/odelia_dataset_only_sub.zip
 
 
 unzip $workspace_dir/odelia-breast-mri/user/data-and-scratch/data/odelia_dataset_only_sub.zip -d $workspace_dir/odelia-breast-mri/user/data-and-scratch/data
