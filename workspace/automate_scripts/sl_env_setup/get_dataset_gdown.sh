@@ -1,5 +1,6 @@
 #!/bin/sh
 set -eu
+workspace_dir='/opt/hpe/swarm-learning-hpe/workspace/'
 # Print usage information
 usage() {
   echo "Usage: sh get_dataset_gdown.sh -w WORKSPACE_NAME -s SENTINEL_IP [-h]"
@@ -30,18 +31,18 @@ done
 
 pip install -U --no-cache-dir gdown --pre
 # Fetch and unzip the dataset
-sudo mkdir -p workspace/odelia-breast-mri/user/data-and-scratch/data
-sudo mkdir -p workspace/marugoto_mri/user/data-and-scratch/data
+sudo mkdir -p $workspace_dir/odelia-breast-mri/user/data-and-scratch/data
+sudo mkdir -p $workspace_dir/marugoto_mri/user/data-and-scratch/data
 #sudo scp swarm@$sentinel_ip:/mnt/sda1/swarm-learning/radiology-dataset/odelia_dataset_only_sub.zip workspace/odelia-breast-mri/user/data-and-scratch/data
 #sudo scp swarm@$sentinel_ip:/mnt/sda1/swarm-learning/radiology-dataset/features_odelia_sub_imagenet.zip workspace/marugoto_mri/user/data-and-scratch/data
 #sudo scp -r swarm@$sentinel_ip:/mnt/sda1/swarm-learning/radiology-dataset/tables/ workspace/odelia-breast-mri/user/data-and-scratch/data
-gdown --fuzzy https://drive.google.com/drive/folders/1clbK91sQv8bYtGAhC9AmZAbgVo473yrz?usp=share_link -O workspace/odelia-breast-mri/user/data-and-scratch/data --folder
-gdown --fuzzy https://drive.google.com/file/d/1igy2emjH4HmLf_KNbv-4aLv5_8GeFoPq/view?usp=share_link -O workspace/marugoto_mri/user/data-and-scratch/data
-gdown --fuzzy https://drive.google.com/file/d/1HKjqbALJgZCqLeNJ-_xKk0lEDNcJV_5Z/view?usp=share_link -O workspace/odelia-breast-mri/user/data-and-scratch/data
+gdown --fuzzy https://drive.google.com/drive/folders/1clbK91sQv8bYtGAhC9AmZAbgVo473yrz?usp=share_link -O $workspace_dir/odelia-breast-mri/user/data-and-scratch/data --folder
+gdown --fuzzy https://drive.google.com/file/d/1igy2emjH4HmLf_KNbv-4aLv5_8GeFoPq/view?usp=share_link -O $workspace_dir/marugoto_mri/user/data-and-scratch/data
+gdown --fuzzy https://drive.google.com/file/d/1HKjqbALJgZCqLeNJ-_xKk0lEDNcJV_5Z/view?usp=share_link -O $workspace_dir/odelia-breast-mri/user/data-and-scratch/data
 
 
-unzip workspace/odelia-breast-mri/user/data-and-scratch/data/odelia_dataset_only_sub.zip -d workspace/odelia-breast-mri/user/data-and-scratch/data
-unzip workspace/marugoto_mri/user/data-and-scratch/data/features_odelia_sub_imagenet.zip -d workspace/marugoto_mri/user/data-and-scratch/data
+unzip $workspace_dir/odelia-breast-mri/user/data-and-scratch/data/odelia_dataset_only_sub.zip -d $workspace_dir/odelia-breast-mri/user/data-and-scratch/data
+unzip $workspace_dir/marugoto_mri/user/data-and-scratch/data/features_odelia_sub_imagenet.zip -d $workspace_dir/marugoto_mri/user/data-and-scratch/data
 # If an error occurs, print an error message and exit
 if [ $? -ne 0 ]; then
     echo "An error occurred while running the script. Please check the output above for more details."
