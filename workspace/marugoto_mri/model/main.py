@@ -20,12 +20,12 @@ from mil.helpers import (
 
 scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
 dataDir = os.getenv('DATA_DIR', '/platform/data/')
-num_epochs = os.getenv('MAX_EPOCHS', 64)
-min_peers = os.getenv('MIN_PEERS', 2)
-max_peers = os.getenv('MAX_PEERS', 7)
-local_compare_flag = os.getenv('LOCAL_COMPARE_FLAG', False)
-useAdaptiveSync = os.getenv('USE_ADAPTIVE_SYNC', False)
-syncFrequency = os.getenv('SYNC_FREQUENCY', 32)
+num_epochs = int(os.getenv('MAX_EPOCHS', 64))
+min_peers = int(os.getenv('MIN_PEERS', 2))
+max_peers = int(os.getenv('MAX_PEERS', 7))
+local_compare_flag = bool(os.getenv('LOCAL_COMPARE_FLAG', False))
+useAdaptiveSync = bool(os.getenv('USE_ADAPTIVE_SYNC', False))
+syncFrequency = int(os.getenv('SYNC_FREQUENCY', 32))
 
 current_time = datetime.now().strftime("%Y_%m_%d_%H%M%S")
 
