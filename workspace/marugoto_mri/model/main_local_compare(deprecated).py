@@ -22,7 +22,7 @@ scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
 dataDir = os.getenv('DATA_DIR', '/platform/data/')
 current_time = datetime.now().strftime("%Y_%m_%d_%H%M%S")
 
-data_split = '40-30-10-20'
+data_split = 'WP1'
 #data_split = '25-25-25-25'
 
 feature_dir_path = os.path.join(dataDir, data_split, 'train_val')

@@ -30,7 +30,7 @@ syncFrequency = int(os.getenv('SYNC_FREQUENCY', 32))
 current_time = datetime.now().strftime("%Y_%m_%d_%H%M%S")
 
 
-data_split = '40-30-10-20'
+data_split = 'WP1'
 #data_split = '25-25-25-25'
 
 feature_dir_path = os.path.join(dataDir, data_split, 'train_val')

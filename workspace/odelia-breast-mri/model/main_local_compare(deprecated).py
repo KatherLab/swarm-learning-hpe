@@ -170,7 +170,7 @@ class User_swarm_callback(Callback):
 max_expochs = 100
 if __name__ == "__main__":
     # ------------ Settings/Defaults ----------------
-    task_data_name = '40-30-10-20'
+    task_data_name = 'WP1'
     scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')  # !
     dataDir = os.getenv('DATA_DIR', '/platform/data/')
     #print(os.getenv('DATA_DIR'))
