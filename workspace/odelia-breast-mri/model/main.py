@@ -125,7 +125,6 @@ if __name__ == "__main__":
     swarmCallback = SwarmCallback(syncFrequency=syncFrequency,
                                   minPeers=min_peers,
                                   maxPeers=max_peers,
-                                  useAdaptiveSync=useAdaptiveSync,
                                   adsValData=ds_val,
                                   adsValBatchSize=2,
                                   nodeWeightage=cal_weightage(train_size),

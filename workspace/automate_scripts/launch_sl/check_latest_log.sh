@@ -4,4 +4,4 @@
 container_id=$(docker ps -a --filter "name=us*" --format "{{.ID}}" | head -n 1)
 
 # Get the latest log for the user-env container
-docker logs $container_id
+docker logs $container_id -f
