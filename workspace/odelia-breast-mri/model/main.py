@@ -50,7 +50,7 @@ if __name__ == "__main__":
     max_epochs = int(os.getenv('MAX_EPOCHS', 100))
     min_peers = int(os.getenv('MIN_PEERS', 2))
     max_peers = int(os.getenv('MAX_PEERS', 7))
-    local_compare_flag = bool(.getenv('LOCAL_COMPARE_FLAG', False))
+    local_compare_flag = bool(os.getenv('LOCAL_COMPARE_FLAG', False))
     useAdaptiveSync = bool(os.getenv('USE_ADAPTIVE_SYNC', False))
     syncFrequency = int(os.getenv('SYNC_FREQUENCY', 512))
 
