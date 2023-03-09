@@ -80,7 +80,7 @@ if [ $ACTION = server_setup ]; then
   sh ./workspace/automate_scripts/server_setup/install_containers.sh
   sh ./workspace/automate_scripts/server_setup/gpu_env_setup.sh
   sh ./workspace/automate_scripts/sl_env_setup/gen_cert.sh -i "$host_index"
-  sudo sh ./workspace/automate_scripts/server_setup/setup_vpntunnel.sh
+  sudo sh ./workspace/automate_scripts/server_setup/setup_vpntunnel.sh -d "$host_index" -n
   ip_addr=$(ip addr show tun0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
   if [ $ip_addr = $sentinel_ip ]
       then
