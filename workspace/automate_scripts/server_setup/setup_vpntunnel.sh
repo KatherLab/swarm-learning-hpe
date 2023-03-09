@@ -4,19 +4,27 @@ set -eu
 # Help function
 help() {
    echo ""
-   echo "Usage: setup_vpntunnel.sh"
+   echo "Usage: setup_vpntunnel.sh -d <host_index> [-n]"
    echo ""
    exit 1
 }
 
 # Process command options
-while getopts "h?" opt
+while getopts "nd:h?" opt
 do
    case "$opt" in
+      n ) ACTION=new ;;
+      d ) host_index="$OPTARG" ;;
       h ) help ;;
       ? ) help ;;
    esac
 done
+
+if [ -z "$host_index" ]; then
+   echo "Please specify your host index"
+   echo "Host index should be chosen from [TUD, Ribera, VHIO, Radboud, UKA, Utrecht, Mitera, Cambridge, Zurich]"
+   exit 1
+fi
 
 echo setup vpn tunnel for swarm learning
 sudo apt-get -y install openvpn
@@ -24,19 +32,17 @@ if ! sudo ls /etc/openvpn/credentials >/dev/null 2>&1; then
     # The file exists, continue with the following commands
     sudo touch /etc/openvpn/credentials
 fi
-sudo chmod 777 /etc/openvpn/credentials
-echo please input your vpn account and password
-echo "ask TUD maintainer for the account and password if you don't have one"
-read -p "vpn account: " vpn_account
-stty -echo
-read -p "vpn password: " vpn_password
-stty echo
-sudo printf '%s\n' $vpn_account $vpn_password > /etc/openvpn/credentials
-# TODO: use our Swarm Learning account
-# GMAIL: katherlab.swarm@gmail.com
-# EkFz2swarm@KATHERLAB
-# sudo sed -i 's/auth-user-pass/auth-user-pass \/etc\/openvpn\/credentials/g' ./assets/openvpn_configs/tcp_files/germany1-tcp.ovpn
-sudo nohup openvpn --config ./assets/openvpn_configs/tcp_files/germany1-tcp.ovpn &
+if [ $ACTION = new ]; then
+  sudo chmod 777 /etc/openvpn/credentials
+  echo please input your vpn account and password
+  echo "ask TUD maintainer for the account and password if you don't have one"
+  read -p "vpn account: " vpn_account
+  stty -echo
+  read -p "vpn password: " vpn_password
+  stty echo
+  sudo printf '%s\n' $vpn_account $vpn_password > /etc/openvpn/credentials
+fi
+sudo nohup openvpn --config ./assets/openvpn_configs/good_access/$host_index.ovpn &
 # If an error occurs, print an error message and exit
 if [ $? -ne 0 ]; then
     echo "An error occurred while running the script. Please check the output above for more details."
