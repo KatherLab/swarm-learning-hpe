@@ -8,7 +8,7 @@ help() {
    echo ""
    exit 1
 }
-
+ACTION="nochange"
 # Process command options
 while getopts "nd:h?" opt
 do
