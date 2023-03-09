@@ -40,7 +40,7 @@ class User_swarm_callback(Callback):
 
 def cal_weightage(train_size):
     full_dataset_size = 922
-    return train_size / full_dataset_size
+    return int(100 * train_size / full_dataset_size)
 
 if __name__ == "__main__":
     # ------------ Settings/Defaults ----------------

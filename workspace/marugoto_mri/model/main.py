@@ -48,7 +48,7 @@ if __name__ == "__main__":
     local_compare_flag = local_compare_flag,
     min_peers = min_peers,
     max_peers = max_peers,
-    useAdaptiveSync = useAdaptiveSync,
+    useAdaptiveSync = False,
     syncFrequency = syncFrequency,
     )
 

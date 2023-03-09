@@ -64,7 +64,7 @@ def train(
     min_peers = 1,
     max_peers = 5,
     syncFrequency = 32,
-    useAdaptiveSync = True,
+    useAdaptiveSync = False,
 ) -> Learner:
     """Train a MLP on image features.
 
@@ -148,7 +148,7 @@ def train(
 
 def cal_weightage(train_size):
     full_dataset_size = 922
-    return train_size / full_dataset_size
+    return int(100 * train_size / full_dataset_size)
 def deploy(
     test_df: pd.DataFrame,
     learn: Learner,

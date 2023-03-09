@@ -45,7 +45,7 @@ def train_categorical_model_(
     min_peers = 1,
     max_peers = 5,
     syncFrequency=32,
-    useAdaptiveSync=True,
+    useAdaptiveSync=False,
 ) -> None:
     """Train a categorical model on a cohort's tile's features.
 
@@ -139,7 +139,7 @@ def train_categorical_model_(
         min_peers = min_peers,
         max_peers = max_peers,
         syncFrequency = syncFrequency,
-        useAdaptiveSync = useAdaptiveSync,
+        useAdaptiveSync = False,
     )
 
     # save some additional information to the learner to make deployment easier
