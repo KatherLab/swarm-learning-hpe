@@ -80,6 +80,7 @@ if [ $ACTION = server_setup ]; then
   sh ./workspace/automate_scripts/server_setup/install_containers.sh
   sh ./workspace/automate_scripts/server_setup/gpu_env_setup.sh
   sh ./workspace/automate_scripts/sl_env_setup/gen_cert.sh -i "$host_index"
+  sh ./workspace/automate_scripts/sl_env_setup/setup_sl-cli-lib.sh
   sudo sh ./workspace/automate_scripts/server_setup/setup_vpntunnel.sh -d "$host_index" -n
   ip_addr=$(ip addr show tun0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
   if [ $ip_addr = $sentinel_ip ]
@@ -128,7 +129,6 @@ if [ $ACTION = final_setup ]; then
   # set default values if num_peers or num_epochs not specified
 
   sh ./workspace/automate_scripts/sl_env_setup/replacement.sh -w "$workspace_name" -s "$sentinel_ip" -n "$num_peers" -e "$num_epochs" -d "$host_index"
-  sh ./workspace/automate_scripts/sl_env_setup/setup_sl-cli-lib.sh -w "$workspace_name"
   echo "Final setup steps completed successfully. Please proceed to the next step for running Swarm Learning nodes."
 fi
 
