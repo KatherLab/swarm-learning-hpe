@@ -128,7 +128,6 @@ def train(
         swarmCallback = SwarmCallback(syncFrequency=syncFrequency,
                                       minPeers=min_peers,
                                       maxPeers=max_peers,
-                                      useAdaptiveSync=useAdaptiveSync,
                                       adsValData=valid_ds,
                                       adsValBatchSize=2,
                                       nodeWeightage=cal_weightage(len(train_ds)),
