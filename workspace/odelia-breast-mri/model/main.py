@@ -145,7 +145,7 @@ if __name__ == "__main__":
         callbacks=[checkpointing, User_swarm_callback(swarmCallback)],#early_stopping
         enable_checkpointing=True,
         check_val_every_n_epoch=1,
-        min_epochs=50,
+        min_epochs=5,
         log_every_n_steps=log_every_n_steps,
         auto_lr_find=False,
         # limit_val_batches=0, # 0 = disable validation - Note: Early Stopping no longer available
