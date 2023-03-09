@@ -38,7 +38,7 @@ The flags are as follows:
     - `Final sl setup`: Downloads the dataset for the workspace. This will take a long time. The [-s sentinel_ip] flag is necessary. The script will download the dataset from the sentinel node.
 - `-w`: Name of the workspace module, e.g. odelia-breast-mri, marugoto_mri, etc.
 - `-d`: Host index, host index should be chosen from [TUD, Ribera, VHIO, Radboud, UKA, Utrecht, Mitera, Cambridge, Zurich]
-- `-s`: Sentinel IP address, e.g. 10.15.0.15.
+- `-s`: Sentinel IP address, e.g. 172.24.40.65
 - `-p`: Minimum number of peers involved in the next training tast for swarm learning. We should coordinate this with the number of peers in the cluster.
 - `-e`: Number of epochs for swarm learning. Optional. Default is 50 for marugoto_mri and 100 for odelia-breast-mri.
 
@@ -59,7 +59,7 @@ $ sh workspace/automate_scripts/automate.sh -c -w <workspace_name> -s <sentinel_
 ```
 Here is an example usage for flag -c:
 ```sh
-$ sh workspace/automate_scripts/automate.sh -c -w odelia-breast-mri -s 10.15.0.15 -d VHIO -n 3 -e 50
+$ sh workspace/automate_scripts/automate.sh -c -w odelia-breast-mri -s 172.24.40.65 -d VHIO -n 3 -e 50
 ```
 
 

@@ -44,11 +44,11 @@ SCRIPT_DIR=$(realpath $(dirname "${0}"))
 WORKSPACE_DIR="/opt/hpe/swarm-learning-hpe/"
 cd $WORKSPACE_DIR
 
-cp workspace/"$WORKSPACE"/swop/swop_profile.yaml workspace/"$WORKSPACE"/swop/swop_profile_"$IP_ADDR".yaml
-cp workspace/"$WORKSPACE"/swci/swci-init_ori workspace/"$WORKSPACE"/swci/swci-init_pre
-cp workspace/"$WORKSPACE"/swci/taskdefs/swarm_task_ori.yaml workspace/"$WORKSPACE"/swci/taskdefs/swarm_task_pre.yaml
-cp workspace/"$WORKSPACE"/swci/taskdefs/user_env_build_task_ori.yaml workspace/"$WORKSPACE"/swci/taskdefs/user_env_build_task_pre.yaml
-cp workspace/"$WORKSPACE"/swci/taskdefs/swarm_task_local_compare_ori.yaml workspace/"$WORKSPACE"/swci/taskdefs/swarm_task_local_compare_pre.yaml
+sudo cp workspace/"$WORKSPACE"/swop/swop_profile.yaml workspace/"$WORKSPACE"/swop/swop_profile_"$IP_ADDR".yaml
+sudo cp workspace/"$WORKSPACE"/swci/swci-init_ori workspace/"$WORKSPACE"/swci/swci-init_pre
+sudo cp workspace/"$WORKSPACE"/swci/taskdefs/swarm_task_ori.yaml workspace/"$WORKSPACE"/swci/taskdefs/swarm_task_pre.yaml
+sudo cp workspace/"$WORKSPACE"/swci/taskdefs/user_env_build_task_ori.yaml workspace/"$WORKSPACE"/swci/taskdefs/user_env_build_task_pre.yaml
+sudo cp workspace/"$WORKSPACE"/swci/taskdefs/swarm_task_local_compare_ori.yaml workspace/"$WORKSPACE"/swci/taskdefs/swarm_task_local_compare_pre.yaml
 
 
 # Loop over the files to update
