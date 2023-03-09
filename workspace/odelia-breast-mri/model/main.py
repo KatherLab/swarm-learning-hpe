@@ -47,12 +47,12 @@ if __name__ == "__main__":
     task_data_name = '40-30-10-20'
     scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
     dataDir = os.getenv('DATA_DIR', '/platform/data/')
-    max_epochs = os.getenv('MAX_EPOCHS', 100)
-    min_peers = os.getenv('MIN_PEERS', 2)
-    max_peers = os.getenv('MAX_PEERS', 7)
-    local_compare_flag = os.getenv('LOCAL_COMPARE_FLAG', False)
-    useAdaptiveSync = os.getenv('USE_ADAPTIVE_SYNC', False)
-    syncFrequency = os.getenv('SYNC_FREQUENCY', 512)
+    max_epochs = int(os.getenv('MAX_EPOCHS', 100))
+    min_peers = int(os.getenv('MIN_PEERS', 2))
+    max_peers = int(os.getenv('MAX_PEERS', 7))
+    local_compare_flag = bool(.getenv('LOCAL_COMPARE_FLAG', False))
+    useAdaptiveSync = bool(os.getenv('USE_ADAPTIVE_SYNC', False))
+    syncFrequency = int(os.getenv('SYNC_FREQUENCY', 512))
 
     #print(os.getenv('DATA_DIR'))
     #print(f"Using {scratchDir} for training")
