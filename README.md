@@ -155,20 +155,29 @@ Nodes will be added to vpn and will be able to communicate with each other after
 - Sentinel node: Dresden, Germany
   - IP address: 172.24.40.65(please put this ip address after -s flag whenever it is needed)
   - Hostname: swarm
+  - Data: 1-100
   - Maintainer: [@Jeff](https://github.com/Ultimate-Storm)
 - ODELIA nodes: 
   - VHIO: Madrid, Spain
     - IP address: 172.24.40.67
     - Hostname: radiomics
+    - Data: 401-500
     - Maintainer: [@Adrià](adriamarcos@vhio.net)
   - UKA: Aachen, Germany
     - IP address: 172.24.40.71
     - Hostname: swarm
+    - Data: 101-200
     - Maintainer: [@Gustav](gumueller@ukaachen.de)
   - RADBOUD: Nijmegen, Netherlands
     - IP address: 172.24.40.73
     - Hostname: swarm
+    - Data: 501-600
     - Maintainer: [@Tianyu](t.zhang@nki.nl)
+
+
+  - Test Data: 801-922
+
+
 - Other nodes:
   - UCHICAGO: Chicago, USA
     - IP address: 172.24.40.69
