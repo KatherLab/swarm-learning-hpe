@@ -83,7 +83,7 @@ Requirements and dependencies will be automatically installed by the script ment
 ### Setting up the Swarm Learning Environment
 **PLEASE REPLACE THE `<PLACEHOLDER>` WITH THE CORRESPONDING VALUE!**
 
-`<sentinel_ip>` = `10.15.0.15` currently it's the IP assigned by VPN server for TUD host.
+`<sentinel_ip>` = `172.24.40.65` currently it's the IP assigned by VPN server for TUD host.
 
 `<host_index>` = Your institute's name. For ODELIA project should be chosen from `TUD` `Ribera` `VHIO` `Radboud` `UKA` `Utrecht` `Mitera` `Cambridge` `Zurich`
 
@@ -152,28 +152,28 @@ Please observe [Troubleshooting.md](Troubleshooting.md) section 10 for successfu
 
 ## Node list
 Nodes will be added to vpn and will be able to communicate with each other after setting up the Swarm Learning Environment with [Install](#install)
-- Sentinel node: Dresden
-  - IP address: 10.15.0.15(please put this ip address after -s flag whenever it is needed)
+- Sentinel node: Dresden, Germany
+  - IP address: 172.24.40.65(please put this ip address after -s flag whenever it is needed)
   - Hostname: swarm
   - Maintainer: [@Jeff](https://github.com/Ultimate-Storm)
 - ODELIA nodes: 
-  - VHIO: Adrian
-    - IP address: 10.15.0.16
+  - VHIO: Madrid, Spain
+    - IP address: 172.24.40.67
     - Hostname: radiomics
     - Maintainer: [@Adrià](adriamarcos@vhio.net)
-  - UKA: Gustav
-    - IP address: 10.15.0.13
+  - UKA: Aachen, Germany
+    - IP address: 172.24.40.71
     - Hostname: swarm
     - Maintainer: [@Gustav](gumueller@ukaachen.de)
-  - Radboud: Tianyu
-    - IP address: 10.15.0.9
+  - RADBOUD: Nijmegen, Netherlands
+    - IP address: 172.24.40.73
     - Hostname: swarm
     - Maintainer: [@Tianyu](t.zhang@nki.nl)
 - Other nodes:
-  - UCHICAGO: TBD
-    - IP address: TBD
-    - Hostname: TBD
-    - Maintainer: TBD
+  - UCHICAGO: Chicago, USA
+    - IP address: 172.24.40.69
+    - Hostname: swarm
+    - Maintainer: [@Sid](Siddhi.Ramesh@uchospitals.edu)
 
 ## Models implemented
 
