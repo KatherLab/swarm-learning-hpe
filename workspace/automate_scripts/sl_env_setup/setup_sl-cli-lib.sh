@@ -2,18 +2,14 @@
 set -eu
 # Print usage information
 usage() {
-    echo "Usage: $0 -w WORKSPACE" >&2
-    echo "  -w WORKSPACE   path to the Swarm Learning workspace directory" >&2
+    echo "Usage: $0" >&2
     echo "  -h             display this help and exit" >&2
     exit 1
 }
 
 # Parse command-line options
-while getopts ":w:h" opt; do
+while getopts ":h" opt; do
     case $opt in
-        w)
-            workspace=$OPTARG
-            ;;
         h)
             usage
             ;;
@@ -29,10 +25,6 @@ while getopts ":w:h" opt; do
 done
 
 # Check that the workspace option is set
-if [ -z "$workspace" ]; then
-    echo "Error: WORKSPACE is a required option." >&2
-    usage
-fi
 
 # Set up the SL CLI library volume
 sl_cli_lib="sl-cli-lib"
@@ -45,8 +37,7 @@ sudo docker cp -L "${0%/*}"/swarmlearning-client-py3-none-manylinux_2_24_x86_64.
 sudo docker rm helper
 
 # Create a Docker network for the host
-ip_addr=$(ip addr show tun0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
-host_network="host-$ip_addr-net"
+host_network="host-net"
 if sudo docker network list | grep -q "$host_network"; then
     sudo docker network rm "$host_network"
 fi

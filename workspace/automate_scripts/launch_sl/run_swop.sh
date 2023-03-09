@@ -54,7 +54,7 @@ fi
 # Run the SWOP container
 sudo $script_dir/../../swarm_learning_scripts/run-swop -it --rm \
   --name=swop"$ip_addr" \
-  --network=host-"$ip_addr"-net \
+  --network=host-net \
   --usr-dir=workspace/"$workspace"/swop \
   --profile-file-name=swop_profile_"$ip_addr".yaml \
   --key=cert/swop-"$host_index"-key.pem \

@@ -60,7 +60,7 @@ fi
 sudo $script_dir/../../swarm_learning_scripts/run-sn \
      -it --rm \
      --name=sn"$ip_addr" \
-     --network=host-"$ip_addr"-net \
+     --network=host-net \
      --host-ip="$ip_addr" \
      "$sn_command" \
      --sn-p2p-port=30303 \
