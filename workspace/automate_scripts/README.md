@@ -75,3 +75,28 @@ The [-s sentinel_ip] flag is only necessary for get_dataset_scp.sh The script wi
 ```sh
 $ sh workspace/automate_scripts/sl_env_setup/get_dataset_scp.sh -s <sentinel_ip>
 ```
+
+## VPN setup
+- The setup of VPN is included in the automate.sh script. Just ask [@Jeff](https://github.com/Ultimate-Storm) for credentials when the terminal asks for it.
+- Optional: To configure OpenVPN to only take effect on the 'swarm' user and not affect others, you can follow the steps below:
+  1. Create a new group for 'swarm' user
+  ```sh
+  $ sudo groupadd swarm-group
+  ```
+  2. Add the 'swarm' user to the new group
+  ```sh
+  $ sudo usermod -a -G swarm-group swarm
+  ```
+  3. Modify the OpenVPN server configuration file
+  ```sh
+  $ sudo nano /etc/openvpn/server.conf
+  ```
+  4. Add the following lines to the configuration file to specify the user and group to run OpenVPN
+  user swarm
+  ```sh
+  $ group swarm-group
+  ```
+  5. Save the configuration file and restart OpenVPN
+  ```sh
+  $ sudo systemctl restart openvpn
+  ```
