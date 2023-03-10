@@ -2,6 +2,9 @@ from dataclasses import dataclass
 from typing import Any, Iterable, Optional, Sequence, Tuple, TypeVar
 from pathlib import Path
 import os
+from .transformer import Transformer
+from .ViT import ViT
+import numpy as np
 
 import logging
 from swarmlearning.pyt import SwarmCallback
@@ -65,6 +68,7 @@ def train(
     max_peers = 5,
     syncFrequency = 32,
     useAdaptiveSync = False,
+    model_type: str = "transformer",
 ) -> Learner:
     """Train a MLP on image features.
 
@@ -100,7 +104,14 @@ def train(
     )
     batch = train_dl.one_batch()
 
-    model = MILModel(batch[0].shape[-1], batch[-1].shape[-1])
+    if model_type == "transformer":
+        model = ViT(num_classes=2)  # Transformer(num_classes=2)
+        model.to(torch.device('cuda' if torch.cuda.is_available() else 'cpu'))  #
+    else:
+        model = MILModel(batch[0].shape[-1], batch[-1].shape[-1])
+
+
+
 
     # weigh inversely to class occurances
     counts = pd.value_counts(targs[~valid_idxs])

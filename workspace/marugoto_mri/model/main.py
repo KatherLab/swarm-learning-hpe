@@ -26,7 +26,7 @@ max_peers = int(os.getenv('MAX_PEERS', 7))
 local_compare_flag = os.getenv('LOCAL_COMPARE_FLAG', 'False').lower() == 'true'
 useAdaptiveSync = os.getenv('USE_ADAPTIVE_SYNC', 'False').lower() == 'true'
 syncFrequency = int(os.getenv('SYNC_FREQUENCY', 32))
-
+model_type = os.getenv('MODEL_TYPE', 'transformer')
 current_time = datetime.now().strftime("%Y_%m_%d_%H%M%S")
 
 
@@ -53,6 +53,7 @@ if __name__ == "__main__":
     max_peers = max_peers,
     useAdaptiveSync = False,
     syncFrequency = syncFrequency,
+    model_type = 'model_type'
     )
 
     deploy_categorical_model_(
