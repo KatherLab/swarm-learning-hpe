@@ -64,7 +64,7 @@ fi
 
 sudo $script_dir/../../swarm_learning_scripts/run-sn \
      -it --rm \
-     --name=sn"$ip_addr" \
+     --name=sn_node \
      --network=host-net \
      --host-ip="$ip_addr" \
      "$sn_command" \
