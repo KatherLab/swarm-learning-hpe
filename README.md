@@ -173,7 +173,31 @@ Nodes will be added to vpn and will be able to communicate with each other after
     - Hostname: swarm
     - Data: 501-600
     - Maintainer: [@Tianyu](t.zhang@nki.nl)
-
+  - MITERA: 
+    - IP address: 172.24.40.75
+    - Hostname: 
+    - Data: 201-300
+    - Maintainer:
+  - RIBERA: 
+    - IP address: 172.24.40.77
+    - Hostname: 
+    - Data: 301-400
+    - Maintainer: 
+  - UTRECHT: 
+    - IP address: 172.24.40.79
+    - Hostname: 
+    - Data: 601-700
+    - Maintainer: 
+  - CAMBRIDGE: 
+    - IP address: 172.24.40.81
+    - Hostname: 
+    - Data: 701-800
+    - Maintainer: 
+  - ZURICH: 
+    - IP address: 172.24.40.83
+    - Hostname: 
+    - Data: TBD
+    - Maintainer: 
 
   - Test Data: 801-922
 
