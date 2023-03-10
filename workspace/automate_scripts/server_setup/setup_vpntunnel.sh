@@ -29,8 +29,13 @@ fi
 echo setup vpn tunnel for swarm learning
 sudo apt-get -y install openvpn
 if ! sudo ls /etc/openvpn/credentials >/dev/null 2>&1; then
+    if [ $ACTION = new ]; then
+      sudo touch /etc/openvpn/credentials
+    else
+      echo "Please run the script with -n option to create the credentials file"
+      exit 1
+    fi
     # The file exists, continue with the following commands
-    sudo touch /etc/openvpn/credentials
 fi
 if [ $ACTION = new ]; then
   sudo chmod 777 /etc/openvpn/credentials
