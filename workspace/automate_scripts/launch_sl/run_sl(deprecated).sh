@@ -30,7 +30,12 @@ while getopts ":w:h" opt; do
     : ) echo "Option -$OPTARG requires an argument." >&2; exit 1 ;;
   esac
 done
-ip_addr=$(ip addr show tun0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
+ip_addr=$(ip addr show tun0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
+
+if [[ -z "$ip_addr" ]]; then
+    echo "Error: tun0 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"
+    exit 1
+fi
 
 # Launch the swarm learning container with the specified options
 "$script_dir"/../../swarm_learning_scripts/run-sl \
