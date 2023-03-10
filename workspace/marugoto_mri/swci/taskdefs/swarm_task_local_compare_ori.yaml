@@ -15,6 +15,7 @@ Body:
              "LOCAL_COMPARE_FLAG": True,
              "USE_ADAPTIVE_SYNC": False,
              "SYNC_FREQUENCY": 32,
+             "MODEL_TYPE": "transformer",
            ]
   PrivateContent: /tmp/test/data-and-scratch
   SharedContent:
