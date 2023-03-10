@@ -12,7 +12,7 @@ apls:
     port: ~
 apisrv:
   locator:
-    host: <HOST-IPADDRESS>
+    host: sn_node
     port: ~
 envvars:
   - SL_LOG_LEVEL: INFO

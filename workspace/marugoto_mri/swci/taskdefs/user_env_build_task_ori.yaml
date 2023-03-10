@@ -8,5 +8,4 @@ Body:
   BuildType: INLINE
   BuildSteps:
     - FROM jeffzhu69/swarm-learning:marugoto_mri
-    - RUN pip install einops
     - ENTRYPOINT ["PYTHON3"]
