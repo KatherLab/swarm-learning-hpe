@@ -92,17 +92,10 @@ if __name__ == "__main__":
         pin_memory=True,
     )
 
-    #print('========1========')
-
-    # ------------ Initialize Model ------------
     model = ResNet(in_ch=1, out_ch=1, spatial_dims=3)
-
-
-    # -------------- Training Initialization ---------------
     to_monitor = "val/AUC_ROC"
     min_max = "max"
     log_every_n_steps = 1
-    #print('========2========')
     early_stopping = EarlyStopping(
         monitor=to_monitor,
         min_delta=0.0,  # minimum change in the monitored quantity to qualify as an improvement
@@ -122,45 +115,56 @@ if __name__ == "__main__":
 
     device = torch.device("cuda" if useCuda else "cpu")
     model = model.to(torch.device(device))
-    swarmCallback = SwarmCallback(syncFrequency=syncFrequency,
-                                  minPeers=min_peers,
-                                  maxPeers=max_peers,
-                                  adsValData=ds_val,
-                                  adsValBatchSize=2,
-                                  nodeWeightage=cal_weightage(train_size),
-                                  model=model)
-    torch.autograd.set_detect_anomaly(True)
-    #print('========3========')
-    swarmCallback.logger.setLevel(logging.DEBUG)
-    swarmCallback.on_train_begin()  # !
-    #print('========4========')
-    #for epoch in range(max_expochs):
-        #print('---------epoch: ', epoch, '---------')
-    trainer = Trainer(
-        accelerator=accelerator,
-        # devices=[0],
-        precision=16,
-        # gradient_clip_val=0.5,
-        default_root_dir=str(path_run_dir),
-        callbacks=[checkpointing, User_swarm_callback(swarmCallback)],#early_stopping
-        enable_checkpointing=True,
-        check_val_every_n_epoch=1,
-        min_epochs=5,
-        log_every_n_steps=log_every_n_steps,
-        auto_lr_find=False,
-        # limit_val_batches=0, # 0 = disable validation - Note: Early Stopping no longer available
-        max_epochs=max_epochs,
-        num_sanity_val_steps=2,
-        logger=TensorBoardLogger(save_dir=path_run_dir)
-    )
-    trainer.fit(model, datamodule=dm)
-        #swarmCallback.on_epoch_end()
-    # ---------------- Execute Training ----------------
-    swarmCallback.on_train_end()  # !
-    #print('========5========')
+    if local_compare_flag:
+        torch.autograd.set_detect_anomaly(True)
+        trainer = Trainer(
+            accelerator=accelerator,
+            # devices=[0],
+            precision=16,
+            # gradient_clip_val=0.5,
+            default_root_dir=str(path_run_dir),
+            callbacks=[checkpointing],  # early_stopping
+            enable_checkpointing=True,
+            check_val_every_n_epoch=1,
+            min_epochs=5,
+            log_every_n_steps=log_every_n_steps,
+            auto_lr_find=False,
+            # limit_val_batches=0, # 0 = disable validation - Note: Early Stopping no longer available
+            max_epochs=max_epochs,
+            num_sanity_val_steps=2,
+            logger=TensorBoardLogger(save_dir=path_run_dir)
+        )
+        trainer.fit(model, datamodule=dm)
 
-    # ------------- Save path to best model -------------
+        trainer.fit(model, datamodule=dm)
+    else:
+        swarmCallback = SwarmCallback(syncFrequency=syncFrequency,
+                                      minPeers=min_peers,
+                                      maxPeers=max_peers,
+                                      adsValData=ds_val,
+                                      adsValBatchSize=2,
+                                      nodeWeightage=cal_weightage(train_size),
+                                      model=model)
+        torch.autograd.set_detect_anomaly(True)
+        swarmCallback.logger.setLevel(logging.DEBUG)
+        swarmCallback.on_train_begin()
+
+        trainer = Trainer(
+            accelerator=accelerator,
+            precision=16,
+            default_root_dir=str(path_run_dir),
+            callbacks=[checkpointing, User_swarm_callback(swarmCallback)],#early_stopping
+            enable_checkpointing=True,
+            check_val_every_n_epoch=1,
+            min_epochs=5,
+            log_every_n_steps=log_every_n_steps,
+            auto_lr_find=False,
+            max_epochs=max_epochs,
+            num_sanity_val_steps=2,
+            logger=TensorBoardLogger(save_dir=path_run_dir)
+        )
+        trainer.fit(model, datamodule=dm)
+        swarmCallback.on_train_end()  # !
     model.save_best_checkpoint(trainer.logger.log_dir, checkpointing.best_model_path)
-    #print('========6========')
 
     predict(path_run_dir, os.path.join(dataDir, task_data_name,'test'))
