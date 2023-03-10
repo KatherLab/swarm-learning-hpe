@@ -116,7 +116,16 @@ def train(
     #device = torch.device("cuda" if useCuda else "cpu")
     dls = DataLoaders(train_dl, valid_dl)
     #model = model.to(torch.device(device))
+
     if local_compare_flag:
+        swarmCallback = SwarmCallback(syncFrequency=syncFrequency,
+                                      minPeers=min_peers,
+                                      maxPeers=max_peers,
+                                      adsValData=valid_ds,
+                                      adsValBatchSize=2,
+                                      nodeWeightage=cal_weightage(len(train_ds)),
+                                      model=model,
+                                      checkinModelOnTrainEnd='inactive')
         print('local compare flag is set')
         learn = Learner(dls, model, loss_func=loss_func, metrics=[RocAuc()], path=path)
         cbs = [
@@ -126,7 +135,6 @@ def train(
 
         learn.fit_one_cycle(n_epoch=n_epoch, lr_max=1e-4, cbs=cbs)
     else:
-        print('local compare flag is not set')
         swarmCallback = SwarmCallback(syncFrequency=syncFrequency,
                                       minPeers=min_peers,
                                       maxPeers=max_peers,
@@ -134,6 +142,7 @@ def train(
                                       adsValBatchSize=2,
                                       nodeWeightage=cal_weightage(len(train_ds)),
                                       model=model)
+        print('local compare flag is not set')
         swarmCallback.logger.setLevel(logging.DEBUG)
         swarmCallback.on_train_begin()
         learn = Learner(dls, model, loss_func=loss_func, metrics=[RocAuc()], path=path)
@@ -144,7 +153,7 @@ def train(
         ]
 
         learn.fit_one_cycle(n_epoch=n_epoch, lr_max=1e-4, cbs=cbs)
-        swarmCallback.on_train_end()
+    swarmCallback.on_train_end()
     return learn
 
 def cal_weightage(train_size):
