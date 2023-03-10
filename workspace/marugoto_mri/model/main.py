@@ -35,7 +35,10 @@ data_split = 'WP1'
 
 feature_dir_path = os.path.join(dataDir, data_split, 'train_val')
 test_dir = os.path.join(dataDir, data_split, 'test')
-out_dir = os.path.join(scratchDir, (str(current_time) + '_' +data_split+'_' + 'swarm_learning'))
+if local_compare_flag:
+    out_dir = os.path.join(scratchDir, (str(current_time) + '_' +data_split+'_' + 'local_compare'))
+else:
+    out_dir = os.path.join(scratchDir, (str(current_time) + '_' +data_split+'_' + 'swarm_learning'))
 
 if __name__ == "__main__":
     train_categorical_model_(
