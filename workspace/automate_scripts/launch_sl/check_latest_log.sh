@@ -1,19 +1,7 @@
-#!/bin/sh
-set -eux
+#!/bin/bash
 
-ip_addr=$(hostname -I | awk '{print $1}')
-script_name=$(basename "${0}")
-script_dir=$(realpath $(dirname "${0}"))
+# Get the container ID for the latest user-env container
+container_id=$(docker ps -a --filter "name=us*" --format "{{.ID}}" | head -n 1)
 
-# Help function
-help()
-{
-   echo ""
-   echo "Ask jeff how to use the damn script"
-   echo ""
-   exit 1
-}
-
-# TODO: incompleted
-sudo docker ps -a # If the container has already been stopped
-sudo docker logs <container> # list logs of ml node container
+# Get the latest log for the user-env container
+docker logs $container_id -f

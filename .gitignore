@@ -133,3 +133,24 @@ dmypy.json
 
 # Certificates
 *.pem
+
+# user dataset and results
+**/user/
+**/user-*
+**/data-and-scratch/
+*.nii.gz
+
+# intermidiate files
+**/*_pre
+**/*_pre.yaml
+**/swop_profile_*
+
+# config files for sentinel node
+**/swci-init
+**/swarm_task_local_compare.yaml
+**/swarm_task.yaml
+**/user_env_build_task.yaml
+/workspace/automate_scripts/server_setup/nohup.out
+
+# test files
+**/test_*

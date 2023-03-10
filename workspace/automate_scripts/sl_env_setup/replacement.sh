@@ -1,49 +1,71 @@
 #!/bin/sh
-set -eux
-ip_addr=$(hostname -I | awk '{print $1}')
-script_name=$(basename "${0}")
-script_dir=$(realpath $(dirname "${0}"))
-workspace_dir='/opt/hpe/swarm-learning-hpe/'
-cd $workspace_dir
+set -eu
 
-# Help function
-help()
-{
-   echo ""
-   echo "Ask jeff how to use the damn script"
-   echo ""
-   exit 1
+# Function to print help text
+print_help() {
+   echo "Usage: $0 -s <sentinel_host> -w <workspace> -n <num_peers> -e <num_epochs>"
+   echo "Options:"
+   echo "  -s: Hostname or IP address of the Sentinel node"
+   echo "  -w: Name of the workspace directory"
+   echo "  -n: Number of minimum peers"
+   echo "  -e: Number of maximum epochs"
+   echo "  -d: Hose index"
+   echo "  -h: Print this help text"
 }
 
-# Process command options
-while getopts "s:w:n:e:h?" opt
-do
-   case "$opt" in
-      s ) sentinal_host="$OPTARG" ;;
-      w ) workspace="$OPTARG" ;;
-      n ) num_peers="$OPTARG" ;;
-      e ) num_epochs="$OPTARG" ;;
-      h ) help ;;
-      ? ) help ;;
+# Parse command line options
+while getopts ":s:w:d:n:e:h" opt; do
+   case $opt in
+      s) SENTINEL_HOST="$OPTARG" ;;
+      w) WORKSPACE="$OPTARG" ;;
+      n) NUM_PEERS="$OPTARG" ;;
+      e) NUM_EPOCHS="$OPTARG" ;;
+      d) HOST_INDEX="$OPTARG" ;;
+      h) print_help; exit 0 ;;
+      \?) echo "Invalid option -$OPTARG" >&2; print_help; exit 1 ;;
+      :) echo "Option -$OPTARG requires an argument." >&2; print_help; exit 1 ;;
    esac
 done
 
-# Checks
-if [ -z "$sentinal_host" ] || [ -z "$workspace" ] || [ -z "$num_peers" ] || [ -z "$num_epochs" ]
+# Check required options
+if [ -z "$SENTINEL_HOST" ] || [ -z "$WORKSPACE" ] || [ -z "$NUM_PEERS" ] || [ -z "$HOST_INDEX" ];
 then
-   echo "Some or all of the parameters are empty";
-   help
+   echo "Error: Missing required option(s)." >&2
+   print_help
+   exit 1
 fi
 
-cp workspace/"$workspace"/swop/swop_profile.yaml workspace/"$workspace"/swop/swop_profile_"$ip_addr".yaml
-cp workspace/"$workspace"/swci/swci-init_ori workspace/"$workspace"/swci/swci-init_pre
-cp workspace/"$workspace"/swci/taskdefs/swarm_task_ori.yaml workspace/"$workspace"/swci/taskdefs/swarm_task_pre.yaml
-cp workspace/"$workspace"/swci/taskdefs/user_env_build_task_ori.yaml workspace/"$workspace"/swci/taskdefs/user_env_build_task_pre.yaml
+# Get the IP address of this node
+IP_ADDR=$(ip addr show tun0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
+
+# Set up directories
+SCRIPT_NAME=$(basename "${0}")
+SCRIPT_DIR=$(realpath $(dirname "${0}"))
+WORKSPACE_DIR="/opt/hpe/swarm-learning-hpe/"
+cd $WORKSPACE_DIR
+
+sudo cp workspace/"$WORKSPACE"/swop/swop_profile.yaml workspace/"$WORKSPACE"/swop/swop_profile_"$IP_ADDR".yaml
+sudo cp workspace/"$WORKSPACE"/swci/swci-init_ori workspace/"$WORKSPACE"/swci/swci-init_pre
+sudo cp workspace/"$WORKSPACE"/swci/taskdefs/swarm_task_ori.yaml workspace/"$WORKSPACE"/swci/taskdefs/swarm_task_pre.yaml
+sudo cp workspace/"$WORKSPACE"/swci/taskdefs/user_env_build_task_ori.yaml workspace/"$WORKSPACE"/swci/taskdefs/user_env_build_task_pre.yaml
+sudo cp workspace/"$WORKSPACE"/swci/taskdefs/swarm_task_local_compare_ori.yaml workspace/"$WORKSPACE"/swci/taskdefs/swarm_task_local_compare_pre.yaml
 
 
-sed -i "s+<CURRENT-PATH>+$(pwd)+g" workspace/"$workspace"/swop/swop_profile_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/swarm_task_pre.yaml workspace/"$workspace"/swci/taskdefs/user_env_build_task_pre.yaml workspace/"$workspace"/swci/swci-init_pre
-sed -i "s+<SN-IPADDRESS>+$sentinal_host+g" workspace/"$workspace"/swop/swop_profile_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/swarm_task_pre.yaml workspace/"$workspace"/swci/taskdefs/user_env_build_task_pre.yaml workspace/"$workspace"/swci/swci-init_pre
-sed -i "s+<HOST-IPADDRESS>+$ip_addr+g" workspace/"$workspace"/swop/swop_profile_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/swarm_task_pre.yaml workspace/"$workspace"/swci/taskdefs/user_env_build_task_pre.yaml workspace/"$workspace"/swci/swci-init_pre
-sed -i "s+<MODULE-NAME>+$workspace+g" workspace/"$workspace"/swop/swop_profile_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/swarm_task_pre.yaml workspace/"$workspace"/swci/taskdefs/user_env_build_task_pre.yaml workspace/"$workspace"/swci/swci-init_pre
-sed -i "s+<NUM-MIN_PEERS>+$num_peers+g" workspace/"$workspace"/swop/swop_profile_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/swarm_task_pre.yaml workspace/"$workspace"/swci/taskdefs/user_env_build_task_pre.yaml workspace/"$workspace"/swci/swci-init_pre
-sed -i "s+<NUM-MAX_EPOCHS>+$num_epochs+g" workspace/"$workspace"/swop/swop_profile_"$ip_addr".yaml workspace/"$workspace"/swci/taskdefs/swarm_task_pre.yaml workspace/"$workspace"/swci/taskdefs/user_env_build_task_pre.yaml workspace/"$workspace"/swci/swci-init_pre
+# Loop over the files to update
+for file in workspace/"$WORKSPACE"/swop/swop_profile_"$IP_ADDR".yaml workspace/"$WORKSPACE"/swci/swci-init_pre workspace/"$WORKSPACE"/swci/taskdefs/swarm_task_pre.yaml workspace/"$WORKSPACE"/swci/taskdefs/user_env_build_task_pre.yaml workspace/"$WORKSPACE"/swci/taskdefs/swarm_task_local_compare_pre.yaml
+do
+   # Replace placeholders with values
+   sed -i "s+<CURRENT-PATH>+$(pwd)+g" "$file"
+   sed -i "s+<SN-IPADDRESS>+$SENTINEL_HOST+g" "$file"
+   sed -i "s+<HOST-IPADDRESS>+$IP_ADDR+g" "$file"
+   sed -i "s+<MODULE-NAME>+$WORKSPACE+g" "$file"
+   sed -i "s+<NUM-MIN_PEERS>+$NUM_PEERS+g" "$file"
+   sed -i "s+<NUM-MAX_EPOCHS>+$NUM_EPOCHS+g" "$file"
+   sed -i "s+<HOST-INDEX>+$HOST_INDEX+g" "$file"
+done
+# If an error occurs, print an error message and exit
+if [ $? -ne 0 ]; then
+    echo "An error occurred while running the script. Please check the output above for more details."
+    exit 1
+fi
+echo "Replacement completed successfully."

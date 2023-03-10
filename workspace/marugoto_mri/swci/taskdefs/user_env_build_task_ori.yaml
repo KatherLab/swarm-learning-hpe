@@ -1,0 +1,11 @@
+Name: user_env_build_task_<TIME_STAMP>
+TaskType: MAKE_USER_CONTAINER
+Author: Jeff
+Prereq: ROOTTASK
+Outcome: user-env-marugoto-swop
+Body:
+  BuildContext: sl-cli-lib
+  BuildType: INLINE
+  BuildSteps:
+    - FROM jeffzhu69/swarm-learning:marugoto_mri
+    - ENTRYPOINT ["PYTHON3"]

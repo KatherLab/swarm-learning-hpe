@@ -1,35 +1,66 @@
 #!/bin/sh
-set -eux
 
-ip_addr=$(hostname -I | awk '{print $1}')
+set -eu
+
+# Get the IP address of the current machine
+ip_addr=$(ip addr show tun0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
+
+# Get the name of this script, the directory it is in, and the current timestamp
 script_name=$(basename "${0}")
 script_dir=$(realpath $(dirname "${0}"))
+time_stamp=$(date +%Y%m%d_%H%M%S)
 
 # Help function
-help()
-{
-   echo ""
-   echo "Ask jeff how to use the damn script"
-   echo ""
-   exit 1
+help() {
+  echo ""
+  echo "Usage: sh $script_name -w <workspace> -s <sentinel>"
+  echo ""
+  echo "Options:"
+  echo "-w <workspace>   The name of the workspace directory to use."
+  echo "-s <sentinel>    The IP address of the machine acting as the swarm sentinel."
+  echo "-d <host_index>  Chose from [TUD, Ribera, VHIO, Radboud, UKA, Utrecht, Mitera, Cambridge, Zurich] for your site"
+  echo "-h               Show this help message."
+  echo ""
+  exit 1
 }
 
-# Process command options
-while getopts "w:i:s:h?" opt
-do
-   case "$opt" in
-      w ) workspace="$OPTARG" ;;
-      i ) host="$OPTARG" ;;
-      s ) sentinal="$OPTARG" ;;
-      h ) help ;;
-      ? ) help ;;
-   esac
+# Process command line options
+while getopts "w:s:d:h" opt; do
+  case "${opt}" in
+    w)
+      workspace="${OPTARG}"
+      ;;
+    s)
+      sentinel="${OPTARG}"
+      ;;
+    d)
+      host_index="${OPTARG}"
+      ;;
+    h)
+      help
+      ;;
+    *)
+      help
+      ;;
+  esac
 done
 
-sudo $script_dir/../../swarm_learning_scripts/run-swop -it --rm --name=swop"$ip_addr" \
---network=host-"$ip_addr"-net --usr-dir=workspace/"$workspace"/swop \
---profile-file-name=swop_profile_"$ip_addr".yaml \
---key=workspace/"$workspace"/cert/swop-"$ip_addr"-key.pem \
---cert=workspace/"$workspace"/cert/swop-"$ip_addr"-cert.pem \
---capath=workspace/"$workspace"/cert/ca/capath \
--e http_proxy= -e https_proxy= --apls-ip="$sentinal" --apls-port 5000 -e SWOP_KEEP_CONTAINERS=True
+# Check that the required options are set
+if [ -z "$workspace" ] || [ -z "$sentinel" ] || [ -z "$host_index" ]; then
+  echo "Error: The -w and -s options are required."
+  help
+fi
+
+# Run the SWOP container
+sudo $script_dir/../../swarm_learning_scripts/run-swop -it --rm \
+  --name=swop"$ip_addr" \
+  --network=host-net \
+  --usr-dir=workspace/"$workspace"/swop \
+  --profile-file-name=swop_profile_"$ip_addr".yaml \
+  --key=cert/swop-"$host_index"-key.pem \
+  --cert=cert/swop-"$host_index"-cert.pem \
+  --capath=cert/ca/capath \
+  -e http_proxy= -e https_proxy= \
+  --apls-ip="$sentinel" \
+  --apls-port=5000 \
+  -e SWOP_KEEP_CONTAINERS=True
