@@ -1,0 +1,25 @@
+name: odelia
+channels:
+  - defaults
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.8
+  - simpleitk
+  - pydicom
+  - pandas
+  - numpy
+  - tqdm
+  - openpyxl
+  - torchio
+  - pytorch-cuda=11.7
+  - pytorch 
+  - torchvision 
+  - torchaudio 
+  - monai
+  - pytorch-lightning
+  - tensorboard 
+  - scikit-learn
+  - matplotlib
+  - seaborn 

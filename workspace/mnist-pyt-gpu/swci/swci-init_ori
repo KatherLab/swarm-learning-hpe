@@ -2,8 +2,8 @@
 
 # SWCI context setup
 EXIT ON FAILURE
-wait for <SN-IPADDRESS>
-create context kathlab-task <SN-IPADDRESS>
+wait for ip <SN-IPADDRESS>
+create context kathlab-task with ip <SN-IPADDRESS>
 switch context kathlab-task
 EXIT ON FAILURE OFF
 
