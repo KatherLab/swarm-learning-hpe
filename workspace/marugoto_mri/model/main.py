@@ -23,8 +23,8 @@ dataDir = os.getenv('DATA_DIR', '/platform/data/')
 num_epochs = int(os.getenv('MAX_EPOCHS', 64))
 min_peers = int(os.getenv('MIN_PEERS', 2))
 max_peers = int(os.getenv('MAX_PEERS', 7))
-local_compare_flag = bool(os.getenv('LOCAL_COMPARE_FLAG', False))
-useAdaptiveSync = bool(os.getenv('USE_ADAPTIVE_SYNC', False))
+local_compare_flag = os.getenv('LOCAL_COMPARE_FLAG', 'False').lower() == 'true'
+useAdaptiveSync = os.getenv('USE_ADAPTIVE_SYNC', 'False').lower() == 'true'
 syncFrequency = int(os.getenv('SYNC_FREQUENCY', 32))
 
 current_time = datetime.now().strftime("%Y_%m_%d_%H%M%S")

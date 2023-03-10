@@ -117,6 +117,7 @@ def train(
     dls = DataLoaders(train_dl, valid_dl)
     #model = model.to(torch.device(device))
     if local_compare_flag:
+        print('local compare flag is set')
         learn = Learner(dls, model, loss_func=loss_func, metrics=[RocAuc()], path=path)
         cbs = [
             SaveModelCallback(fname=f"best_valid"),
@@ -125,6 +126,7 @@ def train(
 
         learn.fit_one_cycle(n_epoch=n_epoch, lr_max=1e-4, cbs=cbs)
     else:
+        print('local compare flag is not set')
         swarmCallback = SwarmCallback(syncFrequency=syncFrequency,
                                       minPeers=min_peers,
                                       maxPeers=max_peers,
