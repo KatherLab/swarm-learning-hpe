@@ -128,6 +128,14 @@ def train(
     loss_func = nn.CrossEntropyLoss(weight=weight)
 
     dls = DataLoaders(train_dl, valid_dl)
+    swarmCallback = SwarmCallback(syncFrequency=syncFrequency,
+                                  minPeers=min_peers,
+                                  maxPeers=max_peers,
+                                  adsValData=valid_ds,
+                                  adsValBatchSize=2,
+                                  nodeWeightage=cal_weightage(len(train_ds)),
+                                  model=model)
+    swarmCallback.logger.setLevel(logging.DEBUG)
 
     if local_compare_flag:
         print('local compare flag is set')
@@ -138,15 +146,8 @@ def train(
         ]
         learn.fit_one_cycle(n_epoch=n_epoch, lr_max=1e-4, cbs=cbs)
     else:
-        swarmCallback = SwarmCallback(syncFrequency=syncFrequency,
-                                      minPeers=min_peers,
-                                      maxPeers=max_peers,
-                                      adsValData=valid_ds,
-                                      adsValBatchSize=2,
-                                      nodeWeightage=cal_weightage(len(train_ds)),
-                                      model=model)
+
         print('local compare flag is not set')
-        swarmCallback.logger.setLevel(logging.DEBUG)
         swarmCallback.on_train_begin()
         learn = Learner(dls, model, loss_func=loss_func, metrics=[RocAuc()], path=path)
         cbs = [
@@ -156,7 +157,7 @@ def train(
         ]
 
         learn.fit_one_cycle(n_epoch=n_epoch, lr_max=1e-4, cbs=cbs)
-        swarmCallback.on_train_end()
+    swarmCallback.on_train_end()
     return learn
 
 def cal_weightage(train_size):
