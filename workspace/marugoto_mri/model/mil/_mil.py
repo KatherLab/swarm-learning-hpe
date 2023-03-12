@@ -104,11 +104,15 @@ def train(
     )
     batch = train_dl.one_batch()
 
+    # TODO: use GPU for training
+    #useCuda = torch.cuda.is_available()
+    #device = torch.device("cuda" if useCuda else "cpu")
     if model_type == "transformer":
         model = ViT(num_classes=2)  # Transformer(num_classes=2)
-        model.to(torch.device('cuda' if torch.cuda.is_available() else 'cpu'))  #
+        #model.to(torch.device('cuda' if torch.cuda.is_available() else 'cpu'))  #
     else:
         model = MILModel(batch[0].shape[-1], batch[-1].shape[-1])
+    #model = model.to(torch.device(device))
 
 
 
@@ -122,11 +126,8 @@ def train(
         list(map(weight.get, target_enc.categories_[0])), dtype=torch.float32
     )
     loss_func = nn.CrossEntropyLoss(weight=weight)
-    useCuda = torch.cuda.is_available()
 
-    #device = torch.device("cuda" if useCuda else "cpu")
     dls = DataLoaders(train_dl, valid_dl)
-    #model = model.to(torch.device(device))
 
     if local_compare_flag:
         print('local compare flag is set')
