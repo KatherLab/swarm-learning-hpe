@@ -13,8 +13,8 @@ jobs:
         os: [ubuntu-20.04, ubuntu-22.04.2, ubuntu-20.04.5]
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    #- name: Checkout code
+    #  uses: actions/checkout@v2
 
     - name: Set up user
       run: |
@@ -26,6 +26,13 @@ jobs:
       run: |
         cd / && sudo mkdir opt/hpe && cd opt/hpe && sudo chmod 777 -R /opt/hpe
         git clone https://github.com/KatherLab/swarm-learning-hpe.git && cd swarm-learning-hpe
+        
+    - name: Check NVIDIA driver
+      run: |
+        if ! command -v nvidia-smi &> /dev/null; then
+          sudo apt update
+          sudo apt install -y nvidia-driver-470
+        fi
         nvidia-smi
 
     - name: Get dataset from google drive
