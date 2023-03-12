@@ -29,16 +29,14 @@ syncFrequency = int(os.getenv('SYNC_FREQUENCY', 32))
 model_type = os.getenv('MODEL_TYPE', 'transformer')
 current_time = datetime.now().strftime("%Y_%m_%d_%H%M%S")
 
-
 data_split = 'WP1'
-#data_split = '25-25-25-25'
 
 feature_dir_path = os.path.join(dataDir, data_split, 'train_val')
 test_dir = os.path.join(dataDir, data_split, 'test')
 if local_compare_flag:
-    out_dir = os.path.join(scratchDir, (str(current_time) + '_' +data_split+'_' + 'local_compare'))
+    out_dir = os.path.join(scratchDir, '_'.join([str(current_time), data_split, model_type, 'local_compare']))
 else:
-    out_dir = os.path.join(scratchDir, (str(current_time) + '_' +data_split+'_' + 'swarm_learning'))
+    out_dir = os.path.join(scratchDir, '_'.join([str(current_time), data_split, model_type, 'swarm_learning']))
 
 if __name__ == "__main__":
     train_categorical_model_(
@@ -53,7 +51,7 @@ if __name__ == "__main__":
     max_peers = max_peers,
     useAdaptiveSync = False,
     syncFrequency = syncFrequency,
-    model_type = 'model_type'
+    model_type = model_type,
     )
 
     deploy_categorical_model_(
