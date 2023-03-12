@@ -26,40 +26,41 @@ jobs:
       run: |
         cd / && sudo mkdir opt/hpe && cd opt/hpe && sudo chmod 777 -R /opt/hpe
         git clone https://github.com/KatherLab/swarm-learning-hpe.git && cd swarm-learning-hpe
+        nvidia-smi
 
     - name: Get dataset from google drive
       run: |
-        sh workspace/automate_scripts/sl_env_setup/get_dataset_gdown.sh
+        sh workspace/automate_scripts/sl_env_setup/get_dataset_gdown.sh > output.log
         if ! grep -q "Dataset fetched successfully." output.log; then
           exit 1
         fi
 
     - name: Prerequisite setup
       run: |
-        sh workspace/automate_scripts/automate.sh -a
+        sh workspace/automate_scripts/automate.sh -a > output.log
         if ! grep -q "Prerequisite setup steps completed successfully. Please proceed to the next step." output.log; then
           exit 1
         fi
         
     - name: Server setup
       run: |
-        sh workspace/automate_scripts/automate.sh -b -s 172.24.40.65 -d UCHICAGO
+        sh workspace/automate_scripts/automate.sh -b -s 172.24.40.65 -d UCHICAGO > output.log
         if ! grep -q "Server setup steps completed successfully. Please proceed to final setup." output.log; then
           exit 1
         fi
         
     - name: Final setup
       run: |
-        sh workspace/automate_scripts/automate.sh -c -w marugoto_mri -s 172.24.40.65 -d UCHICAGO -n 2 -e 100
+        sh workspace/automate_scripts/automate.sh -c -w marugoto_mri -s 172.24.40.65 -d UCHICAGO -n 2 -e 100 > output.log
         if ! grep -q "Final setup steps completed successfully. Please proceed to the next step for running Swarm Learning nodes." output.log; then
           exit 1
         fi
         
     - name: Launch SWARM
       run: |
-        ./workspace/automate_scripts/launch_sl/run_sn.sh -s 172.24.40.65 -d UCHICAGO &
+        ./workspace/automate_scripts/launch_sl/run_sn.sh -s 172.24.40.65 -d UCHICAGO  > output.log
         sleep 300 # Wait for 5 minutes
-        grep -q "Starting SWARM-API-SERVER on port: 30304" /path/to/logs/file
+        grep -q "Starting SWARM-API-SERVER on port: 30304" output.log
       timeout-minutes: 6
       
     - name: Clean up
