@@ -130,7 +130,7 @@ $ ./workspace/automate_scripts/launch_sl/run_sn.sh -s <sentinel_ip_address> -d <
 $ ./workspace/automate_scripts/launch_sl/run_swop.sh -w <workspace_name> -s <sentinel_ip_address>  -d <host_index>
 ```
 
-- To run a Swarm SWCI node(SWCI node is used to generate training task runners, could be initiated by and host, but currently we suggest only the sentinel host is allowed to initiate):
+- To run a Swarm SWCI node(SWCI node is used to generate training task runners, could be initiated by any host, but currently we suggest only the sentinel host is allowed to initiate):
 ```sh
 $ ./workspace/automate_scripts/launch_sl/run_swci.sh -w <workspace_name> -s <sentinel_ip_address>  -d <host_index>
 ```
@@ -144,6 +144,8 @@ $ ./workspace/automate_scripts/launch_sl/check_latest_logs.sh
 ```sh
 $ ./workspace/swarm_learning_scripts/stop-swarm --[node_type]
 ```
+
+- To view results, see logs under `workspace/<workspace_name>/user/data-and-scratch/scratch`
 
 Please observe [Troubleshooting.md](Troubleshooting.md) section 10 for successful running logs of swop and sn nodes. The process will be keep running and displaying logs so you will need to open new terminal to run other commands.
 ## Workflow
