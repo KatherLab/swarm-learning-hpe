@@ -155,61 +155,20 @@ Please observe [Troubleshooting.md](Troubleshooting.md) section 10 for successfu
 
 ## Node list
 Nodes will be added to vpn and will be able to communicate with each other after setting up the Swarm Learning Environment with [Install](#install)
-- Sentinel node: Dresden, Germany
-  - IP address: 172.24.40.65(please put this ip address after -s flag whenever it is needed)
-  - Hostname: swarm
-  - Data: 1-100
-  - Maintainer: [@Jeff](https://github.com/Ultimate-Storm)
-- ODELIA nodes: 
-  - VHIO: Madrid, Spain
-    - IP address: 172.24.40.67
-    - Hostname: radiomics
-    - Data: 401-500
-    - Maintainer: [@Adrià](adriamarcos@vhio.net)
-  - UKA: Aachen, Germany
-    - IP address: 172.24.40.71
-    - Hostname: swarm
-    - Data: 101-200
-    - Maintainer: [@Gustav](gumueller@ukaachen.de)
-  - RADBOUD: Nijmegen, Netherlands
-    - IP address: 172.24.40.73
-    - Hostname: swarm
-    - Data: 501-600
-    - Maintainer: [@Tianyu](t.zhang@nki.nl)
-  - MITERA: 
-    - IP address: 172.24.40.75
-    - Hostname: 
-    - Data: 201-300
-    - Maintainer:
-  - RIBERA: 
-    - IP address: 172.24.40.77
-    - Hostname: 
-    - Data: 301-400
-    - Maintainer: 
-  - UTRECHT: 
-    - IP address: 172.24.40.79
-    - Hostname: 
-    - Data: 601-700
-    - Maintainer: 
-  - CAMBRIDGE: 
-    - IP address: 172.24.40.81
-    - Hostname: 
-    - Data: 701-800
-    - Maintainer: 
-  - ZURICH: 
-    - IP address: 172.24.40.83
-    - Hostname: 
-    - Data: TBD
-    - Maintainer: 
-
-  - Test Data: 801-922
+| Project | Node Name | IP address       | Location           | Hostname  | Data      | Maintainer                                 |
+| ------- | --------- | ----------------| ------------------| ---------| --------- | ------------------------------------------|
+| Sentinel node | TUD       | 172.24.40.65    | Dresden, Germany  | swarm     | 1-100     | [@Jeff](https://github.com/Ultimate-Storm) |
+| ODELIA  | VHIO      | 172.24.40.67    | Madrid, Spain      | radiomics | 401-500   | [@Adrià](adriamarcos@vhio.net)           |
+|         | UKA       | 172.24.40.71    | Aachen, Germany    | swarm     | 101-200   | [@Gustav](gumueller@ukaachen.de)         |
+|         | RADBOUD   | 172.24.40.73    | Nijmegen, Netherlands | swarm | 501-600   | [@Tianyu](t.zhang@nki.nl)                |
+|         | MITERA    | 172.24.40.75    |                    |           | 201-300   |                                            |
+|         | RIBERA    | 172.24.40.77    |                    |           | 301-400   |                                            |
+|         | UTRECHT   | 172.24.40.79    |                    |           | 601-700   |                                            |
+|         | CAMBRIDGE | 172.24.40.81    |                    |           | 701-800   |                                            |
+|         | ZURICH    | 172.24.40.83    |                    |           |           |                                            |
+| Other nodes | UCHICAGO  | 172.24.40.69    | Chicago, USA       | swarm     |           | [@Sid](Siddhi.Ramesh@uchospitals.edu)    |
 
 
-- Other nodes:
-  - UCHICAGO: Chicago, USA
-    - IP address: 172.24.40.69
-    - Hostname: swarm
-    - Maintainer: [@Sid](Siddhi.Ramesh@uchospitals.edu)
 
 ## Models implemented
 
