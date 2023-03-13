@@ -23,19 +23,20 @@ dataDir = os.getenv('DATA_DIR', '/platform/data/')
 num_epochs = int(os.getenv('MAX_EPOCHS', 64))
 min_peers = int(os.getenv('MIN_PEERS', 2))
 max_peers = int(os.getenv('MAX_PEERS', 7))
-local_compare_flag = bool(os.getenv('LOCAL_COMPARE_FLAG', False))
-useAdaptiveSync = bool(os.getenv('USE_ADAPTIVE_SYNC', False))
+local_compare_flag = os.getenv('LOCAL_COMPARE_FLAG', 'False').lower() == 'true'
+useAdaptiveSync = os.getenv('USE_ADAPTIVE_SYNC', 'False').lower() == 'true'
 syncFrequency = int(os.getenv('SYNC_FREQUENCY', 32))
-
+model_type = os.getenv('MODEL_TYPE', 'transformer')
 current_time = datetime.now().strftime("%Y_%m_%d_%H%M%S")
 
-
 data_split = 'WP1'
-#data_split = '25-25-25-25'
 
 feature_dir_path = os.path.join(dataDir, data_split, 'train_val')
 test_dir = os.path.join(dataDir, data_split, 'test')
-out_dir = os.path.join(scratchDir, (str(current_time) + '_' +data_split+'_' + 'swarm_learning'))
+if local_compare_flag:
+    out_dir = os.path.join(scratchDir, '_'.join([str(current_time), data_split, model_type, 'local_compare']))
+else:
+    out_dir = os.path.join(scratchDir, '_'.join([str(current_time), data_split, model_type, 'swarm_learning']))
 
 if __name__ == "__main__":
     train_categorical_model_(
@@ -50,6 +51,7 @@ if __name__ == "__main__":
     max_peers = max_peers,
     useAdaptiveSync = False,
     syncFrequency = syncFrequency,
+    model_type = model_type,
     )
 
     deploy_categorical_model_(
