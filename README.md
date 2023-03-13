@@ -142,7 +142,7 @@ cp workspace/<workspace-name>/user/data-and-scratch/data/features_odelia_sub_ima
    
 6. Copy the features from feature folder with the order you noted into `WP1/train_val` from xxx to yyy
 ```sh
-cp workspace/<workspace-name>/user/data-and-scratch/data/features_odelia_sub_imagenet/Breast_MRI_{<first_number>...<second_number}_{right,left}.h5 workspace/<workspace-name>/user/data-and-scratch/data/WP1/test
+cp workspace/<workspace-name>/user/data-and-scratch/data/features_odelia_sub_imagenet/Breast_MRI_{<first_number>...<second_number>}_{right,left}.h5 workspace/<workspace-name>/user/data-and-scratch/data/WP1/test
 ```
 
 ### Running Swarm Learning Nodes
