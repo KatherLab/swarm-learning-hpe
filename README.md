@@ -128,7 +128,7 @@ If any problem occurs, please first try to figure out which step is going wrong,
 mkdir workspace/<workspace-name>/user/data-and-scratch/data/WP1
 mkdir workspace/<workspace-name>/user/data-and-scratch/data/WP1/{test,train_val}
 ```
-3. Search for your institution in the [Node list](#node list) and note the data series in the column "Data"
+3. Search for your institution in the [Node list](#nodelist) and note the data series in the column "Data"
    
 4. Copy the clinic_talbe and slide table into WP1
 ```sh
