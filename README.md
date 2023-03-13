@@ -4,7 +4,6 @@
 
 Swarm learning learning and trails based on HPE platform
 
-
 This repository contains:
 
 1. SWARM Learning For Histopathology Image Analysis nad Radiology Image Analysis
@@ -173,6 +172,7 @@ Nodes will be added to vpn and will be able to communicate with each other after
 ## Models implemented
 
 TUD benchmarking on Duke breast mri dataset:![TUD experiments result.png](assets%2FTUD%20experiments%20result.png)
+
 Report: [Swarm learning report.pdf](assets%2FSwarm%20learning%20report.pdf)
 
 ## Maintainers
