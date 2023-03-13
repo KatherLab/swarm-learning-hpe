@@ -7,8 +7,8 @@ Swarm learning learning and trails based on HPE platform
 This repository contains:
 
 1. SWARM Learning For Histopathology Image Analysis nad Radiology Image Analysis
-2. [Work flow](https://github.com/users/Ultimate-Storm/projects/4) to help keep track of what's under process.
-3. [Issue section](https://github.com/Ultimate-Storm/swarm-learning-hpe/issues) where people can dump ideas and raise
+2. [Work flow](https://github.com/KatherLab/projects/4) to help keep track of what's under process.
+3. [Issue section](https://github.com/KatherLab/swarm-learning-hpe/issues) where people can dump ideas and raise
    questions encountered when using this repo.
 4. Working version of [marugoto_mri](workspace%2Fmarugoto_mri) for Attention MIL based model, originally suitable for histopathology images but Marta has modified it to work with MRI images.
 5. Working version of [odelia-breast-mri](workspace%2Fodelia-breast-mri) for 3D-CNN model by [@Gustav](gumueller@ukaachen.de).
@@ -25,7 +25,8 @@ This repository contains:
 - [License](#license)
 
 ## Background
-### Brief discription about HPE platform
+
+### Brief description about HPE platform
 
 Course of Swarm Leaning explained in a generally understandable
 way: [https://learn.software.hpe.com/swarm-learning-essentials](https://learn.software.hpe.com/swarm-learning-essentials)
@@ -48,6 +49,7 @@ This is the Swarm Learning framework:
 ![sl_node_structure.png](assets%2Fsl_node_structure.png)
 
 ## Install
+
 ### Prerequisites
 #### Hardware recommendations
 * 64 GB of RAM (32 GB is the absolute minimum)
@@ -77,7 +79,6 @@ $ cd / && sudo mkdir opt/hpe && cd opt/hpe && sudo chmod 777 -R /opt/hpe
 $ git clone https://github.com/KatherLab/swarm-learning-hpe.git && cd swarm-learning-hpe && git checkout dev_radiology
 ```
 Requirements and dependencies will be automatically installed by the script mentioned in the following section.
-
 
 ### Setting up the Swarm Learning Environment
 **PLEASE REPLACE THE `<PLACEHOLDER>` WITH THE CORRESPONDING VALUE!**
@@ -118,6 +119,32 @@ All the processes are automated, so you can just run the above command and wait 
 If any problem occurs, please first try to figure out which step is going wrong, try to google for solutions and find solution in [Troubleshooting.md](Troubleshooting.md). Then contact the maintainer of the Swarm Learning Environment and document the error in the Troubleshooting.md file.
 
 ## Usage
+
+### Data Preparation
+1. Make sure you have downloaded Duke data.
+    
+2. Create the folder `WP1` and in it `test` and `train_val`
+```bash
+mkdir workspace/<workspace-name>/user/data-and-scratch/data/WP1
+mkdir workspace/<workspace-name>/user/data-and-scratch/data/WP1/{test,train_val}
+```
+3. Search for your institution in the [Node list](#node list) and note the data series in the column "Data"
+   
+4. Copy the clinic_talbe and slide table into WP1
+```sh
+cp workspace/<workspace-name>/user/data-and-scratch/data/clinical_table.csv workspace/<workspace-name>/user/data-and-scratch/data/WP1/{clinical_table,slide_table}.csv
+```
+   
+5. Copy the features from feature folder into `WP1/test` from 801 to 922
+```sh
+cp workspace/<workspace-name>/user/data-and-scratch/data/features_odelia_sub_imagenet/Breast_MRI_{801...922}_{right,left}.h5 workspace/<workspace-name>/user/data-and-scratch/data/WP1/test
+```
+   
+6. Copy the features from feature folder with the order you noted into `WP1/train_val from xxx to yyy
+```sh
+cp workspace/<workspace-name>/user/data-and-scratch/data/features_odelia_sub_imagenet/Breast_MRI_{<first_number>...<second_number}_{right,left}.h5 workspace/<workspace-name>/user/data-and-scratch/data/WP1/test
+```
+
 ### Running Swarm Learning Nodes
 To run a Swarm Network node -> Swarm SWOP Node -> Swarm SWCI node. Please open a terminal for each of the nodes to run. Observe the following commands:
 - To run a Swarm Network (or sentinel) node:
@@ -148,11 +175,14 @@ $ ./workspace/swarm_learning_scripts/stop-swarm --[node_type]
 - To view results, see logs under `workspace/<workspace_name>/user/data-and-scratch/scratch`
 
 Please observe [Troubleshooting.md](Troubleshooting.md) section 10 for successful running logs of swop and sn nodes. The process will be keep running and displaying logs so you will need to open new terminal to run other commands.
+
 ## Workflow
+
 ![Workflow.png](assets%2FWorkflow.png)
 ![Swarm model training protocol .png](assets%2FSwarm%20model%20training%20protocol%20.png)
 
 ## Node list
+
 Nodes will be added to vpn and will be able to communicate with each other after setting up the Swarm Learning Environment with [Install](#install)
 | Project | Node Name | IP address       | Location           | Hostname  | Data      | Maintainer                                 |
 | ------- | --------- | ----------------| ------------------| ---------| --------- | ------------------------------------------|
@@ -167,8 +197,6 @@ Nodes will be added to vpn and will be able to communicate with each other after
 |         | ZURICH    | 172.24.40.83    |                    |           |           |                                            |
 | Other nodes | UCHICAGO  | 172.24.40.69    | Chicago, USA       | swarm     |           | [@Sid](Siddhi.Ramesh@uchospitals.edu)    |
 
-
-
 ## Models implemented
 
 TUD benchmarking on Duke breast mri dataset:![TUD experiments result.png](assets%2FTUD%20experiments%20result.png)
@@ -182,11 +210,13 @@ TUD Swarm learning team
 [@Jeff](https://github.com/Ultimate-Storm).
 
 Wanna a 24-hours support? Configure your TeamViewer with the following steps and contact me through slack. Thanks [@Adrià](adriamarcos@vhio.net) for instructions.
+
 1. Enable remote control in the ubuntu settings
 ![ubuntu_remote_control.png](assets%2Fubuntu_remote_control.png)
 2. Install TeamViewer and login with username: `adriamarcos@vhio.net` and password: `2wuHih4qC5tEREM`
 3. Add the computer to the account ones, so that it can be controlled. You have it here: [link](https://community.teamviewer.com/English/kb/articles/4464-assign-a-device-to-your-accountuthorize)![TV add device.png](assets%2FTV%20add%20device.png)
 4. I'd advise you to set the computer to never enter the sleeping mode or darken the screen just in case. Also, if you want to use different users remember this has to be done in all them and the TV session need to be signed in all them as well.
+
 ## Milestone
 
 See this [link](https://github.com/KatherLab/swarm-learning-hpe/milestones)
@@ -197,24 +227,23 @@ See this [link](https://www.notion.so/SWARM-Learning-87a7b920c88e445d81420573afb
 
 ## Contributing
 
-Feel free to dive in! [Open an issue](https://github.com/Ultimate-Storm/swarm-learning-hpe/issues) or submit PRs.
+Feel free to dive in! [Open an issue](https://github.com/KatherLab/swarm-learning-hpe/issues) or submit PRs.
 
 Before creating a pull request, please take some time to take a look at
-our [wiki page](https://github.com/Ultimate-Storm/swarm-learning-hpe/wiki), to ensure good code quality and sufficient
+our [wiki page](https://github.com/KatherLab/swarm-learning-hpe/wiki), to ensure good code quality and sufficient
 documentation. Don't need to follow all of the guidelines at this moment, but it would be really helpful!
 
 ### Contributors
 
 This project exists thanks to all the people who contribute.
-[@Oliver]()
-[@Kevin]()
+[@Oliver](https://github.com/oliversaldanha25)
+[@Kevin](https://github.com/kevinxpfeiffer)
 
 ## Credits
 
 This project uses platform from the following repositories:
 
 - [HewlettPackard/swarm-learning](https://github.com/HewlettPackard/swarm-learning): Created by [HewlettPackard](https://github.com/HewlettPackard)
-
 
 ## License
 
