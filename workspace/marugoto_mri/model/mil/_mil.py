@@ -2,6 +2,9 @@ from dataclasses import dataclass
 from typing import Any, Iterable, Optional, Sequence, Tuple, TypeVar
 from pathlib import Path
 import os
+from .transformer import Transformer
+from .ViT import ViT
+import numpy as np
 
 import logging
 from swarmlearning.pyt import SwarmCallback
@@ -65,6 +68,7 @@ def train(
     max_peers = 5,
     syncFrequency = 32,
     useAdaptiveSync = False,
+    model_type: str = "transformer",
 ) -> Learner:
     """Train a MLP on image features.
 
@@ -100,7 +104,18 @@ def train(
     )
     batch = train_dl.one_batch()
 
-    model = MILModel(batch[0].shape[-1], batch[-1].shape[-1])
+    # TODO: use GPU for training
+    #useCuda = torch.cuda.is_available()
+    #device = torch.device("cuda" if useCuda else "cpu")
+    if model_type == "transformer":
+        model = ViT(num_classes=2)  # Transformer(num_classes=2)
+        #model.to(torch.device('cuda' if torch.cuda.is_available() else 'cpu'))  #
+    else:
+        model = MILModel(batch[0].shape[-1], batch[-1].shape[-1])
+    #model = model.to(torch.device(device))
+
+
+
 
     # weigh inversely to class occurances
     counts = pd.value_counts(targs[~valid_idxs])
@@ -111,18 +126,16 @@ def train(
         list(map(weight.get, target_enc.categories_[0])), dtype=torch.float32
     )
     loss_func = nn.CrossEntropyLoss(weight=weight)
-    useCuda = torch.cuda.is_available()
 
-    #device = torch.device("cuda" if useCuda else "cpu")
     dls = DataLoaders(train_dl, valid_dl)
-    #model = model.to(torch.device(device))
+
     if local_compare_flag:
+        print('local compare flag is set')
         learn = Learner(dls, model, loss_func=loss_func, metrics=[RocAuc()], path=path)
         cbs = [
             SaveModelCallback(fname=f"best_valid"),
             CSVLogger(),
         ]
-
         learn.fit_one_cycle(n_epoch=n_epoch, lr_max=1e-4, cbs=cbs)
     else:
         swarmCallback = SwarmCallback(syncFrequency=syncFrequency,
@@ -133,6 +146,7 @@ def train(
                                       nodeWeightage=cal_weightage(len(train_ds)),
                                       model=model)
         swarmCallback.logger.setLevel(logging.DEBUG)
+        print('local compare flag is not set')
         swarmCallback.on_train_begin()
         learn = Learner(dls, model, loss_func=loss_func, metrics=[RocAuc()], path=path)
         cbs = [

@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eu
+set -e
 
 # Function to print help text
 print_help() {
@@ -36,11 +36,14 @@ then
 fi
 
 # Get the IP address of this node
-IP_ADDR=$(ip addr show tun0 | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
+IP_ADDR=$(ip addr show tun0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
+
+if [ -z "$IP_ADDR" ]; then
+    echo "Error: tun0 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"
+    exit 1
+fi
 
 # Set up directories
-SCRIPT_NAME=$(basename "${0}")
-SCRIPT_DIR=$(realpath $(dirname "${0}"))
 WORKSPACE_DIR="/opt/hpe/swarm-learning-hpe/"
 cd $WORKSPACE_DIR
 

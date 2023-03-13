@@ -53,6 +53,12 @@ SLEEP 15
 RESET TASKRUNNER defaulttaskbb.taskdb.sml.hpe
 EXIT ON FAILURE OFF
 
+# List and reset training contract
+EXIT ON FAILURE
+LIST CONTRACTS
+RESET CONTRACT defaultbb.cqdb.sml.hpe
+EXIT ON FAILURE OFF
+
 # Assign local compare task
 EXIT ON FAILURE
 RESET TASKRUNNER defaulttaskbb.taskdb.sml.hpe
