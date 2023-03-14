@@ -130,7 +130,7 @@ mkdir workspace/<workspace-name>/user/data-and-scratch/data/WP1/{test,train_val}
 ```
 3. Search for your institution in the [Node list](#nodelist) and note the data series in the column "Data"
    
-4. Copy the clinic_talbe and slide table into WP1
+4. Copy the clinic table and slide table into WP1
 ```sh
 cp workspace/<workspace-name>/user/data-and-scratch/data/clinical_table.csv workspace/<workspace-name>/user/data-and-scratch/data/WP1/{clinical_table,slide_table}.csv
 ```
