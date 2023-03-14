@@ -132,7 +132,7 @@ mkdir workspace/<workspace-name>/user/data-and-scratch/data/WP1/{test,train_val}
    
 4. Copy the clinic table and slide table into WP1
 ```sh
-cp workspace/<workspace-name>/user/data-and-scratch/data/clinical_table.csv workspace/<workspace-name>/user/data-and-scratch/data/WP1/{clinical_table,slide_table}.csv
+cp workspace/<workspace-name>/user/data-and-scratch/data/{clinical_table,slide_table}.csv workspace/<workspace-name>/user/data-and-scratch/data/WP1
 ```
    
 5. Copy the features from feature folder into `WP1/test` from 801 to 922
