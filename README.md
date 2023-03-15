@@ -6,7 +6,7 @@ Swarm learning learning and trails based on HPE platform
 
 This repository contains:
 
-1. SWARM Learning For Histopathology Image Analysis nad Radiology Image Analysis
+1. SWARM Learning For Histopathology Image Analysis and Radiology Image Analysis
 2. [Work flow](https://github.com/KatherLab/projects/4) to help keep track of what's under process.
 3. [Issue section](https://github.com/KatherLab/swarm-learning-hpe/issues) where people can dump ideas and raise
    questions encountered when using this repo.
