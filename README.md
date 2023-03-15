@@ -43,7 +43,7 @@ not the raw data. This tremendously enhances data security and privacy.
 
 The following image provides an overview of the Swarm Learning framework. Only the model parameters (learnings) are
 exchanged between the various edge nodes and not the raw data. This ensures that the privacy of data is preserved.
-![img.png](assets/SL structure.png)
+![img.png](assets/SL_structure.png)
 
 This is the Swarm Learning framework:
 ![sl_node_structure.png](assets%2Fsl_node_structure.png)
