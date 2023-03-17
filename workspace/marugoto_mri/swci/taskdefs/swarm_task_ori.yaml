@@ -14,7 +14,7 @@ Body:
              "MIN_PEERS": <NUM-MIN_PEERS>,
              "LOCAL_COMPARE_FLAG": False,
              "USE_ADAPTIVE_SYNC": False,
-             "SYNC_FREQUENCY": 32,
+             "SYNC_FREQUENCY": 8,
              "MODEL_TYPE": "transformer",
            ]
   PrivateContent: /tmp/test/data-and-scratch
