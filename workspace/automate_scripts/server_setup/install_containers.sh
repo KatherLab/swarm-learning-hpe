@@ -33,7 +33,7 @@ done
 echo "Login to HPE hub, please ask TUD maintainer for the username and password since Github doesn't allow to store the credentials in the code."´
 # Prompt the user for the email and password
 read -p "Please enter your email: " user_email
-read -s -p "Please enter your password: " user_password
+read -p "Please enter your password: " user_password
 echo
 hub_url="hub.myenterpriselicense.hpe.com"
 # Use the provided email and password for the Docker login command

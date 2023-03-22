@@ -77,7 +77,6 @@ if [ $ACTION = server_setup ]; then
        echo "Please specify your host index"
        echo "Host index should be chosen from [TUD, Ribera, VHIO, Radboud, UKA, Utrecht, Mitera, Cambridge, Zurich]"
   fi
-  sh ./workspace/automate_scripts/server_setup/install_containers.sh
   sh ./workspace/automate_scripts/server_setup/gpu_env_setup.sh
   sh ./workspace/automate_scripts/sl_env_setup/gen_cert.sh -i "$host_index"
   sh ./workspace/automate_scripts/sl_env_setup/setup_sl-cli-lib.sh
