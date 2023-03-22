@@ -35,7 +35,9 @@ class MLP(nn.Module):
         return out
         
 def loadData():
-    data_raw = pd.read_csv('data_bcw.csv')
+    path = os.path.join(dataDir,'data_bce.csv')
+
+    data_raw = pd.read_csv(path)
     data = pd.get_dummies(data_raw.iloc[: , :-1])
     data = data.drop('diagnosis_B', axis=1)
     
@@ -74,6 +76,9 @@ def doTrainBatch(model,device,trainLoader,optimizer,epoch,max_epochs):
         if trainPrint and batchIdx % 100 == 0:
             print('Train Epoch: {}/{} ({:.0f}%)\tLoss: {:.6f}'.format(
                   epoch, max_epochs, epoch/max_epochs * 100, loss.item()))
+        # Swarm Learning Interface
+        if swarmCallback is not None:
+            swarmCallback.on_batch_end()
 
 def test(model, device, testLoader):
     model.eval()
@@ -92,21 +97,56 @@ def test(model, device, testLoader):
 
     print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
         testLoss, correct, len(testLoader.dataset),
-        100. * correct / len(testLoader.dataset)))    
+        100. * correct / len(testLoader.dataset)))
 
 def main():
-    max_epochs = 2000
-    batchSz = 20
+    dataDir = os.getenv('DATA_DIR', '/platform/data')
+    scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
+    modelDir = os.getenv('MODEL_DIR', '/platform/model')
+    max_epochs = int(os.getenv('MAX_EPOCHS', str(default_max_epochs)))
+    min_peers = int(os.getenv('MIN_PEERS', str(default_min_peers)))
+    batchSz = 128
+    trainDs, testDs = loadData(dataDir)
     useCuda = torch.cuda.is_available()
+    
+    if useCuda:
+        print("Cuda is accessable")
+    else:
+        print("Cuda is not accessable")
+        
     device = torch.device("cuda" if useCuda else "cpu")  
     model = MLP().to(device)
+    model_name = 'mlp_table'
     opt = optim.Adam(model.parameters())
-    trainDs, testDs = loadData()
     trainLoader = torch.utils.data.DataLoader(trainDs,batch_size=batchSz)
     testLoader = torch.utils.data.DataLoader(testDs,batch_size=batchSz)
+    
+    # Create Swarm callback
+    swarmCallback = None
+    swarmCallback = SwarmCallback(syncFrequency=swSyncInterval,
+                                  minPeers=min_peers,
+                                  useAdaptiveSync=False,
+                                  adsValData=testDs,
+                                  adsValBatchSize=batchSz,
+                                  model=model)
+    # initalize swarmCallback and do first sync 
+    swarmCallback.on_train_begin()
         
     for epoch in range(1, max_epochs + 1):
-        doTrainBatch(model,device,trainLoader,opt,epoch,max_epochs)      
+        doTrainBatch(model,device,trainLoader,opt,epoch,swarmCallback)      
         test(model,device,testLoader)
+        swarmCallback.on_epoch_end(epoch)
 
-main()
+    # handles what to do when training ends        
+    swarmCallback.on_train_end()
+
+    # Save model and weights
+    saved_model_path = os.path.join(scratchDir, model_name, 'saved_model.pt')
+    # Pytorch model save function expects the directory to be created before hand.
+    os.makedirs(scratchDir, exist_ok=True)
+    os.makedirs(os.path.join(scratchDir, model_name), exist_ok=True)
+    torch.save(model, saved_model_path)
+    print('Saved the trained model!')
+ 
+if __name__ == '__main__':
+  main()
