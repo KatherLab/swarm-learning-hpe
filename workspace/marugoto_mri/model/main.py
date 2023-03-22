@@ -65,3 +65,20 @@ if __name__ == "__main__":
     categorical_aggregated_(os.path.join(out_dir,'patient-preds.csv'), outpath = (out_dir), target_label = "Malign")
 
     plot_roc_curves_([os.path.join(out_dir,'patient-preds.csv')], outpath = Path(out_dir), target_label = "Malign", true_label='1', subgroup_label=None, clini_table=None, subgroups=None)
+
+    import subprocess
+
+    # Get the container ID for the latest user-env container
+    get_container_id_command = 'docker ps -a --filter "name=us*" --format "{{.ID}}" | head -n 1'
+    container_id = subprocess.check_output(get_container_id_command, shell=True, text=True).strip()
+
+    # Get the latest log for the user-env container
+    get_logs_command = f"docker logs {container_id}"
+    logs_process = subprocess.Popen(get_logs_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    # Print and log the output
+    with open(os.path.join(out_dir,"container_logs.txt"), "w") as log_file:
+        for line in logs_process.stdout:
+            line = line.decode("utf-8").rstrip()
+            print(line)
+            log_file.write(line + "\n")
