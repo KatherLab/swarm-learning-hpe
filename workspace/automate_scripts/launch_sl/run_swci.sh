@@ -49,7 +49,7 @@ if [ -z "$sentinel" ] || [ -z "$host_index" ]; then
 fi
 
 # Check if this host is the sentinel
-ip_addr=$(ip addr show tun0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
+ip_addr=$(ip addr show eno1 | awk '/inet / {print $2}' | cut -d'/' -f1)
 
 if [[ -z "$ip_addr" ]]; then
     echo "Error: tun0 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"
@@ -86,4 +86,4 @@ sudo "$script_dir/../../swarm_learning_scripts/run-swci" \
   --cert="cert/swci-$host_index-cert.pem" \
   --capath="cert/ca/capath" \
   -e "http_proxy=" -e "https_proxy=" --apls-ip="$sentinel" --apls-port=5000 \
-  -e "SWCI_TASK_MAX_WAIT_TIME=5000"
+  -e "SWCI_TASK_MAX_WAIT_TIME=1000"

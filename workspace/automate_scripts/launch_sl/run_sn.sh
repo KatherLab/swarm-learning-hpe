@@ -40,7 +40,7 @@ then
    help
 fi
 
-ip_addr=$(ip addr show tun0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
+ip_addr=$(ip addr show eno1 | awk '/inet / {print $2}' | cut -d'/' -f1)
 
 if [[ -z "$ip_addr" ]]; then
     echo "Error: tun0 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"

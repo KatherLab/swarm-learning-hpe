@@ -29,7 +29,7 @@ syncFrequency = int(os.getenv('SYNC_FREQUENCY', 32))
 model_type = os.getenv('MODEL_TYPE', 'transformer')
 current_time = datetime.now().strftime("%Y_%m_%d_%H%M%S")
 
-data_split = 'WP1'
+data_split = 'DUKE'
 
 feature_dir_path = os.path.join(dataDir, data_split, 'train_val')
 test_dir = os.path.join(dataDir, data_split, 'test')

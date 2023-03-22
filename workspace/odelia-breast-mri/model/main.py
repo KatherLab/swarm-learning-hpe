@@ -43,7 +43,7 @@ def cal_weightage(train_size):
     return int(100 * train_size / full_dataset_size)
 
 if __name__ == "__main__":
-    task_data_name = 'WP1'
+    task_data_name = 'DUKE'
     scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
     dataDir = os.getenv('DATA_DIR', '/platform/data/')
     max_epochs = int(os.getenv('MAX_EPOCHS', 100))
