@@ -1,0 +1,25 @@
+Name: swarm_task_<TIME_STAMP>
+TaskType: RUN_SWARM
+Author: Jeff
+Prereq: user_env_build_task_<TIME_STAMP>
+Outcome: swarm_task
+Body:
+  Command: model/main.py
+  Entrypoint: python3
+  WorkingDir: /tmp/test
+  Envvars: [ "DATA_DIR": data-and-scratch/data,
+             "SCRATCH_DIR": data-and-scratch/scratch,
+             "MODEL_DIR": model,
+             "MAX_EPOCHS": <NUM-MAX_EPOCHS>,
+             "MIN_PEERS": <NUM-MIN_PEERS>,
+             "LOCAL_COMPARE_FLAG": False,
+             "USE_ADAPTIVE_SYNC": False,
+             "SYNC_FREQUENCY": 8,
+             "MODEL_TYPE": "transformer",
+           ]
+  PrivateContent: /tmp/test/data-and-scratch
+  SharedContent:
+    - Src: /opt/hpe/swarm-learning-hpe/workspace/<MODULE-NAME>/model
+      Tgt: /tmp/test/model
+      MType: BIND
+
