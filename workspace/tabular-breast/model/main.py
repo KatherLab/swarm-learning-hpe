@@ -1,67 +1,115 @@
-#!/usr/bin/env python3
-
-__author__ = "Jeff"
-__copyright__ = "Copyright 2023, Kather Lab"
-__license__ = "MIT"
-__version__ = "0.1.0"
-__maintainer__ = ["Jeff"]
-__email__ = "jiefu.zhu@tu-dresden.de"
-
+import numpy as np
+import torch 
+import torch.nn as nn
+import torch.nn.functional as F
+import torch.optim as optim
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+import datetime
 import os
-from datetime import datetime
-from pathlib import Path
-from categorical import categorical_aggregated_
-from roc import plot_roc_curves_
-from mil.helpers import (
-    train_categorical_model_,
-    deploy_categorical_model_,
-    categorical_crossval_,
-)
+import time
+from swarmlearning.pyt import SwarmCallback
 
-scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
-dataDir = os.getenv('DATA_DIR', '/platform/data/')
-num_epochs = int(os.getenv('MAX_EPOCHS', 64))
-min_peers = int(os.getenv('MIN_PEERS', 2))
-max_peers = int(os.getenv('MAX_PEERS', 7))
-local_compare_flag = os.getenv('LOCAL_COMPARE_FLAG', 'False').lower() == 'true'
-useAdaptiveSync = os.getenv('USE_ADAPTIVE_SYNC', 'False').lower() == 'true'
-syncFrequency = int(os.getenv('SYNC_FREQUENCY', 32))
-model_type = os.getenv('MODEL_TYPE', 'transformer')
-current_time = datetime.now().strftime("%Y_%m_%d_%H%M%S")
 
-data_split = 'WP1'
+default_max_epochs = 5
+default_min_peers = 2 
+trainPrint = True
+swSyncInterval = 128 
 
-feature_dir_path = os.path.join(dataDir, data_split, 'train_val')
-test_dir = os.path.join(dataDir, data_split, 'test')
-if local_compare_flag:
-    out_dir = os.path.join(scratchDir, '_'.join([str(current_time), data_split, model_type, 'local_compare']))
-else:
-    out_dir = os.path.join(scratchDir, '_'.join([str(current_time), data_split, model_type, 'swarm_learning']))
+class MLP(nn.Module):
+    def __init__(self):
+        super(MLP, self).__init__()
+        self.fc1 = nn.Linear(31, 16)
+        self.fc2 = nn.Linear(16, 16)
+        self.fc3 = nn.Linear(16, 2)
+        self.relu = nn.ReLU()
+        
+    def forward(self, x):
+        out = self.fc1(x)
+        out = self.relu(out)
+        out = self.fc2(out)
+        out = self.relu(out)
+        out = self.fc3(out)
+        out = self.relu(out)
+        return out
+        
+def loadData():
+    dataDir = os.getenv('DATA_DIR', '/platform/data')
+    
+    
+    data_raw = pd.read_csv('data_bcw.csv')
+    data = pd.get_dummies(data_raw.iloc[: , :-1])
+    data = data.drop('diagnosis_B', axis=1)
+    
+    target = 'diagnosis_M'
 
-if __name__ == "__main__":
-    train_categorical_model_(
-    clini_table = Path(os.path.join(dataDir, 'clinical_table.csv')),
-    slide_csv = Path(os.path.join(dataDir, 'slide_table.csv')),
-    feature_dir = Path(feature_dir_path),
-    output_path = Path(out_dir),
-    target_label = "Malign",
-    n_epoch = num_epochs,
-    local_compare_flag = local_compare_flag,
-    min_peers = min_peers,
-    max_peers = max_peers,
-    useAdaptiveSync = False,
-    syncFrequency = syncFrequency,
-    model_type = model_type,
-    )
+    X = data.drop(target, axis=1)
+    X = StandardScaler().fit_transform(X)
+    y = data[target]
+    
+    xTrain, xTest, yTrain, yTest = train_test_split(X, y, test_size=0.2, random_state=42)    
+        
+    # transform numpy to torch.Tensor
+    xTrain, yTrain, xTest, yTest = map(torch.tensor, (#xTrain.to_numpy().astype(np.float32), 
+                                                      xTrain.astype(np.float32),
+                                                      yTrain.to_numpy().astype(np.int_), 
+                                                      #xTest.to_numpy().astype(np.float32),
+                                                      xTest.astype(np.float32),
+                                                      yTest.to_numpy().astype(np.int_)))    
+    # convert torch.Tensor to a dataset
+    yTrain = yTrain.type(torch.LongTensor)
+    yTest = yTest.type(torch.LongTensor)
+    trainDs = torch.utils.data.TensorDataset(xTrain,yTrain)
+    testDs = torch.utils.data.TensorDataset(xTest,yTest)
+    return trainDs, testDs
+    
+def doTrainBatch(model,device,trainLoader,optimizer,epoch,max_epochs):
+    model.train()
+    for batchIdx, (data, target) in enumerate(trainLoader):
+        data, target = data.to(device), target.to(device)
+        optimizer.zero_grad()
+        output = model(data)
+        #target = target.unsqueeze(1).float()
+        loss = F.cross_entropy(output, target)
+        loss.backward()
+        optimizer.step()
+        if trainPrint and batchIdx % 100 == 0:
+            print('Train Epoch: {}/{} ({:.0f}%)\tLoss: {:.6f}'.format(
+                  epoch, max_epochs, epoch/max_epochs * 100, loss.item()))
 
-    deploy_categorical_model_(
-    clini_table = Path(os.path.join(dataDir, 'clinical_table.csv')),
-    slide_csv = Path(os.path.join(dataDir, 'slide_table.csv')),
-    feature_dir = Path(test_dir),
-    output_path = Path(out_dir),
-    model_path= Path(os.path.join(out_dir, 'export.pkl')),
-    target_label = "Malign")
+def test(model, device, testLoader):
+    model.eval()
+    testLoss = 0
+    correct = 0
+    with torch.no_grad():
+        for data, target in testLoader:
+            data, target = data.to(device), target.to(device)
+            output = model(data)
+            #target = target.unsqueeze(1).float()
+            testLoss += F.cross_entropy(output, target, reduction='sum').item()  # sum up batch loss
+            pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
+            correct += pred.eq(target.view_as(pred)).sum().item()
 
-    categorical_aggregated_(os.path.join(out_dir,'patient-preds.csv'), outpath = (out_dir), target_label = "Malign")
+    testLoss /= len(testLoader.dataset)
 
-    plot_roc_curves_([os.path.join(out_dir,'patient-preds.csv')], outpath = Path(out_dir), target_label = "Malign", true_label='1', subgroup_label=None, clini_table=None, subgroups=None)
+    print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
+        testLoss, correct, len(testLoader.dataset),
+        100. * correct / len(testLoader.dataset)))    
+
+def main():
+    max_epochs = 2000
+    batchSz = 20
+    useCuda = torch.cuda.is_available()
+    device = torch.device("cuda" if useCuda else "cpu")  
+    model = MLP().to(device)
+    opt = optim.Adam(model.parameters())
+    trainDs, testDs = loadData()
+    trainLoader = torch.utils.data.DataLoader(trainDs,batch_size=batchSz)
+    testLoader = torch.utils.data.DataLoader(testDs,batch_size=batchSz)
+        
+    for epoch in range(1, max_epochs + 1):
+        doTrainBatch(model,device,trainLoader,opt,epoch,max_epochs)      
+        test(model,device,testLoader)
+
+main()
