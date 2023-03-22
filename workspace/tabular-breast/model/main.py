@@ -35,9 +35,6 @@ class MLP(nn.Module):
         return out
         
 def loadData():
-    dataDir = os.getenv('DATA_DIR', '/platform/data')
-    
-    
     data_raw = pd.read_csv('data_bcw.csv')
     data = pd.get_dummies(data_raw.iloc[: , :-1])
     data = data.drop('diagnosis_B', axis=1)
