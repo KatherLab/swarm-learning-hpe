@@ -1,11 +1,13 @@
 Name: user_env_build_task_<TIME_STAMP>
 TaskType: MAKE_USER_CONTAINER
-Author: Jeff
+Author: Kevin
 Prereq: ROOTTASK
 Outcome: user-env-marugoto-swop
 Body:
   BuildContext: sl-cli-lib
   BuildType: INLINE
   BuildSteps:
-    - FROM jeffzhu69/swarm-learning:marugoto_mri
+    - FROM pytorch/pytorch:1.13.1-cuda11.6-cudnn8-runtime
+    - RUN apt-get install  gcc git python3-dev wget
+    - RUN pip install numpy pandas torch sklearn
     - ENTRYPOINT ["PYTHON3"]

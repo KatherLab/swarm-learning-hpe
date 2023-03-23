@@ -1,6 +1,6 @@
 Name: swarm_task_local_compare_<TIME_STAMP>
 TaskType: RUN_SWARM
-Author: Jeff
+Author: Kevin
 Prereq: user_env_build_task_<TIME_STAMP>
 Outcome: swarm_task_local_compare
 Body:
@@ -14,8 +14,7 @@ Body:
              "MIN_PEERS": <NUM-MIN_PEERS>,
              "LOCAL_COMPARE_FLAG": True,
              "USE_ADAPTIVE_SYNC": False,
-             "SYNC_FREQUENCY": 32,
-             "MODEL_TYPE": "transformer",
+             "SYNC_FREQUENCY": 8,
            ]
   PrivateContent: /tmp/test/data-and-scratch
   SharedContent:
