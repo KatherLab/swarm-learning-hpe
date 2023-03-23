@@ -18,9 +18,9 @@ trainPrint = True
 swSyncInterval = 128 
 
 class MLP(nn.Module):
-    def __init__(self):
+    def __init__(self, input_dim):
         super(MLP, self).__init__()
-        self.fc1 = nn.Linear(31, 16)
+        self.fc1 = nn.Linear(input_dim, 16)
         self.fc2 = nn.Linear(16, 16)
         self.fc3 = nn.Linear(16, 2)
         self.relu = nn.ReLU()
@@ -35,13 +35,15 @@ class MLP(nn.Module):
         return out
         
 def loadData():
+    ### Part to be adjusted for different data START
     path = os.path.join(dataDir,'data_bce.csv')
-
     data_raw = pd.read_csv(path)
+    
     data = pd.get_dummies(data_raw.iloc[: , :-1])
     data = data.drop('diagnosis_B', axis=1)
     
     target = 'diagnosis_M'
+    ### Part to be adjusted for different data END
 
     X = data.drop(target, axis=1)
     X = StandardScaler().fit_transform(X)
@@ -61,6 +63,11 @@ def loadData():
     yTest = yTest.type(torch.LongTensor)
     trainDs = torch.utils.data.TensorDataset(xTrain,yTrain)
     testDs = torch.utils.data.TensorDataset(xTest,yTest)
+    
+    # get model dimensions
+    global input_dim
+    input_dim = X.shape[1]
+    
     return trainDs, testDs
     
 def doTrainBatch(model,device,trainLoader,optimizer,epoch,max_epochs):
@@ -115,7 +122,7 @@ def main():
         print("Cuda is not accessable")
         
     device = torch.device("cuda" if useCuda else "cpu")  
-    model = MLP().to(device)
+    model = MLP(input_dim).to(device)
     model_name = 'mlp_table'
     opt = optim.Adam(model.parameters())
     trainLoader = torch.utils.data.DataLoader(trainDs,batch_size=batchSz)
