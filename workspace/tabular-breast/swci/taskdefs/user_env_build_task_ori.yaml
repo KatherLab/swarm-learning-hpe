@@ -8,6 +8,6 @@ Body:
   BuildType: INLINE
   BuildSteps:
     - FROM pytorch/pytorch:1.13.1-cuda11.6-cudnn8-runtime
-    - RUN apt-get install  gcc git python3-dev wget
+    - RUN apt-get install gcc git python3-dev wget
     - RUN pip install numpy pandas torch sklearn
     - ENTRYPOINT ["PYTHON3"]
