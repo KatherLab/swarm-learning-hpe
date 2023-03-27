@@ -67,7 +67,6 @@ else
   sudo mkdir -p /opt/hpe
   sudo git clone https://github.com/KatherLab/swarm-learning-hpe.git "$DIR"
   git pull
-  git checkout dev_radiology #TODO: change to master after merge
 fi
 
 #echo "Setting permissions for Swarm Learning folder"
