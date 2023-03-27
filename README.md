@@ -76,8 +76,14 @@ $ sudo su - swarm
 
 ```sh
 $ cd / && sudo mkdir opt/hpe && cd opt/hpe && sudo chmod 777 -R /opt/hpe
-$ git clone https://github.com/KatherLab/swarm-learning-hpe.git && cd swarm-learning-hpe && git checkout dev_radiology
+$ git clone https://github.com/KatherLab/swarm-learning-hpe.git && cd swarm-learning-hpe
 ```
+
+3. Install cuda environment and nvidia drivers, as soon as you could see correct outputs of the following command you may proceed. 
+```sh
+$ nvidia-smi
+```
+
 Requirements and dependencies will be automatically installed by the script mentioned in the following section.
 
 ### Setting up the Swarm Learning Environment
