@@ -1,0 +1,67 @@
+---
+- name: Setup CUDA environment and NVIDIA drivers 
+  hosts: swarm_nodes
+  become: yes
+  gather_facts: no
+  tasks: 
+    - name: Install required packages for CUDA and NVIDIA drivers
+      apt:
+        name:
+          - gcc
+          - g++
+          - make
+          - dkms
+          - build-essential
+        state: present
+      become: yes
+
+    - name: Add NVIDIA repository
+      apt_repository:
+        repo: "deb http://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /"
+        state: present
+        filename: 'cuda'
+      become: yes
+
+    - name: Import NVIDIA CUDA public GPG key
+      ansible.builtin.apt_key:
+        url: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/7fa2af80.pub
+        state: present
+      become: yes
+
+    - name: Update APT cache
+      apt:
+        update_cache: yes
+      become: yes
+
+    - name: Install NVIDIA CUDA Toolkit
+      apt:
+        name:
+          - cuda
+          - nvidia-cuda-toolkit
+        state: present
+      become: yes
+
+    - name: Install NVIDIA drivers
+      apt:
+        name:
+          - nvidia-driver-470
+        state: present
+      become: yes
+
+    - name: Reboot server to activate NVIDIA drivers
+      reboot:
+        msg: "Rebooting to activate NVIDIA drivers"
+        connect_timeout: 300
+      become: yes
+
+    - name: Wait for server to become ready
+      wait_for_connection:
+        delay: 30
+        timeout: 300
+
+    - name: Ensure nvidia-smi command works
+      command: nvidia-smi
+      register: nvidia_smi_result
+      changed_when: False
+      failed_when: "'NVIDIA-SMI' not in nvidia_smi_result.stdout"
+
