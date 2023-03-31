@@ -20,7 +20,7 @@ Body:
     - ' '
     - RUN conda install pytorch torchvision torchaudio pytorch-cuda=11.6 -c pytorch -c nvidia
     - RUN pip3 install \
-    - '  torchio torchaudio monai pytorch-lightning tensorboard scikit-learn matplotlib seaborn'
+    - '  torchio torchaudio monai pytorch-lightning==1.9.0 tensorboard scikit-learn matplotlib seaborn'
     - ' '
     - RUN mkdir -p /tmp/hpe-swarmcli-pkg
     - COPY swarmlearning-client-py3-none-manylinux_2_24_x86_64.whl /tmp/hpe-swarmcli-pkg/swarmlearning-client-py3-none-manylinux_2_24_x86_64.whl

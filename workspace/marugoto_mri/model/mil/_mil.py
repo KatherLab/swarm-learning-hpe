@@ -110,8 +110,12 @@ def train(
     if model_type == "transformer":
         model = ViT(num_classes=2)  # Transformer(num_classes=2)
         #model.to(torch.device('cuda' if torch.cuda.is_available() else 'cpu'))  #
-    else:
+    elif model_type == "attmil":
         model = MILModel(batch[0].shape[-1], batch[-1].shape[-1])
+    elif model_type == "timmViT":
+        model = ViT(num_classes=2)
+    else:
+        raise ValueError(f"Unknown model type {model_type}")
     #model = model.to(torch.device(device))
 
 

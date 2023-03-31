@@ -49,7 +49,7 @@ if __name__ == "__main__":
     max_epochs = int(os.getenv('MAX_EPOCHS', 100))
     min_peers = int(os.getenv('MIN_PEERS', 2))
     max_peers = int(os.getenv('MAX_PEERS', 7))
-    local_compare_flag = bool(os.getenv('LOCAL_COMPARE_FLAG', False))
+    local_compare_flag = os.getenv('LOCAL_COMPARE_FLAG', 'False').lower() == 'true'
     useAdaptiveSync = bool(os.getenv('USE_ADAPTIVE_SYNC', False))
     syncFrequency = int(os.getenv('SYNC_FREQUENCY', 512))
 
@@ -152,5 +152,20 @@ if __name__ == "__main__":
         trainer.fit(model, datamodule=dm)
         swarmCallback.on_train_end()
     model.save_best_checkpoint(trainer.logger.log_dir, checkpointing.best_model_path)
+    import subprocess
 
+    # Get the container ID for the latest user-env container
+    get_container_id_command = 'docker ps -a --filter "name=us*" --format "{{.ID}}" | head -n 1'
+    container_id = subprocess.check_output(get_container_id_command, shell=True, text=True).strip()
+
+    # Get the latest log for the user-env container
+    get_logs_command = f"docker logs {container_id}"
+    logs_process = subprocess.Popen(get_logs_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    # Print and log the output
+    with open(os.path.join(path_run_dir,"container_logs.txt"), "w") as log_file:
+        for line in logs_process.stdout:
+            line = line.decode("utf-8").rstrip()
+            print(line)
+            log_file.write(line + "\n")
     predict(path_run_dir, os.path.join(dataDir, task_data_name,'test'))

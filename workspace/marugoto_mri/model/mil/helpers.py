@@ -141,7 +141,7 @@ def train_categorical_model_(
         max_peers = max_peers,
         syncFrequency = syncFrequency,
         useAdaptiveSync = False,
-        model_type = "transformer",
+        model_type = model_type,
     )
 
     # save some additional information to the learner to make deployment easier
