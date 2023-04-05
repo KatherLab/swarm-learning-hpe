@@ -1,4 +1,4 @@
-from odelia.models import BasicClassifier
+from .base_model import BasicClassifier
 import torch
 import torch.nn.functional as F
 import timm
