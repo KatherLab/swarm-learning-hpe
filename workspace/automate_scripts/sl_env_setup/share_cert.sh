@@ -48,7 +48,7 @@ sudo apt-get -y install sshpass
 
 echo "First ensure you are connected with vpn with step 2 by checking with command 'hostname -I' to see if there is a IP address like 172.24.40.*"
 echo "Sharing certifcates, please ask TUD maintainer for the password on sentinel host if you don't have one"
-sudo scp $username@"$target_host":/opt/hpe/swarm-learning-hpe/cert/ca/capath/ca-swarm_1-cert.pem /opt/hpe/swarm-learning-hpe/cert/ca/capath
+sudo scp $username@"$target_host":/opt/hpe/swarm-learning-hpe/cert/ca/capath/ca-swarm_*-cert.pem /opt/hpe/swarm-learning-hpe/cert/ca/capath
 sudo chmod 777 /opt/hpe/swarm-learning-hpe/cert/ca/capath/ca-swarm_1-cert.pem
 sudo scp /opt/hpe/swarm-learning-hpe/cert/ca/capath/*-cert.pem $username@"$target_host":/opt/hpe/swarm-learning-hpe/cert/ca/capath/
 # If an error occurs, print an error message and exit
