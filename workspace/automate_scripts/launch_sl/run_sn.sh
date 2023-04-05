@@ -47,11 +47,7 @@ if [[ -z "$ip_addr" ]]; then
     exit 1
 fi
 
-if [ -z "$ip_addr" ]
-then
-   echo "Error: invalid host IP address"
-   exit 1
-fi
+
 
 if [ $ip_addr = $sentinel ]
 then
