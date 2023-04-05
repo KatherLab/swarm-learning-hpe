@@ -37,7 +37,7 @@ read -p "Please enter your password: " user_password
 echo
 hub_url="hub.myenterpriselicense.hpe.com"
 # Use the provided email and password for the Docker login command
-sudo docker login -u "$user_email" -p "$user_password" "$hub_url"
+sudo docker login -u "$user_email" -p hpe_eval hub.myenterpriselicense.hpe.com
 
 # Pull images
 echo "Download Swarm Network (SN) Node"
