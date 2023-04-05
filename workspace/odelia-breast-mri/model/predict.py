@@ -62,10 +62,10 @@ def predict(model_dir, test_data_dir, model_name):
 
     if layers is not None:
         # ------------ Initialize Model ------------
-        model = ResNet.load_best_checkpoint(path_run, version=0)
+        model = ResNet.load_best_checkpoint(path_run, version=0, layers=layers)
 
     elif model_name in ['efficientnet_l1', 'efficientnet_l2', 'efficientnet_b4', 'efficientnet_b7']:
-        model = EfficientNet.load_best_checkpoint(path_run, version=0)
+        model = EfficientNet.load_best_checkpoint( path_run, version=0, model_name = model_name)
     elif model_name == 'EfficientNet3Db0':
         blocks_args_str = [
             "r1_k3_s11_e1_i32_o16_se0.25",
@@ -101,7 +101,7 @@ def predict(model_dir, test_data_dir, model_name):
         raise Exception("Invalid network model specified")
 
     if model_name.startswith('EfficientNet3D'):
-        model = EfficientNet3D.load_best_checkpoint(path_run, version=0)
+        model = EfficientNet3D.load_best_checkpoint(path_run, version=0,blocks_args_str=blocks_args_str)
     model.to(device)
     model.eval()
 
