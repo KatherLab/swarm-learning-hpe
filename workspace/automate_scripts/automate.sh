@@ -114,7 +114,8 @@ if [ $ACTION = final_setup ]; then
 
   echo Please ensure the previous steps are completed on all the other hosts before running this step
   sh ./workspace/automate_scripts/sl_env_setup/share_cert.sh -t "$sentinel_ip"
-  ip_addr=$(ip addr show tun0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
+  #ip_addr=$(ip addr show tun0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
+  ip_addr=$(hostname -I | awk '{print $1}')
 
 if [[ -z "$ip_addr" ]]; then
     echo "Error: tun0 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"
