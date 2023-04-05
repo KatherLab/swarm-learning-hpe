@@ -16,9 +16,8 @@ Body:
     - RUN conda install pip
     - ' '
     - RUN pip3 install --upgrade pip protobuf && pip3 install \
-    - '   matplotlib pandas sklearn simpleitk pydicom pandas numpy tqdm openpyxl '
+    - '   matplotlib pandas simpleitk pydicom pandas numpy tqdm openpyxl timm monai'
     - ' '
-    - RUN conda install pytorch torchvision torchaudio pytorch-cuda=11.6 -c pytorch -c nvidia
     - RUN pip3 install \
     - '  torchio torchaudio monai pytorch-lightning==1.9.0 tensorboard scikit-learn matplotlib seaborn'
     - ' '

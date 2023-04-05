@@ -86,4 +86,4 @@ sudo "$script_dir/../../swarm_learning_scripts/run-swci" \
   --cert="cert/swci-$host_index-cert.pem" \
   --capath="cert/ca/capath" \
   -e "http_proxy=" -e "https_proxy=" --apls-ip="$sentinel" --apls-port=5000 \
-  -e "SWCI_TASK_MAX_WAIT_TIME=1000"
+  -e "SWCI_TASK_MAX_WAIT_TIME=500"

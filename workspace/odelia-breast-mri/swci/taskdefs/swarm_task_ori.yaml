@@ -15,6 +15,7 @@ Body:
              "LOCAL_COMPARE_FLAG": False,
              "USE_ADAPTIVE_SYNC": False,
              "SYNC_FREQUENCY": 128,
+             "MODEL_NAME": "DenseNet121",
            ]
   PrivateContent: /tmp/test/data-and-scratch
   SharedContent:

@@ -19,7 +19,7 @@ import monai.networks.nets as nets
 import torch
 from swarmlearning.pyt import SwarmCallback
 from pytorch_lightning.callbacks import Callback
-from models import ResNet
+from models import ResNet, VisionTransformer, EfficientNet, EfficientNet3D, EfficientNet3Db7, DenseNet121, UNet3D
 from predict import predict
 
 class User_swarm_callback(Callback):
@@ -50,11 +50,15 @@ if __name__ == "__main__":
     min_peers = int(os.getenv('MIN_PEERS', 2))
     max_peers = int(os.getenv('MAX_PEERS', 7))
     local_compare_flag = os.getenv('LOCAL_COMPARE_FLAG', 'False').lower() == 'true'
-    useAdaptiveSync = bool(os.getenv('USE_ADAPTIVE_SYNC', False))
+    useAdaptiveSync = os.getenv('USE_ADAPTIVE_SYNC', 'False').lower() == 'true'
     syncFrequency = int(os.getenv('SYNC_FREQUENCY', 512))
-
+    model_name = os.getenv('MODEL_NAME', 'ResNet50')
     current_time = datetime.now().strftime("%Y_%m_%d_%H%M%S")
-    path_run_dir = os.path.join(scratchDir, (str(current_time)+ '_' +task_data_name + 'swarm_learning'))  # !
+    if local_compare_flag:
+        print("Running in local compare mode")
+        path_run_dir = os.path.join(scratchDir, (str(current_time)+ '_' +task_data_name + '_' + model_name + '_local_compare'))
+    else:
+        path_run_dir = os.path.join(scratchDir, (str(current_time)+ '_' +task_data_name + '_' + model_name + '_swarm_learning'))
 
     accelerator = 'gpu' if torch.cuda.is_available() else 'cpu'
     print(f"Using {accelerator} for training")
@@ -80,7 +84,60 @@ if __name__ == "__main__":
         # num_workers=0,
         pin_memory=True,
     )
+    if model_name == 'ResNet18':
+        layers = [2, 2, 2, 2]
+    elif model_name == 'ResNet34':
+        layers = [3, 4, 6, 3]
+    elif model_name == 'ResNet50':
+        layers = [3, 4, 6, 3]
+    elif model_name == 'ResNet101':
+        layers = [3, 4, 23, 3]
+    elif model_name == 'ResNet152':
+        layers = [3, 8, 36, 3]
+    else:
+        layers = None
 
+    if layers is not None:
+        # ------------ Initialize Model ------------
+        model = ResNet(in_ch=1, out_ch=1, spatial_dims=3, layers=layers)
+    elif model_name in ['efficientnet_l1', 'efficientnet_l2', 'efficientnet_b4', 'efficientnet_b7']:
+        model = EfficientNet(model_name=model_name, in_ch=1, out_ch=1, spatial_dims=3)
+    elif model_name == 'EfficientNet3Db0':
+        blocks_args_str = [
+            "r1_k3_s11_e1_i32_o16_se0.25",
+            "r2_k3_s22_e6_i16_o24_se0.25",
+            "r2_k5_s22_e6_i24_o40_se0.25",
+            "r3_k3_s22_e6_i40_o80_se0.25",
+            "r3_k5_s11_e6_i80_o112_se0.25",
+            "r4_k5_s22_e6_i112_o192_se0.25",
+            "r1_k3_s11_e6_i192_o320_se0.25"]
+    elif model_name == 'EfficientNet3Db4':
+        blocks_args_str = [
+            "r1_k3_s11_e1_i48_o24_se0.25",
+            "r3_k3_s22_e6_i24_o32_se0.25",
+            "r3_k5_s22_e6_i32_o56_se0.25",
+            "r4_k3_s22_e6_i56_o112_se0.25",
+            "r4_k5_s11_e6_i112_o160_se0.25",
+            "r5_k5_s22_e6_i160_o272_se0.25",
+            "r2_k3_s11_e6_i272_o448_se0.25"]
+    elif model_name == 'EfficientNet3Db7':
+        blocks_args_str = [
+            "r1_k3_s11_e1_i32_o32_se0.25",
+            "r4_k3_s22_e6_i32_o48_se0.25",
+            "r4_k5_s22_e6_i48_o80_se0.25",
+            "r4_k3_s22_e6_i80_o160_se0.25",
+            "r6_k5_s11_e6_i160_o256_se0.25",
+            "r6_k5_s22_e6_i256_o384_se0.25",
+            "r3_k3_s11_e6_i384_o640_se0.25"]
+    elif model_name == 'DenseNet121':
+        model = DenseNet121(in_ch=1, out_ch=1, spatial_dims=3)
+    elif model_name == 'UNet3D':
+        model = UNet3D(in_ch=1, out_ch=1, spatial_dims=3)
+    else:
+        raise Exception("Invalid network model specified")
+
+    if model_name.startswith('EfficientNet3D'):
+        model = EfficientNet3D(in_ch=1, out_ch=1, spatial_dims=3, blocks_args_str=blocks_args_str)
     model = ResNet(in_ch=1, out_ch=1, spatial_dims=3)
     to_monitor = "val/AUC_ROC"
     min_max = "max"
@@ -168,4 +225,4 @@ if __name__ == "__main__":
             line = line.decode("utf-8").rstrip()
             print(line)
             log_file.write(line + "\n")
-    predict(path_run_dir, os.path.join(dataDir, task_data_name,'test'))
+    predict(path_run_dir, os.path.join(dataDir, task_data_name,'test'), model_name)
