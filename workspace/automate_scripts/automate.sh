@@ -117,10 +117,7 @@ if [ $ACTION = final_setup ]; then
   #ip_addr=$(ip addr show tun0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
   ip_addr=$(hostname -I | awk '{print $1}')
 
-if [[ -z "$ip_addr" ]]; then
-    echo "Error: tun0 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"
-    #exit 1
-fi
+
   # Checks
   if [ $ip_addr = $sentinel_ip ]
   then
