@@ -36,7 +36,7 @@ then
 fi
 
 # Get the IP address of this node
-IP_ADDR=$(ip addr show tun0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
+IP_ADDR=$(hostname -I | awk '{print $1}')
 
 if [ -z "$IP_ADDR" ]; then
     echo "Error: tun0 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"
