@@ -48,7 +48,7 @@ class EfficientNet(BasicClassifier):
     # return loss
 
 
-from odelia.models import BasicClassifier
+from .base_model import BasicClassifier
 import monai.networks.nets as nets
 import torch
 class EfficientNet3D(BasicClassifier):
@@ -93,7 +93,7 @@ class EfficientNet3D(BasicClassifier):
         pred_hor = self.model(x_in)
         return pred_hor
 
-from odelia.models import BasicClassifier
+from .base_model import BasicClassifier
 import monai.networks.nets as nets
 import torch
 import torch.nn.functional as F
