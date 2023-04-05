@@ -138,7 +138,6 @@ if __name__ == "__main__":
 
     if model_name.startswith('EfficientNet3D'):
         model = EfficientNet3D(in_ch=1, out_ch=1, spatial_dims=3, blocks_args_str=blocks_args_str)
-    model = ResNet(in_ch=1, out_ch=1, spatial_dims=3)
     to_monitor = "val/AUC_ROC"
     min_max = "max"
     log_every_n_steps = 1
