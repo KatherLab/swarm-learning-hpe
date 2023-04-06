@@ -21,6 +21,7 @@ from swarmlearning.pyt import SwarmCallback
 from pytorch_lightning.callbacks import Callback
 from models import ResNet, VisionTransformer, EfficientNet, EfficientNet3D, EfficientNet3Db7, DenseNet121, UNet3D
 from predict import predict
+from predict_last import predict_last
 
 class User_swarm_callback(Callback):
     def __init__(self, swarmCallback):
@@ -225,3 +226,4 @@ if __name__ == "__main__":
             print(line)
             log_file.write(line + "\n")
     predict(path_run_dir, os.path.join(dataDir, task_data_name,'test'), model_name)
+    predict_last(path_run_dir, os.path.join(dataDir, task_data_name,'test'), model_name)
