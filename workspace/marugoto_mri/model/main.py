@@ -61,10 +61,19 @@ if __name__ == "__main__":
     output_path = Path(out_dir),
     model_path= Path(os.path.join(out_dir, 'export.pkl')),
     target_label = "Malign")
+    deploy_categorical_model_(
+    clini_table = Path(os.path.join(dataDir, 'clinical_table.csv')),
+    slide_csv = Path(os.path.join(dataDir, 'slide_table.csv')),
+    feature_dir = Path(test_dir),
+    output_path = Path(out_dir)/'test',
+    model_path= Path(os.path.join(out_dir, 'export_copy.pkl')),
+    target_label = "Malign")
 
     categorical_aggregated_(os.path.join(out_dir,'patient-preds.csv'), outpath = (out_dir), target_label = "Malign")
+    categorical_aggregated_(os.path.join(out_dir,'test','patient-preds.csv'), outpath = os.path.join(out_dir,'test'), target_label = "Malign")
 
     plot_roc_curves_([os.path.join(out_dir,'patient-preds.csv')], outpath = Path(out_dir), target_label = "Malign", true_label='1', subgroup_label=None, clini_table=None, subgroups=None)
+    plot_roc_curves_([os.path.join(out_dir,'test','patient-preds.csv')], outpath = Path(out_dir), target_label = "Malign", true_label='1', subgroup_label=None, clini_table=None, subgroups=None)
 
     import subprocess
 
