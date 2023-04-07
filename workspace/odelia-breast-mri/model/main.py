@@ -209,6 +209,8 @@ if __name__ == "__main__":
         trainer.fit(model, datamodule=dm)
         swarmCallback.on_train_end()
     model.save_best_checkpoint(trainer.logger.log_dir, checkpointing.best_model_path)
+    model.save_last_checkpoint(trainer.logger.log_dir, checkpointing.best_model_path)
+
     import subprocess
 
     # Get the container ID for the latest user-env container
