@@ -20,7 +20,7 @@ class DenseNet121(BasicClassifier):
     ):
         super().__init__(in_ch, out_ch, spatial_dims, loss, loss_kwargs, optimizer, optimizer_kwargs, lr_scheduler,
                          lr_scheduler_kwargs, aucroc_kwargs, acc_kwargs)
-        self.model = nets.DenseNet121(spatial_dims=spatial_dims, in_channels=in_ch, out_channels=out_ch)
+        self.model = nets.DenseNet264(spatial_dims=spatial_dims, in_channels=in_ch, out_channels=out_ch)
 
     def forward(self, x_in, **kwargs):
         pred_hor = self.model(x_in)
