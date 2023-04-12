@@ -12,5 +12,5 @@ Body:
     - '   build-essential python3-dev python3-pip     \'
     - '   python3-setuptools --no-install-recommends -y'
     - ' '
-    - RUN pip install numpy pandas torch sklearn
+    - RUN pip install numpy pandas scikit-learn
     - ENTRYPOINT ["PYTHON3"]
