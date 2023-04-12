@@ -141,6 +141,7 @@ def train(
             CSVLogger(),
         ]
         learn.fit_one_cycle(n_epoch=n_epoch, lr_max=1e-4, cbs=cbs)
+        return learn, None
     else:
         swarmCallback = SwarmCallback(syncFrequency=syncFrequency,
                                       minPeers=min_peers,
