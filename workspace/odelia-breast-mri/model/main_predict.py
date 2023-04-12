@@ -164,5 +164,5 @@ def predict(model_dir, model_name):
 
 if __name__ == "__main__":
     path_run = Path(
-        '/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user/data-and-scratch/scratch/2023_04_07_001307_DUKE_ResNet152_local_compare')
-    predict(path_run, model_name='ResNet152')
+        '/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user/data-and-scratch/scratch/2023_04_07_190127_DUKE_efficientnet_b7_swarm_learning')
+    predict(path_run, model_name='ResNet50')

@@ -14,8 +14,8 @@ Body:
              "MIN_PEERS": <NUM-MIN_PEERS>,
              "LOCAL_COMPARE_FLAG": False,
              "USE_ADAPTIVE_SYNC": False,
-             "SYNC_FREQUENCY": 128,
-             "MODEL_NAME": "DenseNet121",
+             "SYNC_FREQUENCY": 512,
+             "MODEL_NAME": "ResNet50",
            ]
   PrivateContent: /tmp/test/data-and-scratch
   SharedContent:

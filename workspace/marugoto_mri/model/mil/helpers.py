@@ -147,8 +147,9 @@ def train_categorical_model_(
     # save some additional information to the learner to make deployment easier
     learn.target_label = target_label
     learn.cat_labels, learn.cont_labels = cat_labels, cont_labels
-    learn.export(fname='export_copy.pkl')
-    swarmCallback.on_train_end()
+    if swarmCallback is not None:
+        learn.export(fname='export_copy.pkl')
+        swarmCallback.on_train_end()
     learn.export()
 
     patient_preds, patient_targs = learn.get_preds(act=nn.Softmax(dim=1))

@@ -159,9 +159,10 @@ def train(
             User_swarm_callback(swarmCallback),
         ]
 
-        learn.fit_one_cycle(n_epoch=n_epoch, lr_max=1e-4, cbs=cbs)
-        swarmCallback.on_train_end()
-    return learn
+        learn.fit_one_cycle(n_epoch=30, lr_max=1e-4, cbs=cbs)
+
+
+        return learn, swarmCallback
 
 def cal_weightage(train_size):
     full_dataset_size = 922

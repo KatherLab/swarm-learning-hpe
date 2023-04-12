@@ -54,6 +54,7 @@ if __name__ == "__main__":
     useAdaptiveSync = os.getenv('USE_ADAPTIVE_SYNC', 'False').lower() == 'true'
     syncFrequency = int(os.getenv('SYNC_FREQUENCY', 512))
     model_name = os.getenv('MODEL_NAME', 'ResNet50')
+    print('model_name: ', model_name)
     current_time = datetime.now().strftime("%Y_%m_%d_%H%M%S")
     if local_compare_flag:
         print("Running in local compare mode")
@@ -85,6 +86,7 @@ if __name__ == "__main__":
         # num_workers=0,
         pin_memory=True,
     )
+    print('using model: ', model_name)
     if model_name == 'ResNet18':
         layers = [2, 2, 2, 2]
     elif model_name == 'ResNet34':
@@ -97,10 +99,11 @@ if __name__ == "__main__":
         layers = [3, 8, 36, 3]
     else:
         layers = None
-
+    print('layers: ', layers)
     if layers is not None:
         # ------------ Initialize Model ------------
         model = ResNet(in_ch=1, out_ch=1, spatial_dims=3, layers=layers)
+        print('model: ', model)
     elif model_name in ['efficientnet_l1', 'efficientnet_l2', 'efficientnet_b4', 'efficientnet_b7']:
         model = EfficientNet(model_name=model_name, in_ch=1, out_ch=1, spatial_dims=3)
     elif model_name == 'EfficientNet3Db0':
