@@ -115,7 +115,7 @@ def main():
     modelDir = os.getenv('MODEL_DIR', '/platform/model')
     max_epochs = int(os.getenv('MAX_EPOCHS', str(default_max_epochs)))
     min_peers = int(os.getenv('MIN_PEERS', str(default_min_peers)))
-    batchSz = 20
+    batchSz = 10
     trainDs, testDs = loadData(dataDir)
     useCuda = torch.cuda.is_available()
     
