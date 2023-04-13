@@ -36,7 +36,7 @@ class MLP(nn.Module):
         
 def loadData(dataDir):
     ### Part to be adjusted for different data START
-    path = os.path.join(dataDir,'data_bce.csv')
+    path = os.path.join(dataDir,'data_bcw.csv')
     data_raw = pd.read_csv(path)
     
     data = pd.get_dummies(data_raw.iloc[: , :-1])
