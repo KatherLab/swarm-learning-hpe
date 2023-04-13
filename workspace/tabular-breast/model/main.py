@@ -15,7 +15,7 @@ from swarmlearning.pyt import SwarmCallback
 default_max_epochs = 5
 default_min_peers = 2 
 trainPrint = True
-swSyncInterval = 128 
+swSyncInterval = 20 
 
 class MLP(nn.Module):
     def __init__(self, input_dim):
@@ -115,7 +115,7 @@ def main():
     modelDir = os.getenv('MODEL_DIR', '/platform/model')
     max_epochs = int(os.getenv('MAX_EPOCHS', str(default_max_epochs)))
     min_peers = int(os.getenv('MIN_PEERS', str(default_min_peers)))
-    batchSz = 128
+    batchSz = 20
     trainDs, testDs = loadData(dataDir)
     useCuda = torch.cuda.is_available()
     
