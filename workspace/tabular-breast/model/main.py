@@ -81,8 +81,11 @@ def doTrainBatch(model,device,trainLoader,optimizer,epoch,max_epochs):
         loss.backward()
         optimizer.step()
         if trainPrint and batchIdx % 100 == 0:
-            print('Train Epoch: {}/{} ({:.0f}%)\tLoss: {:.6f}'.format(
-                  epoch, max_epochs, epoch/max_epochs * 100, loss.item()))
+            print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
+                  epoch, batchIdx * len(data), len(trainLoader.dataset),
+                  100. * batchIdx / len(trainLoader), loss.item()))
+            #print('Train Epoch: {}/{} ({:.0f}%)\tLoss: {:.6f}'.format(
+            #      epoch, max_epochs, epoch/max_epochs * 100, loss.item()))
         # Swarm Learning Interface
         if swarmCallback is not None:
             swarmCallback.on_batch_end()
