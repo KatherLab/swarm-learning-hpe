@@ -143,7 +143,7 @@ def main():
     swarmCallback.on_train_begin()
         
     for epoch in range(1, max_epochs + 1):
-        doTrainBatch(model,device,trainLoader,opt,epoch,swarmCallback)      
+        doTrainBatch(model,device,trainLoader,opt,epoch, max_epochs,swarmCallback)      
         test(model,device,testLoader)
         swarmCallback.on_epoch_end(epoch)
 
