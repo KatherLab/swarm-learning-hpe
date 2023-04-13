@@ -70,7 +70,7 @@ def loadData(dataDir):
     
     return trainDs, testDs
     
-def doTrainBatch(model,device,trainLoader,optimizer,epoch,max_epochs):
+def doTrainBatch(model,device,trainLoader,optimizer,epoch,max_epochs, swarmCallback):
     model.train()
     for batchIdx, (data, target) in enumerate(trainLoader):
         data, target = data.to(device), target.to(device)
