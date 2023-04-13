@@ -34,7 +34,7 @@ class MLP(nn.Module):
         out = self.relu(out)
         return out
         
-def loadData():
+def loadData(dataDir):
     ### Part to be adjusted for different data START
     path = os.path.join(dataDir,'data_bce.csv')
     data_raw = pd.read_csv(path)
