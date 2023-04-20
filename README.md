@@ -148,7 +148,7 @@ cp workspace/<workspace-name>/user/data-and-scratch/data/features_odelia_sub_ima
    
 6. Copy the features from feature folder with the order you noted into `WP1/train_val` from xxx to yyy
 ```sh
-cp workspace/<workspace-name>/user/data-and-scratch/data/features_odelia_sub_imagenet/Breast_MRI_{<first_number>..<second_number>}_{right,left}.h5 workspace/<workspace-name>/user/data-and-scratch/data/WP1/test
+cp workspace/<workspace-name>/user/data-and-scratch/data/features_odelia_sub_imagenet/Breast_MRI_{<first_number>..<second_number>}_{right,left}.h5 workspace/<workspace-name>/user/data-and-scratch/data/WP1/train_val
 ```
 
 ### Running Swarm Learning Nodes
@@ -170,7 +170,7 @@ $ ./workspace/automate_scripts/launch_sl/run_swci.sh -w <workspace_name> -s <sen
 
 - To check the logs from training:
 ```sh
-$ ./workspace/automate_scripts/launch_sl/check_latest_logs.sh
+$ ./workspace/automate_scripts/launch_sl/check_latest_log.sh
 ```
 
 - To stop the Swarm Learning nodes, --[node_type] is optional, if not specified, all the nodes will be stopped. Otherwise, could specify --sn, --swop for example.
