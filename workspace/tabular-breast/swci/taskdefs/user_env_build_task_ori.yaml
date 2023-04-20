@@ -2,7 +2,7 @@ Name: user_env_build_task_<TIME_STAMP>
 TaskType: MAKE_USER_CONTAINER
 Author: Kevin
 Prereq: ROOTTASK
-Outcome: user-env-marugoto-swop
+Outcome: user-env-tabular-swop
 Body:
   BuildContext: sl-cli-lib
   BuildType: INLINE
