@@ -136,10 +136,10 @@ def loadData(dataDir, device):
 
 def main():
     # Set parameters and directories
-    batchSz = 50
+    batchSz = 5
     default_max_epochs = 5
     default_min_peers = 2 
-    default_syncFrequency = 2
+    default_syncFrequency = 5
     default_useAdaptiveSync = False
     
     dataDir = os.getenv('DATA_DIR', '/platform/data')
