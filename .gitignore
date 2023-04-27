@@ -135,7 +135,9 @@ dmypy.json
 *.pem
 
 # user dataset and results
-
+**/user/
+**/user-*
+**/data-and-scratch/
 *.nii.gz
 
 # intermidiate files
