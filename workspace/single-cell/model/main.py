@@ -109,9 +109,12 @@ def loadData(dataDir, device):
     y_test = df_ytest["cell_type_common"]
     
     # Encode labels
-    #! insert dummy encoder train set with all classes: encoder_data = 
+    encoder_data = pd.DataFrame(['adipocyte', 'atrial cardiomyocyte', 'cardiomyocyte',
+        'cytoplasmic cardiomyocyte', 'endocardium', 'endothelial',
+        'epicardium', 'fibroblast', 'lymphatic', 'lymphoid', 'mast',
+        'mesothelial', 'myeloid', 'neuron', 'pericyte', 'prolif',
+        'smooth muscle']).values.reshape(-1, 1) 
     ohe = OneHotEncoder(handle_unknown='ignore', sparse_output=False)
-    encoder_data = encoder_data.values.reshape(-1, 1)
     ohe.fit(encoder_data)
     
     # Transform data to one-hot encoding, standardize and convert to tensors
