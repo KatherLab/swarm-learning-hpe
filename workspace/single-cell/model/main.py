@@ -173,7 +173,7 @@ def main():
     swarmCallback = None
     swarmCallback = SwarmCallback(syncFrequency=syncFrequency,
                                   minPeers=min_peers,
-                                  useAdaptiveSync=useAdaptiveSync,
+                                  useAdaptiveSync=False,
                                   adsValData=testDs,
                                   adsValBatchSize=batchSz,
                                   model=model)
