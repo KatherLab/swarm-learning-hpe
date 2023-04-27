@@ -161,6 +161,13 @@ def main():
     # Load data
     X_train, y_train, X_test, y_test, input_dim, output_dim, ohe = loadData(dataDir, device)
     
+    # Define model, loss function, optimizer and number of batches per epoch
+    model = Multiclass(input_dim=input_dim , output_dim=output_dim).to(device)
+    model_name = 'multiclass'
+    loss_fn = nn.CrossEntropyLoss()
+    optimizer = optim.Adam(model.parameters())
+    batches_per_epoch = len(X_train) // batchSz
+    
     # Create Swarm callback
     testDs = torch.utils.data.TensorDataset(X_test, y_test)
     swarmCallback = None
@@ -170,13 +177,6 @@ def main():
                                   adsValData=testDs,
                                   adsValBatchSize=batchSz,
                                   model=model)
-    
-    # Define model, loss function, optimizer and number of batches per epoch
-    model = Multiclass(input_dim=input_dim , output_dim=output_dim).to(device)
-    model_name = 'multiclass'
-    loss_fn = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters())
-    batches_per_epoch = len(X_train) // batchSz
     
     # initalize swarmCallback and do first sync 
     swarmCallback.on_train_begin()
