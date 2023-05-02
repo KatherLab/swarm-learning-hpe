@@ -121,8 +121,9 @@ def loadData(dataDir, device):
     def transformation(X, y):
         y_1 = ohe.transform(y.values.reshape(-1, 1))
         X_1 = StandardScaler().fit_transform(X)
-        X = torch.tensor(X_1, dtype=torch.float32)
-        y = torch.tensor(y_1, dtype=torch.float32)
+        X = torch.tensor(X_1, dtype=torch.float32).to(device)
+        y = torch.tensor(y_1, dtype=torch.float32).to(device)
+
         return X, y
     
     X_train, y_train = transformation(X_train, y_train)
@@ -135,10 +136,11 @@ def loadData(dataDir, device):
 
 def main():
     # Set parameters and directories
-    batchSz = 500
+    batchSz = 10
     default_max_epochs = 5
     default_min_peers = 2
     default_syncFrequency = 20
+    default_useAdaptiveSync = False
     
     dataDir = os.getenv('DATA_DIR', '/platform/data')
     scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
@@ -146,6 +148,7 @@ def main():
     max_epochs = int(os.getenv('MAX_EPOCHS', str(default_max_epochs)))
     min_peers = int(os.getenv('MIN_PEERS', str(default_min_peers)))
     syncFrequency = int(os.getenv('SYNC_FREQUENCY', str(default_syncFrequency)))
+    useAdaptiveSync = os.getenv('USE_ADAPTIVE_SYNC', str(default_useAdaptiveSync))
     
     # Check if CUDA is available
     usecuda = torch.cuda.is_available()
@@ -163,13 +166,10 @@ def main():
     model_name = 'multiclass'
     loss_fn = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters())
-    
-    trainDs = torch.utils.data.TensorDataset(X_train, y_train)
-    testDs = torch.utils.data.TensorDataset(X_test, y_test)
-    
-    trainLoader = torch.utils.data.DataLoader(trainDs, batch_size=batchSz)
+    batches_per_epoch = len(X_train) // batchSz
     
     # Create Swarm callback
+    testDs = torch.utils.data.TensorDataset(X_test, y_test)
     swarmCallback = None
     swarmCallback = SwarmCallback(syncFrequency=syncFrequency,
                                   minPeers=min_peers,
@@ -187,30 +187,32 @@ def main():
         epoch_acc = []
         # Set model in training mode and run through each batch
         model.train()
-        for batchIdx, (X_batch, y_batch) in enumerate(trainLoader):
-            X_batch, y_batch = X_batch.to(device), y_batch.to(device)
-            # forward pass
-            y_pred = model(X_batch)
-            loss = loss_fn(y_pred, y_batch)
-            # backward pass
-            optimizer.zero_grad()
-            loss.backward()
-            # update weights
-            optimizer.step()
-            # compute and store metrics
-            acc = (torch.argmax(y_pred, 1) == torch.argmax(y_batch, 1)).float().mean()
-            epoch_loss.append(float(loss))
-            epoch_acc.append(float(acc))
-            if batchIdx % 100 == 0:
-                print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}\tAccuracy: {:.2f}'.format(
-                    epoch, batchIdx * len(X_batch), len(trainLoader.dataset),
-                    100. * batchIdx / len(trainLoader), loss.item(), acc*100))
-            if swarmCallback is not None:
-                    swarmCallback.on_batch_end()     
-                
+        with tqdm.trange(batches_per_epoch, unit="batch", mininterval=0) as bar:
+            bar.set_description(f"Epoch {epoch}")
+            for i in bar:
+                # Take a batch
+                start = i * batchSz
+                X_batch = X_train[start:start+batchSz]
+                y_batch = y_train[start:start+batchSz]
+                # Forward pass
+                y_pred = model(X_batch)
+                loss = loss_fn(y_pred, y_batch)
+                # Backward pass
+                optimizer.zero_grad()
+                loss.backward()
+                # Update weights
+                optimizer.step()
+                # Compute and store metrics
+                acc = (torch.argmax(y_pred, 1) == torch.argmax(y_batch, 1)).float().mean()
+                epoch_loss.append(float(loss))
+                epoch_acc.append(float(acc))
+                bar.set_postfix(
+                    loss=float(loss),
+                    acc=float(acc))
+                if swarmCallback is not None:
+                    swarmCallback.on_batch_end()
         # Set model in evaluation mode and run through the test set
         model.eval()
-        X_test, y_test = X_test.to(device), y_test.to(device)
         y_pred = model(X_test)
         ce = loss_fn(y_pred, y_test)
         acc = (torch.argmax(y_pred, 1) == torch.argmax(y_test, 1)).float().mean()
