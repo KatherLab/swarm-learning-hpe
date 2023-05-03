@@ -205,7 +205,7 @@ def main():
                 print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}\tAccuracy: {:.2f}'.format(
                     epoch, batchIdx * len(X_batch), len(trainLoader.dataset),
                     100. * batchIdx / len(trainLoader), loss.item(), acc*100))
-                if swarmCallback is not None: #! zurück verschieben
+            if swarmCallback is not None: #! zurück verschieben
                     swarmCallback.on_batch_end()     
                 
         # Set model in evaluation mode and run through the test set
