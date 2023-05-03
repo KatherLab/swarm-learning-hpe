@@ -205,7 +205,7 @@ def main():
                 print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}\tAccuracy: {:.2f}'.format(
                     epoch, batchIdx * len(X_batch), len(trainLoader.dataset),
                     100. * batchIdx / len(trainLoader), loss.item(), acc*100))
-            if swarmCallback is not None:
+                if swarmCallback is not None: #! zurück verschieben
                     swarmCallback.on_batch_end()     
                 
         # Set model in evaluation mode and run through the test set
@@ -256,7 +256,7 @@ def main():
     plt.ylabel('True Positive Rate')
     plt.title('ROC Curve')
     plt.legend(loc="lower left", bbox_to_anchor=(1,0))
-    plt.savefig(os.path.join(scratchDir, 'roc_curve.png'))
+    plt.savefig(os.path.join(scratchDir, 'roc_curve.png', bbox_to_anchor=(1,0)))
     
     # Classification report
     print(classification_report(y_test_labels, y_pred_labels))
