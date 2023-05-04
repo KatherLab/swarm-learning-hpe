@@ -4,10 +4,13 @@ import pandas as pd
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import tqdm
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.metrics import roc_curve, auc, classification_report
-from sklearn.model_selection import train_test_split
+import copy
+import datetime
 import os
+import time
 from swarmlearning.pyt import SwarmCallback
 
 class Multiclass(nn.Module):
@@ -154,7 +157,6 @@ def main():
     
     # Load data
     X_train, y_train, X_test, y_test, input_dim, output_dim, ohe = loadData(dataDir, device)
-    X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.33, random_state=42)
     
     # Define model, loss function, optimizer and number of batches per epoch
     model = Multiclass(input_dim=input_dim , output_dim=output_dim).to(device)
@@ -163,7 +165,7 @@ def main():
     optimizer = optim.Adam(model.parameters())
     
     trainDs = torch.utils.data.TensorDataset(X_train, y_train)
-    valDs = torch.utils.data.TensorDataset(X_val, y_val)
+    testDs = torch.utils.data.TensorDataset(X_test, y_test)
     
     trainLoader = torch.utils.data.DataLoader(trainDs, batch_size=batchSz)
     
@@ -172,7 +174,7 @@ def main():
     swarmCallback = SwarmCallback(syncFrequency=syncFrequency,
                                   minPeers=min_peers,
                                   useAdaptiveSync=False,
-                                  adsValData=valDs,
+                                  adsValData=testDs,
                                   adsValBatchSize=batchSz,
                                   model=model)
     
@@ -181,6 +183,8 @@ def main():
     
     # Train model
     for epoch in range(max_epochs):
+        epoch_loss = []
+        epoch_acc = []
         # Set model in training mode and run through each batch
         model.train()
         for batchIdx, (X_batch, y_batch) in enumerate(trainLoader):
@@ -195,44 +199,35 @@ def main():
             optimizer.step()
             # compute and store metrics
             acc = (torch.argmax(y_pred, 1) == torch.argmax(y_batch, 1)).float().mean()
+            epoch_loss.append(float(loss))
+            epoch_acc.append(float(acc))
             if batchIdx % 100 == 0:
-                print('Train Epoch: {}/{} [{}/{} ({:.0f}%)]\tLoss: {:.6f}\tAccuracy: {:.2f}'.format(
-                    epoch, max_epochs-1, batchIdx * len(X_batch), len(trainLoader.dataset),
+                print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}\tAccuracy: {:.2f}'.format(
+                    epoch, batchIdx * len(X_batch), len(trainLoader.dataset),
                     100. * batchIdx / len(trainLoader), loss.item(), acc*100))
             if swarmCallback is not None:
                     swarmCallback.on_batch_end()     
                 
         # Set model in evaluation mode and run through the test set
         model.eval()
-        X_val, y_val = X_val.to(device), y_val.to(device)
-        model.eval()
-        y_pred = model(X_val)
-        ce = loss_fn(y_pred, y_val)
-        acc = (torch.argmax(y_pred, 1) == torch.argmax(y_val, 1)).float().mean()
+        X_test, y_test = X_test.to(device), y_test.to(device)
+        y_pred = model(X_test)
+        ce = loss_fn(y_pred, y_test)
+        acc = (torch.argmax(y_pred, 1) == torch.argmax(y_test, 1)).float().mean()
         ce = float(ce)
         acc = float(acc)
         print(f"Epoch {epoch} validation: Cross-entropy={ce:.2f}, Accuracy={acc*100:.1f}%")
+        swarmCallback.on_epoch_end(epoch)
     
     # Handles what to do when training ends        
     swarmCallback.on_train_end()
 
-    #AUROC
-    X_test, y_test = X_test.to(device), y_test.to(device)
-    model.eval()
-    y_pred = model(X_test)
-
-    acc = (torch.argmax(y_pred, 1) == torch.argmax(y_test, 1)).float().mean()
-    print("")
-    print(f"Accuracy Test Set: {float(acc):.2f}%")
-    print("")
-
+    # AUROC
     y_test = y_test.cpu().detach().numpy()
     y_pred = y_pred.cpu().detach().numpy()
 
     y_pred_labels = np.take(ohe.categories_, np.argmax(y_pred, axis=1)) 
     y_test_labels = ohe.inverse_transform(y_test).flatten()
-
-    print(classification_report(y_test_labels, y_pred_labels))
 
     fpr = dict()
     tpr = dict()
@@ -252,14 +247,14 @@ def main():
                 ''.format(ohe.categories_[0][i], roc_auc[i]))
     plt.plot(fpr["micro"], tpr["micro"],
             label='Average (AUROC = {0:0.2f})'
-            ''.format(roc_auc["micro"]), linewidth=3, color='blue')
+            ''.format(roc_auc["micro"]), linewidth=3)
 
     plt.plot([0, 1], [0, 1], color='lightgrey', lw=2, linestyle='--')
     plt.xlim([0.0, 1.0])
     plt.ylim([0.0, 1.05])
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
-    plt.title('ROC Curve')
+    plt.title('ROC Curve Swarm Learning')
     plt.legend(loc="lower left", bbox_to_anchor=(1,0))
     plt.savefig(os.path.join(scratchDir, 'roc_curve.png'), bbox_inches="tight")
     
