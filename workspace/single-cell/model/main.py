@@ -256,7 +256,7 @@ def main():
     plt.ylabel('True Positive Rate')
     plt.title('ROC Curve Swarm Learning')
     plt.legend(loc="lower left", bbox_to_anchor=(1,0))
-    plt.savefig(os.path.join(scratchDir, 'roc_curve.png', bbox_inches="tight"))
+    plt.savefig(os.path.join(scratchDir, 'roc_curve.png'), bbox_inches="tight")
     
     # Classification report
     print(classification_report(y_test_labels, y_pred_labels))
