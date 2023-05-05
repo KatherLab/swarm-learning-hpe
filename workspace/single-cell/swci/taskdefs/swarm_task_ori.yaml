@@ -14,7 +14,9 @@ Body:
              "MIN_PEERS": <NUM-MIN_PEERS>,
              "LOCAL_COMPARE_FLAG": False,
              "USE_ADAPTIVE_SYNC": False,
-             "SYNC_FREQUENCY": 100
+             "SYNC_FREQUENCY": 100,
+             "EXPERIMENT": test_Q0,
+             "EXPERIMENT_NAME": Swarm Learning Test Set: Q0,
            ]
   PrivateContent: /tmp/test/data-and-scratch
   SharedContent:

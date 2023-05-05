@@ -7,10 +7,8 @@ import torch.optim as optim
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.metrics import roc_curve, auc, classification_report
 from sklearn.model_selection import train_test_split
-from swarmlearning.pyt import SwarmCallback
 import os
-import datetime
-
+from swarmlearning.pyt import SwarmCallback
 
 class Multiclass(nn.Module):
     def __init__(self, input_dim, output_dim):
@@ -28,7 +26,7 @@ class Multiclass(nn.Module):
         out = self.fc3(out)
         return out
         
-def loadData(dataDir, experiment):
+def loadData(dataDir, device):
     """
     load data from dataDir, preprocess and return train and test data in torch tensors
 
@@ -36,8 +34,8 @@ def loadData(dataDir, experiment):
     ----------
     dataDir : str
         Directory where data is stored
-    experiment : str
-        Experiment name: "test_R0", "test_R1", "test_R2", "test_Q0"
+    device : str
+        cpu or cuda
 
     Returns
     -------
@@ -51,15 +49,15 @@ def loadData(dataDir, experiment):
     """
     
     # Load data
-    X_R0 = np.load(os.path.join(dataDir,'Single_cell_data_all/M.vst_common.401.h5ad.X_R0.npy'))
-    X_R1 = np.load(os.path.join(dataDir,'Single_cell_data_all/M.vst_common.401.h5ad.X_R1.npy'))
-    X_R2 = np.load(os.path.join(dataDir,'Single_cell_data_all/M.vst_common.401.h5ad.X_R2.npy'))
-    X_Q0 = np.load(os.path.join(dataDir,'Single_cell_data_all/M.vst_common.401.h5ad.X_Q0.npy'))
-    y_R0 = np.load(os.path.join(dataDir,'Single_cell_data_all/M.vst_common.401.h5ad.Y_R0.npy'))
-    y_R1 = np.load(os.path.join(dataDir,'Single_cell_data_all/M.vst_common.401.h5ad.Y_R1.npy'))
-    y_R2 = np.load(os.path.join(dataDir,'Single_cell_data_all/M.vst_common.401.h5ad.Y_R2.npy'))
-    y_Q0 = np.load(os.path.join(dataDir,'Single_cell_data_all/M.vst_common.401.h5ad.Y_Q0.npy'))
-        
+    X_train = np.load(os.path.join(dataDir,'Single_cell_swarm_input/X_train.npy'))
+    X_test = np.load(os.path.join(dataDir,'Single_cell_swarm_input/X_test.npy'))
+    y_train = np.load(os.path.join(dataDir,'Single_cell_swarm_input/y_train.npy'))
+    y_test = np.load(os.path.join(dataDir,'Single_cell_swarm_input/y_test.npy'))
+    
+    # Convert to pandas dataframe
+    df_ytrain= pd.DataFrame(y_train)
+    df_ytest= pd.DataFrame(y_test) 
+    
     # Preprocess labels
     REP1= { "r0$|r1$|r2$|r3$|q0$":"",
             "_":" ", "cells$":"cell", "es$": "e", "ts$":"t",
@@ -96,41 +94,16 @@ def loadData(dataDir, experiment):
             "macrophages|macrophage|monocytes|monocyte":"myeloid",
             "^t\/nk cell$|^t\/nk cells$|^b cell$|^b cells$":"lymphoid"}
     
-    df_y_R0= pd.DataFrame(y_R0)
-    df_y_R1= pd.DataFrame(y_R1)
-    df_y_R2= pd.DataFrame(y_R2)
-    df_y_Q0= pd.DataFrame(y_Q0)
+    df_ytrain["cell_type_common"] = df_ytrain[0].replace("I|II|III", "", regex=True).str.strip().str.lower()
+    df_ytrain["cell_type_common"] = df_ytrain["cell_type_common"].replace(REP1, regex=True).str.strip()
+    df_ytrain["cell_type_common"] = df_ytrain["cell_type_common"].replace(REP2, regex=True).str.strip()
 
-    df_y_R0["cell_type_common"] = df_y_R0[0].replace("I|II|III", "", regex=True).str.strip().str.lower()
-    df_y_R0["cell_type_common"] = df_y_R0["cell_type_common"].replace(REP1, regex=True).str.strip()
-    df_y_R0["cell_type_common"] = df_y_R0["cell_type_common"].replace(REP2, regex=True).str.strip()
+    df_ytest["cell_type_common"] = df_ytest[0].replace("I|II|III", "", regex=True).str.strip().str.lower()
+    df_ytest["cell_type_common"] = df_ytest["cell_type_common"].replace(REP1, regex=True).str.strip()
+    df_ytest["cell_type_common"] = df_ytest["cell_type_common"].replace(REP2, regex=True).str.strip()
 
-    df_y_R1["cell_type_common"] = df_y_R1[0].replace("I|II|III", "", regex=True).str.strip().str.lower()
-    df_y_R1["cell_type_common"] = df_y_R1["cell_type_common"].replace(REP1, regex=True).str.strip()
-    df_y_R1["cell_type_common"] = df_y_R1["cell_type_common"].replace(REP2, regex=True).str.strip()
-
-    df_y_R2["cell_type_common"] = df_y_R2[0].replace("I|II|III", "", regex=True).str.strip().str.lower()
-    df_y_R2["cell_type_common"] = df_y_R2["cell_type_common"].replace(REP1, regex=True).str.strip()
-    df_y_R2["cell_type_common"] = df_y_R2["cell_type_common"].replace(REP2, regex=True).str.strip()
-
-    df_y_Q0["cell_type_common"] = df_y_Q0[0].replace("I|II|III", "", regex=True).str.strip().str.lower()
-    df_y_Q0["cell_type_common"] = df_y_Q0["cell_type_common"].replace(REP1, regex=True).str.strip()
-    df_y_Q0["cell_type_common"] = df_y_Q0["cell_type_common"].replace(REP2, regex=True).str.strip()
-
-    y_R0 = df_y_R0["cell_type_common"]
-    y_R1 = df_y_R1["cell_type_common"]
-    y_R2 = df_y_R2["cell_type_common"]
-    y_Q0 = df_y_Q0["cell_type_common"]
-    
-    # Create Merged Datasets
-    X_merge_without_R0 = pd.concat([pd.DataFrame(X_R1),pd.DataFrame(X_R2),pd.DataFrame(X_Q0)], axis=0)
-    y_merge_without_R0 = pd.concat([y_R1, y_R2, y_Q0], axis=0)
-    X_merge_without_R1 = pd.concat([pd.DataFrame(X_R0),pd.DataFrame(X_R2),pd.DataFrame(X_Q0)], axis=0)
-    y_merge_without_R1 = pd.concat([y_R0, y_R2, y_Q0], axis=0)
-    X_merge_without_R2 = pd.concat([pd.DataFrame(X_R0),pd.DataFrame(X_R1),pd.DataFrame(X_Q0)], axis=0)
-    y_merge_without_R2 = pd.concat([y_R0, y_R1, y_Q0], axis=0)
-    X_merge_without_Q0 = pd.concat([pd.DataFrame(X_R0), pd.DataFrame(X_R1),pd.DataFrame(X_R2)], axis=0)
-    y_merge_without_Q0 = pd.concat([y_R0, y_R1, y_R2], axis=0)
+    y_train = df_ytrain["cell_type_common"]
+    y_test = df_ytest["cell_type_common"]
     
     # Encode labels
     encoder_data = pd.DataFrame(['adipocyte', 'atrial cardiomyocyte', 'cardiomyocyte',
@@ -149,21 +122,6 @@ def loadData(dataDir, experiment):
         y = torch.tensor(y_1, dtype=torch.float32)
         return X, y
     
-    if experiment == "test_R0":
-        X_train, y_train = X_merge_without_R0, y_merge_without_R0
-        X_test, y_test = X_merge_without_R0, y_merge_without_R0
-    elif experiment == "test_R1":
-        X_train, y_train = X_merge_without_R1, y_merge_without_R1
-        X_test, y_test = X_merge_without_R1, y_merge_without_R1
-    elif experiment == "test_R2":
-        X_train, y_train = X_merge_without_R2, y_merge_without_R2
-        X_test, y_test = X_merge_without_R2, y_merge_without_R2
-    elif experiment == "test_Q0":
-        X_train, y_train = X_merge_without_Q0, y_merge_without_Q0
-        X_test, y_test = X_merge_without_Q0, y_merge_without_Q0
-    else:
-        print("Define a Experiment in SWCI file")
-    
     X_train, y_train = transformation(X_train, y_train)
     X_test, y_test = transformation(X_test, y_test)
     
@@ -172,97 +130,19 @@ def loadData(dataDir, experiment):
     
     return X_train, y_train, X_test, y_test, input_dim, output_dim, ohe
 
-def stats(model, X_test, y_test, output_dim, ohe, device, scratchDir, experiment_name):
-    X_test, y_test = X_test.to(device), y_test.to(device)
-
-    model.eval()
-    y_pred = model(X_test)
-
-    y_test = y_test.cpu().detach().numpy()
-    y_pred = y_pred.cpu().detach().numpy()
-
-    y_pred_labels = np.take(ohe.categories_, np.argmax(y_pred, axis=1)) 
-    y_test_labels = ohe.inverse_transform(y_test).flatten()
-
-    # Classification Report
-    report = classification_report(y_test_labels, y_pred_labels, output_dict=True)
-    report = pd.DataFrame(report).transpose()
-    print(report.to_string)
-    
-    # AUROC
-    fpr = dict()
-    tpr = dict()
-    roc_auc = dict()
-    for i in range(output_dim):
-        fpr[i], tpr[i], thresholds = roc_curve(y_test[:, i], y_pred[:, i])
-        roc_auc[i] = auc(fpr[i], tpr[i])
-
-    fpr["micro"], tpr["micro"], _ = roc_curve(y_test.ravel(), y_pred.ravel())
-    roc_auc["micro"] = auc(fpr["micro"], tpr["micro"])
-
-    plt.style.use('default')
-    plt.figure()
-    for i in range(output_dim):
-        plt.plot(fpr[i], tpr[i], lw=3, linestyle='dotted',
-                label='{0} (AUROC = {1:0.2f})'
-                ''.format(ohe.categories_[0][i], roc_auc[i]))
-    plt.plot(fpr["micro"], tpr["micro"],
-            label='Average (AUROC = {0:0.2f})'
-            ''.format(roc_auc["micro"]), linewidth=3, color='blue')
-
-    plt.plot([0, 1], [0, 1], color='lightgrey', lw=2, linestyle='--')
-    plt.xlim([0.0, 1.0])
-    plt.ylim([0.0, 1.05])
-    plt.xlabel('False Positive Rate')
-    plt.ylabel('True Positive Rate')
-    plt.title(f"ROC Curve {experiment_name}")
-    plt.legend(loc="lower left", bbox_to_anchor=(1,0))
-    
-    # Save Stats  
-    file_name_suffix = experiment_name.replace(" ", "_")
-
-    plt.savefig(os.path.join(scratchDir, f"plot_auroc_{file_name_suffix}.png", bbox_inches = 'tight'))
-    report.to_csv(os.path.join(scratchDir, f"classification_report_{file_name_suffix}.csv"))
-    np.save(os.path.join(scratchDir, f"false_positive_rate_{file_name_suffix}.npy", fpr))
-    np.save(os.path.join(scratchDir, f"true_positive_rate_{file_name_suffix}.npy", tpr))
-    np.save(os.path.join(scratchDir, f"auroc_{file_name_suffix}.npy", roc_auc))
-    # read dictionary again: dict = np.load("file_name.npy", allow_pickle=True).item()
-
-def directory(experiment):
-    dataDir = os.getenv('DATA_DIR', '/platform/data')
-    scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
-    
-    now = datetime.datetime.now()
-    date_string = now.strftime("%Y-%m-%d_%H-%M")
-
-    folder_name_suffix = experiment.replace(" ", "_")
-    folder = folder_name_suffix + "_" + date_string
-    
-    new_dir = os.path.join(scratchDir, folder)
-    os.makedirs(new_dir)
-
-    if os.path.exists(new_dir):
-        print("Directory created successfully:", new_dir)
-    else:
-        print("Failed to create directory:", new_dir)
-    
-    scratchDir = new_dir
-    
-    return dataDir, scratchDir
-    
 def main():
     # Set parameters and directories
     batchSz = 500
     default_max_epochs = 5
     default_min_peers = 2
     default_syncFrequency = 100
-    default_experiment_name = "Swarm Learning"
+    
+    dataDir = os.getenv('DATA_DIR', '/platform/data')
+    scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
+    modelDir = os.getenv('MODEL_DIR', '/platform/model')
     max_epochs = int(os.getenv('MAX_EPOCHS', str(default_max_epochs)))
     min_peers = int(os.getenv('MIN_PEERS', str(default_min_peers)))
     syncFrequency = int(os.getenv('SYNC_FREQUENCY', str(default_syncFrequency)))
-    experiment = os.getenv('EXPERIMENT')
-    experiment_name = os.getenv('EXPERIMENT_NAME', default_experiment_name)
-    dataDir, scratchDir = directory(experiment_name)
     
     # Check if CUDA is available
     usecuda = torch.cuda.is_available()
@@ -273,7 +153,7 @@ def main():
     device = torch.device("cuda" if usecuda else "cpu")
     
     # Load data
-    X_train, y_train, X_test, y_test, input_dim, output_dim, ohe = loadData(dataDir, experiment)
+    X_train, y_train, X_test, y_test, input_dim, output_dim, ohe = loadData(dataDir, device)
     X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.33, random_state=42)
     
     # Define model, loss function, optimizer and number of batches per epoch
@@ -325,6 +205,7 @@ def main():
         # Set model in evaluation mode and run through the test set
         model.eval()
         X_val, y_val = X_val.to(device), y_val.to(device)
+        model.eval()
         y_pred = model(X_val)
         ce = loss_fn(y_pred, y_val)
         acc = (torch.argmax(y_pred, 1) == torch.argmax(y_val, 1)).float().mean()
@@ -335,11 +216,59 @@ def main():
     # Handles what to do when training ends        
     swarmCallback.on_train_end()
 
-    # Statistics
-    stats(model, X_test, y_test, output_dim, ohe, device, scratchDir, experiment_name)
+    #AUROC
+    X_test, y_test = X_test.to(device), y_test.to(device)
+    model.eval()
+    y_pred = model(X_test)
+
+    acc = (torch.argmax(y_pred, 1) == torch.argmax(y_test, 1)).float().mean()
+    print("")
+    print(f"Accuracy Test Set: {float(acc):.2f}%")
+    print("")
+
+    y_test = y_test.cpu().detach().numpy()
+    y_pred = y_pred.cpu().detach().numpy()
+
+    y_pred_labels = np.take(ohe.categories_, np.argmax(y_pred, axis=1)) 
+    y_test_labels = ohe.inverse_transform(y_test).flatten()
+
+    print(classification_report(y_test_labels, y_pred_labels))
+
+    fpr = dict()
+    tpr = dict()
+    roc_auc = dict()
+    for i in range(output_dim):
+        fpr[i], tpr[i], thresholds = roc_curve(y_test[:, i], y_pred[:, i])
+        roc_auc[i] = auc(fpr[i], tpr[i])
+
+    fpr["micro"], tpr["micro"], _ = roc_curve(y_test.ravel(), y_pred.ravel())
+    roc_auc["micro"] = auc(fpr["micro"], tpr["micro"])
+
+    plt.style.use('default')
+    plt.figure()
+    for i in range(output_dim):
+        plt.plot(fpr[i], tpr[i], lw=3, linestyle='dotted',
+                label='{0} (AUROC = {1:0.2f})'
+                ''.format(ohe.categories_[0][i], roc_auc[i]))
+    plt.plot(fpr["micro"], tpr["micro"],
+            label='Average (AUROC = {0:0.2f})'
+            ''.format(roc_auc["micro"]), linewidth=3, color='blue')
+
+    plt.plot([0, 1], [0, 1], color='lightgrey', lw=2, linestyle='--')
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('ROC Curve')
+    plt.legend(loc="lower left", bbox_to_anchor=(1,0))
+    plt.savefig(os.path.join(scratchDir, 'roc_curve.png'), bbox_inches="tight")
+    
+    # Classification report
+    print(classification_report(y_test_labels, y_pred_labels))
     
     # Save model and weights
     saved_model_path = os.path.join(scratchDir, model_name, 'saved_model.pt')
+    # Pytorch model save function expects the directory to be created before hand.
     os.makedirs(scratchDir, exist_ok=True)
     os.makedirs(os.path.join(scratchDir, model_name), exist_ok=True)
     torch.save(model, saved_model_path)
