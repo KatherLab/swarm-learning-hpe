@@ -52,11 +52,8 @@ def loadData(dataDir, experiment):
     """
     
     # Define data paths
-    print(experiment)
     X_train_path = glob.glob(os.path.join(dataDir,f'single_cell_data_all/{experiment}/*X_*_train.npy'))
     y_train_path = glob.glob(os.path.join(dataDir,f'single_cell_data_all/{experiment}/*Y_*_train.npy'))
-    print(X_train_path)
-    print(y_train_path)
     X_train_path = X_train_path[0]
     y_train_path = y_train_path[0]
     print(f"Loading train data from {X_train_path} and {y_train_path}")
@@ -72,6 +69,7 @@ def loadData(dataDir, experiment):
     y_train = np.load(y_train_path)
     X_test = np.load(X_test_path)
     y_test = np.load(y_test_path)
+    print("Data loaded successfully")
         
     # Preprocess labels
     REP1= { "r0$|r1$|r2$|r3$|q0$":"",
@@ -146,6 +144,8 @@ def loadData(dataDir, experiment):
     input_dim = X_train.size()[1]
     output_dim = y_train.size()[1]
     
+    print("Data preprocessed successfully")
+    
     return X_train, y_train, X_test, y_test, input_dim, output_dim, ohe
 
 def stats(model, X_test, y_test, output_dim, ohe, device, scratchDir, experiment_name):
@@ -197,12 +197,12 @@ def stats(model, X_test, y_test, output_dim, ohe, device, scratchDir, experiment
     # Save Stats  
     file_name_suffix = experiment_name.replace(" ", "_")
 
-    plt.savefig(os.path.join(scratchDir, f"plot_auroc_{file_name_suffix}.png", bbox_inches = 'tight'))
+    plt.savefig(os.path.join(scratchDir, f"plot_auroc_{file_name_suffix}.png"), bbox_inches = 'tight')
     report.to_csv(os.path.join(scratchDir, f"classification_report_{file_name_suffix}.csv"))
-    np.save(os.path.join(scratchDir, f"false_positive_rate_{file_name_suffix}.npy", fpr))
-    np.save(os.path.join(scratchDir, f"true_positive_rate_{file_name_suffix}.npy", tpr))
-    np.save(os.path.join(scratchDir, f"auroc_{file_name_suffix}.npy", roc_auc))
-    np.save(os.path.join(scratchDir, f"encoder_categories_{file_name_suffix}.npy", ohe.categories_))
+    np.save(os.path.join(scratchDir, f"false_positive_rate_{file_name_suffix}.npy"), fpr)
+    np.save(os.path.join(scratchDir, f"true_positive_rate_{file_name_suffix}.npy"), tpr)
+    np.save(os.path.join(scratchDir, f"auroc_{file_name_suffix}.npy"), roc_auc)
+    np.save(os.path.join(scratchDir, f"encoder_categories_{file_name_suffix}.npy"), ohe.categories_)
     # read dictionary again: dict = np.load("file_name.npy", allow_pickle=True).item()
 
 def directory(experiment):
