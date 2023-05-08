@@ -53,14 +53,16 @@ def loadData(dataDir, experiment):
     
     # Define data paths
     print(experiment)
-    X_train_path = glob.glob(os.path.join(dataDir,f'single_cell_data_all/{experiment}/*_X_*_train.npy'))
-    y_train_path = glob.glob(os.path.join(dataDir,f'single_cell_data_all/{experiment}/*_Y_*_train.npy'))
+    X_train_path = glob.glob(os.path.join(dataDir,f'single_cell_data_all/{experiment}/*X_*_train.npy'))
+    y_train_path = glob.glob(os.path.join(dataDir,f'single_cell_data_all/{experiment}/*Y_*_train.npy'))
+    print(X_train_path)
+    print(y_train_path)
     X_train_path = X_train_path[0]
     y_train_path = y_train_path[0]
     print(f"Loading train data from {X_train_path} and {y_train_path}")
     
-    X_test_path = glob.glob(os.path.join(dataDir,f'single_cell_data_all/{experiment}/*_X_*_test.npy'))
-    y_test_path = glob.glob(os.path.join(dataDir,f'single_cell_data_all/{experiment}/*_Y_*_test.npy'))
+    X_test_path = glob.glob(os.path.join(dataDir,f'single_cell_data_all/{experiment}/*X_*_test.npy'))
+    y_test_path = glob.glob(os.path.join(dataDir,f'single_cell_data_all/{experiment}/*Y_*_test.npy'))
     X_test_path = X_test_path[0]
     y_test_path = y_test_path[0]
     print(f"Loading test data from {X_test_path} and {y_test_path}")
