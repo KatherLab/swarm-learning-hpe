@@ -10,6 +10,7 @@ from sklearn.model_selection import train_test_split
 from swarmlearning.pyt import SwarmCallback
 import os
 import datetime
+import glob
 
 
 class Multiclass(nn.Module):
@@ -50,15 +51,20 @@ def loadData(dataDir, experiment):
     ohe : sklearn.preprocessing.OneHotEncoder fitted
     """
     
+    # Define data paths
+    X_train_path = glob.glob(f"{experiment}/*_X_*_train.npy")[0]
+    y_train_path = glob.glob(f"{experiment}/*_Y_*_train.npy")[0]
+    print(f"Loading train data from {X_train_path} and {y_train_path}")
+    
+    X_test_path = glob.glob(f"{experiment}/*_X_*_test.npy")[0]
+    y_test_path = glob.glob(f"{experiment}/*_Y_*_test.npy")[0]
+    print(f"Loading test data from {X_test_path} and {y_test_path}")
+    
     # Load data
-    X_R0 = np.load(os.path.join(dataDir,'Single_cell_data_all/M.vst_common.401.h5ad.X_R0.npy'))
-    X_R1 = np.load(os.path.join(dataDir,'Single_cell_data_all/M.vst_common.401.h5ad.X_R1.npy'))
-    X_R2 = np.load(os.path.join(dataDir,'Single_cell_data_all/M.vst_common.401.h5ad.X_R2.npy'))
-    X_Q0 = np.load(os.path.join(dataDir,'Single_cell_data_all/M.vst_common.401.h5ad.X_Q0.npy'))
-    y_R0 = np.load(os.path.join(dataDir,'Single_cell_data_all/M.vst_common.401.h5ad.Y_R0.npy'))
-    y_R1 = np.load(os.path.join(dataDir,'Single_cell_data_all/M.vst_common.401.h5ad.Y_R1.npy'))
-    y_R2 = np.load(os.path.join(dataDir,'Single_cell_data_all/M.vst_common.401.h5ad.Y_R2.npy'))
-    y_Q0 = np.load(os.path.join(dataDir,'Single_cell_data_all/M.vst_common.401.h5ad.Y_Q0.npy'))
+    X_train = np.load(os.path.join(dataDir,f'Single_cell_data_all/{X_train_path}'))
+    y_train = np.load(os.path.join(dataDir,f'Single_cell_data_all/{y_train_path}'))
+    X_test = np.load(os.path.join(dataDir,f'Single_cell_data_all/{X_test_path}'))
+    y_test = np.load(os.path.join(dataDir,f'Single_cell_data_all/{y_test_path}'))
         
     # Preprocess labels
     REP1= { "r0$|r1$|r2$|r3$|q0$":"",
@@ -96,41 +102,19 @@ def loadData(dataDir, experiment):
             "macrophages|macrophage|monocytes|monocyte":"myeloid",
             "^t\/nk cell$|^t\/nk cells$|^b cell$|^b cells$":"lymphoid"}
     
-    df_y_R0= pd.DataFrame(y_R0)
-    df_y_R1= pd.DataFrame(y_R1)
-    df_y_R2= pd.DataFrame(y_R2)
-    df_y_Q0= pd.DataFrame(y_Q0)
+    df_y_train= pd.DataFrame(y_train)
+    df_y_test= pd.DataFrame(y_test))
 
-    df_y_R0["cell_type_common"] = df_y_R0[0].replace("I|II|III", "", regex=True).str.strip().str.lower()
-    df_y_R0["cell_type_common"] = df_y_R0["cell_type_common"].replace(REP1, regex=True).str.strip()
-    df_y_R0["cell_type_common"] = df_y_R0["cell_type_common"].replace(REP2, regex=True).str.strip()
+    df_y_train["cell_type_common"] = df_y_train[0].replace("I|II|III", "", regex=True).str.strip().str.lower()
+    df_y_train["cell_type_common"] = df_y_train["cell_type_common"].replace(REP1, regex=True).str.strip()
+    df_y_train["cell_type_common"] = df_y_train["cell_type_common"].replace(REP2, regex=True).str.strip()
 
-    df_y_R1["cell_type_common"] = df_y_R1[0].replace("I|II|III", "", regex=True).str.strip().str.lower()
-    df_y_R1["cell_type_common"] = df_y_R1["cell_type_common"].replace(REP1, regex=True).str.strip()
-    df_y_R1["cell_type_common"] = df_y_R1["cell_type_common"].replace(REP2, regex=True).str.strip()
+    df_y_test["cell_type_common"] = df_y_test[0].replace("I|II|III", "", regex=True).str.strip().str.lower()
+    df_y_test["cell_type_common"] = df_y_test["cell_type_common"].replace(REP1, regex=True).str.strip()
+    df_y_test["cell_type_common"] = df_y_test["cell_type_common"].replace(REP2, regex=True).str.strip()
 
-    df_y_R2["cell_type_common"] = df_y_R2[0].replace("I|II|III", "", regex=True).str.strip().str.lower()
-    df_y_R2["cell_type_common"] = df_y_R2["cell_type_common"].replace(REP1, regex=True).str.strip()
-    df_y_R2["cell_type_common"] = df_y_R2["cell_type_common"].replace(REP2, regex=True).str.strip()
-
-    df_y_Q0["cell_type_common"] = df_y_Q0[0].replace("I|II|III", "", regex=True).str.strip().str.lower()
-    df_y_Q0["cell_type_common"] = df_y_Q0["cell_type_common"].replace(REP1, regex=True).str.strip()
-    df_y_Q0["cell_type_common"] = df_y_Q0["cell_type_common"].replace(REP2, regex=True).str.strip()
-
-    y_R0 = df_y_R0["cell_type_common"]
-    y_R1 = df_y_R1["cell_type_common"]
-    y_R2 = df_y_R2["cell_type_common"]
-    y_Q0 = df_y_Q0["cell_type_common"]
-    
-    # Create Merged Datasets
-    X_merge_without_R0 = pd.concat([pd.DataFrame(X_R1),pd.DataFrame(X_R2),pd.DataFrame(X_Q0)], axis=0)
-    y_merge_without_R0 = pd.concat([y_R1, y_R2, y_Q0], axis=0)
-    X_merge_without_R1 = pd.concat([pd.DataFrame(X_R0),pd.DataFrame(X_R2),pd.DataFrame(X_Q0)], axis=0)
-    y_merge_without_R1 = pd.concat([y_R0, y_R2, y_Q0], axis=0)
-    X_merge_without_R2 = pd.concat([pd.DataFrame(X_R0),pd.DataFrame(X_R1),pd.DataFrame(X_Q0)], axis=0)
-    y_merge_without_R2 = pd.concat([y_R0, y_R1, y_Q0], axis=0)
-    X_merge_without_Q0 = pd.concat([pd.DataFrame(X_R0), pd.DataFrame(X_R1),pd.DataFrame(X_R2)], axis=0)
-    y_merge_without_Q0 = pd.concat([y_R0, y_R1, y_R2], axis=0)
+    y_train = df_y_train["cell_type_common"]
+    y_test = df_y_test["cell_type_common"]
     
     # Encode labels
     encoder_data = pd.DataFrame(['adipocyte', 'atrial cardiomyocyte', 'cardiomyocyte',
@@ -148,21 +132,6 @@ def loadData(dataDir, experiment):
         X = torch.tensor(X_1, dtype=torch.float32)
         y = torch.tensor(y_1, dtype=torch.float32)
         return X, y
-    
-    if experiment == "test_R0":
-        X_train, y_train = X_merge_without_R0, y_merge_without_R0
-        X_test, y_test = X_merge_without_R0, y_merge_without_R0
-    elif experiment == "test_R1":
-        X_train, y_train = X_merge_without_R1, y_merge_without_R1
-        X_test, y_test = X_merge_without_R1, y_merge_without_R1
-    elif experiment == "test_R2":
-        X_train, y_train = X_merge_without_R2, y_merge_without_R2
-        X_test, y_test = X_merge_without_R2, y_merge_without_R2
-    elif experiment == "test_Q0":
-        X_train, y_train = X_merge_without_Q0, y_merge_without_Q0
-        X_test, y_test = X_merge_without_Q0, y_merge_without_Q0
-    else:
-        print("Define a Experiment in SWCI file")
     
     X_train, y_train = transformation(X_train, y_train)
     X_test, y_test = transformation(X_test, y_test)
@@ -226,6 +195,7 @@ def stats(model, X_test, y_test, output_dim, ohe, device, scratchDir, experiment
     np.save(os.path.join(scratchDir, f"false_positive_rate_{file_name_suffix}.npy", fpr))
     np.save(os.path.join(scratchDir, f"true_positive_rate_{file_name_suffix}.npy", tpr))
     np.save(os.path.join(scratchDir, f"auroc_{file_name_suffix}.npy", roc_auc))
+    np.save(os.path.join(scratchDir, f"encoder_categories_{file_name_suffix}.npy", ohe.categories_))
     # read dictionary again: dict = np.load("file_name.npy", allow_pickle=True).item()
 
 def directory(experiment):
