@@ -103,7 +103,7 @@ def loadData(dataDir, experiment):
             "^t\/nk cell$|^t\/nk cells$|^b cell$|^b cells$":"lymphoid"}
     
     df_y_train= pd.DataFrame(y_train)
-    df_y_test= pd.DataFrame(y_test))
+    df_y_test= pd.DataFrame(y_test)
 
     df_y_train["cell_type_common"] = df_y_train[0].replace("I|II|III", "", regex=True).str.strip().str.lower()
     df_y_train["cell_type_common"] = df_y_train["cell_type_common"].replace(REP1, regex=True).str.strip()
