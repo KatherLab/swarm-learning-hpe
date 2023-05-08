@@ -53,23 +53,23 @@ def loadData(dataDir, experiment):
     
     # Define data paths
     print(experiment)
-    X_train_path = glob.glob(f"{experiment}/*_X_*_train.npy")
-    y_train_path = glob.glob(f"{experiment}/*_Y_*_train.npy")
+    X_train_path = glob.glob(os.path.join(dataDir,f'single_cell_data_all/{experiment}/*_X_*_train.npy'))
+    y_train_path = glob.glob(os.path.join(dataDir,f'single_cell_data_all/{experiment}/*_Y_*_train.npy'))
     X_train_path = X_train_path[0]
     y_train_path = y_train_path[0]
     print(f"Loading train data from {X_train_path} and {y_train_path}")
     
-    X_test_path = glob.glob(f"{experiment}/*_X_*_test.npy")
-    y_test_path = glob.glob(f"{experiment}/*_Y_*_test.npy")
+    X_test_path = glob.glob(os.path.join(dataDir,f'single_cell_data_all/{experiment}/*_X_*_test.npy'))
+    y_test_path = glob.glob(os.path.join(dataDir,f'single_cell_data_all/{experiment}/*_Y_*_test.npy'))
     X_test_path = X_test_path[0]
     y_test_path = y_test_path[0]
     print(f"Loading test data from {X_test_path} and {y_test_path}")
     
     # Load data
-    X_train = np.load(os.path.join(dataDir,f'Single_cell_data_all/{X_train_path}'))
-    y_train = np.load(os.path.join(dataDir,f'Single_cell_data_all/{y_train_path}'))
-    X_test = np.load(os.path.join(dataDir,f'Single_cell_data_all/{X_test_path}'))
-    y_test = np.load(os.path.join(dataDir,f'Single_cell_data_all/{y_test_path}'))
+    X_train = np.load(X_train_path)
+    y_train = np.load(y_train_path)
+    X_test = np.load(X_test_path)
+    y_test = np.load(y_test_path)
         
     # Preprocess labels
     REP1= { "r0$|r1$|r2$|r3$|q0$":"",
