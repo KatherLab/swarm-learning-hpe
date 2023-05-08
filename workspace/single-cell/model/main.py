@@ -52,12 +52,17 @@ def loadData(dataDir, experiment):
     """
     
     # Define data paths
-    X_train_path = glob.glob(f"{experiment}/*_X_*_train.npy")[0]
-    y_train_path = glob.glob(f"{experiment}/*_Y_*_train.npy")[0]
+    print(experiment)
+    X_train_path = glob.glob(f"{experiment}/*_X_*_train.npy")
+    y_train_path = glob.glob(f"{experiment}/*_Y_*_train.npy")
+    X_train_path = X_train_path[0]
+    y_train_path = y_train_path[0]
     print(f"Loading train data from {X_train_path} and {y_train_path}")
     
-    X_test_path = glob.glob(f"{experiment}/*_X_*_test.npy")[0]
-    y_test_path = glob.glob(f"{experiment}/*_Y_*_test.npy")[0]
+    X_test_path = glob.glob(f"{experiment}/*_X_*_test.npy")
+    y_test_path = glob.glob(f"{experiment}/*_Y_*_test.npy")
+    X_test_path = X_test_path[0]
+    y_test_path = y_test_path[0]
     print(f"Loading test data from {X_test_path} and {y_test_path}")
     
     # Load data
