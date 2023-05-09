@@ -29,7 +29,7 @@ class Multiclass(nn.Module):
         out = self.fc3(out)
         return out
         
-def loadData(dataDir, experiment):
+def loadData(dataDir, experiment, data_folder):
     """
     load data from dataDir, preprocess and return train and test data in torch tensors
 
@@ -39,6 +39,8 @@ def loadData(dataDir, experiment):
         Directory where data is stored
     experiment : str
         Experiment name: "test_R0", "test_R1", "test_R2", "test_Q0"
+    data_folder: str
+        Data folder name: "harmony", "pca", "scANVI", "scVI"
 
     Returns
     -------
@@ -52,14 +54,14 @@ def loadData(dataDir, experiment):
     """
     
     # Define data paths
-    X_train_path = glob.glob(os.path.join(dataDir,f'single_cell_data_all/{experiment}/*X_*_train.npy'))
-    y_train_path = glob.glob(os.path.join(dataDir,f'single_cell_data_all/{experiment}/*Y_*_train.npy'))
+    X_train_path = glob.glob(os.path.join(dataDir,f'heart/{data_folder}/{experiment}/*X_*_train.npy'))
+    y_train_path = glob.glob(os.path.join(dataDir,f'heart/{data_folder}/{experiment}/*Y_*_train.npy'))
     X_train_path = X_train_path[0]
     y_train_path = y_train_path[0]
     print(f"Loading train data from {X_train_path} and {y_train_path}")
     
-    X_test_path = glob.glob(os.path.join(dataDir,f'single_cell_data_all/{experiment}/*X_*_test.npy'))
-    y_test_path = glob.glob(os.path.join(dataDir,f'single_cell_data_all/{experiment}/*Y_*_test.npy'))
+    X_test_path = glob.glob(os.path.join(dataDir,f'heart/{data_folder}/{experiment}/*X_*_test.npy'))
+    y_test_path = glob.glob(os.path.join(dataDir,f'heart/{data_folder}/{experiment}/*Y_*_test.npy'))
     X_test_path = X_test_path[0]
     y_test_path = y_test_path[0]
     print(f"Loading test data from {X_test_path} and {y_test_path}")
@@ -177,43 +179,41 @@ def stats(model, X_test, y_test, output_dim, ohe, device, scratchDir, experiment
     roc_auc["micro"] = auc(fpr["micro"], tpr["micro"])
 
     plt.style.use('default')
+    colors = plt.cm.tab20c(np.linspace(0,1, output_dim))
     plt.figure()
     for i in range(output_dim):
-        plt.plot(fpr[i], tpr[i], lw=3, linestyle='dotted',
+        plt.plot(fpr[i], tpr[i], lw=3, linestyle='dotted', color=colors[i],
                 label='{0} (AUROC = {1:0.2f})'
                 ''.format(ohe.categories_[0][i], roc_auc[i]))
     plt.plot(fpr["micro"], tpr["micro"],
             label='Average (AUROC = {0:0.2f})'
-            ''.format(roc_auc["micro"]), linewidth=3, color='blue')
+            ''.format(roc_auc["micro"]), linewidth=3, color='royalblue')
 
     plt.plot([0, 1], [0, 1], color='lightgrey', lw=2, linestyle='--')
     plt.xlim([0.0, 1.0])
     plt.ylim([0.0, 1.05])
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
-    plt.title(f"ROC Curve {experiment_name}")
+    plt.title(f"{experiment_name}")
     plt.legend(loc="lower left", bbox_to_anchor=(1,0))
     
     # Save Stats  
-    file_name_suffix = experiment_name.replace(" ", "_")
+    file_name_prefix = experiment_name.replace(" ", "_")
 
-    plt.savefig(os.path.join(scratchDir, f"plot_auroc_{file_name_suffix}.png"), bbox_inches = 'tight')
-    report.to_csv(os.path.join(scratchDir, f"classification_report_{file_name_suffix}.csv"))
-    np.save(os.path.join(scratchDir, f"false_positive_rate_{file_name_suffix}.npy"), fpr)
-    np.save(os.path.join(scratchDir, f"true_positive_rate_{file_name_suffix}.npy"), tpr)
-    np.save(os.path.join(scratchDir, f"auroc_{file_name_suffix}.npy"), roc_auc)
-    np.save(os.path.join(scratchDir, f"encoder_categories_{file_name_suffix}.npy"), ohe.categories_)
-    # read dictionary again: dict = np.load("file_name.npy", allow_pickle=True).item()
+    plt.savefig(os.path.join(scratchDir, f"{file_name_prefix}_roc.png"), bbox_inches = 'tight')
+    report.to_csv(os.path.join(scratchDir, f"{file_name_prefix}_classification_report.csv"))
+    np.save(os.path.join(scratchDir, f"{file_name_prefix}_y_pred.npy"), y_pred_labels)
+    np.save(os.path.join(scratchDir, f"{file_name_prefix}_y_test.npy"), y_test_labels)
 
-def directory(experiment):
+def directory(experiment, data_folder):
     dataDir = os.getenv('DATA_DIR', '/platform/data')
     scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
     
     now = datetime.datetime.now()
     date_string = now.strftime("%Y-%m-%d_%H-%M")
 
-    folder_name_suffix = experiment.replace(" ", "_")
-    folder = folder_name_suffix + "_" + date_string
+    folder_name_prefix = experiment.replace(" ", "_")
+    folder = data_folder + folder_name_prefix + "_" + date_string
     
     new_dir = os.path.join(scratchDir, folder)
     os.makedirs(new_dir)
@@ -237,9 +237,10 @@ def main():
     max_epochs = int(os.getenv('MAX_EPOCHS', str(default_max_epochs)))
     min_peers = int(os.getenv('MIN_PEERS', str(default_min_peers)))
     syncFrequency = int(os.getenv('SYNC_FREQUENCY', str(default_syncFrequency)))
+    data_folder = os.getenv('DATA_FOLDER')
     experiment = os.getenv('EXPERIMENT')
     experiment_name = os.getenv('EXPERIMENT_NAME', default_experiment_name)
-    dataDir, scratchDir = directory(experiment_name)
+    dataDir, scratchDir = directory(experiment_name, data_folder)
     
     # Check if CUDA is available
     usecuda = torch.cuda.is_available()
@@ -250,7 +251,7 @@ def main():
     device = torch.device("cuda" if usecuda else "cpu")
     
     # Load data
-    X_train, y_train, X_test, y_test, input_dim, output_dim, ohe = loadData(dataDir, experiment)
+    X_train, y_train, X_test, y_test, input_dim, output_dim, ohe = loadData(dataDir, experiment, data_folder)
     X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.33, random_state=42)
     
     # Define model, loss function, optimizer and number of batches per epoch
