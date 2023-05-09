@@ -17,6 +17,7 @@ Body:
              "SYNC_FREQUENCY": 100,
              "EXPERIMENT": test_Q0,
              "EXPERIMENT_NAME": "Swarm Learning Test Set Q0",
+             "DATA_FOLDER": harmony,
            ]
   PrivateContent: /tmp/test/data-and-scratch
   SharedContent:
