@@ -62,7 +62,6 @@ DIR="/opt/hpe/swarm-learning-hpe"
 if [ -d "$DIR" ]; then
   cd "$DIR"
   git pull
-  git checkout dev_radiology #TODO: change to master after merge
 else
   sudo mkdir -p /opt/hpe
   sudo git clone https://github.com/KatherLab/swarm-learning-hpe.git "$DIR"
