@@ -13,6 +13,7 @@ show_help() {
   echo "Options:"
   echo "  -w WORKSPACE    The name of the workspace directory to use (default: none)"
   echo "  -r              Remove any stopped containers"
+  echo "  -l              The IP of the License Server
   echo "  -h              Show this help message"
   echo ""
   exit 0
@@ -27,6 +28,7 @@ while getopts "rw:h" opt; do
   case ${opt} in
     r ) remove_stopped_containers=true ;; # Remove any stopped containers
     w ) workspace=${OPTARG} ;;
+    l ) license=${OPTARG} ;;
     h ) show_help ;;
     \? ) show_help ;;
     : ) echo "Option -$OPTARG requires an argument." >&2; exit 1 ;;
@@ -76,6 +78,6 @@ fi
   --ml-e MIN_PEERS=1 \
   --ml-e https_proxy= \
   --ml-user 0:0 \
-  --apls-ip="$ip_addr"
+  --apls-ip="$license"
 
 
