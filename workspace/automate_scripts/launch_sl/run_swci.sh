@@ -9,7 +9,7 @@ usage() {
   echo "  -w <workspace>   Workspace directory (default: workspace)"
   echo "  -s <sentinel IP> IP address of the sentinel node"
   echo "  -d <host_index>  Chose from [TUD, Ribera, VHIO, Radboud, UKA, Utrecht, Mitera, Cambridge, Zurich] for your site"
-  echo "  -l               The IP of the License Server
+  echo "  -l               The IP of the License Server"
   echo "  -h               Show this help message"
   exit 1
 }
@@ -18,7 +18,7 @@ usage() {
 workspace="workspace"
 
 # Parse command line arguments
-while getopts ":w:s:d:h" opt; do
+while getopts ":w:s:d:l:h" opt; do
   case $opt in
     w)
       workspace="$OPTARG"
