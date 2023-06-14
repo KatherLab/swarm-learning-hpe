@@ -18,16 +18,18 @@ help()
    echo "-i    The host IP address"
    echo "-s    The sentinel IP address"
    echo "-d    The host index, chose from [TUD, Ribera, VHIO, Radboud, UKA, Utrecht, Mitera, Cambridge, Zurich] for your site"
+   echo "-l    The IP adress of the License Server"
    echo "-h    Show help"
    echo ""
    exit 1
 }
 # Process command options
-while getopts "s:d:h" opt
+while getopts "s:d:l:h" opt
 do
    case "$opt" in
       s ) sentinel="$OPTARG" ;;
       d ) host_index="$OPTARG" ;;
+      l ) license="$OPTARG" ;;
       h ) help ;;
       ? ) help ;;
    esac
@@ -73,5 +75,5 @@ sudo $script_dir/../../swarm_learning_scripts/run-sn \
      --key=cert/sn-"$host_index"-key.pem \
      --cert=cert/sn-"$host_index"-cert.pem \
      --capath=cert/ca/capath \
-     --apls-ip="$sentinel" \
+     --apls-ip="$license" \
      --apls-port=5000
