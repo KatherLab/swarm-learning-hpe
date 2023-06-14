@@ -9,6 +9,7 @@ usage() {
   echo "  -w <workspace>   Workspace directory (default: workspace)"
   echo "  -s <sentinel IP> IP address of the sentinel node"
   echo "  -d <host_index>  Chose from [TUD, Ribera, VHIO, Radboud, UKA, Utrecht, Mitera, Cambridge, Zurich] for your site"
+  echo "  -l               The IP of the License Server
   echo "  -h               Show this help message"
   exit 1
 }
@@ -27,6 +28,9 @@ while getopts ":w:s:d:h" opt; do
       ;;
     d)
       host_index="$OPTARG"
+      ;;
+    l)
+      license="$OPTARG"
       ;;
     h)
       usage
@@ -85,5 +89,5 @@ sudo "$script_dir/../../swarm_learning_scripts/run-swci" \
   --init-script-name="swci-init" --key="cert/swci-$host_index-key.pem" \
   --cert="cert/swci-$host_index-cert.pem" \
   --capath="cert/ca/capath" \
-  -e "http_proxy=" -e "https_proxy=" --apls-ip="$sentinel" --apls-port=5000 \
+  -e "http_proxy=" -e "https_proxy=" --apls-ip="$license" --apls-port=5000 \
   -e "SWCI_TASK_MAX_WAIT_TIME=5000"
