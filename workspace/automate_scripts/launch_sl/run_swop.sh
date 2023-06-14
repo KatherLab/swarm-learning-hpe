@@ -31,7 +31,7 @@ help() {
 }
 
 # Process command line options
-while getopts "w:s:d:h" opt; do
+while getopts "w:s:d:l:h" opt; do
   case "${opt}" in
     w)
       workspace="${OPTARG}"
