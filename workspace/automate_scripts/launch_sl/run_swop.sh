@@ -24,6 +24,7 @@ help() {
   echo "-w <workspace>   The name of the workspace directory to use."
   echo "-s <sentinel>    The IP address of the machine acting as the swarm sentinel."
   echo "-d <host_index>  Chose from [TUD, Ribera, VHIO, Radboud, UKA, Utrecht, Mitera, Cambridge, Zurich] for your site"
+  echo "-l               The IP of the License Server
   echo "-h               Show this help message."
   echo ""
   exit 1
@@ -40,6 +41,9 @@ while getopts "w:s:d:h" opt; do
       ;;
     d)
       host_index="${OPTARG}"
+      ;;
+    l)
+      license="${OPTARG}"
       ;;
     h)
       help
@@ -66,6 +70,6 @@ sudo $script_dir/../../swarm_learning_scripts/run-swop -it --rm \
   --cert=cert/swop-"$host_index"-cert.pem \
   --capath=cert/ca/capath \
   -e http_proxy= -e https_proxy= \
-  --apls-ip="$sentinel" \
+  --apls-ip="$license" \
   --apls-port=5000 \
   -e SWOP_KEEP_CONTAINERS=True
