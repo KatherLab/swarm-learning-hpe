@@ -24,7 +24,7 @@ help() {
   echo "-w <workspace>   The name of the workspace directory to use."
   echo "-s <sentinel>    The IP address of the machine acting as the swarm sentinel."
   echo "-d <host_index>  Chose from [TUD, Ribera, VHIO, Radboud, UKA, Utrecht, Mitera, Cambridge, Zurich] for your site"
-  echo "-l               The IP of the License Server
+  echo "-l               The IP of the License Server"
   echo "-h               Show this help message."
   echo ""
   exit 1
