@@ -7,5 +7,5 @@ Body:
   BuildContext: sl-cli-lib
   BuildType: INLINE
   BuildSteps:
-    - FROM jeffzhu69/odelia_breast_mri:latest
+    - FROM jeffzhu69/odelia_breast_mri:latest-timm
     - ENTRYPOINT ["PYTHON3"]
