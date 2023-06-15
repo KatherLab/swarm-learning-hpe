@@ -190,18 +190,18 @@ Please observe [Troubleshooting.md](Troubleshooting.md) section 10 for successfu
 ## Node list
 
 Nodes will be added to vpn and will be able to communicate with each other after setting up the Swarm Learning Environment with [Install](#install)
-| Project | Node Name | IP address       | Location           | Hostname  | Data      | Maintainer                                 |
-| ------- | --------- | ----------------| ------------------| ---------| --------- | ------------------------------------------|
-| Sentinel node | TUD       | 172.24.40.65    | Dresden, Germany  | swarm     | 1-100     | [@Jeff](https://github.com/Ultimate-Storm) |
-| ODELIA  | VHIO      | 172.24.40.67    | Madrid, Spain      | radiomics | 401-500   | [@Adrià](adriamarcos@vhio.net)           |
-|         | UKA       | 172.24.40.71    | Aachen, Germany    | swarm     | 101-200   | [@Gustav](gumueller@ukaachen.de)         |
-|         | RADBOUD   | 172.24.40.73    | Nijmegen, Netherlands | swarm | 501-600   | [@Tianyu](t.zhang@nki.nl)                |
-|         | MITERA    | 172.24.40.75    |                    |           | 201-300   |                                            |
-|         | RIBERA    | 172.24.40.77    |                    |           | 301-400   |                                            |
-|         | UTRECHT   | 172.24.40.79    |                    |           | 601-700   |                                            |
-|         | CAMBRIDGE | 172.24.40.81    |                    |           | 701-800   |                                            |
-|         | ZURICH    | 172.24.40.83    |                    |           |           |                                            |
-| Other nodes | UCHICAGO  | 172.24.40.69    | Chicago, USA       | swarm     |           | [@Sid](Siddhi.Ramesh@uchospitals.edu)    |
+| Project | Node Name | Location           | Hostname  | Data      | Maintainer                                 |
+| ------- | --------- | ------------------| ---------| --------- | ------------------------------------------|
+| Sentinel node | TUD       | Dresden, Germany  | swarm     | 1-100     | [@Jeff](https://github.com/Ultimate-Storm) |
+| ODELIA  | VHIO      | Madrid, Spain      | radiomics | 401-500   | [@Adrià](adriamarcos@vhio.net)           |
+|         | UKA       | Aachen, Germany    | swarm     | 101-200   | [@Gustav](gumueller@ukaachen.de)         |
+|         | RADBOUD   | Nijmegen, Netherlands | swarm | 501-600   | [@Tianyu](t.zhang@nki.nl)                |
+|         | MITERA    |                    |           | 201-300   |                                            |
+|         | RIBERA    |                    |           | 301-400   |                                            |
+|         | UTRECHT   |                    |           | 601-700   |                                            |
+|         | CAMBRIDGE |                    |           | 701-800   |                                            |
+|         | ZURICH    |                    |           |           |                                            |
+| Other nodes | UCHICAGO  | Chicago, USA       | swarm     |           | [@Sid](Siddhi.Ramesh@uchospitals.edu)    |
 
 ## Models implemented
 
