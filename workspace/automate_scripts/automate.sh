@@ -32,6 +32,7 @@ help() {
     #echo "  -i host_ip          Set the IP address of the target host"
     echo "  -d host_index       Set the host index for generating SSL certificates"
     echo "  -s sentinel_ip      Set the IP address of the sentinel node"
+    echo "  -l apls_ip          Set the IP address of the APLS Server"
     echo "  -n num_peers        Set the minimum number of peers for sync in the distributed system"
     echo "  -e num_epochs       Set the number of epochs for the machine learning model"
     echo "  -h                  Display this help message"
@@ -50,6 +51,7 @@ do
       w ) workspace_name="$OPTARG" ;;
       #i ) host_ip="$OPTARG" ;;
       d ) host_index="$OPTARG" ;;
+      l ) apls_ip="$OPTARG" ;;
       s ) sentinel_ip="$OPTARG" ;;
       n ) num_peers="$OPTARG" ;;
       e ) num_epochs="$OPTARG" ;;
@@ -138,7 +140,7 @@ fi
   fi
   # set default values if num_peers or num_epochs not specified
 
-  sh ./workspace/automate_scripts/sl_env_setup/replacement.sh -w "$workspace_name" -s "$sentinel_ip" -n "$num_peers" -e "$num_epochs" -d "$host_index"
+  sh ./workspace/automate_scripts/sl_env_setup/replacement.sh -w "$workspace_name" -s "$sentinel_ip" -n "$num_peers" -e "$num_epochs" -d "$host_index" -l "$apls_ip"
   echo "Final setup steps completed successfully. Please proceed to the next step for running Swarm Learning nodes."
 fi
 
