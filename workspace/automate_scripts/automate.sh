@@ -45,7 +45,7 @@ help() {
 num_peers=2
 num_epochs=100
 # Process command options
-while getopts "abcw:i:d:s:n:e:h?" opt
+while getopts "abcw:i:d:s:n:e:l:h?" opt
 do
    case "$opt" in
       w ) workspace_name="$OPTARG" ;;
