@@ -10,17 +10,19 @@ print_help() {
    echo "  -n: Number of minimum peers"
    echo "  -e: Number of maximum epochs"
    echo "  -d: Hose index"
+   echo "  -l: License Server IP"
    echo "  -h: Print this help text"
 }
 
 # Parse command line options
-while getopts ":s:w:d:n:e:h" opt; do
+while getopts ":s:w:d:n:e:l:h" opt; do
    case $opt in
       s) SENTINEL_HOST="$OPTARG" ;;
       w) WORKSPACE="$OPTARG" ;;
       n) NUM_PEERS="$OPTARG" ;;
       e) NUM_EPOCHS="$OPTARG" ;;
       d) HOST_INDEX="$OPTARG" ;;
+      l) APLS_SERVER="$OPTARG" ;;
       h) print_help; exit 0 ;;
       \?) echo "Invalid option -$OPTARG" >&2; print_help; exit 1 ;;
       :) echo "Option -$OPTARG requires an argument." >&2; print_help; exit 1 ;;
@@ -28,7 +30,7 @@ while getopts ":s:w:d:n:e:h" opt; do
 done
 
 # Check required options
-if [ -z "$SENTINEL_HOST" ] || [ -z "$WORKSPACE" ] || [ -z "$NUM_PEERS" ] || [ -z "$HOST_INDEX" ];
+if [ -z "$SENTINEL_HOST" ] || [ -z "$WORKSPACE" ] || [ -z "$NUM_PEERS" ] || [ -z "$HOST_INDEX" ]|| [ -z "$APLS_SERVER" ];
 then
    echo "Error: Missing required option(s)." >&2
    print_help
@@ -65,6 +67,7 @@ do
    sed -i "s+<NUM-MIN_PEERS>+$NUM_PEERS+g" "$file"
    sed -i "s+<NUM-MAX_EPOCHS>+$NUM_EPOCHS+g" "$file"
    sed -i "s+<HOST-INDEX>+$HOST_INDEX+g" "$file"
+   sed -i "s+<APLS-IPADDRESS>+$APLS_SERVER+g" "$file"
 done
 # If an error occurs, print an error message and exit
 if [ $? -ne 0 ]; then
