@@ -8,7 +8,7 @@ resourcemgr:
 network: host-net
 apls:
   locator:
-    host: <SN-IPADDRESS>
+    host: <APLS-IPADDRESS>
     port: ~
 apisrv:
   locator:
