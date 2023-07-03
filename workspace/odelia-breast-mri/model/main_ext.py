@@ -205,7 +205,7 @@ if __name__ == "__main__":
             min_epochs=5,
             log_every_n_steps=log_every_n_steps,
             auto_lr_find=False,
-            max_epochs=120,
+            max_epochs=10,
             num_sanity_val_steps=2,
             logger=TensorBoardLogger(save_dir=path_run_dir)
         )
