@@ -14,7 +14,7 @@ from utils.roc_curve import plot_roc_curve, cm2acc, cm2x
 import torch
 from models import ResNet, VisionTransformer, EfficientNet, EfficientNet3D, EfficientNet3Db7, DenseNet121, UNet3D
 
-def predict(model_dir, test_data_dir, model_name):
+def predict_last(model_dir, test_data_dir, model_name):
     # ------------ Settings/Defaults ----------------
     # path_run = Path.cwd() / 'runs/2023_02_06_175325'
     # path_run = Path('/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user-odelia-breast-mri-192.168.33.102/data-and-scratch/scratch/2023_02_06_205810/')
@@ -33,7 +33,7 @@ def predict(model_dir, test_data_dir, model_name):
 
     # ------------ Load Data ----------------
     ds = DUKE_Dataset3D(
-        flip=False,
+        flip=True,
         path_root=test_data_dir
     )
 
@@ -62,10 +62,10 @@ def predict(model_dir, test_data_dir, model_name):
 
     if layers is not None:
         # ------------ Initialize Model ------------
-        model = ResNet.load_best_checkpoint(path_run, version=0, layers=layers)
+        model = ResNet.load_last_checkpoint(path_run, version=0, layers=layers)
 
     elif model_name in ['efficientnet_l1', 'efficientnet_l2', 'efficientnet_b4', 'efficientnet_b7']:
-        model = EfficientNet.load_best_checkpoint( path_run, version=0, model_name = model_name)
+        model = EfficientNet.load_last_checkpoint( path_run, version=0, model_name = model_name)
     elif model_name == 'EfficientNet3Db0':
         blocks_args_str = [
             "r1_k3_s11_e1_i32_o16_se0.25",
@@ -94,14 +94,14 @@ def predict(model_dir, test_data_dir, model_name):
             "r6_k5_s22_e6_i256_o384_se0.25",
             "r3_k3_s11_e6_i384_o640_se0.25"]
     elif model_name == 'DenseNet121':
-        model = DenseNet121.load_best_checkpoint(path_run, version=0)
+        model = DenseNet121.load_last_checkpoint(path_run, version=0)
     elif model_name == 'UNet3D':
-        model = UNet3D.load_best_checkpoint(path_run, version=0)
+        model = UNet3D.load_last_checkpoint(path_run, version=0)
     else:
         raise Exception("Invalid network model specified")
 
     if model_name.startswith('EfficientNet3D'):
-        model = EfficientNet3D.load_best_checkpoint(path_run, version=0,blocks_args_str=blocks_args_str)
+        model = EfficientNet3D.load_last_checkpoint(path_run, version=0,blocks_args_str=blocks_args_str)
     model.to(device)
     model.eval()
 
@@ -137,7 +137,7 @@ def predict(model_dir, test_data_dir, model_name):
     y_true_lab = np.asarray(df['GT'])
     tprs, fprs, auc_val, thrs, opt_idx, cm = plot_roc_curve(y_true_lab, y_pred_lab, axis, fontdict=fontdict)
     fig.tight_layout()
-    fig.savefig(path_out / f'roc.png', dpi=300)
+    fig.savefig(path_out / f'roc_last.png', dpi=300)
 
     #  -------------------------- Confusion Matrix -------------------------
     acc = cm2acc(cm)
@@ -149,7 +149,7 @@ def predict(model_dir, test_data_dir, model_name):
     axis.set_xlabel('Prediction', fontdict=fontdict)
     axis.set_ylabel('True', fontdict=fontdict)
     fig.tight_layout()
-    fig.savefig(path_out / f'confusion_matrix.png', dpi=300)
+    fig.savefig(path_out / f'confusion_matrix_last.png', dpi=300)
 
     logger.info(f"Malign  Objects: {np.sum(y_true_lab)}")
     logger.info("Confusion Matrix {}".format(cm))

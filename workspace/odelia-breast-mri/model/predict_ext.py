@@ -8,7 +8,7 @@ from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
-from data.datasets import DUKE_Dataset3D
+from data.datasets import DUKE_Dataset3D_external
 from data.datamodules import DataModule
 from utils.roc_curve import plot_roc_curve, cm2acc, cm2x
 import torch
@@ -32,7 +32,7 @@ def predict(model_dir, test_data_dir, model_name):
     logging.basicConfig(level=logging.INFO)
 
     # ------------ Load Data ----------------
-    ds = DUKE_Dataset3D(
+    ds = DUKE_Dataset3D_external(
         flip=False,
         path_root=test_data_dir
     )

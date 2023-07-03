@@ -33,7 +33,7 @@ def predict_last(model_dir, test_data_dir, model_name):
 
     # ------------ Load Data ----------------
     ds = DUKE_Dataset3D(
-        flip=True,
+        flip=False,
         path_root=test_data_dir
     )
 
