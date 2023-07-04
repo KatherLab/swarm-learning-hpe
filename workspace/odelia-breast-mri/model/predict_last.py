@@ -119,7 +119,7 @@ def predict_last(model_dir, test_data_dir, model_name):
         results['NN_pred'].extend(pred[:, 0].tolist())
 
     df = pd.DataFrame(results)
-    df.to_csv(path_out / 'results.csv')
+    df.to_csv(path_out / 'results_last.csv')
 
     #  -------------------------- Confusion Matrix -------------------------
     cm = confusion_matrix(df['GT'], df['NN'])
@@ -155,3 +155,6 @@ def predict_last(model_dir, test_data_dir, model_name):
     logger.info("Confusion Matrix {}".format(cm))
     logger.info("Sensitivity {:.2f}".format(sens))
     logger.info("Specificity {:.2f}".format(spec))
+
+    del model
+    torch.cuda.empty_cache()

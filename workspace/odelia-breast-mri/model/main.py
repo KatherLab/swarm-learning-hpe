@@ -156,7 +156,7 @@ if __name__ == "__main__":
         monitor=to_monitor,
         #every_n_train_steps=log_every_n_steps,
         save_last=True,
-        #save_top_k=2,
+        save_top_k=2,
         #filename='odelia-epoch{epoch:02d}-val_AUC_ROC{val/AUC_ROC:.2f}',
         mode=min_max,
     )
@@ -181,8 +181,6 @@ if __name__ == "__main__":
             logger=TensorBoardLogger(save_dir=path_run_dir)
         )
         trainer.fit(model, datamodule=dm)
-
-        trainer.fit(model, datamodule=dm)
     else:
         swarmCallback = SwarmCallback(syncFrequency=512,
                                       minPeers=min_peers,
@@ -194,7 +192,6 @@ if __name__ == "__main__":
         torch.autograd.set_detect_anomaly(True)
         swarmCallback.logger.setLevel(logging.DEBUG)
         swarmCallback.on_train_begin()
-
         trainer = Trainer(
             accelerator=accelerator,
             precision=16,

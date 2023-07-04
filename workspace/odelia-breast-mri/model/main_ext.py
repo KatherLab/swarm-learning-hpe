@@ -156,7 +156,7 @@ if __name__ == "__main__":
         monitor=to_monitor,
         #every_n_train_steps=log_every_n_steps,
         save_last=True,
-        #save_top_k=2,
+        save_top_k=2,
         #filename='odelia-epoch{epoch:02d}-val_AUC_ROC{val/AUC_ROC:.2f}',
         mode=min_max,
     )
@@ -181,8 +181,6 @@ if __name__ == "__main__":
             logger=TensorBoardLogger(save_dir=path_run_dir)
         )
         trainer.fit(model, datamodule=dm)
-
-        trainer.fit(model, datamodule=dm)
     else:
         swarmCallback = SwarmCallback(syncFrequency=512,
                                       minPeers=min_peers,
@@ -205,14 +203,14 @@ if __name__ == "__main__":
             min_epochs=5,
             log_every_n_steps=log_every_n_steps,
             auto_lr_find=False,
-            max_epochs=10,
+            max_epochs=120,
             num_sanity_val_steps=2,
             logger=TensorBoardLogger(save_dir=path_run_dir)
         )
         trainer.fit(model, datamodule=dm)
         swarmCallback.on_train_end()
     model.save_best_checkpoint(trainer.logger.log_dir, checkpointing.best_model_path)
-    model.save_last_checkpoint(trainer.logger.log_dir, checkpointing.best_model_path)
+    model.save_last_checkpoint(trainer.logger.log_dir, checkpointing.last_model_path)
 
     import subprocess
 
