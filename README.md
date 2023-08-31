@@ -2,7 +2,7 @@
 
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
-Swarm learning based on HPE platform
+Swarm learning based on HPE platform, experiments performed based on HPE Swarm Learning version number 1.2.0
 
 This repository contains:
 
@@ -57,7 +57,8 @@ This is the Swarm Learning framework:
 * an NVIDIA GPU with 48 GB of RAM (24 is the  minimum)
 * 8 TB of Storage (4 TB is the absolute minimum)
 * We deliberately want to show that we can work with lightweight hardware like this. Here are three quotes for systems like this for less than 10k EUR (Lambda, Dell Precision, and Dell Alienware)
-
+* Typical installation time can take 30 minutes to build up the necessary dependencies and another 1 hour to build up the environment for running demo experiments
+  
 #### Operating System
 * Ubuntu 20.04 LTS
   * We have tested the Swarm Learning Environment on [Ubuntu 20.04 LTS, Ubuntu 22.04.2 LTS, Ubuntu 20.04.5 LTS] and they work fine. 
@@ -180,7 +181,9 @@ $ ./workspace/swarm_learning_scripts/stop-swarm --[node_type]
 
 - To view results, see logs under `workspace/<workspace_name>/user/data-and-scratch/scratch`
 
-Please observe [Troubleshooting.md](Troubleshooting.md) section 10 for successful running logs of swop and sn nodes. The process will be keep running and displaying logs so you will need to open new terminal to run other commands.
+Please observe [Troubleshooting.md](Troubleshooting.md) section 10 for successful running logs of swop and sn nodes. The process will keep running and displaying logs so you will need to open a new terminal to run other commands.
+* Typical run time can take 3 hours for experiments trained on the DUKE dataset with ResNet50-3D with three nodes involved.
+
 
 ## Workflow
 
