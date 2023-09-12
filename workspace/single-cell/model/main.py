@@ -54,14 +54,14 @@ def loadData(dataDir, experiment, data_folder):
     """
     
     # Define data paths
-    X_train_path = glob.glob(os.path.join(dataDir,f'heart_emb/{data_folder}/{experiment}/*.EMB.*_train.npy'))
-    y_train_path = glob.glob(os.path.join(dataDir,f'heart_emb/{data_folder}/{experiment}/*Y_*_train.npy'))
+    X_train_path = glob.glob(os.path.join(dataDir,f'heart_emb_raw_II/{data_folder}/{experiment}/*.EMB_train.npy'))
+    y_train_path = glob.glob(os.path.join(dataDir,f'heart_emb_raw_II/{data_folder}/{experiment}/*Y_train.npy'))
     X_train_path = X_train_path[0]
     y_train_path = y_train_path[0]
     print(f"Loading train data from {X_train_path} and {y_train_path}")
     
-    X_test_path = glob.glob(os.path.join(dataDir,f'heart_emb/{data_folder}/{experiment}/*.EMB.*_test.npy'))
-    y_test_path = glob.glob(os.path.join(dataDir,f'heart_emb/{data_folder}/{experiment}/*Y_*_test.npy'))
+    X_test_path = glob.glob(os.path.join(dataDir,f'heart_emb_raw_II/{data_folder}/{experiment}/*.EMB_test.npy'))
+    y_test_path = glob.glob(os.path.join(dataDir,f'heart_emb_raw_II/{data_folder}/{experiment}/*Y_test.npy'))
     X_test_path = X_test_path[0]
     y_test_path = y_test_path[0]
     print(f"Loading test data from {X_test_path} and {y_test_path}")
@@ -74,51 +74,34 @@ def loadData(dataDir, experiment, data_folder):
     print("Data loaded successfully")
         
     # Preprocess labels
-    REP1= { "r0$|r1$|r2$|r3$|q0$":"",
-            "_":" ", "cells$":"cell", "es$": "e", "ts$":"t",
-            "vsmcs":"smooth muscle",
-            "neuronal|neurons":"neuron",
-	        "fibroblasts":"fibroblast",
-            "endothelium":"endothelial",
-            "macrophages":"macrophage",
-            "adipocytes":"adipocyte",
-            "monocytes":"monocyte",
-            "pericytes":"pericyte",
-            "cardiomyocytes":"cardiomyocyte",
-            "lymphocyte|lymphocytes|lymphoids":"lymphoid",
-            "endothelium":"endothelial",
-	        "^mast cells$|^mast cell$|^masts$":"mast",
-	        "naive cd4 t":"cd4 naive t",
-            "memory cd4 t":"cd4 memory t",
-            "cd14\+ mono":"cd14 mono",
-            "fcgr3a\+ mono":"cd16 mono"}
-
-    REP2 = { "unassigned":"unassigned",
-            "^b cell$":"b",
-            "^cytotoxic t cell$":"cd8 t", 
-            "^dendritic cell$":"dc",
-            "^cd4\+ t cell$":"cd4 t",
-            "^cd16\+ mono$":"cd16 mono",
-            "^megakaryocyte$":"mk",
-            "^natural killer cell$":"nk",
-            "^plasmacytoid dendritic cell$":"pdc",
-            "smooth muscle cell$":"smooth muscle", 
-            "^mast cells$":"mast",
-            "^smooth muscle cells$|vascular smooth muscle":"smooth muscle",
-            "^ventricular cardiomyocyte$":"cardiomyocyte",
-            "macrophages|macrophage|monocytes|monocyte":"myeloid",
-            "^t\/nk cell$|^t\/nk cells$|^b cell$|^b cells$":"lymphoid"}
+    REP = {" III| II| I": "",
+       "11. Adipocyte|Adipocytes|Adipocyte": "adipocyte",
+       "03. Atrial Cardiomyocyte|Atrial cardiomyocyte|Atrial Cardiomyocyte": "atrial cardiomyocyte",
+       "Cytoplasmic Cardiomyocyte|12. Cytoplasmic Cardiomyocyte II|05. Cytoplasmic Cardiomyocyte I|05. Cytoplasmic cardiomyocyte I|12. Cytoplasmic Cardiomyocyte II": "cytoplasmic cardiomyocyte",
+       "Ventricular Cardiomyocyte|Ventricular_Cardiomyocyte|Cardiomyocytes|Cardiomyocyte|04. Ventricular Cardiomyocyte I|06. Ventricular Cardiomyocyte II|15. Ventricular Cardiomyocyte III|Ventricular Cardiomyocyte I": "cardiomyocyte",
+       "Endocardium": "endocardium",
+       "Endothelial|Endothelium|Endothelial|09. Endothelium I|10. Endothelium II|endothelial II": "endothelial",
+       "Epicardium": "epicardium",
+       "Fibroblasts|Fibroblast|01. Fibroblast I|02. Fibroblast II|14. Fibroblast III|Fibroblast II|Fibroblast III": "fibroblast",
+       "Lymphatic": "lymphatic",
+       "Lymphoid|B_Cells|T/NK_Cells|Lymphoid|17. Lymphocyte|Lymphocyte": "lymphoid",
+       "Mast_Cells|Mast": "mast",
+       "Mesothelial": "mesothelial",
+       "Myeloid|Macrophages|Monocytes|Myeloid|08. Macrophage|Macrophage": "myeloid",
+       "Neuronal|Neurons|16. Neuronal" : "neuron",
+       "Pericytes|Pericyte|07. Pericyte": "pericyte",
+       "Prolif": "prolif",
+       "Smooth_muscle_cells|Smooth_Muscle|vSMCs|13. Vascular Smooth Muscle|Vascular Smooth Muscle": "smooth muscle",
+        }
     
     df_y_train= pd.DataFrame(y_train)
     df_y_test= pd.DataFrame(y_test)
 
-    df_y_train["cell_type_common"] = df_y_train[0].replace("I|II|III", "", regex=True).str.strip().str.lower()
-    df_y_train["cell_type_common"] = df_y_train["cell_type_common"].replace(REP1, regex=True).str.strip()
-    df_y_train["cell_type_common"] = df_y_train["cell_type_common"].replace(REP2, regex=True).str.strip()
+    df_y_train["cell_type_common"] = df_y_train[0].str[:-3]
+    df_y_train["cell_type_common"] = df_y_train["cell_type_common"].replace(REP, regex=True)
 
-    df_y_test["cell_type_common"] = df_y_test[0].replace("I|II|III", "", regex=True).str.strip().str.lower()
-    df_y_test["cell_type_common"] = df_y_test["cell_type_common"].replace(REP1, regex=True).str.strip()
-    df_y_test["cell_type_common"] = df_y_test["cell_type_common"].replace(REP2, regex=True).str.strip()
+    df_y_test["cell_type_common"] = df_y_test[0].str[:-3]
+    df_y_test["cell_type_common"] = df_y_test["cell_type_common"].replace(REP, regex=True)
 
     y_train = df_y_train["cell_type_common"]
     y_test = df_y_test["cell_type_common"]
