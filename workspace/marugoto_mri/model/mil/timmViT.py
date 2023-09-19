@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-import timm
+from torch.nn import TransformerEncoder, TransformerEncoderLayer
 class Attention(nn.Module):
     def __init__(self, input_dim, attention_dim):
         super(Attention, self).__init__()
@@ -17,13 +17,9 @@ class Attention(nn.Module):
         attention_weights = self.attention_layer(x)
         attention_weights = torch.softmax(attention_weights, dim=1)
         return attention_weights
-import torch
-import torch.nn as nn
-from torch.nn import TransformerEncoder, TransformerEncoderLayer
 
-import torch
-import torch.nn as nn
-from torch.nn import TransformerEncoder, TransformerEncoderLayer
+
+
 
 class MILModel(nn.Module):
     def __init__(self, n_classes, input_dim=1024, attention_dim=64, d_model=512, nhead=8, num_layers=6):

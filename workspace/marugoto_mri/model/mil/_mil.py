@@ -4,6 +4,7 @@ from pathlib import Path
 import os
 from .transformer import Transformer
 from .ViT import ViT
+from .timmViT import MILModel
 import numpy as np
 
 import logging
@@ -31,7 +32,7 @@ sys.path.append("..")
 from common.data import SKLearnEncoder
 
 from .data import make_dataset
-from .model import MILModel
+#from .model import MILModel
 
 
 __all__ = ["train", "deploy"]
@@ -113,7 +114,7 @@ def train(
     elif model_type == "attmil":
         model = MILModel(batch[0].shape[-1], batch[-1].shape[-1])
     elif model_type == "timmViT":
-        model = ViT(num_classes=2)
+        model = MILModel(n_classes=2)
     else:
         raise ValueError(f"Unknown model type {model_type}")
     #model = model.to(torch.device(device))
