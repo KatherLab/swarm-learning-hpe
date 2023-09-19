@@ -81,11 +81,11 @@ if [ $ACTION = server_setup ]; then
   sh ./workspace/automate_scripts/server_setup/gpu_env_setup.sh
   sh ./workspace/automate_scripts/sl_env_setup/gen_cert.sh -i "$host_index"
   sh ./workspace/automate_scripts/sl_env_setup/setup_sl-cli-lib.sh
-  sudo sh ./workspace/automate_scripts/server_setup/setup_vpntunnel.sh -d "$host_index" -n
-  ip_addr=$(ip addr show tun0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
+  #sudo sh ./workspace/automate_scripts/server_setup/setup_vpntunnel.sh -d "$host_index" -n
+  ip_addr=$(ip addr show tailscale0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
 
 if [[ -z "$ip_addr" ]]; then
-    echo "Error: tun0 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"
+    echo "Error: tailscale0 interface not found. Please connect to the tailscale first"
     exit 1
 fi
   if [ $ip_addr = $sentinel_ip ]
@@ -113,10 +113,10 @@ if [ $ACTION = final_setup ]; then
 
   echo Please ensure the previous steps are completed on all the other hosts before running this step
   sh ./workspace/automate_scripts/sl_env_setup/share_cert.sh -t "$sentinel_ip"
-  ip_addr=$(ip addr show tun0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
+  ip_addr=$(ip addr show tailscale0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
 
 if [[ -z "$ip_addr" ]]; then
-    echo "Error: tun0 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"
+    echo "Error: tailscale0 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"
     exit 1
 fi
   # Checks

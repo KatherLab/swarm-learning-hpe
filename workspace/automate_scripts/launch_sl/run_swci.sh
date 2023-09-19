@@ -49,10 +49,10 @@ if [ -z "$sentinel" ] || [ -z "$host_index" ]; then
 fi
 
 # Check if this host is the sentinel
-ip_addr=$(ip addr show tun0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
+ip_addr=$(ip addr show tailscale0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
 
 if [[ -z "$ip_addr" ]]; then
-    echo "Error: tun0 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"
+    echo "Error: tailscale0 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"
     exit 1
 fi
 #if [ "$ip_addr" != "$sentinel" ]; then
