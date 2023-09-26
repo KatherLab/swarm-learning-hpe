@@ -90,7 +90,7 @@ Requirements and dependencies will be automatically installed by the script ment
 ### Setting up the Swarm Learning Environment
 **PLEASE REPLACE THE `<PLACEHOLDER>` WITH THE CORRESPONDING VALUE!**
 
-`<sentinel_ip>` = `172.24.40.65` currently it's the IP assigned by VPN server for TUD host.
+`<sentinel_ip>` = `172.24.4.67` currently it's the IP assigned by VPN server for TUD host.
 
 `<host_index>` = Your institute's name. For ODELIA project should be chosen from `TUD` `Ribera` `VHIO` `Radboud` `UKA` `Utrecht` `Mitera` `Cambridge` `Zurich`
 
