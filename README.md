@@ -80,11 +80,26 @@ $ cd / && sudo mkdir opt/hpe && cd opt/hpe && sudo chmod 777 -R /opt/hpe
 $ git clone https://github.com/KatherLab/swarm-learning-hpe.git && cd swarm-learning-hpe
 ```
 
-3. Install cuda environment and nvidia drivers, as soon as you could see correct outputs of the following command you may proceed. 
+3. Install cuda environment and nvidia drivers, as soon as you could see correct outputs of the following command you may proceed.
 ```sh
 $ nvidia-smi
 ```
-
+Please disable secure boot. On some systems, Secure Boot might prevent unsigned kernel modules (like NVIDIA's) from loading.
+Check Loaded Kernel Modules:
+- To see if the NVIDIA kernel module is loaded:
+```sh
+$ lsmod | grep nvidia
+```
+Review System Logs:
+- Sometimes, system logs can provide insights into any issues with the GPU or driver:
+```sh
+$ dmesg | grep -i nvidia
+```
+Manually Load the NVIDIA Module:
+- You can try manually loading the NVIDIA kernel module using the modprobe command:
+```sh
+$ sudo modprobe nvidia
+```
 Requirements and dependencies will be automatically installed by the script mentioned in the following section.
 
 ### Setting up the Swarm Learning Environment
@@ -120,7 +135,11 @@ $ sh workspace/automate_scripts/automate.sh -b -s <sentinel_ip> -d <host_index>
 $ sh workspace/automate_scripts/automate.sh -c -w <workspace_name> -s <sentinel_ip> -d <host_index> [-n num_peers] [-e num_epochs]
 ```
 
-If problem encountered, please observe this [README.md](workspace%2Fautomate_scripts%2FREADME.md) file for step-by-step setup. Specific instructions are given about how to run the commands.
+Optional 5. Reconnect to VPN
+In case your machine got restarted or lost the vpn connection. Here is the guide to reconnect: [VPN connect guide](https://support.goodaccess.com/configuration-guides/linux/linux-terminal)
+The file.ovpn is the config file that TUD assigned to you.
+
+If a problem is encountered, please observe this [README.md](workspace%2Fautomate_scripts%2FREADME.md) file for step-by-step setup. Specific instructions are given about how to run the commands.
 All the processes are automated, so you can just run the above command and wait for the process to finish.
 
 If any problem occurs, please first try to figure out which step is going wrong, try to google for solutions and find solution in [Troubleshooting.md](Troubleshooting.md). Then contact the maintainer of the Swarm Learning Environment and document the error in the Troubleshooting.md file.
