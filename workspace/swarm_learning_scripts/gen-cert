@@ -44,16 +44,18 @@ mkdir -p "cert/ca/capath"
 openssl req                                                   \
     -new                                                      \
     -nodes                                                    \
-    -keyout cert/ca/ca-"$host"-key.pem   \
-    -out cert/ca/ca-"$host"-csr.pem      \
+    -keyout workspace/"$example"/cert/ca/ca-"$host"-key.pem   \
+    -out workspace/"$example"/cert/ca/ca-"$host"-csr.pem      \
     -subj "/OU=Swarm-Learning/CN=CA-"$host""
 
 # We do not use the default configuration file because it
 # might specify a different set of properties.
+#Added SAN filed inorder to avoid the deprecation of the CN warning
 local opensslConf=()
 opensslConf+=("basicConstraints = critical, CA:TRUE")
 opensslConf+=("keyUsage = critical, digitalSignature, keyCertSign")
 opensslConf+=("subjectKeyIdentifier = hash")
+opensslConf+=("subjectAltName = DNS:CA-"$host"")
 
 # Self-sign CSR
 openssl x509                                                       \
@@ -72,6 +74,7 @@ opensslConf+=("subjectKeyIdentifier = hash")
 
 for comp in sn sl swci swop
 do
+    opensslConf+=("subjectAltName = DNS:${comp^^}-"$host"")
     openssl req                                                        \
         -new                                                           \
         -nodes                                                         \
@@ -88,5 +91,8 @@ do
         -CAcreateserial                                                \
         -CAserial cert/ca/ca-"$host"-srl.srl      \
         -extfile <(printf "%s\n" "${opensslConf[@]}")
+    #removing the intermediate csr.pem files for smooth maintanence 
+    rm cert/${comp}-"$host"-csr.pem
 done
+rm cert/ca/ca-"$host"-csr.pem
 
