@@ -154,3 +154,6 @@ dmypy.json
 
 # test files
 **/test_*
+
+# vpn credentials
+assets/openvpn_configs/good_access/*.ovpn

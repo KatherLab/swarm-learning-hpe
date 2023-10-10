@@ -1,0 +1,1 @@
+Please place your VPN credentials under this folder

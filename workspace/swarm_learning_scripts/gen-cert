@@ -44,8 +44,8 @@ mkdir -p "cert/ca/capath"
 openssl req                                                   \
     -new                                                      \
     -nodes                                                    \
-    -keyout workspace/"$example"/cert/ca/ca-"$host"-key.pem   \
-    -out workspace/"$example"/cert/ca/ca-"$host"-csr.pem      \
+    -keyout cert/ca/ca-"$host"-key.pem   \
+    -out cert/ca/ca-"$host"-csr.pem      \
     -subj "/OU=Swarm-Learning/CN=CA-"$host""
 
 # We do not use the default configuration file because it
