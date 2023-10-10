@@ -2,7 +2,7 @@
 
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
-Swarm learning based on HPE platform, experiments performed based on HPE Swarm Learning version number 1.2.0
+Swarm learning based on HPE platform, experiments performed based on HPE Swarm Learning version number 2.1.0
 
 This repository contains:
 
