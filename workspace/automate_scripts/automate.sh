@@ -87,6 +87,8 @@ if [ $ACTION = server_setup ]; then
   sh ./workspace/automate_scripts/sl_env_setup/gen_cert.sh -i "$host_index"
   sh ./workspace/automate_scripts/sl_env_setup/setup_sl-cli-lib.sh
   sudo sh ./workspace/automate_scripts/server_setup/setup_vpntunnel.sh -d "$host_index" -n
+  echo waiting for VPN to get connected
+  sleep 10
   ip_addr=$(ip addr show tun0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
 
 if [ -z "$ip_addr" ]; then
