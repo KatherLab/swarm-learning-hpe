@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eu
+set -eux
 # Print usage message
 usage() {
   echo "Usage: $0 [-w <workspace>] [-s <sentinel IP>] [-h]"

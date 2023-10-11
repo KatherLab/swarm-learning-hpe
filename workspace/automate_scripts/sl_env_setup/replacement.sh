@@ -9,7 +9,7 @@ print_help() {
    echo "  -w: Name of the workspace directory"
    echo "  -n: Number of minimum peers"
    echo "  -e: Number of maximum epochs"
-   echo "  -d: Hose index"
+   echo "  -d: Host index"
    echo "  -h: Print this help text"
 }
 
