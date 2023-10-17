@@ -157,3 +157,4 @@ dmypy.json
 
 # vpn credentials
 assets/openvpn_configs/good_access/*.ovpn
+/assets/Odelia_credentials.txt
