@@ -5,6 +5,8 @@ from pytorch_lightning.loggers import TensorBoardLogger
 import os
 from pathlib import Path
 import logging
+
+from torch.utils.data import DataLoader
 from tqdm import tqdm
 import numpy as np
 from torch.utils.data.dataset import Subset
@@ -74,6 +76,7 @@ if __name__ == "__main__":
     val_size = int(0.2 * len(ds))
     ds_train = Subset(ds, list(range(train_size)))
     ds_val = Subset(ds, list(range(train_size, train_size+val_size)))
+    adsValData = DataLoader(ds_val, batch_size=2, shuffle=False)
     print('train_size: ',train_size)
     print('val_size: ',val_size)
 
@@ -162,6 +165,12 @@ if __name__ == "__main__":
     )
     useCuda = torch.cuda.is_available()
 
+    lFArgsDict={}
+    lFArgsDict['reduction']='sum'
+    mFArgsDict={}
+    mFArgsDict['task']="multiclass"
+    mFArgsDict['num_classes']=2
+
     device = torch.device("cuda" if useCuda else "cpu")
     model = model.to(torch.device(device))
     if local_compare_flag:
@@ -182,13 +191,21 @@ if __name__ == "__main__":
         )
         trainer.fit(model, datamodule=dm)
     else:
-        swarmCallback = SwarmCallback(syncFrequency=512,
+        swarmCallback = SwarmCallback(
+                                      totalEpochs=max_epochs,
+                                      syncFrequency=512,
                                       minPeers=min_peers,
                                       maxPeers=max_peers,
-                                      adsValData=ds_val,
+                                      adsValData=adsValData,
                                       adsValBatchSize=2,
                                       nodeWeightage=100,
-                                      model=model)
+                                      model=model,
+                                      lossFunction=torch.nn.BCEWithLogitsLoss,
+                                      lossFunctionArgs=lFArgsDict,
+                                      metricFunction="F1Score",
+                                      metricFunctionArgs=mFArgsDict
+        )
+
         torch.autograd.set_detect_anomaly(True)
         swarmCallback.logger.setLevel(logging.DEBUG)
         swarmCallback.on_train_begin()
