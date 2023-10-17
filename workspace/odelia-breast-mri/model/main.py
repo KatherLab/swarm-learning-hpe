@@ -77,6 +77,8 @@ if __name__ == "__main__":
     ds_train = Subset(ds, list(range(train_size)))
     ds_val = Subset(ds, list(range(train_size, train_size+val_size)))
     adsValData = DataLoader(ds_val, batch_size=2, shuffle=False)
+    # print adsValData type
+    print('adsValData type: ', type(adsValData))
     print('train_size: ',train_size)
     print('val_size: ',val_size)
 
@@ -102,7 +104,7 @@ if __name__ == "__main__":
         layers = [3, 8, 36, 3]
     else:
         layers = None
-    print('layers: ', layers)
+    #print('layers: ', layers)
     if layers is not None:
         # ------------ Initialize Model ------------
         model = ResNet(in_ch=1, out_ch=1, spatial_dims=3, layers=layers)
