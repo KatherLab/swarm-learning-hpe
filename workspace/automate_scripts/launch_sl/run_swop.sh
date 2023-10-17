@@ -60,6 +60,8 @@ fi
 sudo $script_dir/../../swarm_learning_scripts/run-swop -it --rm \
   --name=swop"$ip_addr" \
   --network=host-net \
+  --sn-ip="$sentinel" \
+  --sn-api-port=30304 \
   --usr-dir=workspace/"$workspace"/swop \
   --profile-file-name=swop_profile_"$ip_addr".yaml \
   --key=cert/swop-"$host_index"-key.pem \
@@ -67,5 +69,4 @@ sudo $script_dir/../../swarm_learning_scripts/run-swop -it --rm \
   --capath=cert/ca/capath \
   -e http_proxy= -e https_proxy= \
   --apls-ip="$sentinel" \
-  --apls-port=5000 \
   -e SWOP_KEEP_CONTAINERS=True

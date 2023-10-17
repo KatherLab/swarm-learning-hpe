@@ -74,4 +74,3 @@ sudo $script_dir/../../swarm_learning_scripts/run-sn \
      --cert=cert/sn-"$host_index"-cert.pem \
      --capath=cert/ca/capath \
      --apls-ip="$sentinel" \
-     --apls-port=5000
