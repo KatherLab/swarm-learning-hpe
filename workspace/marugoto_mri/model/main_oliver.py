@@ -12,14 +12,12 @@ from datetime import datetime
 from pathlib import Path
 from categorical import categorical_aggregated_
 from roc import plot_roc_curves_
-from mil.helpers import (
-    train_categorical_model_,
-    deploy_categorical_model_,
-    categorical_crossval_,
-)
+from mil import deploy
 
-scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
-dataDir = os.getenv('DATA_DIR', '/platform/data/')
+#scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
+scratchDir='/opt/hpe/swarm-learning-hpe/workspace/marugoto_mri/user/data-and-scratch/scratch/2023_04_06_155616_DUKE_transformer_swarm_learning'
+#dataDir = os.getenv('DATA_DIR', '/platform/data/')
+dataDir = '/mnt/sda1/Oliver'
 num_epochs = int(os.getenv('MAX_EPOCHS', 64))
 min_peers = int(os.getenv('MIN_PEERS', 2))
 max_peers = int(os.getenv('MAX_PEERS', 7))
@@ -31,35 +29,25 @@ current_time = datetime.now().strftime("%Y_%m_%d_%H%M%S")
 
 data_split = 'DUKE'
 
-feature_dir_path = os.path.join(dataDir, data_split, 'train_val')
-test_dir = os.path.join(dataDir, data_split, 'test')
-if local_compare_flag:
-    out_dir = os.path.join(scratchDir, '_'.join([str(current_time), data_split, model_type, 'local_compare']))
-else:
-    out_dir = os.path.join(scratchDir, '_'.join([str(current_time), data_split, model_type, 'swarm_learning']))
+#feature_dir_path = os.path.join(dataDir, data_split, 'train_val')
+
+#test_dir = os.path.join(dataDir, data_split, 'test')
+test_dir= '/mnt/sda1/Oliver/imagenet50'
+out_dir = '/mnt/sda1/Oliver/att_mil_results'
+#if local_compare_flag:
+#    out_dir = os.path.join(scratchDir, '_'.join([str(current_time), data_split, model_type, 'local_compare']))
+#else:
+#    out_dir = os.path.join(scratchDir, '_'.join([str(current_time), data_split, model_type, 'swarm_learning']))
 
 if __name__ == "__main__":
-    train_categorical_model_(
-    clini_table = Path(os.path.join(dataDir, 'clinical_table.csv')),
-    slide_csv = Path(os.path.join(dataDir, 'slide_table.csv')),
-    feature_dir = Path(feature_dir_path),
-    output_path = Path(out_dir),
-    target_label = "Malign",
-    n_epoch = num_epochs,
-    local_compare_flag = local_compare_flag,
-    min_peers = min_peers,
-    max_peers = max_peers,
-    useAdaptiveSync = False,
-    syncFrequency = syncFrequency,
-    model_type = model_type,
-    )
 
-    deploy_categorical_model_(
+
+    deploy(
     clini_table = Path(os.path.join(dataDir, 'clinical_table.csv')),
     slide_csv = Path(os.path.join(dataDir, 'slide_table.csv')),
     feature_dir = Path(test_dir),
     output_path = Path(out_dir),
-    model_path= Path(os.path.join(out_dir, 'export.pkl')),
+    model_path= Path(os.path.join('/opt/hpe/swarm-learning-hpe/workspace/marugoto_mri/user/data-and-scratch/scratch/2023_04_06_155616_DUKE_transformer_swarm_learning', 'export.pkl')),
     target_label = "Malign")
     deploy_categorical_model_(
     clini_table = Path(os.path.join(dataDir, 'clinical_table.csv')),

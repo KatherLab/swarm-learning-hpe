@@ -12,11 +12,11 @@ import pandas as pd
 
 from data.datasets import DUKE_Dataset3D
 from data.datamodules import DataModule
-from main import ResNet
 from utils.roc_curve import plot_roc_curve, cm2acc, cm2x
 
+from models import ResNet, VisionTransformer, EfficientNet, EfficientNet3D, EfficientNet3Db7, DenseNet121, UNet3D
 
-def predict(model_dir, test_data_dir):
+def predict(model_dir, model_name):
     # ------------ Settings/Defaults ----------------
     # path_run = Path.cwd() / 'runs/2023_02_06_175325'
     # path_run = Path('/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user-odelia-breast-mri-192.168.33.102/data-and-scratch/scratch/2023_02_06_205810/')
@@ -24,7 +24,8 @@ def predict(model_dir, test_data_dir):
     #path_run = Path(
         #'/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user-odelia-breast-mri-192.168.33.102/data-and-scratch/scratch/2023_02_06_224851')
     #path_out = Path().cwd() / 'results' / path_run.name
-    path_out = Path(path_run) / 'results' / path_run.name
+    path_out = Path('results') / path_run.name
+    print(path_out)
     path_out.mkdir(parents=True, exist_ok=True)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     fontdict = {'fontsize': 10, 'fontweight': 'bold'}
@@ -36,7 +37,7 @@ def predict(model_dir, test_data_dir):
     # ------------ Load Data ----------------
     ds = DUKE_Dataset3D(
         flip=False,
-        path_root=test_data_dir
+        path_root='/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user/data-and-scratch/data/DUKE/test'
     )
 
     ds_test = ds
@@ -49,7 +50,62 @@ def predict(model_dir, test_data_dir):
     )
 
     # ------------ Initialize Model ------------
-    model = ResNet.load_best_checkpoint(path_run, version=0)
+    # ------------ Initialize Model ------------
+    if model_name == 'ResNet18':
+        layers = [2, 2, 2, 2]
+    elif model_name == 'ResNet34':
+        layers = [3, 4, 6, 3]
+    elif model_name == 'ResNet50':
+        layers = [3, 4, 6, 3]
+    elif model_name == 'ResNet101':
+        layers = [3, 4, 23, 3]
+    elif model_name == 'ResNet152':
+        layers = [3, 8, 36, 3]
+    else:
+        layers = None
+
+    if layers is not None:
+        # ------------ Initialize Model ------------
+        model = ResNet.load_best_checkpoint(path_run, version=0, layers=layers)
+
+    elif model_name in ['efficientnet_l1', 'efficientnet_l2', 'efficientnet_b4', 'efficientnet_b7']:
+        model = EfficientNet.load_best_checkpoint(path_run, version=0)
+    elif model_name == 'EfficientNet3Db0':
+        blocks_args_str = [
+            "r1_k3_s11_e1_i32_o16_se0.25",
+            "r2_k3_s22_e6_i16_o24_se0.25",
+            "r2_k5_s22_e6_i24_o40_se0.25",
+            "r3_k3_s22_e6_i40_o80_se0.25",
+            "r3_k5_s11_e6_i80_o112_se0.25",
+            "r4_k5_s22_e6_i112_o192_se0.25",
+            "r1_k3_s11_e6_i192_o320_se0.25"]
+    elif model_name == 'EfficientNet3Db4':
+        blocks_args_str = [
+            "r1_k3_s11_e1_i48_o24_se0.25",
+            "r3_k3_s22_e6_i24_o32_se0.25",
+            "r3_k5_s22_e6_i32_o56_se0.25",
+            "r4_k3_s22_e6_i56_o112_se0.25",
+            "r4_k5_s11_e6_i112_o160_se0.25",
+            "r5_k5_s22_e6_i160_o272_se0.25",
+            "r2_k3_s11_e6_i272_o448_se0.25"]
+    elif model_name == 'EfficientNet3Db7':
+        blocks_args_str = [
+            "r1_k3_s11_e1_i32_o32_se0.25",
+            "r4_k3_s22_e6_i32_o48_se0.25",
+            "r4_k5_s22_e6_i48_o80_se0.25",
+            "r4_k3_s22_e6_i80_o160_se0.25",
+            "r6_k5_s11_e6_i160_o256_se0.25",
+            "r6_k5_s22_e6_i256_o384_se0.25",
+            "r3_k3_s11_e6_i384_o640_se0.25"]
+    elif model_name == 'DenseNet121':
+        model = DenseNet121.load_best_checkpoint(path_run, version=0)
+    elif model_name == 'UNet3D':
+        model = UNet3D.load_best_checkpoint(path_run, version=0)
+    else:
+        raise Exception("Invalid network model specified")
+
+    if model_name.startswith('EfficientNet3D'):
+        model = EfficientNet3D.load_best_checkpoint(path_run, version=0)
     model.to(device)
     model.eval()
 
@@ -84,6 +140,7 @@ def predict(model_dir, test_data_dir):
     y_pred_lab = np.asarray(df['NN_pred'])
     y_true_lab = np.asarray(df['GT'])
     tprs, fprs, auc_val, thrs, opt_idx, cm = plot_roc_curve(y_true_lab, y_pred_lab, axis, fontdict=fontdict)
+    print ('auc_val: ',auc_val)
     fig.tight_layout()
     fig.savefig(path_out / f'roc.png', dpi=300)
 
@@ -107,5 +164,5 @@ def predict(model_dir, test_data_dir):
 
 if __name__ == "__main__":
     path_run = Path(
-        '/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user-odelia-breast-mri-192.168.33.102/data-and-scratch/scratch/2023_02_06_224851')
-    predict(path_run)
+        '/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user/data-and-scratch/scratch/2023_04_07_190127_DUKE_efficientnet_b7_swarm_learning')
+    predict(path_run, model_name='ResNet50')

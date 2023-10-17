@@ -112,8 +112,6 @@ fi
 fi
 
 if [ $ACTION = final_setup ]; then
-  ip_addr=$(ip addr show tun0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
-
   if [ -z "$workspace_name" ] || [ -z "$sentinel_ip" ] || [ -z "$host_index" ];
     then
        echo "workspace_name and sentinel_ip are required"

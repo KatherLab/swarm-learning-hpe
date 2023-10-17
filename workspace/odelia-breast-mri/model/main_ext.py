@@ -20,8 +20,8 @@ import torch
 from swarmlearning.pyt import SwarmCallback
 from pytorch_lightning.callbacks import Callback
 from models import ResNet, VisionTransformer, EfficientNet, EfficientNet3D, EfficientNet3Db7, DenseNet121, UNet3D
-from predict import predict
-from predict_last import predict_last
+from predict_ext import predict
+from predict_last_ext import predict_last
 
 class User_swarm_callback(Callback):
     def __init__(self, swarmCallback):
@@ -192,6 +192,7 @@ if __name__ == "__main__":
         torch.autograd.set_detect_anomaly(True)
         swarmCallback.logger.setLevel(logging.DEBUG)
         swarmCallback.on_train_begin()
+
         trainer = Trainer(
             accelerator=accelerator,
             precision=16,
@@ -209,7 +210,7 @@ if __name__ == "__main__":
         trainer.fit(model, datamodule=dm)
         swarmCallback.on_train_end()
     model.save_best_checkpoint(trainer.logger.log_dir, checkpointing.best_model_path)
-    model.save_last_checkpoint(trainer.logger.log_dir, checkpointing.best_model_path)
+    model.save_last_checkpoint(trainer.logger.log_dir, checkpointing.last_model_path)
 
     import subprocess
 
