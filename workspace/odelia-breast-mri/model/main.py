@@ -173,7 +173,7 @@ if __name__ == "__main__":
     mFArgsDict['task']="multiclass"
     mFArgsDict['num_classes']=2
 
-    #model = model.to(torch.device('cuda'))
+    model = model.to(torch.device('cuda'))
     if local_compare_flag:
         torch.autograd.set_detect_anomaly(True)
         trainer = Trainer(
