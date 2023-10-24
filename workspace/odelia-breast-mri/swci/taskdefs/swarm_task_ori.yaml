@@ -4,7 +4,7 @@ Author: Jeff
 Prereq: user_env_build_task_<TIME_STAMP>
 Outcome: swarm_task
 Body:
-  Command: model/main_ext.py
+  Command: model/main.py
   Entrypoint: python3
   WorkingDir: /tmp/test
   Envvars: [ "DATA_DIR": data-and-scratch/data,

@@ -99,7 +99,7 @@ if __name__ == "__main__":
         layers = [3, 8, 36, 3]
     else:
         layers = None
-    print('layers: ', layers)
+    #print('layers: ', layers)
     if layers is not None:
         # ------------ Initialize Model ------------
         model = ResNet(in_ch=1, out_ch=1, spatial_dims=3, layers=layers)
