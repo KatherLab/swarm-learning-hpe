@@ -108,7 +108,7 @@ if __name__ == "__main__":
     if layers is not None:
         # ------------ Initialize Model ------------
         model = ResNet(in_ch=1, out_ch=1, spatial_dims=3, layers=layers)
-        print('model: ', model)
+        #print('model: ', model)
     elif model_name in ['efficientnet_l1', 'efficientnet_l2', 'efficientnet_b4', 'efficientnet_b7']:
         model = EfficientNet(model_name=model_name, in_ch=1, out_ch=1, spatial_dims=3)
     elif model_name == 'EfficientNet3Db0':
@@ -173,8 +173,7 @@ if __name__ == "__main__":
     mFArgsDict['task']="multiclass"
     mFArgsDict['num_classes']=2
 
-    device = torch.device("cuda" if useCuda else "cpu")
-    model = model.to(torch.device(device))
+    model = model.to(torch.device(accelerator))
     if local_compare_flag:
         torch.autograd.set_detect_anomaly(True)
         trainer = Trainer(
