@@ -193,7 +193,7 @@ if __name__ == "__main__":
         trainer.fit(model, datamodule=dm)
     else:
         swarmCallback = SwarmCallback(
-                                      totalEpochs=max_epochs,
+                                      #totalEpochs=max_epochs,
                                       syncFrequency=512,
                                       minPeers=min_peers,
                                       maxPeers=max_peers,
@@ -201,10 +201,10 @@ if __name__ == "__main__":
                                       adsValBatchSize=2,
                                       nodeWeightage=100,
                                       model=model,
-                                      lossFunction=torch.nn.BCEWithLogitsLoss,
-                                      lossFunctionArgs=lFArgsDict,
-                                      metricFunction="F1Score",
-                                      metricFunctionArgs=mFArgsDict
+                                      #lossFunction=torch.nn.BCEWithLogitsLoss,
+                                      #lossFunctionArgs=lFArgsDict,
+                                      #metricFunction="F1Score",
+                                      #metricFunctionArgs=mFArgsDict
         )
 
         torch.autograd.set_detect_anomaly(True)
