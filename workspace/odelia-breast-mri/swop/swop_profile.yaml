@@ -14,6 +14,7 @@ apisrv:
   locator:
     host: sn_node
     port: ~
+    service: ~
 envvars:
   - SL_LOG_LEVEL: INFO
   - http_proxy: ~
