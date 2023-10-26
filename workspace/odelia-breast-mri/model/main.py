@@ -167,13 +167,14 @@ if __name__ == "__main__":
     )
     useCuda = torch.cuda.is_available()
 
+
     lFArgsDict={}
     lFArgsDict['reduction']='sum'
     mFArgsDict={}
     mFArgsDict['task']="multiclass"
     mFArgsDict['num_classes']=2
 
-    model = model.to(torch.device('cuda'))
+    #model = model.to(torch.device('cuda'))
     if local_compare_flag:
         torch.autograd.set_detect_anomaly(True)
         trainer = Trainer(
@@ -193,15 +194,15 @@ if __name__ == "__main__":
         trainer.fit(model, datamodule=dm)
     else:
         swarmCallback = SwarmCallback(
-                                      #totalEpochs=max_epochs,
+                                      totalEpochs=max_epochs,
                                       syncFrequency=512,
                                       minPeers=min_peers,
-                                      maxPeers=max_peers,
-                                      adsValData=adsValData,
-                                      adsValBatchSize=2,
-                                      nodeWeightage=100,
+                                      #maxPeers=max_peers,
+                                      #adsValData=adsValData,
+                                      #adsValBatchSize=2,
+                                      #nodeWeightage=100,
                                       model=model,
-                                      #lossFunction=torch.nn.BCEWithLogitsLoss,
+                                      lossFunction="BCEWithLogitsLoss",
                                       #lossFunctionArgs=lFArgsDict,
                                       #metricFunction="F1Score",
                                       #metricFunctionArgs=mFArgsDict
@@ -220,7 +221,7 @@ if __name__ == "__main__":
             min_epochs=5,
             log_every_n_steps=log_every_n_steps,
             auto_lr_find=False,
-            max_epochs=120,
+            max_epochs=max_epochs,
             num_sanity_val_steps=2,
             logger=TensorBoardLogger(save_dir=path_run_dir)
         )
