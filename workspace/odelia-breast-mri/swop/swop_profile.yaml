@@ -15,13 +15,14 @@ apisrv:
     host: sn_node
     port: ~
 envvars:
-  - SL_LOG_LEVEL: INFO
   - http_proxy: ~
   - https_proxy: ~
   - no_proxy: ~
   - HTTP_PROXY: ~
   - HTTPS_PROXY: ~
   - NO_PROXY: ~
+  - SWARM_LOG_LEVEL: DEBUG
+  - SL_DEVMODE_KEY: REVWTU9ERS0yMDIzLTEwLTI2
 nodes:
   - slnodedef:
       idx: 0
