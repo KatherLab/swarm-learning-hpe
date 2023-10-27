@@ -65,6 +65,13 @@ This is the Swarm Learning framework:
   *  Any experimental release of Ubuntu greater than LTS 20.04 MAY result in unsuccessful swop node running.
   * It also works on WSL2(Ubuntu 20.04.2 LTS) on Windows systems. WSL1 may have some issues with the docker service.
 
+### Upgrade the Swarm Learning Environment
+1. Run the following command to upgrade the Swarm Learning Environment from 1.x.x to 2.x.x
+```sh
+$ sh workspace/automate_scripts/server_setup/cleanup_old_sl.sh
+```
+Then proceed to 1. `Prerequisite` in [Setting up the Swarm Learning Environment](#setting-up-the-swarm-learning-environment)
+
 ### Setting up the user and repository
 1. Create a user named "swarm" and add it to the sudoers group.
 Login with user "swarm".
@@ -145,7 +152,6 @@ All the processes are automated, so you can just run the above command and wait 
 If any problem occurs, please first try to figure out which step is going wrong, try to google for solutions and find solution in [Troubleshooting.md](Troubleshooting.md). Then contact the maintainer of the Swarm Learning Environment and document the error in the Troubleshooting.md file.
 
 ## Usage
-
 ### Data Preparation
 1. Make sure you have downloaded Duke data.
     

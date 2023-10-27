@@ -46,7 +46,7 @@ def cal_weightage(train_size):
     return int(100 * train_size / full_dataset_size)
 
 if __name__ == "__main__":
-    task_data_name = 'DUKE_ext'
+    task_data_name = 'WP1'
     scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
     dataDir = os.getenv('DATA_DIR', '/platform/data/')
     max_epochs = int(os.getenv('MAX_EPOCHS', 100))
@@ -198,10 +198,10 @@ if __name__ == "__main__":
                                       totalEpochs=max_epochs,
                                       syncFrequency=512,
                                       minPeers=min_peers,
-                                      maxPeers=max_peers,
+                                      #maxPeers=max_peers,
                                       #adsValData=adsValData,
                                       #adsValBatchSize=2,
-                                      nodeWeightage=100,
+                                      #nodeWeightage=100,
                                       model=model,
                                       #lossFunction="BCEWithLogitsLoss",
                                       #lossFunctionArgs=lFArgsDict,
