@@ -197,15 +197,15 @@ if __name__ == "__main__":
                                       totalEpochs=max_epochs,
                                       syncFrequency=512,
                                       minPeers=min_peers,
-                                      #maxPeers=max_peers,
-                                      #adsValData=adsValData,
-                                      #adsValBatchSize=2,
-                                      #nodeWeightage=100,
+                                      maxPeers=max_peers,
+                                      adsValData=adsValData,
+                                      adsValBatchSize=2,
+                                      nodeWeightage=100,
                                       model=model,
                                       lossFunction="BCEWithLogitsLoss",
-                                      #lossFunctionArgs=lFArgsDict,
-                                      #metricFunction="F1Score",
-                                      #metricFunctionArgs=mFArgsDict
+                                      lossFunctionArgs=lFArgsDict,
+                                      metricFunction="F1Score",
+                                      metricFunctionArgs=mFArgsDict
         )
 
         torch.autograd.set_detect_anomaly(True)
