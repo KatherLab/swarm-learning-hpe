@@ -154,3 +154,8 @@ dmypy.json
 
 # test files
 **/test_*
+
+# vpn credentials
+assets/openvpn_configs/good_access/*.ovpn
+/assets/Odelia_credentials.txt
+/workspace/odelia-breast-mri/results/

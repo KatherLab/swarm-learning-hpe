@@ -10,7 +10,7 @@ class ResNet(BasicClassifier):
             out_ch,
             spatial_dims=3,
             block='basic',  # 'basic', 'bottleneck'
-            layers=[3, 4, 23, 3],
+            layers=None,
             # layers=[3, 4, 23, 3], # for Resnet 101
             block_inplanes=[64, 128, 256, 512],
             feed_forward=True,

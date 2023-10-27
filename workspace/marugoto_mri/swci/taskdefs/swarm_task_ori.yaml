@@ -15,7 +15,7 @@ Body:
              "LOCAL_COMPARE_FLAG": False,
              "USE_ADAPTIVE_SYNC": False,
              "SYNC_FREQUENCY": 8,
-             "MODEL_TYPE": "transformer",
+             "MODEL_TYPE": "attmil",
            ]
   PrivateContent: /tmp/test/data-and-scratch
   SharedContent:

@@ -4,20 +4,18 @@ from data.datasets import SimpleDataset3D
 
 
 class DUKE_Dataset3D(SimpleDataset3D):
-    def __init__(self, path_root, item_pointers=[], crawler_glob='*.nii.gz', transform=None, image_resize=None,
-                 flip=False, image_crop=None, norm='min-max_clip', to_tensor=True):
-        super().__init__(path_root, item_pointers, crawler_glob, transform, image_resize, flip, image_crop, norm,
-                         to_tensor)
-        df = pd.read_excel(self.path_root.parent / 'Clinical_and_Other_Features.xlsx', header=[0, 1, 2])
-        df = df[df[df.columns[38]] == 0]  # Only use unilateral tumors, TODO: Include bilateral tumor
-        df = df[[df.columns[0], df.columns[36]]]  # Only pick relevant columns: Patient ID, Tumor Side
-        df.columns = ['PatientID', 'Location']  # Simplify columns as: Patient ID, Tumor Side
+    def __init__(self, path_root, item_pointers=[], crawler_glob='*.nii.gz', transform=None, image_resize=None, flip=False, image_crop=None, norm='znorm_clip', to_tensor=True):
+        super().__init__(path_root, item_pointers, crawler_glob, transform, image_resize, flip, image_crop, norm, to_tensor)
+        df = pd.read_excel(self.path_root.parent/'Clinical_and_Other_Features.xlsx', header=[0, 1, 2])
+        df = df[df[df.columns[38]] == 0] # check if cancer is bilateral=1, unilateral=0 or NC
+        df = df[[df.columns[0], df.columns[36],  df.columns[38]]] # Only pick relevant columns: Patient ID, Tumor Side, Bilateral
+        df.columns = ['PatientID', 'Location', 'Bilateral']  # Simplify columns as: Patient ID, Tumor Side
         dfs = []
         for side in ["left", 'right']:
             dfs.append(pd.DataFrame({
                 'PatientID': df["PatientID"].str.split('_').str[2] + f"_{side}",
-                'Malign': df["Location"].apply(lambda x: 1 if x == side[0].upper() else 0)}))
-        self.df = pd.concat(dfs, ignore_index=True).set_index('PatientID', drop=True)
+                'Malign':df[["Location", "Bilateral"]].apply(lambda ds: (ds[0] == side[0].upper()) | (ds[1]==1), axis=1)} ))
+        self.df = pd.concat(dfs,  ignore_index=True).set_index('PatientID', drop=True)
         self.item_pointers = self.df.index[self.df.index.isin(self.item_pointers)].tolist()
 
     def __getitem__(self, index):

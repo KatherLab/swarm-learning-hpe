@@ -56,19 +56,30 @@ class VeryBasicModel(pl.LightningModule):
     def save_best_checkpoint(cls, path_checkpoint_dir, best_model_path):
         with open(Path(path_checkpoint_dir) / 'best_checkpoint.json', 'w') as f:
             json.dump({'best_model_epoch': Path(best_model_path).name}, f)
-
+    @classmethod
+    def save_last_checkpoint(cls, path_checkpoint_dir, best_model_path):
+        with open(Path(path_checkpoint_dir) / 'last_checkpoint.json', 'w') as f:
+            json.dump({'last_model_epoch': "last.ckpt"}, f)
     @classmethod
     def _get_best_checkpoint_path(cls, path_checkpoint_dir, version=0, **kwargs):
         path_version = 'lightning_logs/version_' + str(version)
         with open(Path(path_checkpoint_dir) / path_version / 'best_checkpoint.json', 'r') as f:
             path_rel_best_checkpoint = Path(json.load(f)['best_model_epoch'])
         return Path(path_checkpoint_dir) / path_rel_best_checkpoint
-
+    @classmethod
+    def _get_last_checkpoint_path(cls, path_checkpoint_dir, version=0, **kwargs):
+        path_version = 'lightning_logs/version_' + str(version)
+        with open(Path(path_checkpoint_dir) / path_version / 'last_checkpoint.json', 'r') as f:
+            path_rel_last_checkpoint = Path(json.load(f)['last_model_epoch'])
+        return Path(path_checkpoint_dir) / path_rel_last_checkpoint
     @classmethod
     def load_best_checkpoint(cls, path_checkpoint_dir, version=0, **kwargs):
         path_best_checkpoint = cls._get_best_checkpoint_path(path_checkpoint_dir, version)
         return cls.load_from_checkpoint(path_best_checkpoint, **kwargs)
-
+    @classmethod
+    def load_last_checkpoint(cls, path_checkpoint_dir, version=0, **kwargs):
+        path_last_checkpoint = cls._get_last_checkpoint_path(path_checkpoint_dir, version)
+        return cls.load_from_checkpoint(path_last_checkpoint, **kwargs)
     def load_pretrained(self, checkpoint_path, map_location=None, **kwargs):
         if checkpoint_path.is_dir():
             checkpoint_path = self._get_best_checkpoint_path(checkpoint_path, **kwargs)

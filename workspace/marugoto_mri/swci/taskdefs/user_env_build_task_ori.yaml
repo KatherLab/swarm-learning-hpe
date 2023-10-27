@@ -8,4 +8,5 @@ Body:
   BuildType: INLINE
   BuildSteps:
     - FROM jeffzhu69/swarm-learning:marugoto_mri
+    - RUN pip3 install timm
     - ENTRYPOINT ["PYTHON3"]

@@ -2,7 +2,7 @@
 
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
-Swarm learning based on HPE platform, experiments performed based on HPE Swarm Learning version number 1.2.0
+Swarm learning based on HPE platform, experiments performed based on HPE Swarm Learning version number 2.1.0
 
 This repository contains:
 
@@ -64,6 +64,13 @@ This is the Swarm Learning framework:
   * We have tested the Swarm Learning Environment on [Ubuntu 20.04 LTS, Ubuntu 22.04.2 LTS, Ubuntu 20.04.5 LTS] and they work fine. 
   *  Any experimental release of Ubuntu greater than LTS 20.04 MAY result in unsuccessful swop node running.
   * It also works on WSL2(Ubuntu 20.04.2 LTS) on Windows systems. WSL1 may have some issues with the docker service.
+
+### Upgrade the Swarm Learning Environment
+1. Run the following command to upgrade the Swarm Learning Environment from 1.x.x to 2.x.x
+```sh
+$ sh workspace/automate_scripts/server_setup/cleanup_old_sl.sh
+```
+Then proceed to 1. `Prerequisite` in [Setting up the Swarm Learning Environment](#setting-up-the-swarm-learning-environment)
 
 ### Setting up the user and repository
 1. Create a user named "swarm" and add it to the sudoers group.
@@ -145,7 +152,6 @@ All the processes are automated, so you can just run the above command and wait 
 If any problem occurs, please first try to figure out which step is going wrong, try to google for solutions and find solution in [Troubleshooting.md](Troubleshooting.md). Then contact the maintainer of the Swarm Learning Environment and document the error in the Troubleshooting.md file.
 
 ## Usage
-
 ### Data Preparation
 1. Make sure you have downloaded Duke data.
     
@@ -155,20 +161,20 @@ mkdir workspace/<workspace-name>/user/data-and-scratch/data/WP1
 mkdir workspace/<workspace-name>/user/data-and-scratch/data/WP1/{test,train_val}
 ```
 3. Search for your institution in the [Node list](#nodelist) and note the data series in the column "Data"
-   
-4. Copy the clinic table and slide table into WP1
+
+4. Prepare the clinical tables
 ```sh
-cp workspace/<workspace-name>/user/data-and-scratch/data/{clinical_table,slide_table}.csv workspace/<workspace-name>/user/data-and-scratch/data/WP1
+cp workspace/<workspace-name>/user/data-and-scratch/data/*.xlsx workspace/<workspace-name>/user/data-and-scratch/data/WP1
+```
+
+5. Copy the nifty files from feature folder into `WP1/test` from 801 to 922
+```sh
+cp -r workspace/<workspace-name>/user/data-and-scratch/data/odelia_dataset_only_sub/{801..922}_{right,left} workspace/<workspace-name>/user/data-and-scratch/data/WP1/test
 ```
    
-5. Copy the features from feature folder into `WP1/test` from 801 to 922
+6. Copy the nifty files from feature folder with the order you noted into `WP1/train_val` from xxx to yyy
 ```sh
-cp workspace/<workspace-name>/user/data-and-scratch/data/features_odelia_sub_imagenet/Breast_MRI_{801..922}_{right,left}.h5 workspace/<workspace-name>/user/data-and-scratch/data/WP1/test
-```
-   
-6. Copy the features from feature folder with the order you noted into `WP1/train_val` from xxx to yyy
-```sh
-cp workspace/<workspace-name>/user/data-and-scratch/data/features_odelia_sub_imagenet/Breast_MRI_{<first_number>..<second_number>}_{right,left}.h5 workspace/<workspace-name>/user/data-and-scratch/data/WP1/train_val
+cp -r workspace/<workspace-name>/user/data-and-scratch/data/odelia_dataset_only_sub/{<first_number>..<second_number>} workspace/<workspace-name>/user/data-and-scratch/data/WP1/train_val
 ```
 
 ### Running Swarm Learning Nodes

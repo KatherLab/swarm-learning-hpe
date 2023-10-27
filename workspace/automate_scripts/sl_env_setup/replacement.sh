@@ -9,7 +9,7 @@ print_help() {
    echo "  -w: Name of the workspace directory"
    echo "  -n: Number of minimum peers"
    echo "  -e: Number of maximum epochs"
-   echo "  -d: Hose index"
+   echo "  -d: Host index"
    echo "  -h: Print this help text"
 }
 
@@ -36,7 +36,7 @@ then
 fi
 
 # Get the IP address of this node
-IP_ADDR=$(ip addr show tun0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
+IP_ADDR=$(ip addr show tun0 | awk '/inet / {print $2}' | cut -d'/' -f1)
 
 if [ -z "$IP_ADDR" ]; then
     echo "Error: tun0 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"

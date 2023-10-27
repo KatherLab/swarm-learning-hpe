@@ -1,11 +1,11 @@
 #!/bin/sh
 
-set -eu
+set -eux
 
 # Get the IP address of the current machine
-ip_addr=$(ip addr show tun0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
+ip_addr=$(ip addr show tun0 | awk '/inet / {print $2}' | cut -d'/' -f1)
 
-if [[ -z "$ip_addr" ]]; then
+if [ -z "$ip_addr" ]; then
     echo "Error: tun0 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"
     exit 1
 fi
@@ -60,6 +60,8 @@ fi
 sudo $script_dir/../../swarm_learning_scripts/run-swop -it --rm \
   --name=swop"$ip_addr" \
   --network=host-net \
+  --sn-ip="$sentinel" \
+  --sn-api-port=30304 \
   --usr-dir=workspace/"$workspace"/swop \
   --profile-file-name=swop_profile_"$ip_addr".yaml \
   --key=cert/swop-"$host_index"-key.pem \
@@ -67,5 +69,4 @@ sudo $script_dir/../../swarm_learning_scripts/run-swop -it --rm \
   --capath=cert/ca/capath \
   -e http_proxy= -e https_proxy= \
   --apls-ip="$sentinel" \
-  --apls-port=5000 \
   -e SWOP_KEEP_CONTAINERS=True
