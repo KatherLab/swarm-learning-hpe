@@ -193,19 +193,20 @@ if __name__ == "__main__":
         )
         trainer.fit(model, datamodule=dm)
     else:
+        #TODO: enable sl loss calculation
         swarmCallback = SwarmCallback(
                                       totalEpochs=max_epochs,
                                       syncFrequency=512,
                                       minPeers=min_peers,
                                       maxPeers=max_peers,
-                                      adsValData=adsValData,
-                                      adsValBatchSize=2,
+                                      #adsValData=adsValData,
+                                      #adsValBatchSize=2,
                                       nodeWeightage=100,
                                       model=model,
-                                      lossFunction="BCEWithLogitsLoss",
-                                      lossFunctionArgs=lFArgsDict,
-                                      metricFunction="F1Score",
-                                      metricFunctionArgs=mFArgsDict
+                                      #lossFunction="BCEWithLogitsLoss",
+                                      #lossFunctionArgs=lFArgsDict,
+                                      #metricFunction="F1Score",
+                                      #metricFunctionArgs=mFArgsDict
         )
 
         torch.autograd.set_detect_anomaly(True)
