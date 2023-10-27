@@ -5,7 +5,7 @@ resourcemgr:
   mgrtype: DOCKER
   accessinfo:
     accesstype: FROMENV
-network: host-net
+network: <HOST-IPADDRESS>
 apls:
   locator:
     host: <SN-IPADDRESS>
