@@ -5,14 +5,14 @@ resourcemgr:
   mgrtype: DOCKER
   accessinfo:
     accesstype: FROMENV
-network: <HOST-IPADDRESS>
+network: host-net
 apls:
   locator:
     host: <SN-IPADDRESS>
     port: ~
 apisrv:
   locator:
-    host: sn_node
+    host: <HOST-IPADDRESS>
     port: ~
 envvars:
   - http_proxy: ~
