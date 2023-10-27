@@ -161,20 +161,20 @@ mkdir workspace/<workspace-name>/user/data-and-scratch/data/WP1
 mkdir workspace/<workspace-name>/user/data-and-scratch/data/WP1/{test,train_val}
 ```
 3. Search for your institution in the [Node list](#nodelist) and note the data series in the column "Data"
-   
-4. Copy the clinic table and slide table into WP1
+
+4. Prepare the clinical tables
 ```sh
-cp workspace/<workspace-name>/user/data-and-scratch/data/{clinical_table,slide_table}.csv workspace/<workspace-name>/user/data-and-scratch/data/WP1
+cp workspace/<workspace-name>/user/data-and-scratch/data/*.xlsx workspace/<workspace-name>/user/data-and-scratch/data/WP1
+```
+
+5. Copy the nifty files from feature folder into `WP1/test` from 801 to 922
+```sh
+cp -r workspace/<workspace-name>/user/data-and-scratch/data/odelia_dataset_only_sub/{801..922}_{right,left} workspace/<workspace-name>/user/data-and-scratch/data/WP1/test
 ```
    
-5. Copy the features from feature folder into `WP1/test` from 801 to 922
+6. Copy the nifty files from feature folder with the order you noted into `WP1/train_val` from xxx to yyy
 ```sh
-cp workspace/<workspace-name>/user/data-and-scratch/data/features_odelia_sub_imagenet/Breast_MRI_{801..922}_{right,left}.h5 workspace/<workspace-name>/user/data-and-scratch/data/WP1/test
-```
-   
-6. Copy the features from feature folder with the order you noted into `WP1/train_val` from xxx to yyy
-```sh
-cp workspace/<workspace-name>/user/data-and-scratch/data/features_odelia_sub_imagenet/Breast_MRI_{<first_number>..<second_number>}_{right,left}.h5 workspace/<workspace-name>/user/data-and-scratch/data/WP1/train_val
+cp -r workspace/<workspace-name>/user/data-and-scratch/data/odelia_dataset_only_sub/{<first_number>..<second_number>} workspace/<workspace-name>/user/data-and-scratch/data/WP1/train_val
 ```
 
 ### Running Swarm Learning Nodes
