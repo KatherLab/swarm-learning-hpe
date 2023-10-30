@@ -119,6 +119,7 @@ if [ $ACTION = final_setup ]; then
   fi
 
   echo Please ensure the previous steps are completed on all the other hosts before running this step
+ ip_addr=$(ip addr show tun0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
   if [ $ip_addr = $sentinel_ip ]
     then
       echo "This host a sentinel node and will skip certs sharing"
