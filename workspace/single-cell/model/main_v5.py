@@ -1,46 +1,19 @@
-## Load packages
-# General utility
-import os
-import glob
-import json
-import datetime
-# Computation 
-import pandas as pd
-import numpy as np
-import scanpy as sc
-# Graphics
 import matplotlib.pyplot as plt
-import seaborn as sns
-# Machine learning
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import f1_score, roc_curve, auc, classification_report
-from sklearn.preprocessing import OneHotEncoder
+import numpy as np
+import pandas as pd
 import torch
 import torch.nn as nn
 import torch.optim as optim
-# Swarm Learning
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.metrics import roc_curve, auc, classification_report
+from sklearn.model_selection import train_test_split
 from swarmlearning.pyt import SwarmCallback
+import os
+import datetime
+import glob
 
 
-## MLP model
 class Multiclass(nn.Module):
-    """
-    A simple multilayer perceptron (MLP) for multiclass classification.
-
-    Attributes:
-        - input_dim (int): The dimensionality of the input features.
-        - output_dim (int): The number of classes for classification.
-
-    Layers:
-        - Fully connected layer (fc1) with input_dim features and 32 neurons.
-        - Tanh activation function.
-        - Fully connected layer (fc2) with 32 neurons.
-        - Tanh activation function.
-        - Fully connected layer (fc3) with output_dim neurons.
-
-    Methods:
-        - forward(x): Forward pass of the neural network.
-    """
     def __init__(self, input_dim, output_dim):
         super().__init__()
         self.fc1 = nn.Linear(input_dim, 32)
@@ -55,10 +28,8 @@ class Multiclass(nn.Module):
         out = self.tanh(out)
         out = self.fc3(out)
         return out
-
-
-## Data Import and Preparation
-def loadData(dataDir, experiment):
+        
+def loadData(dataDir, experiment, data_folder):
     """
     load data from dataDir, preprocess and return train and test data in torch tensors
 
@@ -66,141 +37,119 @@ def loadData(dataDir, experiment):
     ----------
     dataDir : str
         Directory where data is stored
-    experiment : int
-        Experiment: 0, 1, 2, 3
+    experiment : str
+        Experiment name: "test_R0", "test_R1", "test_R2", "test_Q0"
+    data_folder: str
+        Data folder name: "harmony", "pca", "scANVI", "scVI"
 
     Returns
     -------
-    X_train_tensor : torch tensor
-    y_train_tensor : torch tensor
-    X_test_tensor : torch tensor
-    y_test_tensor : torch tensor
+    X_train : torch tensor
+    y_train : torch tensor
+    X_test : torch tensor
+    y_test : torch tensor
     input_dim : int
     output_dim : int
     ohe : sklearn.preprocessing.OneHotEncoder fitted
     """
     
+    # Define data paths
+    X_train_path = glob.glob(os.path.join(dataDir,f'heart_emb_raw_II/{data_folder}/{experiment}/*.EMB_train.npy'))
+    y_train_path = glob.glob(os.path.join(dataDir,f'heart_emb_raw_II/{data_folder}/{experiment}/*Y_train.npy'))
+    X_train_path = X_train_path[0]
+    y_train_path = y_train_path[0]
+    print(f"Loading train data from {X_train_path} and {y_train_path}")
+    
+    X_test_path = glob.glob(os.path.join(dataDir,f'heart_emb_raw_II/{data_folder}/{experiment}/*.EMB_test.npy'))
+    y_test_path = glob.glob(os.path.join(dataDir,f'heart_emb_raw_II/{data_folder}/{experiment}/*Y_test.npy'))
+    X_test_path = X_test_path[0]
+    y_test_path = y_test_path[0]
+    print(f"Loading test data from {X_test_path} and {y_test_path}")
+    
     # Load data
-    data_path = glob.glob(os.path.join(dataDir,'atlas_heart'))
-    data_path = data_path[0]
-    print(f'Loading data from {data_path}')
-    atlas = sc.read_h5ad(data_path+'/subatlas.h5ad')
+    X_train = np.load(X_train_path)
+    y_train = np.load(y_train_path)
+    X_test = np.load(X_test_path)
+    y_test = np.load(y_test_path)
     print("Data loaded successfully")
+        
+    # Preprocess labels
+    REP = {" III| II| I": "",
+       "11. Adipocyte|Adipocytes|Adipocyte": "adipocyte",
+       "03. Atrial Cardiomyocyte|Atrial cardiomyocyte|Atrial Cardiomyocyte": "atrial cardiomyocyte",
+       "Cytoplasmic Cardiomyocyte|12. Cytoplasmic Cardiomyocyte II|05. Cytoplasmic Cardiomyocyte I|05. Cytoplasmic cardiomyocyte I|12. Cytoplasmic Cardiomyocyte II": "cytoplasmic cardiomyocyte",
+       "Ventricular Cardiomyocyte|Ventricular_Cardiomyocyte|Cardiomyocytes|Cardiomyocyte|04. Ventricular Cardiomyocyte I|06. Ventricular Cardiomyocyte II|15. Ventricular Cardiomyocyte III|Ventricular Cardiomyocyte I": "cardiomyocyte",
+       "Endocardium": "endocardium",
+       "Endothelial|Endothelium|Endothelial|09. Endothelium I|10. Endothelium II|endothelial II": "endothelial",
+       "Epicardium": "epicardium",
+       "Fibroblasts|Fibroblast|01. Fibroblast I|02. Fibroblast II|14. Fibroblast III|Fibroblast II|Fibroblast III": "fibroblast",
+       "Lymphatic": "lymphatic",
+       "Lymphoid|B_Cells|T/NK_Cells|Lymphoid|17. Lymphocyte|Lymphocyte": "lymphoid",
+       "Mast_Cells|Mast": "mast",
+       "Mesothelial": "mesothelial",
+       "Myeloid|Macrophages|Monocytes|Myeloid|08. Macrophage|Macrophage": "myeloid",
+       "Neuronal|Neurons|16. Neuronal" : "neuron",
+       "Pericytes|Pericyte|07. Pericyte": "pericyte",
+       "Prolif": "prolif",
+       "Smooth_muscle_cells|Smooth_Muscle|vSMCs|13. Vascular Smooth Muscle|Vascular Smooth Muscle": "smooth muscle",
+        }
     
-    # Read the JSON file for experiment information
-    with open('exp_data.json', 'r') as json_file:
-        data = json.load(json_file)
-    #Specify the experiment ID you're interested in
-    target_exp_id = experiment
-    #Find the experiment with the specified ID
-    target_exp = next((exp for exp in data if exp['exp'] == target_exp_id), None)
-    #Check if the experiment is found
-    if target_exp:
-        exp_id = target_exp['exp']
-        training_data_id = target_exp['data']['training_data']
-        test_data_id = target_exp['data']['test_data']
+    df_y_train= pd.DataFrame(y_train)
+    df_y_test= pd.DataFrame(y_test)
 
-        # Print selected experiment with Datasets
-        print(f"Experiment {exp_id}: Training Data = {training_data_id}, Test Data = {test_data_id}")
-    else:
-        print(f"Experiment {target_exp_id} not found.")
+    df_y_train["cell_type_common"] = df_y_train[0].str[:-3]
+    df_y_train["cell_type_common"] = df_y_train["cell_type_common"].replace(REP, regex=True)
+
+    df_y_test["cell_type_common"] = df_y_test[0].str[:-3]
+    df_y_test["cell_type_common"] = df_y_test["cell_type_common"].replace(REP, regex=True)
+
+    y_train = df_y_train["cell_type_common"]
+    y_test = df_y_test["cell_type_common"]
     
-    # Define train and test sets
-    studies = atlas.obs['Study'].value_counts().index.values
-    training_study = studies[training_data_id] # ind 0, 1, 2, 3
-    test_study = studies[test_data_id] # ind 0, 1, 2, 3
-    
-    # Train and test split
-    train = atlas[atlas.obs['Study'] == training_study].copy()
-    test = atlas[atlas.obs['Study'] == test_study].copy()
-    test_study = str.replace(test_study, ' ', '_')
-    del atlas # to save RAM
-
-    # Test that the train/test split has no overlap
-    print('Train:')
-    print(train.obs['Study'].value_counts())
-    print('Test:')
-    print(test.obs['Study'].value_counts())
-
-    # Select the `n_genes` most variable genes
-    n_genes = 1000
-    top_var_genes = train.var['highly_variable_rank'].sort_values().head(n_genes).index.values # Has no effect here because train.n_var = 1000
-
-    # Define X and y
-    X_train = train[:, top_var_genes].layers['counts']
-    X_test = test[:, top_var_genes].layers['counts']
-    y_train = train.obs['Annotation_1']
-    y_test = test.obs['Annotation_1']
-
-    # Define categories for categories encoder
-    y_categories = ['Adipocytes',
-    'Cardiomyocytes',
-    'Endocardial',
-    'Endothelial',
-    'Epicardium',
-    'Fibroblast',
-    'Ischemic cells (MI)',
-    'Lymphatic EC',
-    'Lymphocytes',
-    'Mast cells',
-    'Monocytes',
-    'Neuronal',
-    'Pericytes',
-    'VSMC']
-
-    # Create categories encoder
+    # Encode labels
+    encoder_data = pd.DataFrame(['adipocyte', 'atrial cardiomyocyte', 'cardiomyocyte',
+        'cytoplasmic cardiomyocyte', 'endocardium', 'endothelial',
+        'epicardium', 'fibroblast', 'lymphatic', 'lymphoid', 'mast',
+        'mesothelial', 'myeloid', 'neuron', 'pericyte', 'prolif',
+        'smooth muscle']).values.reshape(-1, 1) 
     ohe = OneHotEncoder(handle_unknown='ignore', sparse_output=False)
-    encoder_data = pd.DataFrame(y_categories).values.reshape(-1, 1)
     ohe.fit(encoder_data)
-
-    # Transform y labels from categorial in numeric NumPy array
-    y_train_transformed = ohe.transform(y_train.values.reshape(-1, 1))
-    y_test_transformed = ohe.transform(y_test.values.reshape(-1, 1))
-
-    # Converte sparse matrix to NumPy array
-    X_train_array = X_train.toarray()
-    X_test_array = X_test.toarray()
-
-    # Convert data from NumPy array to PyTorch Tensor
-    X_train_tensor = torch.tensor(X_train_array, dtype=torch.float32)
-    X_test_tensor = torch.tensor(X_test_array, dtype=torch.float32)
-    y_train_tensor = torch.tensor(y_train_transformed, dtype=torch.float32)
-    y_test_tensor = torch.tensor(y_test_transformed, dtype=torch.float32)
-
-    # Define input and output dimension
-    input_dim = X_train_tensor.size()[1]
-    output_dim = y_train_tensor.size()[1]
+    
+    # Transform data to one-hot encoding, standardize and convert to tensors
+    def transformation(X, y):
+        y_1 = ohe.transform(y.values.reshape(-1, 1))
+        X_1 = StandardScaler().fit_transform(X)
+        X = torch.tensor(X_1, dtype=torch.float32)
+        y = torch.tensor(y_1, dtype=torch.float32)
+        return X, y
+    
+    X_train, y_train = transformation(X_train, y_train)
+    X_test, y_test = transformation(X_test, y_test)
+    
+    input_dim = X_train.size()[1]
+    output_dim = y_train.size()[1]
     
     print("Data preprocessed successfully")
     
-    return X_train_tensor, y_train_tensor, X_test_tensor, y_test_tensor, input_dim, output_dim, ohe
+    return X_train, y_train, X_test, y_test, input_dim, output_dim, ohe
 
-
-## Statistics
 def stats(model, X_test, y_test, output_dim, ohe, device, scratchDir, experiment_name):
-    # Define file name
-    file_name_prefix = experiment_name.replace(" ", "_")
-
-    # Move testing data and labels to a specified device (e.g., GPU or CPU)
     X_test, y_test = X_test.to(device), y_test.to(device)
 
-    # Set model to evaluation mode
     model.eval()
-
-    # Predict labels from test data
     y_pred = model(X_test)
+
     y_test = y_test.cpu().detach().numpy()
     y_pred = y_pred.cpu().detach().numpy()
+
     y_pred_labels = np.take(ohe.categories_, np.argmax(y_pred, axis=1)) 
     y_test_labels = ohe.inverse_transform(y_test).flatten()
 
     # Classification Report
     report = classification_report(y_test_labels, y_pred_labels, output_dict=True)
     report = pd.DataFrame(report).transpose()
-
     print(report.to_string)
-    report.to_csv(os.path.join(scratchDir, f"{file_name_prefix}_classification_report.csv"))
-
+    
     # AUROC
     fpr = dict()
     tpr = dict()
@@ -230,64 +179,25 @@ def stats(model, X_test, y_test, output_dim, ohe, device, scratchDir, experiment
     plt.ylabel('True Positive Rate')
     plt.title(f"{experiment_name}")
     plt.legend(loc="lower left", bbox_to_anchor=(1,0))
+    
+    # Save Stats  
+    file_name_prefix = experiment_name.replace(" ", "_")
 
     plt.savefig(os.path.join(scratchDir, f"{file_name_prefix}_roc.png"), bbox_inches = 'tight')
-    plt.clf()
-
-    # F1 Score
-    catagories = np.transpose(ohe.categories_).flatten()
-
-    score = f1_score(y_test_labels, y_pred_labels, labels=catagories, average=None)
-    score_df = pd.DataFrame({'cell_type': catagories, 'score': score})
-
-    plt.figure(figsize=(8, 8))
-    sns.barplot(score_df, x='cell_type', y='score')
-    plt.ylabel("F1 score")
-    plt.xlabel("Cell type")
-    plt.xticks(rotation=90)
-    plt.title(f"{experiment_name}")
-
-    plt.savefig(os.path.join(scratchDir, f"{file_name_prefix}_f1.png"), bbox_inches = 'tight')
-    plt.clf()
-
-    # Confusion Matrix
-    pred_df = pd.DataFrame(list(zip(y_pred_labels, y_test_labels)),
-                             columns = ['pred_label', 'true_label'])
-
-    df = pd.crosstab(pred_df['pred_label'], pred_df['true_label'])
-    norm_df = df / df.sum(axis=0)
-
-    plt.figure(figsize=(8, 8))
-    _ = plt.pcolor(norm_df)
-    _ = plt.xticks(np.arange(0.5, len(df.columns), 1), df.columns, rotation=90)
-    _ = plt.yticks(np.arange(0.5, len(df.index), 1), df.index)
-    plt.xlabel("True")
-    plt.ylabel("Predicted")
-    plt.title(f"{experiment_name}")
-
-    plt.savefig(os.path.join(scratchDir, f"{file_name_prefix}_confusion_matrix.png"), bbox_inches = 'tight')
-    plt.clf()
-
-    # Save Rersult Arrays
+    report.to_csv(os.path.join(scratchDir, f"{file_name_prefix}_classification_report.csv"))
     np.save(os.path.join(scratchDir, f"{file_name_prefix}_y_pred.npy"), y_pred_labels)
     np.save(os.path.join(scratchDir, f"{file_name_prefix}_y_test.npy"), y_test_labels)
 
-
-## Create and define folder structure
-def directory(experiment):
-    # Get directory information from swarm learning platform
+def directory(experiment, data_folder):
     dataDir = os.getenv('DATA_DIR', '/platform/data')
     scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
     
-    # Get current time
     now = datetime.datetime.now()
     date_string = now.strftime("%Y-%m-%d_%H-%M")
 
-    # Define folder name
     folder_name_prefix = experiment.replace(" ", "_")
-    folder = folder_name_prefix + "_" + date_string
+    folder = data_folder + folder_name_prefix + "_" + date_string
     
-    # Create new folder
     new_dir = os.path.join(scratchDir, folder)
     os.makedirs(new_dir)
 
@@ -299,8 +209,7 @@ def directory(experiment):
     scratchDir = new_dir
     
     return dataDir, scratchDir
-
-## Main    
+    
 def main():
     # Set parameters and directories
     batchSz = 500
@@ -311,9 +220,10 @@ def main():
     max_epochs = int(os.getenv('MAX_EPOCHS', str(default_max_epochs)))
     min_peers = int(os.getenv('MIN_PEERS', str(default_min_peers)))
     syncFrequency = int(os.getenv('SYNC_FREQUENCY', str(default_syncFrequency)))
+    data_folder = os.getenv('DATA_FOLDER')
     experiment = os.getenv('EXPERIMENT')
     experiment_name = os.getenv('EXPERIMENT_NAME', default_experiment_name)
-    dataDir, scratchDir = directory(experiment_name)
+    dataDir, scratchDir = directory(experiment_name, data_folder)
     
     # Check if CUDA is available
     usecuda = torch.cuda.is_available()
@@ -324,7 +234,7 @@ def main():
     device = torch.device("cuda" if usecuda else "cpu")
     
     # Load data
-    X_train, y_train, X_test, y_test, input_dim, output_dim, ohe = loadData(dataDir, experiment)
+    X_train, y_train, X_test, y_test, input_dim, output_dim, ohe = loadData(dataDir, experiment, data_folder)
     X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.33, random_state=42)
     
     # Define model, loss function, optimizer and number of batches per epoch
