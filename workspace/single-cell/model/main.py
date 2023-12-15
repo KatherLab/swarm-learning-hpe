@@ -88,7 +88,7 @@ def loadData(dataDir, experiment):
     print("Data loaded successfully")
     
     # Read the JSON file for experiment information
-    with open('exp_data.json', 'r') as json_file:
+    with open(data_path+'/exp_data.json', 'r') as json_file:
         data = json.load(json_file)
     #Specify the experiment ID you're interested in
     target_exp_id = experiment
