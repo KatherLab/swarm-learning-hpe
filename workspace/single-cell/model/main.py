@@ -91,7 +91,7 @@ def loadData(dataDir, experiment):
     with open(data_path+'/exp_data.json', 'r') as json_file:
         data = json.load(json_file)
     #Specify the experiment ID you're interested in
-    target_exp_id = experiment
+    target_exp_id = int(experiment)
     #Find the experiment with the specified ID
     target_exp = next((exp for exp in data if exp['exp'] == target_exp_id), None)
     #Check if the experiment is found
