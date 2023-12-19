@@ -337,13 +337,14 @@ def main():
     valDs = torch.utils.data.TensorDataset(X_val, y_val)
     
     trainLoader = torch.utils.data.DataLoader(trainDs, batch_size=batchSz)
+    valLoader = torch.utils.data.DataLoader(valDs, batch_size=batchSz)
     
     # Create Swarm callback
     swarmCallback = None
     swarmCallback = SwarmCallback(syncFrequency=syncFrequency,
                                   minPeers=min_peers,
                                   useAdaptiveSync=False,
-                                  adsValData=valDs,
+                                  adsValData=valLoader,
                                   adsValBatchSize=batchSz,
                                   model=model)
     
