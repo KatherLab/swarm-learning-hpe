@@ -78,20 +78,20 @@ trap "exit 1" SIGUSR1 SIGUSR2
 
 
 # Swarm product version.
-swarmVer="2.1.0"
+# swarmVer="2.1.0"
 
-swarmDockerHub="hub.myenterpriselicense.hpe.com"
-swarmOrg="hpe/swarm-learning"
+swarmDockerHub="jeffzhu69/swarm-learning"
+# swarmOrg="hpe/swarm-learning"
 
 slRepoName="sl"
 snRepoName="sn"
 swciRepoName="swci"
 swopRepoName="swop"
 
-slImage="${swarmDockerHub}/${swarmOrg}/${slRepoName}:${swarmVer}"
-snImage="${swarmDockerHub}/${swarmOrg}/${snRepoName}:${swarmVer}"
-swciImage="${swarmDockerHub}/${swarmOrg}/${swciRepoName}:${swarmVer}"
-swopImage="${swarmDockerHub}/${swarmOrg}/${swopRepoName}:${swarmVer}"
+slImage="${swarmDockerHub}/:${slRepoName}"
+snImage="${swarmDockerHub}/:${snRepoName}"
+swciImage="${swarmDockerHub}/:${swciRepoName}"
+swopImage="${swarmDockerHub}/:${swopRepoName}"
 
 # If podman is installed we don't need elevate privileges so sudo or docker group not required 
 # else we need elevated privileges to run docker commands, if the current user is not
