@@ -30,14 +30,14 @@ while [ $# -gt 0 ]; do
 done
 
 # Login to HPE hub
-echo "Login to HPE hub, please ask TUD maintainer for the username and password since Github doesn't allow to store the credentials in the code."´
+# echo "Login to HPE hub, please ask TUD maintainer for the username and password since Github doesn't allow to store the credentials in the code."´
 # Prompt the user for the email and password
-read -p "Please enter your email: " user_email
-read -p "Please enter your password: " user_password
-echo
-hub_url="hub.myenterpriselicense.hpe.com"
+# read -p "Please enter your email: " user_email
+# read -p "Please enter your password: " user_password
+# echo
+# hub_url="hub.myenterpriselicense.hpe.com"
 # Use the provided email and password for the Docker login command
-sudo docker login -u "$user_email" -p "$user_password" "$hub_url"
+# sudo docker login -u "$user_email" -p "$user_password" "$hub_url"
 
 # Pull images
 echo "Download Swarm Network (SN) Node"
