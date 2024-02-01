@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<LicenseList>
+    <HPLicense>
+        <licenseVersion>1.0</licenseVersion>
+        <licenseID>5457b492-2ab1-483b-8cd8-8120ce0d29b5</licenseID>
+        <keyID>249a8b33c9205d76ebef40aadafcfd4105e8db11~f211abdfd4a9ef7f3e3143fe540cff378d8fd116</keyID>
+        <productInfo>JJqpYtmnrmyXKEybzU2J2Vz8rK+deUo7WIBwaRl7gEE=</productInfo>
+        <ltu>1</ltu>
+        <creation>06/10/2023T09:08:59+0000</creation>
+        <activation>06/10/2023T09:08:59+0000</activation>
+        <expiration type="com.hp.license.expirationValueType.duration.days">366</expiration>
+        <capacity uom="INSTANCE">5</capacity>
+        <validity>permanent</validity>
+        <origin>
+            <system>EGSWSC</system>
+            <user>s1039</user>
+            <purpose>PRODUCTION</purpose>
+            <orderID>7101311589</orderID>
+        </origin>
+        <constraints>
+            <lockList>
+                <lock type="com.hp.license.lockType.deviceID">6997A6A-226433F</lock>
+            </lockList>
+        </constraints>
+        <attributeList>
+            <attribute>
+                <name>PRODUCT_NUMBER</name>
+                <valueList>
+                    <value>R8S85AAE</value>
+                </valueList>
+            </attribute>
+            <attribute>
+                <name>PRODUCT_DESCRIPTION</name>
+                <valueList>
+                    <value>HPE Swarm Learning SW 5 Cntr 1yr E-LTU</value>
+                </valueList>
+            </attribute>
+        </attributeList>
+        <gracePeriod type="absolute">0</gracePeriod>
+        <graceCapacity type="absolute">0</graceCapacity>
+        <subscriptionRenewalPeriod unit="com.hp.license.subscriptionRenewalPeriodUnitType.days">0</subscriptionRenewalPeriod>
+        <description></description>
+        <signature>goIjdcjM6B3LoY1EfaBYNinQc3O+XgaMsph4pqa2QMeH6hLhg4DXSHpvZ31bWTeCeucE7e0hWzMUCk11o+dbFh51ZAe6SOPPcGo7zw1dGTm+bFYA4x95jvpspElOePoTlkQuqdKoVn2X1t4LLpR1p9z+YDN8yJUzydoAZ5q59SxWOsoqU3jCyvobXhHgsAR9JFXwMOcOFN/ZYci6Lz0aeSFLXa/spZwaecc2aydxPBFN+xYts7kqni/EQw+TsAtMCIOJVLe7FUTLRxuWJYUUEKuZuA+SHQklKYjsr+eAJudbLNB8W+Vy78ZPOKMY+0gcerHVvnDAYmvlKCWuzarHKQ==</signature>
+    </HPLicense>
+    <HPLicense>
+        <licenseVersion>1.0</licenseVersion>
+        <licenseID>30f04d98-fbc8-489a-9598-9e8439e5cd28</licenseID>
+        <keyID>249a8b33c9205d76ebef40aadafcfd4105e8db11~f211abdfd4a9ef7f3e3143fe540cff378d8fd116</keyID>
+        <productInfo>OtwMCp5VQUW93BcnaXKdFUS0kt0LCNMdG+B4HQCwSGQ=</productInfo>
+        <ltu>1</ltu>
+        <creation>06/10/2023T09:08:59+0000</creation>
+        <activation>06/10/2023T09:08:59+0000</activation>
+        <expiration type="com.hp.license.expirationValueType.duration.days">366</expiration>
+        <capacity uom="TB">5</capacity>
+        <validity>permanent</validity>
+        <origin>
+            <system>EGSWSC</system>
+            <user>s1039</user>
+            <purpose>PRODUCTION</purpose>
+            <orderID>7101311589</orderID>
+        </origin>
+        <constraints>
+            <lockList>
+                <lock type="com.hp.license.lockType.deviceID">6997A6A-226433F</lock>
+            </lockList>
+        </constraints>
+        <attributeList>
+            <attribute>
+                <name>PRODUCT_NUMBER</name>
+                <valueList>
+                    <value>R8S85AAE</value>
+                </valueList>
+            </attribute>
+            <attribute>
+                <name>PRODUCT_DESCRIPTION</name>
+                <valueList>
+                    <value>HPE Swarm Learning SW 5 Cntr 1yr E-LTU</value>
+                </valueList>
+            </attribute>
+        </attributeList>
+        <gracePeriod type="absolute">0</gracePeriod>
+        <graceCapacity type="absolute">0</graceCapacity>
+        <subscriptionRenewalPeriod unit="com.hp.license.subscriptionRenewalPeriodUnitType.days">0</subscriptionRenewalPeriod>
+        <description></description>
+        <signature>TohZWl/0ZvOZPEHGUSQBh1viNATgXtQl6Vmovc1BUXOyBnHQLLFAP/3Kl0p3hLES8/eHy7Baf83rknxAgZ2alwm36MbWWwvxV5y93lqj+Vr/fjkqCxe/OM9wlK2hUGyZ2v2+hmD3KvjctQ3wZQG248YNaio6WNspHh36J+yniirGOUntR7Ba1eWjAqd2VvhRb41ZWpN98ydrVe68I9MrF67GfZKTJMJkgc3nOEvyHJr1R6WHPwll9a9tX/8UcyCa/FWDnLV2C2aG3iJXSNgkl4L6Mkjoag/x9PfpaK1egvRl++QzhB0cQbbyWA6X1GhND9IMHwyr/JVqNhsEwDIoiQ==</signature>
+    </HPLicense>
+    <HPLicense>
+        <licenseVersion>1.0</licenseVersion>
+        <licenseID>c033a2d7-5359-444c-83a2-b3f8e619e790</licenseID>
+        <keyID>249a8b33c9205d76ebef40aadafcfd4105e8db11~f211abdfd4a9ef7f3e3143fe540cff378d8fd116</keyID>
+        <productInfo>9g+cDRFrgTpUOI/sFmxbJbZ45v06iWuyqy/wtlZN410=</productInfo>
+        <ltu>1</ltu>
+        <creation>06/10/2023T09:08:59+0000</creation>
+        <activation>06/10/2023T09:08:59+0000</activation>
+        <expiration type="com.hp.license.expirationValueType.duration.days">366</expiration>
+        <capacity uom="TB">5</capacity>
+        <validity>permanent</validity>
+        <origin>
+            <system>EGSWSC</system>
+            <user>s1039</user>
+            <purpose>PRODUCTION</purpose>
+            <orderID>7101311589</orderID>
+        </origin>
+        <constraints>
+            <lockList>
+                <lock type="com.hp.license.lockType.deviceID">6997A6A-226433F</lock>
+            </lockList>
+        </constraints>
+        <attributeList>
+            <attribute>
+                <name>PRODUCT_NUMBER</name>
+                <valueList>
+                    <value>R8S85AAE</value>
+                </valueList>
+            </attribute>
+            <attribute>
+                <name>PRODUCT_DESCRIPTION</name>
+                <valueList>
+                    <value>HPE Swarm Learning SW 5 Cntr 1yr E-LTU</value>
+                </valueList>
+            </attribute>
+        </attributeList>
+        <gracePeriod type="absolute">0</gracePeriod>
+        <graceCapacity type="absolute">0</graceCapacity>
+        <subscriptionRenewalPeriod unit="com.hp.license.subscriptionRenewalPeriodUnitType.days">0</subscriptionRenewalPeriod>
+        <description></description>
+        <signature>amvBssFEzwW/U1UyWVgQFHUv0LXtQxn3Th/zc4LeF7DxOCRin5p8yTQs5aPo4Ri28V5GMp8diqWT2sBgNh3w+05mvG2jkaHOiSZ+uaMz2UPDXtxwRY632b0m81rXT7dMAM8IJz5FDpjoHCgqc5/XNLGtK/C9po2vVAtbhLw6cIpfyuS767eXIbgEMdaItquOkeU0kMyVqPJAHOcpkBSnbOvomvwfoJy5BWzDu5A4PJv1HLjPnAKdP8OYaMD3XlZT8dCEtNPRyiJ0R26NpOgwwG7tnzOnRqAukgLSKMojeWpdgvaCsWjj9EKwe/nW9Sdkg0QAo4fvcrBfZGKatq94VA==</signature>
+    </HPLicense>
+    <HPLicense>
+        <licenseVersion>1.0</licenseVersion>
+        <licenseID>2a4f1c19-1d26-46ee-921c-cffd52a203b5</licenseID>
+        <keyID>249a8b33c9205d76ebef40aadafcfd4105e8db11~f211abdfd4a9ef7f3e3143fe540cff378d8fd116</keyID>
+        <productInfo>YDMKrkyxQxFs2xlcoSvlEElsMtnNLKP1GuWmjsHMH2Y=</productInfo>
+        <ltu>1</ltu>
+        <creation>06/10/2023T09:08:59+0000</creation>
+        <activation>06/10/2023T09:08:59+0000</activation>
+        <expiration type="com.hp.license.expirationValueType.duration.days">366</expiration>
+        <capacity uom="TB">5</capacity>
+        <validity>permanent</validity>
+        <origin>
+            <system>EGSWSC</system>
+            <user>s1039</user>
+            <purpose>PRODUCTION</purpose>
+            <orderID>7101311589</orderID>
+        </origin>
+        <constraints>
+            <lockList>
+                <lock type="com.hp.license.lockType.deviceID">6997A6A-226433F</lock>
+            </lockList>
+        </constraints>
+        <attributeList>
+            <attribute>
+                <name>PRODUCT_NUMBER</name>
+                <valueList>
+                    <value>R8S85AAE</value>
+                </valueList>
+            </attribute>
+            <attribute>
+                <name>PRODUCT_DESCRIPTION</name>
+                <valueList>
+                    <value>HPE Swarm Learning SW 5 Cntr 1yr E-LTU</value>
+                </valueList>
+            </attribute>
+        </attributeList>
+        <gracePeriod type="absolute">0</gracePeriod>
+        <graceCapacity type="absolute">0</graceCapacity>
+        <subscriptionRenewalPeriod unit="com.hp.license.subscriptionRenewalPeriodUnitType.days">0</subscriptionRenewalPeriod>
+        <description></description>
+        <signature>n313YFPhE7/d6sn9P4URzm+LFxWQIkVuyoCurD2YuHHZHMWd0MKIC1HhRBxsVM33tkOv+LWMKw0EIA46f1LpfMr/AtUkWP8Y82x11Ul01YruK+P/xeY5U9WxAtBWmYddepjIm6Kz57hE4nA2N+krJGDXxUyuRnMYnaTpkVvrf0zWMfYCryB1btfxJZaVOB38uBjSwLe76wVD8r4KfTwQFLALPaVBHU0Tdg0Yy6h3RU7IaeXn7Ud2R4QCIeDJUbXD0XrNxQ2gEBvtHY8Nul8X1rdh7oR1Qe/DigR3Q1D40HtoEHVFVyb4srkkg4VMu+IqJEZpBYC/guHMhiN08tI0Rg==</signature>
+    </HPLicense>
+    <HPLicense>
+        <licenseVersion>1.0</licenseVersion>
+        <licenseID>3b4666eb-61c3-4f04-8d43-6d7f134b009b</licenseID>
+        <keyID>249a8b33c9205d76ebef40aadafcfd4105e8db11~f211abdfd4a9ef7f3e3143fe540cff378d8fd116</keyID>
+        <productInfo>rQ0eSxsRJ4uP5S4sMwZmU6JA5wlOJTahq4lCgdoTjOk=</productInfo>
+        <ltu>1</ltu>
+        <creation>06/10/2023T09:08:59+0000</creation>
+        <activation>06/10/2023T09:08:59+0000</activation>
+        <expiration type="com.hp.license.expirationValueType.duration.days">366</expiration>
+        <capacity uom="TB">5</capacity>
+        <validity>permanent</validity>
+        <origin>
+            <system>EGSWSC</system>
+            <user>s1039</user>
+            <purpose>PRODUCTION</purpose>
+            <orderID>7101311589</orderID>
+        </origin>
+        <constraints>
+            <lockList>
+                <lock type="com.hp.license.lockType.deviceID">6997A6A-226433F</lock>
+            </lockList>
+        </constraints>
+        <attributeList>
+            <attribute>
+                <name>PRODUCT_NUMBER</name>
+                <valueList>
+                    <value>R8S85AAE</value>
+                </valueList>
+            </attribute>
+            <attribute>
+                <name>PRODUCT_DESCRIPTION</name>
+                <valueList>
+                    <value>HPE Swarm Learning SW 5 Cntr 1yr E-LTU</value>
+                </valueList>
+            </attribute>
+        </attributeList>
+        <gracePeriod type="absolute">0</gracePeriod>
+        <graceCapacity type="absolute">0</graceCapacity>
+        <subscriptionRenewalPeriod unit="com.hp.license.subscriptionRenewalPeriodUnitType.days">0</subscriptionRenewalPeriod>
+        <description></description>
+        <signature>EOLuHtY6p/CKk/Duziiw/xX26tPJ2O3VY+MI8XPAWF5W6kMwBfbyiWAQRTPibIFg/5cX9I0eOusaT5yVnkI24IPLJFAa6YGKv6Md215Lru5w/6oRKkWlvrLgFBhSlDfMzQxuC7hXpFhbuPAm3yUmHIu0fnMObGDaYywFmO6O8OJxabqOfNZwWkJEG2uTPt48ZcHIf5BZ6Ij4ReWGaERlE4lWwcoqLWuttLXpo6BJvgu0V5jLxSlgzAtfZ8LeEkbjTQCaF2vKhHszfFPt3j/6berfcB1Mq2ZM5gTnQ6LZ+3aohaC+LJlHkV0wLjBd1ayV1V0oEG32EodN3h/0EVhFWA==</signature>
+    </HPLicense>
+    <HPLicense>
+        <licenseVersion>1.0</licenseVersion>
+        <licenseID>52cabf03-fe8f-4d8d-9434-fe5282d7968a</licenseID>
+        <keyID>249a8b33c9205d76ebef40aadafcfd4105e8db11~f211abdfd4a9ef7f3e3143fe540cff378d8fd116</keyID>
+        <productInfo>W23p3ly5DWnYzLvvDYPl1Wsn2MyYNuzoNCD8PElUHck=</productInfo>
+        <ltu>1</ltu>
+        <creation>06/10/2023T09:08:59+0000</creation>
+        <activation>06/10/2023T09:08:59+0000</activation>
+        <expiration type="com.hp.license.expirationValueType.duration.days">366</expiration>
+        <capacity uom="TB">5</capacity>
+        <validity>permanent</validity>
+        <origin>
+            <system>EGSWSC</system>
+            <user>s1039</user>
+            <purpose>PRODUCTION</purpose>
+            <orderID>7101311589</orderID>
+        </origin>
+        <constraints>
+            <lockList>
+                <lock type="com.hp.license.lockType.deviceID">6997A6A-226433F</lock>
+            </lockList>
+        </constraints>
+        <attributeList>
+            <attribute>
+                <name>PRODUCT_NUMBER</name>
+                <valueList>
+                    <value>R8S85AAE</value>
+                </valueList>
+            </attribute>
+            <attribute>
+                <name>PRODUCT_DESCRIPTION</name>
+                <valueList>
+                    <value>HPE Swarm Learning SW 5 Cntr 1yr E-LTU</value>
+                </valueList>
+            </attribute>
+        </attributeList>
+        <gracePeriod type="absolute">0</gracePeriod>
+        <graceCapacity type="absolute">0</graceCapacity>
+        <subscriptionRenewalPeriod unit="com.hp.license.subscriptionRenewalPeriodUnitType.days">0</subscriptionRenewalPeriod>
+        <description></description>
+        <signature>XK2v/IqOoXQ66600OA8yrnDhYCPm5ANcaqVlAM7J39TXtK2Oszu3J1AIrb2Hvmsndf6xkyLYgEvfPEmBEADYkBArImVjHUeFg4/A9RLkyD0qW33d5aGkAPupxL67qoBgD1oFcKCF8w+3enIbpJO1iLL3YZrSHHGTGUnu0vrAfgJAbKuOekk3RrZ5v0TY2QvrGvSmIZMoWSeTIJ4i0OQes0SaDWUOeMeNxQhvdDFB2Veb+vYAC0+bSv8GN7pvtiB9eXpSku8o7mONAeW2UO97iBkW4hO2fHyqErqyhv3K9MK+m4owwQYkM/Z/7b119dNiSZmAV3FOpIUQ1la+vXjpdQ==</signature>
+    </HPLicense>
+</LicenseList>

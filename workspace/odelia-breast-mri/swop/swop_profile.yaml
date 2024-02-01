@@ -12,16 +12,16 @@ apls:
     port: ~
 apisrv:
   locator:
-    host: sn_node
+    host: <HOST-IPADDRESS>
     port: ~
 envvars:
-  - SL_LOG_LEVEL: INFO
   - http_proxy: ~
   - https_proxy: ~
   - no_proxy: ~
   - HTTP_PROXY: ~
   - HTTPS_PROXY: ~
   - NO_PROXY: ~
+  - SWARM_LOG_LEVEL: INFO
 nodes:
   - slnodedef:
       idx: 0
@@ -54,5 +54,5 @@ nodes:
       slenvvars: null
       usrenvvars: null
       usrcontaineropts:
-        - gpus: "device=all"
+        - gpus : "all"
         - shm-size : "16G"

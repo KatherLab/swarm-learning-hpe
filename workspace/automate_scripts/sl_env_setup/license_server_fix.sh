@@ -17,8 +17,8 @@ while [ $# -gt 0 ]; do
   esac
 done
 
-# Update server.xml to use port 5000
-sudo sed -i "s+5814+5000+g" "/opt/HP/HP AutoPass License Server/HP AutoPass License Server/HP AutoPass License Server/conf/server.xml"
+# Update server.xml to use port 5814
+sudo sed -i "s+5000+5814+g" "/opt/HP/HP AutoPass License Server/HP AutoPass License Server/HP AutoPass License Server/conf/server.xml"
 
 # Create startup script for hpLicenseServer
 sudo cp "/opt/HP/HP AutoPass License Server/HP AutoPass License Server/HP AutoPass License Server/bin/hpLicenseServer" "/etc/init.d/hpLicenseServer"

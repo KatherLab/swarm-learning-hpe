@@ -29,7 +29,7 @@ syncFrequency = int(os.getenv('SYNC_FREQUENCY', 32))
 model_type = os.getenv('MODEL_TYPE', 'transformer')
 current_time = datetime.now().strftime("%Y_%m_%d_%H%M%S")
 
-data_split = 'WP1'
+data_split = 'DUKE'
 
 feature_dir_path = os.path.join(dataDir, data_split, 'train_val')
 test_dir = os.path.join(dataDir, data_split, 'test')
@@ -61,7 +61,33 @@ if __name__ == "__main__":
     output_path = Path(out_dir),
     model_path= Path(os.path.join(out_dir, 'export.pkl')),
     target_label = "Malign")
+    deploy_categorical_model_(
+    clini_table = Path(os.path.join(dataDir, 'clinical_table.csv')),
+    slide_csv = Path(os.path.join(dataDir, 'slide_table.csv')),
+    feature_dir = Path(test_dir),
+    output_path = Path(out_dir)/'test',
+    model_path= Path(os.path.join(out_dir, 'export_copy.pkl')),
+    target_label = "Malign")
 
     categorical_aggregated_(os.path.join(out_dir,'patient-preds.csv'), outpath = (out_dir), target_label = "Malign")
+    categorical_aggregated_(os.path.join(out_dir,'test','patient-preds.csv'), outpath = os.path.join(out_dir,'test'), target_label = "Malign")
 
     plot_roc_curves_([os.path.join(out_dir,'patient-preds.csv')], outpath = Path(out_dir), target_label = "Malign", true_label='1', subgroup_label=None, clini_table=None, subgroups=None)
+    plot_roc_curves_([os.path.join(out_dir,'test','patient-preds.csv')], outpath = Path(out_dir)/'test', target_label = "Malign", true_label='1', subgroup_label=None, clini_table=None, subgroups=None)
+
+    import subprocess
+
+    # Get the container ID for the latest user-env container
+    get_container_id_command = 'docker ps -a --filter "name=us*" --format "{{.ID}}" | head -n 1'
+    container_id = subprocess.check_output(get_container_id_command, shell=True, text=True).strip()
+
+    # Get the latest log for the user-env container
+    get_logs_command = f"docker logs {container_id}"
+    logs_process = subprocess.Popen(get_logs_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    # Print and log the output
+    with open(os.path.join(out_dir,"container_logs.txt"), "w") as log_file:
+        for line in logs_process.stdout:
+            line = line.decode("utf-8").rstrip()
+            print(line)
+            log_file.write(line + "\n")

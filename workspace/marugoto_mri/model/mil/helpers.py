@@ -129,7 +129,7 @@ def train_categorical_model_(
             (_make_cont_enc(train_df, cont_labels), df[cont_labels].values)
         )
 
-    learn = train(
+    learn, swarmCallback = train(
         bags=df.slide_path.values,
         targets=(target_enc, df[target_label].values),
         add_features=add_features,
@@ -141,13 +141,15 @@ def train_categorical_model_(
         max_peers = max_peers,
         syncFrequency = syncFrequency,
         useAdaptiveSync = False,
-        model_type = "transformer",
+        model_type = model_type,
     )
 
     # save some additional information to the learner to make deployment easier
     learn.target_label = target_label
     learn.cat_labels, learn.cont_labels = cat_labels, cont_labels
-
+    if swarmCallback is not None:
+        learn.export(fname='export_copy.pkl')
+        swarmCallback.on_train_end()
     learn.export()
 
     patient_preds, patient_targs = learn.get_preds(act=nn.Softmax(dim=1))

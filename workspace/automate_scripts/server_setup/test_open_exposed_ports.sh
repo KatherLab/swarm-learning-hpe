@@ -16,7 +16,7 @@ usage() {
 }
 
 # Process command-line arguments
-while [[ $# -gt 0 ]]; do
+while [ $# -gt 0 ]; do
   case $1 in
     -h|--help)
       usage
@@ -52,7 +52,7 @@ open_port() {
 # Test standard HPE Swarm Learning ports
 test_port 22
 test_port 5814
-test_port 5000
+#test_port 5000
 test_port 30303
 test_port 30304
 test_port 30305

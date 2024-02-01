@@ -34,7 +34,7 @@ while getopts "rw:h" opt; do
 done
 # Remove any stopped containers if specified
 if [ "$remove_stopped_containers" = true ]; then
-  docker rm "$(docker ps --filter status=exited -q)" || true
+  docker rm $(docker ps --filter status=exited -q)
 fi
 ip_addr=$(ip addr show tailscale0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
 

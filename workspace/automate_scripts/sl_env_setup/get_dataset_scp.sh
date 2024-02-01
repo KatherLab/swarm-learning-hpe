@@ -33,7 +33,7 @@ while getopts ":s:h" opt; do
 done
 
 # Check that required options were provided
-if [[ -z "$sentinel_ip" ]]; then
+if [ -z "$sentinel_ip" ]; then
   echo "Missing sentinel node ."
   usage
 fi

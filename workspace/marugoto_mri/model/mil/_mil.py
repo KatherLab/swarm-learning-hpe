@@ -4,6 +4,7 @@ from pathlib import Path
 import os
 from .transformer import Transformer
 from .ViT import ViT
+from .timmViT import MILModel
 import numpy as np
 
 import logging
@@ -31,7 +32,7 @@ sys.path.append("..")
 from common.data import SKLearnEncoder
 
 from .data import make_dataset
-from .model import MILModel
+#from .model import MILModel
 
 
 __all__ = ["train", "deploy"]
@@ -110,8 +111,12 @@ def train(
     if model_type == "transformer":
         model = ViT(num_classes=2)  # Transformer(num_classes=2)
         #model.to(torch.device('cuda' if torch.cuda.is_available() else 'cpu'))  #
-    else:
+    elif model_type == "attmil":
         model = MILModel(batch[0].shape[-1], batch[-1].shape[-1])
+    elif model_type == "timmViT":
+        model = MILModel(n_classes=2)
+    else:
+        raise ValueError(f"Unknown model type {model_type}")
     #model = model.to(torch.device(device))
 
 
@@ -137,6 +142,7 @@ def train(
             CSVLogger(),
         ]
         learn.fit_one_cycle(n_epoch=n_epoch, lr_max=1e-4, cbs=cbs)
+        return learn, None
     else:
         swarmCallback = SwarmCallback(syncFrequency=syncFrequency,
                                       minPeers=min_peers,
@@ -155,9 +161,10 @@ def train(
             User_swarm_callback(swarmCallback),
         ]
 
-        learn.fit_one_cycle(n_epoch=n_epoch, lr_max=1e-4, cbs=cbs)
-        swarmCallback.on_train_end()
-    return learn
+        learn.fit_one_cycle(n_epoch=30, lr_max=1e-4, cbs=cbs)
+
+
+        return learn, swarmCallback
 
 def cal_weightage(train_size):
     full_dataset_size = 922
