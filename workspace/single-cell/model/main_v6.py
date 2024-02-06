@@ -81,10 +81,10 @@ def loadData(dataDir, experiment):
     """
     
     # Load data
-    data_path = glob.glob(os.path.join(dataDir,'atlas_big'))
+    data_path = glob.glob(os.path.join(dataDir,'atlas_heart'))
     data_path = data_path[0]
     print(f'Loading data from {data_path}')
-    atlas = sc.read_h5ad(data_path+'/bigatlas.h5ad', backed='r')  # backed='r': save RAM with partial reading
+    atlas = sc.read_h5ad(data_path+'/subatlas.h5ad')
     print("Data loaded successfully")
     
     # Read the JSON file for experiment information
@@ -111,8 +111,8 @@ def loadData(dataDir, experiment):
     test_study = studies[test_data_id] # ind 0, 1, 2, 3
     
     # Train and test split
-    train = atlas[atlas.obs['Study'] == training_study]
-    test = atlas[atlas.obs['Study'] == test_study]
+    train = atlas[atlas.obs['Study'] == training_study].copy()
+    test = atlas[atlas.obs['Study'] == test_study].copy()
     test_study = str.replace(test_study, ' ', '_')
     del atlas # to save RAM
 
@@ -126,23 +126,21 @@ def loadData(dataDir, experiment):
     n_genes = 1000
     top_var_genes = train.var['highly_variable_rank'].sort_values().head(n_genes).index.values # Has no effect here because train.n_var = 1000
 
-    # Define X and y train data
-    train = train.to_memory()
-    X_train_tensor = torch.tensor(train[:, top_var_genes].layers['counts'].toarray(), dtype=torch.float32) # Convert data from NumPy array to PyTorch Tensor # Converte sparse matrix to NumPy array
+    # Define X and y
+    X_train = train[:, top_var_genes].layers['counts']
+    X_test = test[:, top_var_genes].layers['counts']
     y_train = train.obs['Annotation_1']
-    del train
-    
-    # Define X and y test data
-    test = test.to_memory()
-    X_test_tensor = torch.tensor(test[:, top_var_genes].layers['counts'].toarray(), dtype=torch.float32) # Convert data from NumPy array to PyTorch Tensor
     y_test = test.obs['Annotation_1']
-    del test 
 
     # Define categories for categories encoder
     y_categories = ['Adipocytes',
     'Cardiomyocytes',
+    'Endocardial',
     'Endothelial',
+    'Epicardium',
     'Fibroblast',
+    'Ischemic cells (MI)',
+    'Lymphatic EC',
     'Lymphocytes',
     'Mast cells',
     'Monocytes',
@@ -157,15 +155,17 @@ def loadData(dataDir, experiment):
 
     # Transform y labels from categorial in numeric NumPy array
     y_train_transformed = ohe.transform(y_train.values.reshape(-1, 1))
-    del y_train
     y_test_transformed = ohe.transform(y_test.values.reshape(-1, 1))
-    del y_test
+
+    # Converte sparse matrix to NumPy array
+    X_train_array = X_train.toarray()
+    X_test_array = X_test.toarray()
 
     # Convert data from NumPy array to PyTorch Tensor
+    X_train_tensor = torch.tensor(X_train_array, dtype=torch.float32)
+    X_test_tensor = torch.tensor(X_test_array, dtype=torch.float32)
     y_train_tensor = torch.tensor(y_train_transformed, dtype=torch.float32)
-    del y_train_transformed
     y_test_tensor = torch.tensor(y_test_transformed, dtype=torch.float32)
-    del y_test_transformed
 
     # Define input and output dimension
     input_dim = X_train_tensor.size()[1]
