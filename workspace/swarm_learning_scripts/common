@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 ######################################################################
 ## (C)Copyright 2021-2023 Hewlett Packard Enterprise Development LP
 ## Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -88,10 +87,10 @@ snRepoName="sn"
 swciRepoName="swci"
 swopRepoName="swop"
 
-slImage="${swarmDockerHub}/:${slRepoName}"
-snImage="${swarmDockerHub}/:${snRepoName}"
-swciImage="${swarmDockerHub}/:${swciRepoName}"
-swopImage="${swarmDockerHub}/:${swopRepoName}"
+slImage="${swarmDockerHub}:${slRepoName}"
+snImage="${swarmDockerHub}:${snRepoName}"
+swciImage="${swarmDockerHub}:${swciRepoName}"
+swopImage="${swarmDockerHub}:${swopRepoName}"
 
 # If podman is installed we don't need elevate privileges so sudo or docker group not required 
 # else we need elevated privileges to run docker commands, if the current user is not
