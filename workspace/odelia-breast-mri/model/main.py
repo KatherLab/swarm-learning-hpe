@@ -5,7 +5,7 @@ from pytorch_lightning.loggers import TensorBoardLogger
 import os
 from pathlib import Path
 import logging
-
+from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 import numpy as np
@@ -14,7 +14,6 @@ from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
-from data.datasets import DUKE_Dataset3D
 from data.datamodules import DataModule
 from utils.roc_curve import plot_roc_curve, cm2acc, cm2x
 import monai.networks.nets as nets
@@ -64,6 +63,23 @@ if __name__ == "__main__":
     else:
         from predict import predict
         from predict_last import predict_last
+
+    if task_data_name == "multi_ext":
+        from data.datasets import DUKE_Dataset3D_collab
+
+        print("Current Directory ", os.getcwd())
+        ds = DUKE_Dataset3D_collab(
+            flip=True,
+            path_root=os.path.join(dataDir, task_data_name, 'train_val')
+        )
+    elif task_data_name == "multi_ext":
+        from data.datasets import DUKE_Dataset3D
+
+        print("Current Directory ", os.getcwd())
+        ds = DUKE_Dataset3D(
+            flip=True,
+            path_root=os.path.join(dataDir, task_data_name, 'train_val')
+        )
     current_time = datetime.now().strftime("%Y_%m_%d_%H%M%S")
     if local_compare_flag:
         print("Running in local compare mode")
@@ -74,20 +90,24 @@ if __name__ == "__main__":
     accelerator = 'gpu' if torch.cuda.is_available() else 'cpu'
     print(f"Using {accelerator} for training")
 
-    print("Current Directory " , os.getcwd())
-    ds = DUKE_Dataset3D(
-        flip=True,
-        path_root=os.path.join(dataDir, task_data_name,'train_val')
-    )
-    train_size = int(0.8 * len(ds))
-    val_size = int(0.2 * len(ds))
-    ds_train = Subset(ds, list(range(train_size)))
-    ds_val = Subset(ds, list(range(train_size, train_size+val_size)))
+
+
+    labels = ds.get_labels()
+
+    # Generate indices and perform stratified split
+    indices = list(range(len(ds)))
+    train_indices, val_indices = train_test_split(indices, test_size=0.2, stratify=labels, random_state=42)
+
+    # Create training and validation subsets
+    ds_train = Subset(ds, train_indices)
+    ds_val = Subset(ds, val_indices)
+
     adsValData = DataLoader(ds_val, batch_size=2, shuffle=False)
     # print adsValData type
     print('adsValData type: ', type(adsValData))
-    print('train_size: ',train_size)
-    print('val_size: ',val_size)
+
+    print('train_size: ',len(ds_train))
+    print('val_size: ',len(ds_train))
 
 
     dm = DataModule(
