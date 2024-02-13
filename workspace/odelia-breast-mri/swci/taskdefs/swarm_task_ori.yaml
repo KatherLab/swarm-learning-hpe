@@ -15,8 +15,9 @@ Body:
              "LOCAL_COMPARE_FLAG": False,
              "USE_ADAPTIVE_SYNC": False,
              "SYNC_FREQUENCY": 512,
-             "MODEL_NAME": "ResNet18",
-           ]
+             "MODEL_NAME": "ResNet101",
+             "PREDICT_FLAG": "ext",
+  ]
   PrivateContent: /tmp/test/data-and-scratch
   SharedContent:
     - Src: /opt/hpe/swarm-learning-hpe/workspace/<MODULE-NAME>/model

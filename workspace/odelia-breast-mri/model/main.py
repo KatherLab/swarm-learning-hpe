@@ -22,8 +22,7 @@ import torch
 from swarmlearning.pyt import SwarmCallback
 from pytorch_lightning.callbacks import Callback
 from models import ResNet, VisionTransformer, EfficientNet, EfficientNet3D, EfficientNet3Db7, DenseNet121, UNet3D
-from predict import predict
-from predict_last import predict_last
+
 
 class User_swarm_callback(Callback):
     def __init__(self, swarmCallback):
@@ -42,11 +41,11 @@ class User_swarm_callback(Callback):
     #    self.swarmCallback.on_train_end()
 
 def cal_weightage(train_size):
-    full_dataset_size = 922
+    full_dataset_size = 1500
     return int(100 * train_size / full_dataset_size)
 
 if __name__ == "__main__":
-    task_data_name = 'WP1'
+    task_data_name = os.getenv('DATA_FOLDER', 'DUKE_ext')
     scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
     dataDir = os.getenv('DATA_DIR', '/platform/data/')
     max_epochs = int(os.getenv('MAX_EPOCHS', 100))
@@ -57,6 +56,14 @@ if __name__ == "__main__":
     syncFrequency = int(os.getenv('SYNC_FREQUENCY', 512))
     model_name = os.getenv('MODEL_NAME', 'ResNet50')
     print('model_name: ', model_name)
+
+    prediction_flag = os.getenv('PREDICT_FLAG', 'ext')
+    if prediction_flag == 'ext':
+        from predict_ext import predict
+        from predict_last_ext import predict_last
+    else:
+        from predict import predict
+        from predict_last import predict_last
     current_time = datetime.now().strftime("%Y_%m_%d_%H%M%S")
     if local_compare_flag:
         print("Running in local compare mode")
@@ -229,7 +236,7 @@ if __name__ == "__main__":
         trainer.fit(model, datamodule=dm)
         swarmCallback.on_train_end()
     model.save_best_checkpoint(trainer.logger.log_dir, checkpointing.best_model_path)
-    model.save_last_checkpoint(trainer.logger.log_dir, checkpointing.best_model_path)
+    model.save_last_checkpoint(trainer.logger.log_dir, checkpointing.last_model_path)
 
     import subprocess
 
