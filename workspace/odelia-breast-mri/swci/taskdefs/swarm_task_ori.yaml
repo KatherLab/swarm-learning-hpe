@@ -17,6 +17,7 @@ Body:
              "SYNC_FREQUENCY": 512,
              "MODEL_NAME": "ResNet101",
              "PREDICT_FLAG": "ext",
+             "DATA_FOLDER": "DUKE_ext",
   ]
   PrivateContent: /tmp/test/data-and-scratch
   SharedContent:
