@@ -1,6 +1,6 @@
 from pathlib import Path 
 import pandas as pd 
-from odelia.data.datasets import SimpleDataset3D
+from data.datasets import SimpleDataset3D
 
 
 class DUKE_Dataset3D_collab(SimpleDataset3D):
