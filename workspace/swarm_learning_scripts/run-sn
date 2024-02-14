@@ -79,7 +79,7 @@ source "${progDir}/common"
 funcCallOrder=("Common" "Docker" "APLS" "UserID" "SpiffeID" "Component")
 
 # Used by onCommonBatchEnd and printCommonUsage.
-defaultImageName="${swarmDockerHub}/${swarmOrg}/${snRepoName}"
+defaultImageName="${snImage}"
 defaultImageTag="${swarmVer}"
 
 
