@@ -23,7 +23,7 @@ class DUKE_Dataset3D_collab(SimpleDataset3D):
     def __getitem__(self, index):
         uid = self.item_pointers[index]
         #print(uid)
-        path_item = [self.path_root/uid/name for name in [ '*sub.nii.gz' ]]
+        path_item = [self.path_root/uid/name for name in [ 'SUB_4.nii.gz' ]]
         img = self.load_item(path_item)
         #print(img)
         target = self.df.loc[uid]['Malign']
