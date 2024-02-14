@@ -40,7 +40,7 @@ class User_swarm_callback(Callback):
     #    self.swarmCallback.on_train_end()
 
 def cal_weightage(train_size):
-    full_dataset_size = 1500
+    full_dataset_size = 1466
     return int(100 * train_size / full_dataset_size)
 
 if __name__ == "__main__":
@@ -106,8 +106,11 @@ if __name__ == "__main__":
     # print adsValData type
     print('adsValData type: ', type(adsValData))
 
-    print('train_size: ',len(ds_train))
-    print('val_size: ',len(ds_train))
+    train_size = len(ds_train)
+    val_size = len(ds_val)
+    print('train_size: ',train_size)
+    print('val_size: ',val_size)
+
 
 
     dm = DataModule(
@@ -225,10 +228,10 @@ if __name__ == "__main__":
                                       totalEpochs=max_epochs,
                                       syncFrequency=512,
                                       minPeers=min_peers,
-                                      #maxPeers=max_peers,
+                                      maxPeers=max_peers,
                                       #adsValData=adsValData,
                                       #adsValBatchSize=2,
-                                      #nodeWeightage=100,
+                                      nodeWeightage=cal_weightage(train_size),
                                       model=model,
                                       #lossFunction="BCEWithLogitsLoss",
                                       #lossFunctionArgs=lFArgsDict,
