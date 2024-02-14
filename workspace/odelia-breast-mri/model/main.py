@@ -44,7 +44,7 @@ def cal_weightage(train_size):
     return int(100 * train_size / full_dataset_size)
 
 if __name__ == "__main__":
-    task_data_name = os.getenv('DATA_FOLDER', 'DUKE_ext')
+    task_data_name = 'DUKE_ext'
     scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
     dataDir = os.getenv('DATA_DIR', '/platform/data/')
     max_epochs = int(os.getenv('MAX_EPOCHS', 100))
@@ -65,6 +65,8 @@ if __name__ == "__main__":
         from predict_last import predict_last
 
     if task_data_name == "multi_ext":
+        print('task_data_name: ', task_data_name)
+
         from data.datasets import DUKE_Dataset3D_collab
 
         print("Current Directory ", os.getcwd())
@@ -72,7 +74,8 @@ if __name__ == "__main__":
             flip=True,
             path_root=os.path.join(dataDir, task_data_name, 'train_val')
         )
-    elif task_data_name == "multi_ext":
+    else:
+        print('task_data_name: ', task_data_name)
         from data.datasets import DUKE_Dataset3D
 
         print("Current Directory ", os.getcwd())
@@ -89,7 +92,6 @@ if __name__ == "__main__":
 
     accelerator = 'gpu' if torch.cuda.is_available() else 'cpu'
     print(f"Using {accelerator} for training")
-
 
 
     labels = ds.get_labels()
@@ -110,7 +112,6 @@ if __name__ == "__main__":
     val_size = len(ds_val)
     print('train_size: ',train_size)
     print('val_size: ',val_size)
-
 
 
     dm = DataModule(
