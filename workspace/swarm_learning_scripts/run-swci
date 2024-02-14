@@ -72,7 +72,7 @@ funcCallOrder=("Common" "Docker" "APLS" "UserID" "SpiffeID" "Component")
 
 
 # Used by onCommonBatchEnd and printCommonUsage.
-defaultImageName="${swciImage}"
+defaultImageName="${swarmDockerHub}/${swarmOrg}/${swciRepoName}"
 defaultImageTag="${swarmVer}"
 
 containerUsrDir="/platform/swarm/usr"
