@@ -28,6 +28,11 @@ class DUKE_Dataset3D(SimpleDataset3D):
     @classmethod
     def run_item_crawler(cls, path_root, crawler_ext, **kwargs):
         return [path.relative_to(path_root).name for path in Path(path_root).iterdir() if path.is_dir()]
-
+    def get_labels(self):
+        # Assuming 'Malign' is a column in self.df after combining datasets
+        # This method should return a list or array of labels corresponding to each item in the dataset
+        return self.df['Malign'].values
+    def __len__(self):
+        return len(self.item_pointers)
 
 
