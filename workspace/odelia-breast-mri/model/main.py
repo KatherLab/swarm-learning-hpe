@@ -119,7 +119,7 @@ if __name__ == "__main__":
         ds_val = ds_val,
         #ds_test = ds_test,
         batch_size=1,
-        # num_workers=0,
+        num_workers=0,
         pin_memory=True,
     )
     print('using model: ', model_name)

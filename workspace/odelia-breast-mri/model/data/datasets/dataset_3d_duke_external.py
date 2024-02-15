@@ -10,19 +10,10 @@ class DUKE_Dataset3D_external(SimpleDataset3D):
         super().__init__(path_root, item_pointers, crawler_glob, transform, image_resize, flip, image_crop, norm, to_tensor)
         df = pd.read_csv(self.path_root.parent/'segmentation_metadata_unilateral.csv')#, header=[0, 2])
         print('self.path_root.parent', self.path_root.parent)
-        #df = df[df[df.columns[38]] == 0] # check if cancer is bilateral=1, unilateral=0 or NC 
         df = df[[df.columns[0], df.columns[5]]] # Only pick relevant columns: Patient ID, Tumor Side, Bilateral
-        #df.columns = ['PatientID', 'Malign']  # Simplify columns as: Patient ID, Tumor Side
-        #print('Data_____frame')
-        #print(df)
-        #for side in ["left", 'right']:
-            #dfs.append(pd.DataFrame({
-                #'PatientID': df["PatientID"].str.split('_').str[2] + f"_{side}",
-                #'Malign':df[["Location", "Bilateral"]].apply(lambda ds: (ds[0] == side[0].upper()) | (ds[1]==1), axis=1)} ))
         self.df = df.set_index('PATIENT', drop=True)
         self.item_pointers = self.df.index[self.df.index.isin(self.item_pointers)].tolist()
-        #print('Data_____frame')
-        #print(df)
+
 
     def __getitem__(self, index):
         uid = self.item_pointers[index]
