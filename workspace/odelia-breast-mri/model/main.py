@@ -40,11 +40,11 @@ class User_swarm_callback(Callback):
     #    self.swarmCallback.on_train_end()
 
 def cal_weightage(train_size):
-    full_dataset_size = 1466
+    full_dataset_size = 1278
     return int(100 * train_size / full_dataset_size)
 
 if __name__ == "__main__":
-    task_data_name = os.getenv('DATA_FOLDER', "multi_ext")
+    task_data_name = "DUKE_ext"
     scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
     dataDir = os.getenv('DATA_DIR', '/platform/data/')
     max_epochs = int(os.getenv('MAX_EPOCHS', 100))
@@ -53,7 +53,7 @@ if __name__ == "__main__":
     local_compare_flag = os.getenv('LOCAL_COMPARE_FLAG', 'False').lower() == 'true'
     useAdaptiveSync = os.getenv('USE_ADAPTIVE_SYNC', 'False').lower() == 'true'
     syncFrequency = int(os.getenv('SYNC_FREQUENCY', 512))
-    model_name = os.getenv('MODEL_NAME', 'ResNet50')
+    model_name = os.getenv('MODEL_NAME', 'ResNet101')
     print('model_name: ', model_name)
 
     prediction_flag = os.getenv('PREDICT_FLAG', 'ext')
@@ -104,9 +104,9 @@ if __name__ == "__main__":
     ds_train = Subset(ds, train_indices)
     ds_val = Subset(ds, val_indices)
 
-    adsValData = DataLoader(ds_val, batch_size=2, shuffle=False)
+    #adsValData = DataLoader(ds_val, batch_size=2, shuffle=False)
     # print adsValData type
-    print('adsValData type: ', type(adsValData))
+    #print('adsValData type: ', type(adsValData))
 
     train_size = len(ds_train)
     val_size = len(ds_val)
@@ -119,7 +119,7 @@ if __name__ == "__main__":
         ds_val = ds_val,
         #ds_test = ds_test,
         batch_size=1,
-        num_workers=0,
+        num_workers=16,
         pin_memory=True,
     )
     print('using model: ', model_name)
@@ -209,13 +209,13 @@ if __name__ == "__main__":
     if local_compare_flag:
         torch.autograd.set_detect_anomaly(True)
         trainer = Trainer(
-            accelerator=accelerator,
+            accelerator='gpu', devices=0,
             precision=16,
             default_root_dir=str(path_run_dir),
             callbacks=[checkpointing],  # early_stopping
             enable_checkpointing=True,
             check_val_every_n_epoch=1,
-            min_epochs=5,
+            #min_epochs=5,
             log_every_n_steps=log_every_n_steps,
             auto_lr_find=False,
             max_epochs=80,
@@ -244,13 +244,13 @@ if __name__ == "__main__":
         swarmCallback.logger.setLevel(logging.DEBUG)
         swarmCallback.on_train_begin()
         trainer = Trainer(
-            accelerator=accelerator,
+            accelerator='gpu', devices=0,
             precision=16,
             default_root_dir=str(path_run_dir),
             callbacks=[checkpointing, User_swarm_callback(swarmCallback)],#early_stopping
             enable_checkpointing=True,
             check_val_every_n_epoch=1,
-            min_epochs=5,
+            #min_epochs=5,
             log_every_n_steps=log_every_n_steps,
             auto_lr_find=False,
             max_epochs=max_epochs,
