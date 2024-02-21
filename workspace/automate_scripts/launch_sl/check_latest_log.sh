@@ -7,10 +7,10 @@ show_help() {
     echo ""
     echo "Options:"
     echo "  --ml     Fetch logs for the latest 'user-env' container."
-    echo "  --sn     Fetch logs for the latest container based on the 'jeffzhu69/swarm-learning:sn' image."
-    echo "  --swop   Fetch logs for the latest container based on the 'jeffzhu69/swarm-learning:swop' image."
-    echo "  --swci   Fetch logs for the latest container based on the 'jeffzhu69/swarm-learning:swci' image."
-    echo "  --sl     Fetch logs for the latest container based on the 'jeffzhu69/sl:swop' image."
+    echo "  --sn     Fetch logs for the latest container based on the 'hub.myenterpriselicense.hpe.com/hpe/swarm-learning/sn:2.2.0' image."
+    echo "  --swop   Fetch logs for the latest container based on the 'hub.myenterpriselicense.hpe.com/hpe/swarm-learning/swop:2.2.0' image."
+    echo "  --swci   Fetch logs for the latest container based on the 'hub.myenterpriselicense.hpe.com/hpe/swarm-learning/swci:2.2.0' image."
+    echo "  --sl     Fetch logs for the latest container based on the 'hub.myenterpriselicense.hpe.com/hpe/swarm-learning/sl:2.2.0' image."
     echo ""
     echo "Example: $0 --ml"
     exit 1
@@ -33,16 +33,16 @@ case "$1" in
         container_id=$(docker ps -a --filter "name=us*" --format "{{.ID}}" | head -n 1)
         ;;
     --sn)
-        container_id=$(get_container_id_by_image "jeffzhu69/swarm-learning:sn")
+        container_id=$(get_container_id_by_image "hub.myenterpriselicense.hpe.com/hpe/swarm-learning/sn:2.2.0")
         ;;
     --swop)
-        container_id=$(get_container_id_by_image "jeffzhu69/swarm-learning:swop")
+        container_id=$(get_container_id_by_image "hub.myenterpriselicense.hpe.com/hpe/swarm-learning/swop:2.2.0")
         ;;
     --swci)
-        container_id=$(get_container_id_by_image "jeffzhu69/swarm-learning:swci")
+        container_id=$(get_container_id_by_image "hub.myenterpriselicense.hpe.com/hpe/swarm-learning/swci:2.2.0")
         ;;
     --sl)
-        container_id=$(get_container_id_by_image "jeffzhu69/sl:swop")
+        container_id=$(get_container_id_by_image "hub.myenterpriselicense.hpe.com/hpe/swarm-learning/sl:2.2.0")
         ;;
     *)
         echo "Invalid option: $1"
