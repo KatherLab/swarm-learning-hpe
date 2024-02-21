@@ -40,11 +40,11 @@ class User_swarm_callback(Callback):
     #    self.swarmCallback.on_train_end()
 
 def cal_weightage(train_size):
-    full_dataset_size = 1278
+    full_dataset_size = 1788
     return int(100 * train_size / full_dataset_size)
 
 if __name__ == "__main__":
-    task_data_name = "DUKE_ext"
+    task_data_name = "cropped"
     scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
     dataDir = os.getenv('DATA_DIR', '/platform/data/')
     max_epochs = int(os.getenv('MAX_EPOCHS', 100))
@@ -64,7 +64,7 @@ if __name__ == "__main__":
         from predict import predict
         from predict_last import predict_last
 
-    if task_data_name == "multi_ext":
+    if task_data_name == "multi_ext" or task_data_name == "cropped":
         print('task_data_name: ', task_data_name)
 
         from data.datasets import DUKE_Dataset3D_collab
@@ -209,7 +209,7 @@ if __name__ == "__main__":
     if local_compare_flag:
         torch.autograd.set_detect_anomaly(True)
         trainer = Trainer(
-            accelerator='gpu', devices=0,
+            accelerator='gpu', devices=1,
             precision=16,
             default_root_dir=str(path_run_dir),
             callbacks=[checkpointing],  # early_stopping
@@ -244,7 +244,7 @@ if __name__ == "__main__":
         swarmCallback.logger.setLevel(logging.DEBUG)
         swarmCallback.on_train_begin()
         trainer = Trainer(
-            accelerator='gpu', devices=0,
+            accelerator='gpu', devices=1,
             precision=16,
             default_root_dir=str(path_run_dir),
             callbacks=[checkpointing, User_swarm_callback(swarmCallback)],#early_stopping
