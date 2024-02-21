@@ -51,6 +51,12 @@ if __name__ == "__main__":
     accelerator = 'gpu' if torch.cuda.is_available() else 'cpu'
     print(f"Using {accelerator} for training")
 
+    local_compare_flag = env_vars['local_compare_flag']
+    max_epochs = env_vars['max_epochs']
+    min_peers = env_vars['min_peers']
+    max_peers = env_vars['max_peers']
+    dataDir = env_vars['dataDir']
+    task_data_name = env_vars['dataDir']
 
     labels = ds.get_labels()
 
