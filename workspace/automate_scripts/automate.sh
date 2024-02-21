@@ -152,6 +152,9 @@ fi
 
   sh ./workspace/automate_scripts/sl_env_setup/replacement.sh -w "$workspace_name" -s "$sentinel_ip" -n "$num_peers" -e "$num_epochs" -d "$host_index"
   echo "Final setup steps completed successfully. Please proceed to the next step for running Swarm Learning nodes."
+  echo "Adding alias for quick run"
+  chmod +x ./workspace/automate_scripts/sl_env_setup/setup_aliases.sh
+  ./workspace/automate_scripts/sl_env_setup/setup_aliases.sh
 fi
 
 # If an error occurs, print an error message and exit
