@@ -55,8 +55,8 @@ if __name__ == "__main__":
     max_epochs = env_vars['max_epochs']
     min_peers = env_vars['min_peers']
     max_peers = env_vars['max_peers']
-    dataDir = env_vars['dataDir']
-    task_data_name = env_vars['dataDir']
+    dataDir = env_vars['data_dir']
+    task_data_name = env_vars['task_data_name']
 
     labels = ds.get_labels()
 
