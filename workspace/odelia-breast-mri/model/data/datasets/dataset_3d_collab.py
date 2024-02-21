@@ -9,7 +9,7 @@ class DUKE_Dataset3D_collab(SimpleDataset3D):
         if item_pointers is None:
             item_pointers = []
         super().__init__(path_root, item_pointers, crawler_glob, transform, image_resize, flip, image_crop, norm, to_tensor)
-        df = pd.read_csv(self.path_root.parent/'cambridge.csv')#, header=[0, 2])
+        df = pd.read_csv(self.path_root.parent/'datasheet.csv')#, header=[0, 2])
         #print('******')
         #print('self.path_root.parent', self.path_root.parent)
         #df = df[df[df.columns[38]] == 0] # check if cancer is bilateral=1, unilateral=0 or NC
