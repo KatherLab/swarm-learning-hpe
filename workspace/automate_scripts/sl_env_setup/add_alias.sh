@@ -31,8 +31,9 @@ alias runsn="sudo sh /opt/hpe/swarm-learning-hpe/workspace/automate_scripts/laun
 alias runswop="sudo sh /opt/hpe/swarm-learning-hpe/workspace/automate_scripts/launch_sl/run_swop.sh -d $host_index"
 alias runswci="sudo sh /opt/hpe/swarm-learning-hpe/workspace/automate_scripts/launch_sl/run_swci.sh -d $host_index"
 alias runsl="sudo sh /opt/hpe/swarm-learning-hpe/workspace/automate_scripts/launch_sl/run_sl.sh -d $host_index"
-alias cklog="sudo sh /opt/hpe/swarm-learning-hpe/workspace/automate_scripts/launch_sl/check_latest_log.sh -d $host_index"
-alias stophpe="sudo sh /opt/hpe/swarm-learning-hpe/workspace/automate_scripts/launch_sl/stopswarm.sh -d $host_index"
+alias cklog="sudo sh /opt/hpe/swarm-learning-hpe/workspace/automate_scripts/launch_sl/check_latest_log.sh"
+alias stophpe="sudo sh /opt/hpe/swarm-learning-hpe/workspace/automate_scripts/launch_sl/stopswarm.sh"
+
 
 # Inform user about manual sourcing
 echo "Aliases generated successfully. Please source your shell configuration file (e.g., ~/.bashrc or ~/.zshrc) to apply changes."
