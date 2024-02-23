@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns 
 import pandas as pd 
 
-from data.datasets import DUKE_Dataset3D
+from data.datasets import DUKE_Dataset3D_external
 from data.datamodules import DataModule
 from utils.roc_curve import plot_roc_curve, cm2acc, cm2x
 
@@ -35,9 +35,9 @@ def predict(model_dir, model_name):
     logging.basicConfig(level=logging.INFO)
 
     # ------------ Load Data ----------------
-    ds = DUKE_Dataset3D(
+    ds = DUKE_Dataset3D_external(
         flip=False,
-        path_root='/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user/data-and-scratch/data/DUKE/test'
+        path_root='/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user/data-and-scratch/data/multi_ext/external'
     )
 
     ds_test = ds
@@ -164,5 +164,5 @@ def predict(model_dir, model_name):
 
 if __name__ == "__main__":
     path_run = Path(
-        '/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user/data-and-scratch/scratch/2023_04_07_190127_DUKE_efficientnet_b7_swarm_learning')
-    predict(path_run, model_name='ResNet50')
+        '/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user/data-and-scratch/scratch/2024_02_22_201043_multi_ext_ResNet101_swarm_learning')
+    predict(path_run, model_name='ResNet101')
