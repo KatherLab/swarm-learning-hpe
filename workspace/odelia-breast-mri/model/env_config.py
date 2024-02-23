@@ -33,11 +33,19 @@ def prepare_dataset(task_data_name, data_dir):
     """Prepare the dataset based on task data name."""
     print('task_data_name: ', task_data_name)
     print("Current Directory ", os.getcwd())
+
+    # Check if data_dir contains only DUKE_ext
+    available_dirs = next(os.walk(data_dir))[1]  # List directories directly under data_dir
+    if 'DUKE_ext' in available_dirs:
+        print("Only DUKE_ext directory found under data_dir. Setting task_data_name to DUKE_ext.")
+        task_data_name = "DUKE_ext"
+
     dataset_class = None
     if task_data_name == "multi_ext":
         from data.datasets import DUKE_Dataset3D_collab as dataset_class
     elif task_data_name == "DUKE_ext":
         from data.datasets import DUKE_Dataset3D as dataset_class
+
     if dataset_class:
         return dataset_class(flip=True, path_root=os.path.join(data_dir, task_data_name, 'train_val'))
     else:
