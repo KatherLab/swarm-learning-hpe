@@ -158,6 +158,43 @@ All the processes are automated, so you can just run the above command and wait 
 If any problem occurs, please first try to figure out which step is going wrong, try to google for solutions and find solution in [Troubleshooting.md](Troubleshooting.md). Then contact the maintainer of the Swarm Learning Environment and document the error in the Troubleshooting.md file.
 
 ## Usage
+### Ensuring Dataset Structure
+
+To ensure proper organization of your dataset, please follow the steps outlined below:
+
+1. **Directory Location**
+
+   Place your dataset under the specified path:
+
+/workspace/odelia-breast-mri/user/data-and-scratch/data
+
+
+Within this path, create a folder named `multi_ext`. Your directory structure should then resemble:
+/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user/data-and-scratch/data
+└── multi_ext
+├── datasheet.csv # Your clinical tabular data
+├── test # External validation dataset
+├── train_val # Your own site training data
+└── segmentation_metadata_unilateral.csv # External validation table
+
+2. **Data Organization**
+
+Inside the `train_val` or `test` directories, place folders that directly contain NIfTI files. The folders should be named according to the following convention:
+
+<patientID>_right
+<patientID>_left
+
+Here, `<patientID>` should correspond with the patient ID in your tables (`datasheet.csv` and `segmentation_metadata_unilateral.csv`). This convention assists in linking the imaging data with the respective clinical information efficiently.
+
+#### Summary
+
+- **Step 1:** Ensure your dataset is placed within `/workspace/odelia-breast-mri/user/data-and-scratch/data/multi_ext`.
+- **Step 2:** Organize your clinical tabular data, external validation dataset, your own site training data, and external validation table as described.
+- **Step 3:** Name folders within `train_val` and `test` as `<patientID>_right` or `<patientID>_left`, matching the patient IDs in your datasheets.
+
+Following these structured steps will help in maintaining a well-organized dataset, thereby enhancing data management and processing in your projects.
+
+
 
 ### Running Swarm Learning Nodes
 To run a Swarm Network node -> Swarm SWOP Node -> Swarm SWCI node. Please open a terminal for each of the nodes to run. Observe the following commands:

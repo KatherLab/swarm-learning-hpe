@@ -46,7 +46,7 @@ if __name__ == "__main__":
     print('model_name: ', env_vars['model_name'])
 
     predict, predict_last = load_prediction_modules(env_vars['prediction_flag'])
-    ds = prepare_dataset(env_vars['task_data_name'], env_vars['data_dir'])
+    ds, task_data_name = prepare_dataset(env_vars['task_data_name'], env_vars['data_dir'])
     path_run_dir = generate_run_directory(env_vars['scratch_dir'], env_vars['task_data_name'], env_vars['model_name'], env_vars['local_compare_flag'])
 
     accelerator = 'gpu' if torch.cuda.is_available() else 'cpu'
@@ -57,7 +57,6 @@ if __name__ == "__main__":
     min_peers = env_vars['min_peers']
     max_peers = env_vars['max_peers']
     dataDir = env_vars['data_dir']
-    task_data_name = env_vars['task_data_name']
 
     labels = ds.get_labels()
 

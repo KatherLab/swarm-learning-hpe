@@ -47,7 +47,7 @@ def prepare_dataset(task_data_name, data_dir):
         from data.datasets import DUKE_Dataset3D as dataset_class
 
     if dataset_class:
-        return dataset_class(flip=True, path_root=os.path.join(data_dir, task_data_name, 'train_val'))
+        return dataset_class(flip=True, path_root=os.path.join(data_dir, task_data_name, 'train_val')), task_data_name
     else:
         raise ValueError("Invalid task data name specified")
 
