@@ -22,6 +22,7 @@ from swarmlearning.pyt import SwarmCallback
 from pytorch_lightning.callbacks import Callback
 from model_selector import select_model
 from env_config import *
+from collections import Counter
 
 class User_swarm_callback(Callback):
     def __init__(self, swarmCallback):
@@ -67,6 +68,21 @@ if __name__ == "__main__":
     # Create training and validation subsets
     ds_train = Subset(ds, train_indices)
     ds_val = Subset(ds, val_indices)
+    # Extract training labels using the train_indices
+    train_labels = [labels[i] for i in train_indices]
+    # Count the occurrences of each label in the training set
+    label_counts = Counter(train_labels)
+
+    # Calculate the total number of samples in the training set
+    total_samples = len(train_labels)
+
+    # Print the percentage of the training set for each label
+    for label, count in label_counts.items():
+        percentage = (count / total_samples) * 100
+        print(f"Label '{label}': {percentage:.2f}% of the training set, Exact count: {count}")
+
+    # print the total number of different labels in the training set:
+    print(f"Total number of different labels in the training set: {len(label_counts)}")
 
     #adsValData = DataLoader(ds_val, batch_size=2, shuffle=False)
     # print adsValData type
