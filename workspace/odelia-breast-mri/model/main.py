@@ -77,7 +77,8 @@ if __name__ == "__main__":
     print('train_size: ',train_size)
     print('val_size: ',val_size)
 
-
+    cal_max_epochs = cal_max_epochs(max_epochs, cal_weightage(train_size))
+    print("max epochs set to: ", cal_max_epochs)
     dm = DataModule(
         ds_train = ds_train,
         ds_val = ds_val,
@@ -139,7 +140,7 @@ if __name__ == "__main__":
     else:
         #TODO: enable sl loss calculation
         swarmCallback = SwarmCallback(
-                                      totalEpochs=max_epochs,
+                                      totalEpochs=cal_max_epochs,
                                       syncFrequency=1024,
                                       minPeers=min_peers,
                                       maxPeers=max_peers,
@@ -166,7 +167,7 @@ if __name__ == "__main__":
             #min_epochs=5,
             log_every_n_steps=log_every_n_steps,
             auto_lr_find=False,
-            max_epochs=cal_max_epochs(max_epochs, cal_weightage(train_size)),
+            max_epochs=cal_max_epochs,
             num_sanity_val_steps=2,
             logger=TensorBoardLogger(save_dir=path_run_dir)
         )

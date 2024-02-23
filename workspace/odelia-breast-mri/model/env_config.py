@@ -58,7 +58,7 @@ def generate_run_directory(scratch_dir, task_data_name, model_name, local_compar
     return os.path.join(scratch_dir, f"{current_time}_{task_data_name}_{model_name}_{mode}")
 
 def cal_weightage(train_size):
-    estimated_full_dataset_size = 1000
+    estimated_full_dataset_size = 808 # exact training size of Duke 80% dataset, which is the largest across multiple nodes
     weightage = int(100 * train_size / estimated_full_dataset_size)
     if weightage > 100:
         weightage = 100
