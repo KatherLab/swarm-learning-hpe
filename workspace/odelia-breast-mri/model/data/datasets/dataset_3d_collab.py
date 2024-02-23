@@ -23,22 +23,36 @@ class DUKE_Dataset3D_collab(SimpleDataset3D):
         self.item_pointers = self.df.index[self.df.index.isin(self.item_pointers)].tolist()
         #print('Data_____frame')
         #print(self.df)
-      
+
+    from pathlib import Path
 
     def __getitem__(self, index):
         uid = self.item_pointers[index]
-        #print(uid)
-        #path_item = [self.path_root/uid/name for name in [ '**.nii.gz' ]]
-        file_name = '*.nii.gz'
-        #file_name = 'Sub.nii.gz' # For Aachen dataset
-        path_item = Path.joinpath(self.path_root/uid, file_name)
-        #print(path_item)
+        # Directory path for the specific item
+        item_dir = self.path_root / uid
+        # Fetch all .nii.gz files in the directory
+        nii_gz_files = list(item_dir.glob('**/*.nii.gz'))
+        # Default file selection
+        file_name = 'SUB_4.nii.gz'
+        # If there are multiple .nii.gz files, prioritize SUB_4.nii.gz if it exists
+        if len(nii_gz_files) > 1:
+            sub_4_path = item_dir / file_name
+            if sub_4_path in nii_gz_files:
+                path_item = sub_4_path
+            else:
+                # If SUB_4.nii.gz is not found, just use the first file (or any other logic)
+                path_item = nii_gz_files[0]
+        elif nii_gz_files:
+            # If there's only one .nii.gz file, use it
+            path_item = nii_gz_files[0]
+        else:
+            # Handle the case where no .nii.gz files are found
+            raise FileNotFoundError(f"No .nii.gz files found in {item_dir}")
+
         img = self.load_item(path_item)
-        #print(img)
         target = self.df.loc[uid]['Malign']
-        #print(target)
-        return {'uid':uid, 'source': self.transform(img), 'target':target}
-    
+        return {'uid': uid, 'source': self.transform(img), 'target': target}
+
     @classmethod
     def run_item_crawler(cls, path_root, crawler_ext, **kwargs):
         return [path.relative_to(path_root).name for path in Path(path_root).iterdir() if path.is_dir() ]
