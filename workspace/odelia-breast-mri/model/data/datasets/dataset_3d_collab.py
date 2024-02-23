@@ -29,7 +29,7 @@ class DUKE_Dataset3D_collab(SimpleDataset3D):
         uid = self.item_pointers[index]
         #print(uid)
         #path_item = [self.path_root/uid/name for name in [ '**.nii.gz' ]]
-        file_name = uid + '.nii.gz'
+        file_name =  'sub.nii.gz'
         #file_name = 'Sub.nii.gz' # For Aachen dataset
         path_item = Path.joinpath(self.path_root/uid, file_name)
         #print(path_item)
