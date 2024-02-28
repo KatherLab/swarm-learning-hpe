@@ -198,6 +198,7 @@ Following these structured steps will help in maintaining a well-organized datas
 
 ### Running Swarm Learning Nodes
 To run a Swarm Network node -> Swarm SWOP Node -> Swarm SWCI node. Please open a terminal for each of the nodes to run. Observe the following commands:
+#### SN
 - To run a Swarm Network (or sentinel) node:
 ```sh
 ./workspace/automate_scripts/launch_sl/run_sn.sh -s <sentinel_ip_address> -d <host_index>
@@ -206,7 +207,7 @@ or
 ```sh
 runsn
 ```
-
+#### SWOP
 - To run a Swarm SWOP node:
 ```sh
 ./workspace/automate_scripts/launch_sl/run_swop.sh -w <workspace_name> -s <sentinel_ip_address>  -d <host_index>
@@ -215,7 +216,7 @@ or
 ```sh
 runswop
 ```
-
+#### SWCI
 
 - To run a Swarm SWCI node(SWCI node is used to generate training task runners, could be initiated by any host, but currently we suggest only the sentinel host is allowed to initiate):
 ```sh
@@ -262,15 +263,20 @@ Please observe [Troubleshooting.md](Troubleshooting.md) section 10 for successfu
 Nodes will be added to vpn and will be able to communicate with each other after setting up the Swarm Learning Environment with [Install](#install)
 | Project | Node Name | Location           | Hostname  | Data      | Maintainer                                 |
 | ------- | --------- | ------------------| ---------| --------- | ------------------------------------------|
-| Sentinel node | TUD       | Dresden, Germany  | swarm     | 1-100     | [@Jeff](https://github.com/Ultimate-Storm) |
-| ODELIA  | VHIO      | Madrid, Spain      | radiomics | 401-500   | [@Adrià](adriamarcos@vhio.net)           |
-|         | UKA       | Aachen, Germany    | swarm     | 101-200   | [@Gustav](gumueller@ukaachen.de)         |
-|         | RADBOUD   | Nijmegen, Netherlands | swarm | 501-600   | [@Tianyu](t.zhang@nki.nl)                |
-|         | MITERA    |                    |           | 201-300   |                                            |
-|         | RIBERA    |                    |           | 301-400   |                                            |
-|         | UTRECHT   |                    |           | 601-700   |                                            |
-|         | CAMBRIDGE |                    |           | 701-800   |                                            |
-|         | ZURICH    |                    |           |           |                                            |
+| Sentinel node | TUD       | Dresden, Germany  | swarm     | | [@Jeff](https://github.com/Ultimate-Storm) |
+| ODELIA  | VHIO      | Madrid, Spain      | radiomics |  | [@Adrià](adriamarcos@vhio.net)           |
+|         | UKA       | Aachen, Germany    | swarm     |   | [@Gustav](gumueller@ukaachen.de)         |
+|         | RADBOUD   | Nijmegen, Netherlands | swarm |   | [@Tianyu](t.zhang@nki.nl)                |
+|         | MITERA    | Paul, Greece  |           |   |                                            |
+|         | RIBERA    | Lopez, Spain    |           |   |                                            |
+|         | UTRECHT   |                    |           |  |                                            |
+|         | CAMBRIDGE |  Nick, Britain  |           |  |                                            |
+|         | ZURICH    |  Sreenath, Switzerland   |           |           |                                            |
+| SWAG |        |   | swarm     |      |  |
+
+| DECADE |        |   | swarm     |      | |
+
+
 | Other nodes | UCHICAGO  | Chicago, USA       | swarm     |           | [@Sid](Siddhi.Ramesh@uchospitals.edu)    |
 
 ## Models implemented
