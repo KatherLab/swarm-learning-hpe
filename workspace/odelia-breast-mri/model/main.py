@@ -5,7 +5,7 @@ from pytorch_lightning.loggers import TensorBoardLogger
 import os
 from pathlib import Path
 import logging
-
+from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 import numpy as np
@@ -14,15 +14,15 @@ from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
-from data.datasets import DUKE_Dataset3D
 from data.datamodules import DataModule
 from utils.roc_curve import plot_roc_curve, cm2acc, cm2x
 import monai.networks.nets as nets
 import torch
 from swarmlearning.pyt import SwarmCallback
 from pytorch_lightning.callbacks import Callback
-from models import ResNet, VisionTransformer, EfficientNet, EfficientNet3D, EfficientNet3Db7, DenseNet121, UNet3D
-
+from model_selector import select_model
+from env_config import *
+from collections import Counter
 
 class User_swarm_callback(Callback):
     def __init__(self, swarmCallback):
@@ -40,120 +40,73 @@ class User_swarm_callback(Callback):
     #def on_train_end(self, trainer, pl_module):
     #    self.swarmCallback.on_train_end()
 
-def cal_weightage(train_size):
-    full_dataset_size = 1500
-    return int(100 * train_size / full_dataset_size)
 
 if __name__ == "__main__":
-    task_data_name = os.getenv('DATA_FOLDER', 'DUKE_ext')
-    scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')
-    dataDir = os.getenv('DATA_DIR', '/platform/data/')
-    max_epochs = int(os.getenv('MAX_EPOCHS', 100))
-    min_peers = int(os.getenv('MIN_PEERS', 2))
-    max_peers = int(os.getenv('MAX_PEERS', 7))
-    local_compare_flag = os.getenv('LOCAL_COMPARE_FLAG', 'False').lower() == 'true'
-    useAdaptiveSync = os.getenv('USE_ADAPTIVE_SYNC', 'False').lower() == 'true'
-    syncFrequency = int(os.getenv('SYNC_FREQUENCY', 512))
-    model_name = os.getenv('MODEL_NAME', 'ResNet50')
-    print('model_name: ', model_name)
+    env_vars = load_environment_variables()
+    print('model_name: ', env_vars['model_name'])
 
-    prediction_flag = os.getenv('PREDICT_FLAG', 'ext')
-    if prediction_flag == 'ext':
-        from predict_ext import predict
-        from predict_last_ext import predict_last
-    else:
-        from predict import predict
-        from predict_last import predict_last
-    current_time = datetime.now().strftime("%Y_%m_%d_%H%M%S")
-    if local_compare_flag:
-        print("Running in local compare mode")
-        path_run_dir = os.path.join(scratchDir, (str(current_time)+ '_' +task_data_name + '_' + model_name + '_local_compare'))
-    else:
-        path_run_dir = os.path.join(scratchDir, (str(current_time)+ '_' +task_data_name + '_' + model_name + '_swarm_learning'))
+    predict, predict_last = load_prediction_modules(env_vars['prediction_flag'])
+    ds, task_data_name = prepare_dataset(env_vars['task_data_name'], env_vars['data_dir'])
+    path_run_dir = generate_run_directory(env_vars['scratch_dir'], env_vars['task_data_name'], env_vars['model_name'], env_vars['local_compare_flag'])
 
     accelerator = 'gpu' if torch.cuda.is_available() else 'cpu'
     print(f"Using {accelerator} for training")
 
-    print("Current Directory " , os.getcwd())
-    ds = DUKE_Dataset3D(
-        flip=True,
-        path_root=os.path.join(dataDir, task_data_name,'train_val')
-    )
-    train_size = int(0.8 * len(ds))
-    val_size = int(0.2 * len(ds))
-    ds_train = Subset(ds, list(range(train_size)))
-    ds_val = Subset(ds, list(range(train_size, train_size+val_size)))
-    adsValData = DataLoader(ds_val, batch_size=2, shuffle=False)
+    local_compare_flag = env_vars['local_compare_flag']
+    max_epochs = env_vars['max_epochs']
+    min_peers = env_vars['min_peers']
+    max_peers = env_vars['max_peers']
+    dataDir = env_vars['data_dir']
+
+    labels = ds.get_labels()
+
+    # Generate indices and perform stratified split
+    indices = list(range(len(ds)))
+    train_indices, val_indices = train_test_split(indices, test_size=0.2, stratify=labels, random_state=42)
+
+    # Create training and validation subsets
+    ds_train = Subset(ds, train_indices)
+    ds_val = Subset(ds, val_indices)
+    # Extract training labels using the train_indices
+    train_labels = [labels[i] for i in train_indices]
+    # Count the occurrences of each label in the training set
+    label_counts = Counter(train_labels)
+
+    # Calculate the total number of samples in the training set
+    total_samples = len(train_labels)
+
+    # Print the percentage of the training set for each label
+    for label, count in label_counts.items():
+        percentage = (count / total_samples) * 100
+        print(f"Label '{label}': {percentage:.2f}% of the training set, Exact count: {count}")
+
+    # print the total number of different labels in the training set:
+    print(f"Total number of different labels in the training set: {len(label_counts)}")
+
+    #adsValData = DataLoader(ds_val, batch_size=2, shuffle=False)
     # print adsValData type
-    print('adsValData type: ', type(adsValData))
+    #print('adsValData type: ', type(adsValData))
+
+    train_size = len(ds_train)
+    val_size = len(ds_val)
     print('train_size: ',train_size)
     print('val_size: ',val_size)
 
-
+    cal_max_epochs = cal_max_epochs(max_epochs, cal_weightage(train_size))
+    print("max epochs set to: ", cal_max_epochs)
     dm = DataModule(
         ds_train = ds_train,
         ds_val = ds_val,
         #ds_test = ds_test,
         batch_size=1,
-        # num_workers=0,
+        num_workers=16,
         pin_memory=True,
     )
-    print('using model: ', model_name)
-    if model_name == 'ResNet18':
-        layers = [2, 2, 2, 2]
-    elif model_name == 'ResNet34':
-        layers = [3, 4, 6, 3]
-    elif model_name == 'ResNet50':
-        layers = [3, 4, 6, 3]
-    elif model_name == 'ResNet101':
-        layers = [3, 4, 23, 3]
-    elif model_name == 'ResNet152':
-        layers = [3, 8, 36, 3]
-    else:
-        layers = None
-    #print('layers: ', layers)
-    if layers is not None:
-        # ------------ Initialize Model ------------
-        model = ResNet(in_ch=1, out_ch=1, spatial_dims=3, layers=layers)
-        #print('model: ', model)
-    elif model_name in ['efficientnet_l1', 'efficientnet_l2', 'efficientnet_b4', 'efficientnet_b7']:
-        model = EfficientNet(model_name=model_name, in_ch=1, out_ch=1, spatial_dims=3)
-    elif model_name == 'EfficientNet3Db0':
-        blocks_args_str = [
-            "r1_k3_s11_e1_i32_o16_se0.25",
-            "r2_k3_s22_e6_i16_o24_se0.25",
-            "r2_k5_s22_e6_i24_o40_se0.25",
-            "r3_k3_s22_e6_i40_o80_se0.25",
-            "r3_k5_s11_e6_i80_o112_se0.25",
-            "r4_k5_s22_e6_i112_o192_se0.25",
-            "r1_k3_s11_e6_i192_o320_se0.25"]
-    elif model_name == 'EfficientNet3Db4':
-        blocks_args_str = [
-            "r1_k3_s11_e1_i48_o24_se0.25",
-            "r3_k3_s22_e6_i24_o32_se0.25",
-            "r3_k5_s22_e6_i32_o56_se0.25",
-            "r4_k3_s22_e6_i56_o112_se0.25",
-            "r4_k5_s11_e6_i112_o160_se0.25",
-            "r5_k5_s22_e6_i160_o272_se0.25",
-            "r2_k3_s11_e6_i272_o448_se0.25"]
-    elif model_name == 'EfficientNet3Db7':
-        blocks_args_str = [
-            "r1_k3_s11_e1_i32_o32_se0.25",
-            "r4_k3_s22_e6_i32_o48_se0.25",
-            "r4_k5_s22_e6_i48_o80_se0.25",
-            "r4_k3_s22_e6_i80_o160_se0.25",
-            "r6_k5_s11_e6_i160_o256_se0.25",
-            "r6_k5_s22_e6_i256_o384_se0.25",
-            "r3_k3_s11_e6_i384_o640_se0.25"]
-    elif model_name == 'DenseNet121':
-        model = DenseNet121(in_ch=1, out_ch=1, spatial_dims=3)
-    elif model_name == 'UNet3D':
-        model = UNet3D(in_ch=1, out_ch=1, spatial_dims=3)
-    else:
-        raise Exception("Invalid network model specified")
+    model_name = os.getenv('MODEL_NAME', 'ResNet101')
 
-    if model_name.startswith('EfficientNet3D'):
-        model = EfficientNet3D(in_ch=1, out_ch=1, spatial_dims=3, blocks_args_str=blocks_args_str)
+    # Initialize the model
+    model = select_model(model_name)
+    print(f"Using model: {model_name}")
     to_monitor = "val/AUC_ROC"
     min_max = "max"
     log_every_n_steps = 1
@@ -185,16 +138,16 @@ if __name__ == "__main__":
     if local_compare_flag:
         torch.autograd.set_detect_anomaly(True)
         trainer = Trainer(
-            accelerator=accelerator,
+            accelerator='gpu', devices=1,
             precision=16,
             default_root_dir=str(path_run_dir),
-            callbacks=[checkpointing],  # early_stopping
+            callbacks=[checkpointing, early_stopping],
             enable_checkpointing=True,
             check_val_every_n_epoch=1,
-            min_epochs=5,
+            min_epochs=50,
             log_every_n_steps=log_every_n_steps,
             auto_lr_find=False,
-            max_epochs=80,
+            max_epochs=120,
             num_sanity_val_steps=2,
             logger=TensorBoardLogger(save_dir=path_run_dir)
         )
@@ -202,13 +155,13 @@ if __name__ == "__main__":
     else:
         #TODO: enable sl loss calculation
         swarmCallback = SwarmCallback(
-                                      totalEpochs=max_epochs,
-                                      syncFrequency=512,
+                                      totalEpochs=cal_max_epochs,
+                                      syncFrequency=1024,
                                       minPeers=min_peers,
-                                      #maxPeers=max_peers,
+                                      maxPeers=max_peers,
                                       #adsValData=adsValData,
                                       #adsValBatchSize=2,
-                                      #nodeWeightage=100,
+                                      nodeWeightage=cal_weightage(train_size),
                                       model=model,
                                       #lossFunction="BCEWithLogitsLoss",
                                       #lossFunctionArgs=lFArgsDict,
@@ -220,16 +173,16 @@ if __name__ == "__main__":
         swarmCallback.logger.setLevel(logging.DEBUG)
         swarmCallback.on_train_begin()
         trainer = Trainer(
-            accelerator=accelerator,
+            accelerator='gpu', devices=1,
             precision=16,
             default_root_dir=str(path_run_dir),
             callbacks=[checkpointing, User_swarm_callback(swarmCallback)],#early_stopping
             enable_checkpointing=True,
             check_val_every_n_epoch=1,
-            min_epochs=5,
+            #min_epochs=5,
             log_every_n_steps=log_every_n_steps,
             auto_lr_find=False,
-            max_epochs=max_epochs,
+            max_epochs=cal_max_epochs,
             num_sanity_val_steps=2,
             logger=TensorBoardLogger(save_dir=path_run_dir)
         )
@@ -256,3 +209,4 @@ if __name__ == "__main__":
             log_file.write(line + "\n")
     predict(path_run_dir, os.path.join(dataDir, task_data_name,'test'), model_name)
     predict_last(path_run_dir, os.path.join(dataDir, task_data_name,'test'), model_name)
+

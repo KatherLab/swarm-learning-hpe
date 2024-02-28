@@ -14,10 +14,10 @@ Body:
              "MIN_PEERS": <NUM-MIN_PEERS>,
              "LOCAL_COMPARE_FLAG": True,
              "USE_ADAPTIVE_SYNC": False,
-             "SYNC_FREQUENCY": 512,
+             "SYNC_FREQUENCY": 1024,
              "MODEL_NAME": "ResNet101",
              "PREDICT_FLAG": "ext",
-             "DATA_FOLDER": "DUKE_ext",
+             "DATA_FOLDER": "multi_ext",
   ]
   PrivateContent: /tmp/test/data-and-scratch
   SharedContent:

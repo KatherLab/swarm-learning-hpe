@@ -1,6 +1,9 @@
 #!/bin/sh
+#set -eux
 
-set -eux
+# Default values
+workspace="odelia-breast-mri"
+sentinel="172.24.4.67"
 
 # Get the IP address of the current machine
 ip_addr=$(ip addr show tun0 | awk '/inet / {print $2}' | cut -d'/' -f1)
@@ -21,8 +24,8 @@ help() {
   echo "Usage: sh $script_name -w <workspace> -s <sentinel>"
   echo ""
   echo "Options:"
-  echo "-w <workspace>   The name of the workspace directory to use."
-  echo "-s <sentinel>    The IP address of the machine acting as the swarm sentinel."
+  echo "-w <workspace>   The name of the workspace directory to use, $workspace by default for Odelia project."
+  echo "-s <sentinel>    The IP address of the machine acting as the swarm sentinel, $sentinel by default."
   echo "-d <host_index>  Chose from [TUD, Ribera, VHIO, Radboud, UKA, Utrecht, Mitera, Cambridge, Zurich] for your site"
   echo "-h               Show this help message."
   echo ""
@@ -57,7 +60,7 @@ if [ -z "$workspace" ] || [ -z "$sentinel" ] || [ -z "$host_index" ]; then
 fi
 
 # Run the SWOP container
-sudo $script_dir/../../swarm_learning_scripts/run-swop -it --rm \
+sudo $script_dir/../../swarm_learning_scripts/run-swop --rm -d\
   --name=swop"$ip_addr" \
   --network=host-net \
   --sn-ip="$sentinel" \
@@ -70,3 +73,7 @@ sudo $script_dir/../../swarm_learning_scripts/run-swop -it --rm \
   -e http_proxy= -e https_proxy= \
   --apls-ip="$sentinel" \
   -e SWOP_KEEP_CONTAINERS=True
+
+echo "SWOP container started"
+echo "Use 'cklog --swop' to follow the logs of the SWOP node"
+echo "Use 'stophpe --swop' to stop the SWOP node, or 'stophpe --all' to stop all running nodes"
