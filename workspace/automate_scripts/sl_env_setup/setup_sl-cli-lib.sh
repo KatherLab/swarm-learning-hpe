@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eu
+set -eux
 # Print usage information
 usage() {
     echo "Usage: $0" >&2
@@ -33,7 +33,7 @@ if sudo docker volume list | grep -q "$sl_cli_lib"; then
 fi
 sudo docker volume create "$sl_cli_lib"
 sudo docker container create --name helper -v "$sl_cli_lib":/data hello-world
-sudo docker cp -L "${0%/*}"/swarmlearning-client-py3-none-manylinux_2_24_x86_64.whl helper:/data
+sudo docker cp -L /opt/hpe/swarm-learning-hpe/sllib/swarmlearning-client-py3-none-manylinux_2_24_x86_64.whl helper:/data
 sudo docker rm helper
 
 # Create a Docker network for the host

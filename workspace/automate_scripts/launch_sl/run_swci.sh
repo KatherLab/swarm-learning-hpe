@@ -1,20 +1,23 @@
 #!/bin/sh
-set -eux
+#set -eux
+
+# Default values
+workspace="odelia-breast-mri"
+sentinel="172.24.4.67"
+
 # Print usage message
 usage() {
   echo "Usage: $0 [-w <workspace>] [-s <sentinel IP>] [-h]"
   echo "Starts the SWCI container on the specified sentinel node."
   echo ""
   echo "Options:"
-  echo "  -w <workspace>   Workspace directory (default: workspace)"
-  echo "  -s <sentinel IP> IP address of the sentinel node"
+  echo "  -w <workspace>   Workspace directory, $workspace by default"
+  echo "  -s <sentinel IP> IP address of the sentinel node, $sentinel by default"
   echo "  -d <host_index>  Chose from [TUD, Ribera, VHIO, Radboud, UKA, Utrecht, Mitera, Cambridge, Zurich] for your site"
   echo "  -h               Show this help message"
   exit 1
 }
 
-# Set default values
-workspace="workspace"
 
 # Parse command line arguments
 while getopts ":w:s:d:h" opt; do
@@ -80,7 +83,7 @@ sed -i "s+<TIME_STAMP>+$time_stamp+g" "workspace/$workspace/swci/taskdefs/swarm_
 
 # Start the SWCI container
 sudo "$script_dir/../../swarm_learning_scripts/run-swci" \
-  -it --rm --name="swci-$ip_addr" \
+  -d --rm --name="swci-$ip_addr" \
   --network="host-net" \
   --usr-dir="workspace/$workspace/swci" \
   --init-script-name="swci-init" \
@@ -88,4 +91,9 @@ sudo "$script_dir/../../swarm_learning_scripts/run-swci" \
   --cert="cert/swci-$host_index-cert.pem" \
   --capath="cert/ca/capath" \
   -e "http_proxy=" -e "https_proxy=" --apls-ip="$sentinel" \
-  -e "SWCI_TASK_MAX_WAIT_TIME=5000"
+  -e "SWCI_RUN_TASK_MAX_WAIT_TIME=5000" \
+  -e "SWCI_GENERIC_TASK_MAX_WAIT_TIME=5000"
+
+echo "SWCI container started successfully"
+echo "Use 'cklog --swci' to follow the logs of the SWCI node"
+echo "Use 'stophpe --swci' to stop the SWCI node, or 'stophpe --all' to stop all running nodes"

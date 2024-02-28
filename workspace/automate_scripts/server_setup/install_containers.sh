@@ -30,24 +30,24 @@ while [ $# -gt 0 ]; do
 done
 
 # Login to HPE hub
-# echo "Login to HPE hub, please ask TUD maintainer for the username and password since Github doesn't allow to store the credentials in the code."´
+echo "Login to HPE hub, please ask TUD maintainer for the username and password since Github doesn't allow to store the credentials in the code."´
 # Prompt the user for the email and password
-# read -p "Please enter your email: " user_email
-# read -p "Please enter your password: " user_password
-# echo
-# hub_url="hub.myenterpriselicense.hpe.com"
+read -p "Please enter your email: " user_email
+read -p "Please enter your password: " user_password
+echo
+hub_url="hub.myenterpriselicense.hpe.com"
 # Use the provided email and password for the Docker login command
-# sudo docker login -u "$user_email" -p "$user_password" "$hub_url"
+sudo docker login -u "$user_email" -p "$user_password" "$hub_url"
 
 # Pull images
 echo "Download Swarm Network (SN) Node"
-sudo docker pull jeffzhu69/swarm-learning:sn
+sudo docker pull hub.myenterpriselicense.hpe.com/hpe/swarm-learning/sn:2.2.0
 echo "Download Swarm Learning (SL) Node"
-sudo docker pull jeffzhu69/swarm-learning:sl
+sudo docker pull hub.myenterpriselicense.hpe.com/hpe/swarm-learning/sl:2.2.0
 echo "Download Swarm Learning Command Interface (SWCI) Node"
-sudo docker pull jeffzhu69/swarm-learning:swci
+sudo docker pull hub.myenterpriselicense.hpe.com/hpe/swarm-learning/swci:2.2.0
 echo "Download Swarm Operator (SWOP) Node"
-sudo docker pull jeffzhu69/swarm-learning:swop
+sudo docker pull hub.myenterpriselicense.hpe.com/hpe/swarm-learning/swop:2.2.0
 
 # Extract files
 #sudo tar -xf $script_dir/license_and_softwares/HPE_SWARM_LEARNING_DOCS_EXAMPLES_SCRIPTS_Q2V41-11033.tar.gz -C /opt/hpe/swarm-learning-hpe/

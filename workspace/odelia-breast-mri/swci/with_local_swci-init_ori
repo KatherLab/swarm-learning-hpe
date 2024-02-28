@@ -35,6 +35,10 @@ finalize task swarm_task_<TIME_STAMP>
 get task info swarm_task_<TIME_STAMP>
 get task body swarm_task_<TIME_STAMP>
 
+create task from taskdefs/swarm_task_local_compare.yaml
+finalize task swarm_task_local_compare_<TIME_STAMP>
+get task info swarm_task_local_compare_<TIME_STAMP>
+get task body swarm_task_local_compare_<TIME_STAMP>
 list tasks
 EXIT ON FAILURE OFF
 
@@ -50,6 +54,22 @@ RESET TASKRUNNER defaulttaskbb.taskdb.sml.hpe
 EXIT ON FAILURE OFF
 
 SLEEP 60
+# List and reset training contract
+EXIT ON FAILURE
+LIST CONTRACTS
+RESET CONTRACT defaultbb.cqdb.sml.hpe
+EXIT ON FAILURE OFF
+
+SLEEP 60
+# Assign local compare task
+EXIT ON FAILURE
+RESET TASKRUNNER defaulttaskbb.taskdb.sml.hpe
+ASSIGN TASK swarm_task_local_compare_<TIME_STAMP> TO defaulttaskbb.taskdb.sml.hpe WITH <NUM-MIN_PEERS> PEERS
+WAIT FOR TASKRUNNER defaulttaskbb.taskdb.sml.hpe
+SLEEP 15
+RESET TASKRUNNER defaulttaskbb.taskdb.sml.hpe
+EXIT ON FAILURE OFF
+
 # List and reset training contract
 EXIT ON FAILURE
 LIST CONTRACTS

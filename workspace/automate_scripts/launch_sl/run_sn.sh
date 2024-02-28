@@ -15,8 +15,7 @@ help()
    echo "Usage: sh ${script_name} -i <host> -s <sentinel_ip> -d <host_index>"
    echo ""
    echo "Options:"
-   echo "-i    The host IP address"
-   echo "-s    The sentinel IP address"
+   echo "-s    The sentinel IP address, $sentinel by default"
    echo "-d    The host index, chose from [TUD, Ribera, VHIO, Radboud, UKA, Utrecht, Mitera, Cambridge, Zurich] for your site"
    echo "-h    Show help"
    echo ""
@@ -63,7 +62,7 @@ else
 fi
 
 sudo $script_dir/../../swarm_learning_scripts/run-sn \
-     -it --rm \
+     -d --rm \
      --name=sn_node \
      --network=host-net \
      --host-ip="$ip_addr" \
@@ -74,4 +73,7 @@ sudo $script_dir/../../swarm_learning_scripts/run-sn \
      --cert=cert/sn-"$host_index"-cert.pem \
      --capath=cert/ca/capath \
      --apls-ip="$sentinel" \
-     --apls-port=5000
+
+echo "SN node started, waiting for the network to be ready"
+echo "Use 'cklog --sn' to follow the logs of the SN node"
+echo "Use 'stophpe --sn' to stop the SN node, or 'stophpe --all' to stop all running nodes"
