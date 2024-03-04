@@ -6,10 +6,10 @@ workspace="odelia-breast-mri"
 sentinel="172.24.4.67"
 
 # Get the IP address of the current machine
-ip_addr=$(ip addr show tun0 | awk '/inet / {print $2}' | cut -d'/' -f1)
+ip_addr=$(ip addr show eno1 | awk '/inet / {print $2}' | cut -d'/' -f1)
 
 if [ -z "$ip_addr" ]; then
-    echo "Error: tun0 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"
+    echo "Error: eno1 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"
     exit 1
 fi
 
