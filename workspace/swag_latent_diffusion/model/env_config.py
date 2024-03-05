@@ -35,7 +35,14 @@ def load_environment_variables():
     'local_compare_flag': os.getenv('LOCAL_COMPARE_FLAG', 'False').lower() == 'true',
     'use_adaptive_sync': os.getenv('USE_ADAPTIVE_SYNC', 'False').lower() == 'true',
     'sync_frequency': int(os.getenv('SYNC_FREQUENCY', 1024)),
-}
+    'ae_ckpt': os.getenv('AE_CKPT', 'data-and-scratch/scratch/exp_ae/model_best_ae'),
+    'generate_samples': int(os.getenv('GENERATE_SAMPLES', 16)),
+    'beta_end': float(os.getenv('BETA_END', 0.0205)),
+    'save_model_interval': int(os.getenv('SAVE_MODEL_INTERVAL', 50)),
+    'latent_scaling': os.getenv('LATENT_SCALING', 'custom'),
+    'custom_scale': float(os.getenv('CUSTOM_SCALE', 0.3)),
+    'load_checkpoint': os.getenv('load_checkpoint', 'False').lower() == 'true',
+    }
 
 def load_prediction_modules(prediction_flag):
     """Dynamically load prediction modules based on the prediction flag."""

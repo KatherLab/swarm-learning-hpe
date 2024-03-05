@@ -125,11 +125,31 @@ with open(os.path.join(ckpt_dir, 'arguments.txt'), 'w') as f:
 # Data loaders setup
 dataset = env_vars['dataset']
 data_dir = env_vars['data_dir']
-training_samples = int(env_vars['training_samples'])
-downsample = int(env_vars['downsample'])
-augmentation = env_vars['augmentation'] == 'true'
-subject_wise = env_vars['subject_wise'] == 'true'
-weighted_sampling = env_vars['weighted_sampling'] == 'true'
+training_samples = env_vars['training_samples']
+downsample = env_vars['downsample']
+augmentation = env_vars['augmentation']
+subject_wise = env_vars['subject_wise']
+weighted_sampling = env_vars['weighted_sampling']
+num_channels = env_vars['num_channels']
+num_channels_ae = env_vars['num_channels_ae']
+ae_ckpt = env_vars['ae_ckpt']
+batch_size = env_vars['batch_size']
+attention_levels_ae = env_vars['attention_levels_ae']
+multi_gpu = env_vars['multi_gpu']
+num_channels_ae = env_vars['num_channels_ae']
+latent_scaling = env_vars['latent_scaling']
+custom_scale = env_vars['custom_scale']
+num_head_channels = env_vars['num_head_channels']
+num_train_timesteps = env_vars['num_train_timesteps']
+n_epochs = env_vars['n_epochs']
+val_interval = env_vars['val_interval']
+save_model_interval = env_vars['save_model_interval']
+save_ckpt_interval = env_vars['save_ckpt_interval']
+n_epochs = env_vars['n_epochs']
+ckpt_dir = env_vars['ckpt_dir']
+base_lr = env_vars['base_lr']
+generate_samples = env_vars['generate_samples']
+
 
 if 'NIHXRay' in dataset:
     if subject_wise:
