@@ -4,7 +4,7 @@
 # Default values
 workspace="odelia-breast-mri"
 host=""
-sentinel="172.24.4.67"
+sentinel="192.168.33.100"
 script_name=$(basename "${0}")
 script_dir=$(realpath $(dirname "${0}"))
 

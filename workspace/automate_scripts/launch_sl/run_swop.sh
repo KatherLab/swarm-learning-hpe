@@ -3,7 +3,7 @@
 
 # Default values
 workspace="odelia-breast-mri"
-sentinel="172.24.4.67"
+sentinel="192.168.33.100"
 
 # Get the IP address of the current machine
 ip_addr=$(ip addr show eno1 | awk '/inet / {print $2}' | cut -d'/' -f1)

@@ -14,7 +14,7 @@ from monai.utils import first, set_determinism
 from torch.cuda.amp import GradScaler, autocast
 from tqdm import tqdm
 import json
-
+from env_config import load_environment_variables
 from generative.inferers import LatentDiffusionInferer
 from generative.losses.adversarial_loss import PatchAdversarialLoss
 from generative.losses.perceptual import PerceptualLoss
@@ -36,6 +36,7 @@ class MyDataParallel(torch.nn.DataParallel):
             return super().__getattr__(name)
         except AttributeError:
             return getattr(self.module, name)
+'''
 #Arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('--data_dir', default='')
@@ -110,32 +111,44 @@ multi_gpu = args.multi_gpu
 augmentation = args.augmentation
 weighted_sampling = args.weighted_sampling
 subject_wise = args.subject_wise
-isExist = os.path.exists(ckpt_dir)
-if not isExist:
-   # Create a new directory because it does not exist
-   os.makedirs(ckpt_dir)
-#Save arguments
-with open(ckpt_dir + '/arguments.txt', 'w') as f:
-    json.dump(args.__dict__, f, indent=2) 
+'''
 
-#Data laoders
+env_vars = load_environment_variables()
+
+ckpt_dir = env_vars["ckpt_dir"]
+if not os.path.exists(ckpt_dir):
+    os.makedirs(ckpt_dir)
+#Save arguments
+with open(os.path.join(ckpt_dir, 'arguments.txt'), 'w') as f:
+    # Assuming args-like structure is in env_vars or an equivalent has been constructed
+    json.dump(env_vars, f, indent=2)
+# Data loaders setup
+dataset = env_vars['dataset']
+data_dir = env_vars['data_dir']
+training_samples = int(env_vars['training_samples'])
+downsample = int(env_vars['downsample'])
+augmentation = env_vars['augmentation'] == 'true'
+subject_wise = env_vars['subject_wise'] == 'true'
+weighted_sampling = env_vars['weighted_sampling'] == 'true'
 
 if 'NIHXRay' in dataset:
     if subject_wise:
-        train_data = NIHXRayDatasetSubwise(root_dir= data_dir, split = 'train', training_samples = training_samples , donwsample = downsample, augmentation=augmentation)
+        train_data = NIHXRayDatasetSubwise(root_dir=data_dir, split='train', training_samples=training_samples, downsample=downsample, augmentation=augmentation)
     else:
-        train_data = NIHXRayDataset(root_dir= data_dir, split = 'train', training_samples = training_samples , donwsample = downsample, augmentation=augmentation)
+        train_data = NIHXRayDataset(root_dir=data_dir, split='train', training_samples=training_samples, downsample=downsample, augmentation=augmentation)
     sample_weight = train_data._get_sampler_weights()
-    val_data = NIHXRayDataset(root_dir= data_dir, split = 'val', donwsample = downsample)
+    val_data = NIHXRayDataset(root_dir=data_dir, split='val', downsample=downsample)
 elif 'fastMRI' in dataset:
-    train_data = fastMRIDataset(root_dir= data_dir, split = 'train', training_samples = training_samples ,  augmentation=augmentation)
-    val_data = fastMRIDataset(root_dir= data_dir, split = 'val')
+    train_data = fastMRIDataset(root_dir=data_dir, split='train', training_samples=training_samples, augmentation=augmentation)
+    val_data = fastMRIDataset(root_dir=data_dir, split='val')
     sample_weight = train_data._get_sampler_weights()
 
 if weighted_sampling:
-    sampler = WeightedRandomSampler(weights=sample_weight, num_samples=training_samples , replacement=True);shuffle=None
+    sampler = WeightedRandomSampler(weights=sample_weight, num_samples=training_samples, replacement=True)
+    shuffle = None
 else:
-    sampler = None;shuffle=True
+    sampler = None
+    shuffle = True
 #Loaders
 train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=shuffle, num_workers=4, persistent_workers=True, sampler = sampler)
 val_loader = DataLoader(val_data, batch_size=4, shuffle=False)

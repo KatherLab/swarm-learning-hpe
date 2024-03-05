@@ -3,7 +3,7 @@
 
 # Default values
 workspace="odelia-breast-mri"
-sentinel="172.24.4.67"
+sentinel="192.168.33.100"
 
 # Print usage message
 usage() {

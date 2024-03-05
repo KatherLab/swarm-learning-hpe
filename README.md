@@ -54,7 +54,7 @@ This is the Swarm Learning framework:
 #### Hardware recommendations
 * 64 GB of RAM (32 GB is the absolute minimum)
 * 16 CPU cores (8 is the absolute minimum)
-* an NVIDIA GPU with 48 GB of RAM (24 is the  minimum)
+* an NVIDIA GPU with 48 GB of RAM (24 is the minimum)
 * 8 TB of Storage (4 TB is the absolute minimum)
 * We deliberately want to show that we can work with lightweight hardware like this. Here are three quotes for systems like this for less than 10k EUR (Lambda, Dell Precision, and Dell Alienware)
 * Typical installation time can take 30 minutes to build up the necessary dependencies and another 1 hour to build up the environment for running demo experiments
@@ -121,7 +121,7 @@ Requirements and dependencies will be automatically installed by the script ment
 ### Setting up the Swarm Learning Environment
 **PLEASE REPLACE THE `<PLACEHOLDER>` WITH THE CORRESPONDING VALUE!**
 
-`<sentinel_ip>` = `172.24.4.67` currently it's the IP assigned by VPN server for TUD host.
+`<sentinel_ip>` = `192.168.33.100` currently it's the IP assigned by VPN server for TUD host.
 
 `<host_index>` = Your institute's name. For ODELIA project should be chosen from `TUD` `Ribera` `VHIO` `Radboud` `UKA` `Utrecht` `Mitera` `Cambridge` `Zurich`
 
