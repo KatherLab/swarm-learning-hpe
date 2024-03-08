@@ -25,6 +25,7 @@ from dataset.nih_chest_xray import NIHXRayDataset
 from dataset.nih_chest_xray_subwise import NIHXRayDatasetSubwise
 from dataset.fastmri_brain import fastMRIDataset
 from torch.utils.tensorboard import SummaryWriter
+from swarmlearning.pyt import SwarmCallback
 
 def tuple_type(strings):
     strings = strings.replace("(", "").replace(")", "")
@@ -246,6 +247,19 @@ inferer = LatentDiffusionInferer(scheduler, scale_factor=scale_factor)
 #Tensorboard
 writer = SummaryWriter(log_dir= ckpt_dir)
 
+# swarm callback definition
+swSyncInterval = env_vars['sync_frequency']
+min_peers = env_vars['min_peers']
+max_epochs = env_vars['max_epochs']
+swarmCallback = SwarmCallback(syncFrequency=swSyncInterval,
+                              minPeers=min_peers,
+                              useAdaptiveSync=False,
+                              model=unet,
+                              totalEpochs=max_epochs,
+                              )
+
+swarmCallback.on_train_begin()
+
 for epoch in range(epoch_start,n_epochs):
     unet.train()
     autoencoderkl.eval()
@@ -277,7 +291,7 @@ for epoch in range(epoch_start,n_epochs):
                 target = noise   
 
             loss = F.mse_loss(noise_pred.float(), target.float())
-
+        swarmCallback.on_batch_end()
         scaler.scale(loss).backward()
         scaler.step(optimizer)
         scaler.update()
@@ -321,6 +335,7 @@ for epoch in range(epoch_start,n_epochs):
         val_loss /= val_step
 
         if (epoch >1) and (val_loss < min(val_losses[:-1])):
+            swarmCallback.on_train_end()
             torch.save(unet.module.state_dict(), ckpt_dir +"model_best_ldm")
             torch.save(autoencoderkl.module.state_dict(), ckpt_dir +"model_best_ae")
         val_losses.append(val_loss)

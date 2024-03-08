@@ -39,9 +39,11 @@ def load_environment_variables():
     'generate_samples': int(os.getenv('GENERATE_SAMPLES', 16)),
     'beta_end': float(os.getenv('BETA_END', 0.0205)),
     'save_model_interval': int(os.getenv('SAVE_MODEL_INTERVAL', 50)),
+    'min_peers': int(os.getenv('MIN_PEERS', 2)),
     'latent_scaling': os.getenv('LATENT_SCALING', 'custom'),
     'custom_scale': float(os.getenv('CUSTOM_SCALE', 0.3)),
     'load_checkpoint': os.getenv('load_checkpoint', 'False').lower() == 'true',
+    'max_epochs': int(os.getenv('MAX_EPOCHS', 1000)),
     }
 
 def load_prediction_modules(prediction_flag):
