@@ -21,7 +21,7 @@ envvars:
   - HTTP_PROXY: ~
   - HTTPS_PROXY: ~
   - NO_PROXY: ~
-  - SWARM_LOG_LEVEL: INFO
+  - SWARM_LOG_LEVEL: DEBUG
 nodes:
   - slnodedef:
       idx: 0

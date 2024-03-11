@@ -2,7 +2,7 @@
 #set -eux
 
 # Default values
-workspace="odelia-breast-mri"
+workspace="swag_latent_diffusion"
 host=""
 sentinel="192.168.33.100"
 script_name=$(basename "${0}")
@@ -73,6 +73,8 @@ sudo $script_dir/../../swarm_learning_scripts/run-sn \
      --cert=cert/sn-"$host_index"-cert.pem \
      --capath=cert/ca/capath \
      --apls-ip="$sentinel" \
+     -e SWARM_LOG_LEVEL=DEBUG \
+
 
 echo "SN node started, waiting for the network to be ready"
 echo "Use 'cklog --sn' to follow the logs of the SN node"
