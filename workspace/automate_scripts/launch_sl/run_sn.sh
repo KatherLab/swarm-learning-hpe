@@ -39,10 +39,10 @@ then
    help
 fi
 
-ip_addr=$(ip addr show eno1 | awk '/inet / {print $2}' | cut -d'/' -f1)
+ip_addr=$(ip addr show tun0 | awk '/inet / {print $2}' | cut -d'/' -f1)
 
 if [ -z "$ip_addr" ]; then
-    echo "Error: eno1 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"
+    echo "Error: tun0 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"
     exit 1
 fi
 
@@ -73,6 +73,8 @@ sudo $script_dir/../../swarm_learning_scripts/run-sn \
      --cert=cert/sn-"$host_index"-cert.pem \
      --capath=cert/ca/capath \
      --apls-ip="$sentinel" \
+    -e SWARM_LOG_LEVEL=DEBUG \
+    -e SL_DEVMODE_KEY=REVWTU9ERS0yMDI0LTAzLTEx \
 
 echo "SN node started, waiting for the network to be ready"
 echo "Use 'cklog --sn' to follow the logs of the SN node"
