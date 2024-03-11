@@ -2,7 +2,7 @@
 #set -eux
 
 # Default values
-workspace="odelia-breast-mri"
+workspace="swag_latent_diffusion"
 sentinel="192.168.33.100"
 
 # Print usage message
