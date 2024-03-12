@@ -2,7 +2,7 @@
 #set -eux
 
 # Default values
-workspace="swag_latent_diffusion"
+workspace="swag-latent-diffusion"
 host=""
 sentinel="192.168.33.100"
 script_name=$(basename "${0}")

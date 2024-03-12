@@ -2,7 +2,7 @@
 #set -eux
 
 # Default values
-workspace="swag_latent_diffusion"
+workspace="swag-latent-diffusion"
 sentinel="192.168.33.100"
 
 # Get the IP address of the current machine

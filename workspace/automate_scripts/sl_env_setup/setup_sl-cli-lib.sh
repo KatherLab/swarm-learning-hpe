@@ -34,7 +34,7 @@ fi
 sudo docker volume create "$sl_cli_lib"
 sudo docker container create --name helper -v "$sl_cli_lib":/data hello-world
 sudo docker cp -L /opt/hpe/swarm-learning-hpe/sllib/swarmlearning-client-py3-none-manylinux_2_24_x86_64.whl helper:/data
-sudo docker cp -L /opt/hpe/swarm-learning-hpe/workspace/swag_latent_diffusion/requirements.txt helper:/data
+sudo docker cp -L /opt/hpe/swarm-learning-hpe/workspace/swag-latent-diffusion/requirements.txt helper:/data
 sudo docker rm helper
 
 # Create a Docker network for the host
