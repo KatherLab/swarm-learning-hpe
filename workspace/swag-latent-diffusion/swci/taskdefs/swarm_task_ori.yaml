@@ -38,3 +38,6 @@ Body:
     - Src: /opt/hpe/swarm-learning-hpe/workspace/<MODULE-NAME>/model
       Tgt: /tmp/test/model
       MType: BIND
+    - Src: /mnt/dlhd0/swarmlearning_data/archive/
+      Tgt: /mnt/dlhd0/swarmlearning_data/archive/
+      MType: BIND

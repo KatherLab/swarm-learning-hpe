@@ -30,6 +30,11 @@ def load_environment_variables():
     'augmentation': os.getenv('AUGMENTATION', 'False').lower() == 'true',
     'weighted_sampling': os.getenv('WEIGHTED_SAMPLING', 'False').lower() == 'true',
     'subject_wise': os.getenv('SUBJECT_WISE', 'False').lower() == 'true',
+    'num_channels_ae': (64, 128, 128, 128),
+    'num_train_timesteps': 1000,
+    'val_interval': 1,
+    'save_ckpt_interval': 5,
+    'load_checkpoint:': os.getenv('load_checkpoint:', 'False').lower() == 'true',
     # Additional vars not directly mapped to argparse but might be needed
     'scratch_dir': os.getenv('SCRATCH_DIR', 'data-and-scratch/scratch'),
     'local_compare_flag': os.getenv('LOCAL_COMPARE_FLAG', 'False').lower() == 'true',

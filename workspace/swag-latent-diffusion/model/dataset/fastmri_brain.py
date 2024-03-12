@@ -27,7 +27,7 @@ VAL_TRANSFORMS = None
 
 
 class fastMRIDataset(Dataset):
-    def __init__(self, root_dir,  split='train', training_samples = 1000, validation_samples = 200, augmentation = False, donwsample = 1):
+    def __init__(self, root_dir,  split='train', training_samples = 1000, validation_samples = 200, augmentation = False, downsample = 1):
         super().__init__()
         self.root_dir = root_dir
         self.split = split
@@ -35,9 +35,9 @@ class fastMRIDataset(Dataset):
         self.validation_samples = validation_samples
         self.preprocessing = PREPROCESSING_TRANSORMS
         self.transforms = TRAIN_TRANSFORMS 
-        self.donwsample_transform = tio.Resize((1, 320//donwsample, 320//donwsample))
+        self.downsample_transform = tio.Resize((1, 320//downsample, 320//downsample))
         self.augmentation = augmentation
-        self.downsample = donwsample
+        self.downsample = downsample
         self.paths = self._get_file_paths()
 
     def resizing(self, img ,  size = 320):
@@ -104,7 +104,7 @@ class fastMRIDataset(Dataset):
         elif 'T2' in contrast and not('FLAIR' in contrast) : label = torch.tensor([2])  
         elif 'FLAIR' in contrast :label = torch.tensor([3])  
         if self.downsample>1:
-            img = self.donwsample_transform(img)      
+            img = self.downsample_transform(img)      
         if self.augmentation:
             img = self.transforms(img)         
         return {'data': img[[0],0,:], 'cond': label, 'path': self.paths[index], 'contrast' :contrast}

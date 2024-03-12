@@ -27,7 +27,7 @@ VAL_TRANSFORMS = None
 
 
 class NIHXRayDataset(Dataset):
-    def __init__(self, root_dir,  split='train', training_samples = 1000, validation_samples = 200, augmentation = False, donwsample = 2):
+    def __init__(self, root_dir,  split='train', training_samples = 1000, validation_samples = 200, augmentation = False, downsample = 2):
         super().__init__()
         self.root_dir = root_dir
         self.split = split
@@ -35,9 +35,9 @@ class NIHXRayDataset(Dataset):
         self.validation_samples = validation_samples
         self.preprocessing = PREPROCESSING_TRANSORMS
         self.transforms = TRAIN_TRANSFORMS 
-        self.donwsample_transform = tio.Resize((1, 1024//donwsample, 1024//donwsample))
+        self.downsample_transform = tio.Resize((1, 1024//downsample, 1024//downsample))
         self.augmentation = augmentation
-        self.downsample = donwsample
+        self.downsample = downsample
         self.paths = self._get_file_paths()
         self.labels, self.idxs = self._get_labels()
 
@@ -74,7 +74,7 @@ class NIHXRayDataset(Dataset):
         img = read_image(self.paths[index]).unsqueeze(dim=1)
         img = self.preprocessing(img)
         if self.downsample>1:
-            img = self.donwsample_transform(img)      
+            img = self.downsample_transform(img)
         if self.augmentation:
             img = self.transforms(img)         
         label = torch.tensor(self.labels.iloc[index,:])    

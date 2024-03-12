@@ -1,6 +1,8 @@
 #Load required modules
 import os
 import argparse
+from collections import OrderedDict
+
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
@@ -132,12 +134,16 @@ augmentation = env_vars['augmentation']
 subject_wise = env_vars['subject_wise']
 weighted_sampling = env_vars['weighted_sampling']
 num_channels = env_vars['num_channels']
-num_channels_ae = env_vars['num_channels_ae']
 ae_ckpt = env_vars['ae_ckpt']
 batch_size = env_vars['batch_size']
-attention_levels_ae = env_vars['attention_levels_ae']
-multi_gpu = env_vars['multi_gpu']
 num_channels_ae = env_vars['num_channels_ae']
+attention_levels_ae = (False,)*len(num_channels_ae)
+beta_schedule='scaled_linear'
+beta_end=0.0205
+beta_start=0.0015
+prediction_type="v_prediction"
+load_checkpoint  = env_vars['load_checkpoint']
+multi_gpu = env_vars['multi_gpu']
 latent_scaling = env_vars['latent_scaling']
 custom_scale = env_vars['custom_scale']
 num_head_channels = env_vars['num_head_channels']
@@ -146,7 +152,6 @@ n_epochs = env_vars['n_epochs']
 val_interval = env_vars['val_interval']
 save_model_interval = env_vars['save_model_interval']
 save_ckpt_interval = env_vars['save_ckpt_interval']
-n_epochs = env_vars['n_epochs']
 ckpt_dir = env_vars['ckpt_dir']
 base_lr = env_vars['base_lr']
 generate_samples = env_vars['generate_samples']
@@ -189,9 +194,20 @@ autoencoderkl = AutoencoderKL(
     with_encoder_nonlocal_attn=False,
     with_decoder_nonlocal_attn=False,
 )
+# Load the original checkpoint
+checkpoint = torch.load(ae_ckpt)
 
-#Load auto encoder 
-autoencoderkl.load_state_dict(torch.load(ae_ckpt))
+# Initialize a new state_dict without the 'module.' prefix
+new_state_dict = OrderedDict()
+
+# Remove the 'module.' prefix from each key
+for key, value in checkpoint.items():
+    new_key = key[7:] if key.startswith('module.') else key
+    new_state_dict[new_key] = value
+
+# Load the updated state_dict into your model
+autoencoderkl.load_state_dict(new_state_dict)
+
 if multi_gpu: autoencoderkl = MyDataParallel(autoencoderkl)
 autoencoderkl = autoencoderkl.to(device)
 #Set scal factor
@@ -350,20 +366,37 @@ for epoch in range(epoch_start,n_epochs):
             decoded = inferer.sample(
                 input_noise=z, diffusion_model=unet, scheduler=scheduler, autoencoder_model=autoencoderkl
             )
-        if (epoch + 1) % save_model_interval == 0 or epoch==0:    
-            torch.save(unet.module.state_dict(), ckpt_dir +"model"+ str(epoch))
-        if (epoch + 1) % save_ckpt_interval == 0 or epoch==0:        
+        if (epoch + 1) % save_model_interval == 0 or epoch==0:
+            # Check if the model is wrapped with DataParallel or DistributedDataParallel
+            if hasattr(unet, 'module'):
+                # Model is wrapped, access state_dict through .module
+                state_dict = unet.module.state_dict()
+            else:
+                # Model is not wrapped, access state_dict directly
+                state_dict = unet.state_dict()
+
+            # Save the state_dict
+            torch.save(state_dict, ckpt_dir + "model" + str(epoch))
+            #torch.save(unet.module.state_dict(), ckpt_dir +"model"+ str(epoch))
+        if (epoch + 1) % save_ckpt_interval == 0 or epoch == 0:
+            '''
+            if hasattr(unet, 'module'):
+                # If the model is wrapped by DataParallel or DistributedDataParallel
+                model_to_save = unet.module
+            else:
+                # If the model is not wrapped
+                model_to_save = unet
+            '''
             checkpoint = {
                 "epoch": epoch + 1,
-                "diffusion": unet.module.state_dict(),
+                "diffusion": unet.state_dict(),  # Directly save unet's state_dict
                 "optimizer": optimizer.state_dict(),
                 "val_losses": val_losses,
                 "epoch_losses": epoch_losses
             }
-            torch.save(checkpoint, ckpt_dir + "checkpoint.pth")            
+            torch.save(checkpoint, os.path.join(ckpt_dir, "checkpoint.pth"))
 
         writer.add_scalar('Train/Loss', epoch_losses[-1], epoch)
         writer.add_scalar('Val/Loss', val_losses[-1], epoch)
         writer.add_images('Image', decoded.cpu(), epoch)
 progress_bar.close()
-

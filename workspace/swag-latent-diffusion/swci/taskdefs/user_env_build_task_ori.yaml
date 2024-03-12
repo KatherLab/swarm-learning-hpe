@@ -17,6 +17,8 @@ Body:
     - ' '
     - COPY requirements.txt /tmp/
     - RUN pip3 install --upgrade pip && pip3 install -r /tmp/requirements.txt
+    - RUN pip3 install torchmetrics
+
 
     - RUN mkdir -p /tmp/hpe-swarmcli-pkg
     - COPY swarmlearning-client-py3-none-manylinux_2_24_x86_64.whl /tmp/hpe-swarmcli-pkg/swarmlearning-client-py3-none-manylinux_2_24_x86_64.whl
