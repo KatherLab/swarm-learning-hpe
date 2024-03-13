@@ -41,7 +41,7 @@ class ResNet(BasicClassifier):
             loss=FocalLoss,
             loss_kwargs={},
             optimizer=torch.optim.AdamW,
-            optimizer_kwargs={'lr': 1e-4},
+            optimizer_kwargs={'lr': 1e-3},
             lr_scheduler=None,
             lr_scheduler_kwargs={},
             aucroc_kwargs={"task": "binary"},
