@@ -45,7 +45,8 @@ def predict(model_dir, test_data_dir, model_name, last_flag, prediction_flag):
             flip=False,
             path_root=test_data_dir
         )
-
+    # only get 10 samples
+    #ds_test = torch.utils.data.Subset(ds, range(10))
     ds_test = ds
 
     dm = DataModule(
@@ -175,9 +176,6 @@ def predict(model_dir, test_data_dir, model_name, last_flag, prediction_flag):
     ap = average_precision_score(y_true_lab, y_pred_lab)
 
 
-    #  -------------------------- F1 Score -------------------------
-    from sklearn.metrics import f1_score
-    f1 = f1_score(y_true_lab, y_pred_lab, average='binary')
 
     #  -------------------------- Matthews Correlation Coefficient (MCC) -------------------------
     '''
@@ -213,8 +211,6 @@ def predict(model_dir, test_data_dir, model_name, last_flag, prediction_flag):
         f.write(f"ACC: {acc:.2f}\n")
         f.write(f"AUC: {auc_val:.2f}\n")
         f.write(f"AP: {ap:.2f}\n")
-        f.write(f"F1: {f1:.2f}\n")
-        f.write(f"MCC: {mcc:.2f}\n")
         f.write(f"PPV: {ppv:.2f}\n")
         f.write(f"NPV: {npv:.2f}\n")
         f.write(f"Sensitivity: {sens:.2f}\n")
@@ -225,8 +221,9 @@ def predict(model_dir, test_data_dir, model_name, last_flag, prediction_flag):
 
 if __name__ == "__main__":
     predict(
-        path_run = Path(
-        '/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user/data-and-scratch/scratch/2024_03_12_131411_multi_ext_ResNet101_swarm_learning'),
+        model_dir = Path(
+        '/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user/data-and-scratch/scratch/2024_03_13_163526_multi_ext_ResNet101_swarm_learning'),
         test_data_dir='/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user/data-and-scratch/data/DUKE_ext/test',
         model_name='ResNet101',
-        last_flag=False)
+        last_flag=False,
+        prediction_flag='ext')
