@@ -110,12 +110,7 @@ if __name__ == "__main__":
     to_monitor = "val/AUC_ROC"
     min_max = "max"
     log_every_n_steps = 1
-    early_stopping = EarlyStopping(
-        monitor=to_monitor,
-        min_delta=0.0,  # minimum change in the monitored quantity to qualify as an improvement
-        patience=10,  # number of checks with no improvement
-        mode=min_max
-    )
+
     checkpointing = ModelCheckpoint(
         dirpath=str(path_run_dir),  # dirpath
         monitor=to_monitor,
@@ -128,12 +123,6 @@ if __name__ == "__main__":
     useCuda = torch.cuda.is_available()
 
 
-    lFArgsDict={}
-    lFArgsDict['reduction']='sum'
-    mFArgsDict={}
-    mFArgsDict['task']="multiclass"
-    mFArgsDict['num_classes']=2
-
     #model = model.to(torch.device('cuda'))
     if local_compare_flag:
         torch.autograd.set_detect_anomaly(True)
@@ -141,7 +130,7 @@ if __name__ == "__main__":
             accelerator='gpu', devices=1,
             precision=16,
             default_root_dir=str(path_run_dir),
-            callbacks=[checkpointing, early_stopping],
+            callbacks=[checkpointing],#early_stopping
             enable_checkpointing=True,
             check_val_every_n_epoch=1,
             min_epochs=50,
@@ -163,10 +152,10 @@ if __name__ == "__main__":
                                       #adsValBatchSize=2,
                                       nodeWeightage=cal_weightage(train_size),
                                       model=model,
-                                      #lossFunction="BCEWithLogitsLoss",
+                                      mergeMethod = "geomedian",
+                                      lossFunction="BCEWithLogitsLoss",
                                       #lossFunctionArgs=lFArgsDict,
-                                      #metricFunction="F1Score",
-                                      #metricFunctionArgs=mFArgsDict
+                                      metricFunction="AUROC",
         )
 
         torch.autograd.set_detect_anomaly(True)
