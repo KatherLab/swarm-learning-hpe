@@ -45,7 +45,7 @@ if __name__ == "__main__":
     env_vars = load_environment_variables()
     print('model_name: ', env_vars['model_name'])
 
-    predict, predict_last = load_prediction_modules(env_vars['prediction_flag'])
+    predict, prediction_flag = load_prediction_modules(env_vars['prediction_flag'])
     ds, task_data_name = prepare_dataset(env_vars['task_data_name'], env_vars['data_dir'])
     path_run_dir = generate_run_directory(env_vars['scratch_dir'], env_vars['task_data_name'], env_vars['model_name'], env_vars['local_compare_flag'])
 
@@ -173,6 +173,7 @@ if __name__ == "__main__":
         swarmCallback.logger.setLevel(logging.DEBUG)
         swarmCallback.on_train_begin()
         trainer = Trainer(
+            resume_from_checkpoint=env_vars['scratch_dir']+'/checkpoint.ckpt',
             accelerator='gpu', devices=1,
             precision=16,
             default_root_dir=str(path_run_dir),
@@ -190,7 +191,7 @@ if __name__ == "__main__":
         swarmCallback.on_train_end()
     model.save_best_checkpoint(trainer.logger.log_dir, checkpointing.best_model_path)
     model.save_last_checkpoint(trainer.logger.log_dir, checkpointing.last_model_path)
-
+    '''
     import subprocess
 
     # Get the container ID for the latest user-env container
@@ -207,6 +208,8 @@ if __name__ == "__main__":
             line = line.decode("utf-8").rstrip()
             print(line)
             log_file.write(line + "\n")
-    predict(path_run_dir, os.path.join(dataDir, task_data_name,'test'), model_name)
-    predict_last(path_run_dir, os.path.join(dataDir, task_data_name,'test'), model_name)
+    '''
+
+    predict(path_run_dir, os.path.join(dataDir, task_data_name,'test'), model_name, last_flag=False, prediction_flag = prediction_flag)
+    predict(path_run_dir, os.path.join(dataDir, task_data_name,'test'), model_name, last_flag=True, prediction_flag = prediction_flag)
 
