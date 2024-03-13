@@ -180,9 +180,10 @@ def predict(model_dir, test_data_dir, model_name, last_flag, prediction_flag):
     f1 = f1_score(y_true_lab, y_pred_lab, average='binary')
 
     #  -------------------------- Matthews Correlation Coefficient (MCC) -------------------------
+    '''
     from sklearn.metrics import matthews_correlation_coefficient
     mcc = matthews_correlation_coefficient(y_true_lab, y_pred_lab)
-
+    '''
     #  -------------------------- PPV and NPV -------------------------
     ppv = tp / (tp + fp)
     npv = tn / (tn + fn)
@@ -218,7 +219,7 @@ def predict(model_dir, test_data_dir, model_name, last_flag, prediction_flag):
         f.write(f"NPV: {npv:.2f}\n")
         f.write(f"Sensitivity: {sens:.2f}\n")
         f.write(f"Specificity: {spec:.2f}\n")
-        
+
     del model
     torch.cuda.empty_cache()
 

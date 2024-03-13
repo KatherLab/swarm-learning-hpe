@@ -38,7 +38,7 @@ class ResNet(BasicClassifier):
             # layers=[3, 4, 23, 3], # for Resnet 101
             block_inplanes=[64, 128, 256, 512],
             feed_forward=True,
-            loss=torch.nn.FocalLoss(),
+            loss=FocalLoss,
             loss_kwargs={},
             optimizer=torch.optim.AdamW,
             optimizer_kwargs={'lr': 1e-4},
