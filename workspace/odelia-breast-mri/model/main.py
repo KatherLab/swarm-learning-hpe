@@ -173,7 +173,7 @@ if __name__ == "__main__":
             accelerator='gpu', devices=1,
             precision=16,
             default_root_dir=str(path_run_dir),
-            callbacks=[checkpointing, ExtendedValidationCallback()],#early_stopping
+            callbacks=[checkpointing],#early_stopping
             enable_checkpointing=True,
             check_val_every_n_epoch=1,
             min_epochs=50,
@@ -209,7 +209,7 @@ if __name__ == "__main__":
             accelerator='gpu', devices=1,
             precision=16,
             default_root_dir=str(path_run_dir),
-            callbacks=[checkpointing, User_swarm_callback(swarmCallback), ExtendedValidationCallback()],#early_stopping
+            callbacks=[checkpointing, User_swarm_callback(swarmCallback)],#early_stopping
             enable_checkpointing=True,
             check_val_every_n_epoch=1,
             #min_epochs=5,
