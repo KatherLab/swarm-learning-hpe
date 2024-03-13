@@ -28,6 +28,7 @@ from dataset.nih_chest_xray_subwise import NIHXRayDatasetSubwise
 from dataset.fastmri_brain import fastMRIDataset
 from torch.utils.tensorboard import SummaryWriter
 from swarmlearning.pyt import SwarmCallback
+torch.autograd.set_detect_anomaly(True)
 
 def tuple_type(strings):
     strings = strings.replace("(", "").replace(")", "")
