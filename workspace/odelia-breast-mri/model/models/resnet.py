@@ -38,10 +38,10 @@ class ResNet(BasicClassifier):
             # layers=[3, 4, 23, 3], # for Resnet 101
             block_inplanes=[64, 128, 256, 512],
             feed_forward=True,
-            loss=FocalLoss,
+            loss=torch.nn.BCEWithLogitsLoss,
             loss_kwargs={},
             optimizer=torch.optim.AdamW,
-            optimizer_kwargs={'lr': 1e-3},
+            optimizer_kwargs={'lr': 1e-4},
             lr_scheduler=None,
             lr_scheduler_kwargs={},
             aucroc_kwargs={"task": "binary"},
