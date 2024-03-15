@@ -195,7 +195,7 @@ if __name__ == "__main__":
                                       #adsValBatchSize=2,
                                       nodeWeightage=cal_weightage(train_size),
                                       model=model,
-                                      mergeMethod = "geomedian",
+                                      mergeMethod = "coordmedian",
                                       #lossFunction="BCEWithLogitsLoss",
                                       #lossFunctionArgs=lFArgsDict,
                                       #metricFunction="AUROC",
