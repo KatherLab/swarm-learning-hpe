@@ -6,7 +6,7 @@ data:
   data_dir: /mnt/dlhd1/Satya/Data/Pathologypng
   image_size: 224
   num_classes: 3
-  classes: ['LYM','MUC','MUS']
+  classes: ['LYM', 'MUS']
   channels: 3
   logit_transform: false
   uniform_dequantization: false
@@ -16,7 +16,7 @@ data:
   num_workers: 4
 
 training:
-  batch_size: 1
+  batch_size: 4
   n_epochs: 500000
   n_iters: 500001
   snapshot_freq: 2000

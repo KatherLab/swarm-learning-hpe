@@ -9,16 +9,16 @@ Body:
   WorkingDir: /tmp/test
   Envvars: [ "SCRATCH_DIR": data-and-scratch/scratch,
              "MODEL_DIR": model,
-             "MAX_EPOCHS": <NUM-MAX_EPOCHS>,
-             "MIN_PEERS": <NUM-MIN_PEERS>,
+             "MAX_EPOCHS": 10,
+             "MIN_PEERS": 1,
              "LOCAL_COMPARE_FLAG": False,
              "USE_ADAPTIVE_SYNC": False,
-             "SYNC_FREQUENCY": 1024,
+             "SYNC_FREQUENCY": 10000,
 
 ]
   PrivateContent: /tmp/test/data-and-scratch
   SharedContent:
-    - Src: /opt/hpe/swarm-learning-hpe/workspace/<MODULE-NAME>/model
+    - Src: /opt/hpe/swarm-learning-hpe/workspace/score-based-model/model
       Tgt: /tmp/test/model
       MType: BIND
     - Src: /mnt/dlhd0/swarmlearning_data/archive/
@@ -27,6 +27,6 @@ Body:
     - Src: /mnt/dlhd1/Satya/Data/Pathologypng
       Tgt: /mnt/dlhd1/Satya/Data/Pathologypng
       MType: BIND
-    - Src: /opt/hpe/swarm-learning-hpe/workspace/score-based-model/model/configs
-      Tgt: /opt/hpe/swarm-learning-hpe/workspace/score-based-model/model/configs
+    - Src: /mnt/dlhd1/sbm/scratch/
+      Tgt: /mnt/dlhd1/sbm/scratch/
       MType: BIND
