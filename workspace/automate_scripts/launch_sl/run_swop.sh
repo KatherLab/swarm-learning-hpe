@@ -74,7 +74,7 @@ sudo $script_dir/../../swarm_learning_scripts/run-swop --rm -d\
   --apls-ip="$sentinel" \
   -e SWOP_KEEP_CONTAINERS=True \
   -e SWARM_LOG_LEVEL=DEBUG \
-  -e SL_DEVMODE_KEY=REVWTU9ERS0yMDI0LTAzLTE0 \
+  -e SL_DEVMODE_KEY=REVWTU9ERS0yMDI0LTAzLTE1 \
 
 echo "SWOP container started"
 echo "Use 'cklog --swop' to follow the logs of the SWOP node"

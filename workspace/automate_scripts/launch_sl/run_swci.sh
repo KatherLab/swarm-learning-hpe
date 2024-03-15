@@ -94,7 +94,7 @@ sudo "$script_dir/../../swarm_learning_scripts/run-swci" \
   -e "SWCI_RUN_TASK_MAX_WAIT_TIME=5000" \
   -e "SWCI_GENERIC_TASK_MAX_WAIT_TIME=5000" \
   -e SWARM_LOG_LEVEL=DEBUG \
-  -e SL_DEVMODE_KEY=REVWTU9ERS0yMDI0LTAzLTE0 \
+  -e SL_DEVMODE_KEY=REVWTU9ERS0yMDI0LTAzLTE1 \
 
 echo "SWCI container started successfully"
 echo "Use 'cklog --swci' to follow the logs of the SWCI node"
