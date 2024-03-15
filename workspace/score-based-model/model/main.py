@@ -11,7 +11,7 @@ import numpy as np
 import torch.utils.tensorboard as tb
 import copy
 from runners import *
-
+import sys
 
 def parse_args_and_config():
 
@@ -37,13 +37,20 @@ def parse_args_and_config():
     parser.add_argument('-i', '--sampling_folder', type=str, default='image_samples', help="The folder name of samples")
     parser.add_argument('--ni', action='store_true',
                         help="No interaction. Suitable for Slurm Job launcher")
+    sys.argv = ['main.py', '--config', 'pathology.yml', '--doc', 'test']
 
     args = parser.parse_args()
     args.log_path = os.path.join(
         args.exp, 'logs', args.doc, f'conditional' if args.conditional else 'unconditional')
 
+    print("out dir path: ")
+    # print absolute path
+    print(os.path.abspath(args.log_path))
+    print(os.path.abspath(args.exp))
+
+
     # parse config file
-    with open(os.path.join('configs', args.config), 'r') as f:
+    with open(os.path.join('/tmp/test/model/configs', args.config), 'r') as f:
         config = yaml.safe_load(f)
     new_config = dict2namespace(config)
 

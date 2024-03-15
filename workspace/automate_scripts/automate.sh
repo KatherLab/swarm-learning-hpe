@@ -77,15 +77,21 @@ if [ $ACTION = server_setup ]; then
        echo "Please specify your host index"
        echo "Host index should be chosen from [TUD, Ribera, VHIO, Radboud, UKA, Utrecht, Mitera, Cambridge, Zurich]"
   fi
-    if [ -z "$sentinel_ip" ];
+  if [ -z "$sentinel_ip" ];
     then
        echo "sentinel_ip required"
        help
   fi
+  if [ -z "$workspace_name" ];
+    then
+       echo "workspace_name required"
+       help
+  fi
+
   sh ./workspace/automate_scripts/server_setup/install_containers.sh
   sh ./workspace/automate_scripts/server_setup/gpu_env_setup.sh
   sh ./workspace/automate_scripts/sl_env_setup/gen_cert.sh -i "$host_index"
-  sh ./workspace/automate_scripts/sl_env_setup/setup_sl-cli-lib.sh
+  sh ./workspace/automate_scripts/sl_env_setup/setup_sl-cli-lib.sh -w "$workspace_name"
   sudo sh ./workspace/automate_scripts/server_setup/setup_vpntunnel.sh -d "$host_index" -n
   echo waiting for VPN to get connected
   sleep 10

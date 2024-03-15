@@ -4,7 +4,7 @@ Author: Jeff
 Prereq: user_env_build_task_<TIME_STAMP>
 Outcome: swarm_task
 Body:
-  Command: model/2d_ldm.py
+  Command: model/main.py
   Entrypoint: python3
   WorkingDir: /tmp/test
   Envvars: [ "SCRATCH_DIR": data-and-scratch/scratch,
@@ -14,25 +14,8 @@ Body:
              "LOCAL_COMPARE_FLAG": False,
              "USE_ADAPTIVE_SYNC": False,
              "SYNC_FREQUENCY": 1024,
-             "dataset": NIHXRay,
-             "data_dir": /mnt/dlhd0/swarmlearning_data/archive/,
-             "n_epochs": 100, #1000
-             "batch_size": 50, #150
-             "training_samples": 10000,
-             "ckpt_dir": data-and-scratch/scratch/exp_ldm/,
-             "downsample": 2,
-             "base_lr": 0.00005, # autoencoder
-             "disc_lr": 0.0001, # autoencoder
-             "perceptual_weight": 0.002, # autoencoder
-             "adv_weight": 0.0005, # autoencoder
-             "ae_ckpt":  data-and-scratch/scratch/exp_ae/model_best_ae,
-             "generate_samples": 16,
-             "beta_end": 0.0205,
-             "save_model_interval": 50,
-             "latent_scaling": 'custom',
-             "custom_scale": 0.3,
-             "load_checkpoint": False,
-  ]
+
+]
   PrivateContent: /tmp/test/data-and-scratch
   SharedContent:
     - Src: /opt/hpe/swarm-learning-hpe/workspace/<MODULE-NAME>/model
@@ -40,4 +23,10 @@ Body:
       MType: BIND
     - Src: /mnt/dlhd0/swarmlearning_data/archive/
       Tgt: /mnt/dlhd0/swarmlearning_data/archive/
+      MType: BIND
+    - Src: /mnt/dlhd1/Satya/Data/Pathologypng
+      Tgt: /mnt/dlhd1/Satya/Data/Pathologypng
+      MType: BIND
+    - Src: /opt/hpe/swarm-learning-hpe/workspace/score-based-model/model/configs
+      Tgt: /opt/hpe/swarm-learning-hpe/workspace/score-based-model/model/configs
       MType: BIND

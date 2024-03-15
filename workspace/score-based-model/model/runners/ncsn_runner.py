@@ -15,6 +15,7 @@ from datasets import (get_dataset, data_transform,
 from models import anneal_Langevin_dynamics
 from models import get_sigmas
 from models.ema import EMAHelper
+from swarmlearning.pyt import SwarmCallback
 
 __all__ = ['NCSNRunner']
 
@@ -27,6 +28,7 @@ class NCSNRunner():
         os.makedirs(args.log_sample_path, exist_ok=True)
 
     def train(self):
+
         dataset, test_dataset = get_dataset(self.args, self.config)
         dataloader = DataLoader(dataset, batch_size=self.config.training.batch_size, shuffle=True,
                                 num_workers=self.config.data.num_workers)
@@ -44,6 +46,17 @@ class NCSNRunner():
 
         start_epoch = 0
         step = 0
+
+        swarmCallback = SwarmCallback(
+            totalEpochs=10,
+            syncFrequency=256,
+            minPeers=1,
+            maxPeers=1,
+            nodeWeightage=100,
+            model=score,
+            #mergeMethod="geomedian",
+        )
+        swarmCallback.on_train_begin()
 
         if self.config.model.ema:
             ema_helper = EMAHelper(mu=self.config.model.ema_rate)
@@ -135,6 +148,8 @@ class NCSNRunner():
 
                 if self.config.model.ema:
                     ema_helper.update(score)
+
+                swarmCallback.on_batch_end()
 
                 if step >= self.config.training.n_iters:
                     return 0
@@ -229,6 +244,8 @@ class NCSNRunner():
 
                         del test_score
                         del all_samples
+        swarmCallback.on_train_end()
+
 
     def sample(self):
         if self.config.sampling.ckpt_id is None:

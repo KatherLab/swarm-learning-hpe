@@ -4,7 +4,7 @@ Author: Jeff
 Prereq: ROOTTASK
 Outcome: user-env-pyt1.13-sbm-swop
 Body:
-  BuildContext: sl-cli-lib
+  BuildContext: sl-cli-lib-sbm
   BuildType: INLINE
   BuildSteps:
     - FROM pytorch/pytorch:1.13.0-cuda11.6-cudnn8-runtime

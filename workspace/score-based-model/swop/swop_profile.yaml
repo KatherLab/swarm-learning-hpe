@@ -22,7 +22,7 @@ envvars:
   - HTTPS_PROXY: ~
   - NO_PROXY: ~
   - SWARM_LOG_LEVEL: DEBUG
-  - SL_DEVMODE_KEY: REVWTU9ERS0yMDI0LTAzLTEy
+  - SL_DEVMODE_KEY: REVWTU9ERS0yMDI0LTAzLTE0
 nodes:
   - slnodedef:
       idx: 0
