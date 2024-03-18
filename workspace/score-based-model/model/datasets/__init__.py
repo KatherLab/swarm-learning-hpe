@@ -23,10 +23,10 @@ def get_dataset(args, config):
         assert False, "This number of channels is not supported yet, pleas implement"
 
 
-
+    data_dir = os.geten('DATA_DIR', '/platform/data/')
 
     all_dataset = torchvision.datasets.ImageFolder(
-        config.data.data_dir, transform=transforms)
+        data_dir, transform=transforms)
     print("Class to index:",all_dataset.class_to_idx)
 
     # Get the number of samples

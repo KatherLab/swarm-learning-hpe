@@ -7,7 +7,8 @@ Body:
   Command: model/main.py
   Entrypoint: python3
   WorkingDir: /tmp/test
-  Envvars: [ "SCRATCH_DIR": scratch,
+  Envvars: [ "DATA_DIR": data-and-scratch/data,
+             "SCRATCH_DIR": data-and-scratch/scratch,
              "MODEL_DIR": model,
              “DATA_DIR": data,
              "MAX_EPOCHS": 10,

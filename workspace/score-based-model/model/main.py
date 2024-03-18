@@ -42,8 +42,11 @@ def parse_args_and_config():
 
     args = parser.parse_args()
 
-    scratch_dir = "scratch"
+    scratch_dir = os.getenv('SCRATCH_DIR', '/platform/scratch')
+
+
     args.exp = os.path.join(scratch_dir, args.exp)
+
 
     args.log_path = os.path.join(
         args.exp, 'logs', args.doc, f'conditional' if args.conditional else 'unconditional')
