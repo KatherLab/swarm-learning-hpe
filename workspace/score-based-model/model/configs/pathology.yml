@@ -3,9 +3,9 @@ device: cuda
 data:
   dataset: pathology
   category: NA
-  data_dir: /tmp/test/data
+  data_dir: data
   image_size: 224
-  num_classes: 3
+  num_classes: 2
   classes: ['LYM', 'MUS']
   channels: 3
   logit_transform: false

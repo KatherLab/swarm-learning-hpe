@@ -42,7 +42,7 @@ def parse_args_and_config():
 
     args = parser.parse_args()
 
-    scratch_dir = "/tmp/test/scratch"
+    scratch_dir = "scratch"
     args.exp = os.path.join(scratch_dir, args.exp)
 
     args.log_path = os.path.join(
