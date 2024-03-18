@@ -3,7 +3,7 @@ device: cuda
 data:
   dataset: pathology
   category: NA
-  data_dir: /mnt/dlhd1/Satya/Data/Pathologypng
+  data_dir: /tmp/test/data
   image_size: 224
   num_classes: 3
   classes: ['LYM', 'MUS']

@@ -37,12 +37,12 @@ def parse_args_and_config():
     parser.add_argument('-i', '--sampling_folder', type=str, default='image_samples', help="The folder name of samples")
     parser.add_argument('--ni', action='store_true',
                         help="No interaction. Suitable for Slurm Job launcher")
-    sys.argv = ['main.py', '--config', 'pathology.yml', '--doc', 'test']
+    sys.argv = ['main.py', '--config', 'pathology.yml', '--doc', 'test', '--conditional']
 
 
     args = parser.parse_args()
 
-    scratch_dir = os.getenv('SCRATCH_DIR', '/platform/scratch')
+    scratch_dir = "/tmp/test/scratch"
     args.exp = os.path.join(scratch_dir, args.exp)
 
     args.log_path = os.path.join(

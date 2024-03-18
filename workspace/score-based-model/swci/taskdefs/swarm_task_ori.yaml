@@ -21,12 +21,3 @@ Body:
     - Src: /opt/hpe/swarm-learning-hpe/workspace/score-based-model/model
       Tgt: /tmp/test/model
       MType: BIND
-    - Src: /mnt/dlhd0/swarmlearning_data/archive/
-      Tgt: /mnt/dlhd0/swarmlearning_data/archive/
-      MType: BIND
-    - Src: /mnt/dlhd1/Satya/Data/Pathologypng
-      Tgt: /mnt/dlhd1/Satya/Data/Pathologypng
-      MType: BIND
-    - Src: /mnt/dlhd1/sbm/scratch/
-      Tgt: /mnt/dlhd1/sbm/scratch/
-      MType: BIND
