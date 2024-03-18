@@ -15,6 +15,8 @@ from datasets import (get_dataset, data_transform,
 from models import anneal_Langevin_dynamics
 from models import get_sigmas
 from models.ema import EMAHelper
+from swarmlearning.pyt import SwarmCallback
+
 
 __all__ = ['NCSNRunnerConditional']
 
@@ -39,6 +41,18 @@ class NCSNRunnerConditional():
 
         score = NCSNv3Deepest(self.config).to(self.config.device)
         score = torch.nn.DataParallel(score)
+
+
+        swarmCallback = SwarmCallback(
+            totalEpochs=100,
+            syncFrequency=1024,
+            minPeers=2,
+            maxPeers=2,
+            nodeWeightage=100,
+            model=score,
+            #mergeMethod="geomedian",
+        )
+        swarmCallback.on_train_begin()
 
         optimizer = get_optimizer(self.config, score.parameters())
 
@@ -136,6 +150,8 @@ class NCSNRunnerConditional():
                 if self.config.model.ema:
                     ema_helper.update(score)
 
+                swarmCallback.on_batch_end()
+
                 if step >= self.config.training.n_iters:
                     return 0
 
@@ -228,6 +244,9 @@ class NCSNRunnerConditional():
 
                         del test_score
                         del all_samples
+
+        swarmCallback.on_train_end()
+
 
     def sample(self):
         if self.config.sampling.ckpt_id is None:

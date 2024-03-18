@@ -48,10 +48,10 @@ class NCSNRunner():
         step = 0
 
         swarmCallback = SwarmCallback(
-            totalEpochs=10,
-            syncFrequency=256,
-            minPeers=1,
-            maxPeers=1,
+            totalEpochs=100,
+            syncFrequency=1024,
+            minPeers=2,
+            maxPeers=2,
             nodeWeightage=100,
             model=score,
             #mergeMethod="geomedian",
