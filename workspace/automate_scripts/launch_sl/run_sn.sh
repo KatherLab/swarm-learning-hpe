@@ -74,7 +74,7 @@ sudo $script_dir/../../swarm_learning_scripts/run-sn \
      --capath=cert/ca/capath \
      --apls-ip="$sentinel" \
     -e SWARM_LOG_LEVEL=DEBUG \
-    -e SL_DEVMODE_KEY=REVWTU9ERS0yMDI0LTAzLTE1 \
+    -e SL_DEVMODE_KEY=REVWTU9ERS0yMDI0LTAzLTE4 \
 
 echo "SN node started, waiting for the network to be ready"
 echo "Use 'cklog --sn' to follow the logs of the SN node"
