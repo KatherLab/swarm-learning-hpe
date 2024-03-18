@@ -23,7 +23,7 @@ def get_dataset(args, config):
         assert False, "This number of channels is not supported yet, pleas implement"
 
 
-    data_dir = os.geten('DATA_DIR', '/platform/data/')
+    data_dir = os.getenv('DATA_DIR', '/platform/data/')
 
     all_dataset = torchvision.datasets.ImageFolder(
         data_dir, transform=transforms)
