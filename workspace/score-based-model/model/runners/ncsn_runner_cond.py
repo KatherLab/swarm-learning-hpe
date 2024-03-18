@@ -44,13 +44,12 @@ class NCSNRunnerConditional():
 
 
         swarmCallback = SwarmCallback(
-            totalEpochs=100,
-            syncFrequency=1024,
-            minPeers=2,
-            maxPeers=2,
-            nodeWeightage=100,
+            totalEpochs=self.args.max_epochs,
+            syncFrequency=self.args.sync_frequency,
+            minPeers=self.args.min_peers,
+            maxPeers=self.args.max_peers,
+            nodeWeightage=self.args.node_weightage,
             model=score,
-            #mergeMethod="geomedian",
         )
         swarmCallback.on_train_begin()
 

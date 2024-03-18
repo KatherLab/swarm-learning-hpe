@@ -12,6 +12,7 @@ import torch.utils.tensorboard as tb
 import copy
 from runners import *
 import sys
+import os
 
 def parse_args_and_config():
 
@@ -43,7 +44,11 @@ def parse_args_and_config():
     args = parser.parse_args()
 
     scratch_dir = os.getenv('SCRATCH_DIR', '/platform/scratch')
-
+    args.max_epochs = int(os.getenv('MAX_EPOCHS', 100))
+    args.min_peers= int(os.getenv('MIN_PEERS', 2))
+    args.max_peers = int(os.getenv('MAX_PEERS', 7))
+    args.sync_frequency = int(os.getenv('SYNC_FREQUENCY', 1024))
+    args.node_weightage = 100
 
     args.exp = os.path.join(scratch_dir, args.exp)
 
