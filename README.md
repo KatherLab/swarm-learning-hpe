@@ -119,6 +119,19 @@ sudo modprobe nvidia
 ```
 Requirements and dependencies will be automatically installed by the script mentioned in the following section.
 
+### Decide on the connection method
+Determine how your server will connect to the network. You have the option to configure the network interface for a VPN connection using GoodAccess, direct Ethernet connection, or through Tailscale. Follow the instructions below to set up the network interface based on your choice:
+
+- For a VPN connection using GoodAccess(For Odelia project, this is the recommended method.)
+sh /workspace/automate_scripts/server_setup/replace_network_interface.sh --goodaccess
+
+- For a direct Ethernet connection(For proof of concept, this is the recommended method.)
+sh /workspace/automate_scripts/server_setup/replace_network_interface.sh --local
+
+- For a Tailscale connection(For Swag project, this is the recommended method.)
+sh /workspace/automate_scripts/server_setup/replace_network_interface.sh --tailscale
+
+
 ### Setting up the Swarm Learning Environment
 **PLEASE REPLACE THE `<PLACEHOLDER>` WITH THE CORRESPONDING VALUE!**
 
