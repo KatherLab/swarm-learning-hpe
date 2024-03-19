@@ -12,7 +12,7 @@ apls:
     port: ~
 apisrv:
   locator:
-    host: <HOST-IPADDRESS>
+    host: <SN-IPADDRESS>
     port: ~
 envvars:
   - http_proxy: ~

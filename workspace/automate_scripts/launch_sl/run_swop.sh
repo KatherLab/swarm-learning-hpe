@@ -6,10 +6,10 @@ workspace="swag-latent-diffusion"
 sentinel="192.168.33.100"
 
 # Get the IP address of the current machine
-ip_addr=$(ip addr show eno1 | awk '/inet / {print $2}' | cut -d'/' -f1)
+ip_addr=$(ip addr show tailscale0 | awk '/inet / {print $2}' | cut -d'/' -f1)
 
 if [ -z "$ip_addr" ]; then
-    echo "Error: eno1 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"
+    echo "Error: tailscale0 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"
     exit 1
 fi
 
