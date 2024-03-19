@@ -11,11 +11,11 @@ Body:
              "SCRATCH_DIR": data-and-scratch/scratch,
              "MODEL_DIR": model,
              “DATA_DIR": data,
-             "MAX_EPOCHS": 10,
-             "MIN_PEERS": 2,
+             "MAX_EPOCHS": <NUM-MAX_EPOCHS>,
+             "MIN_PEERS": <NUM-MIN_PEERS>,
              "LOCAL_COMPARE_FLAG": False,
              "USE_ADAPTIVE_SYNC": False,
-             "SYNC_FREQUENCY": 10000,
+             "SYNC_FREQUENCY": 4096,
 
 ]
   PrivateContent: /tmp/test/data-and-scratch

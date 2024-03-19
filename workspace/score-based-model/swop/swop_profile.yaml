@@ -50,10 +50,14 @@ nodes:
       slport: 16000
       usrhostname: user-<MODULE-NAME>-<HOST-IPADDRESS>
       privatedata:
-        src: "/opt/hpe/swarm-learning-hpe/workspace/<MODULE-NAME>/user/data-and-scratch"
+        src: "/mnt/dlhd1/sbm/data-and-scratch/"
         mType: BIND
       slenvvars: null
       usrenvvars: null
       usrcontaineropts:
         - gpus : "all"
         - shm-size : "16G"
+      sharedcontent:
+        - Src: /opt/hpe/swarm-learning-hpe/workspace/score-based-model/model
+          Tgt: /tmp/test/model
+          MType: BIND
