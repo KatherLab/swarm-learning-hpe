@@ -18,6 +18,9 @@ fi
 # Define the base directory
 BASE_DIR="/opt/hpe/swarm-learning-hpe"
 
+# Get the full path of the current script
+SELF_PATH=$(realpath "$0")
+
 # Process the command line argument
 case "$1" in
     --tailscale)
@@ -39,7 +42,7 @@ case "$1" in
 esac
 
 # Use find to locate all .sh files under the specified directory recursively
-# and use sed to replace the search pattern with the desired string
-find "$BASE_DIR" -type f -name "*.sh" -exec sed -i "s/$SEARCH_PATTERN/$REPLACE_WITH/g" {} +
+# Exclude the script itself from the search results and use sed to replace the search pattern with the desired string
+find "$BASE_DIR" -type f -name "*.sh" ! -path "$SELF_PATH" -exec sed -i "s/$SEARCH_PATTERN/$REPLACE_WITH/g" {} +
 
 echo "Replacement complete."

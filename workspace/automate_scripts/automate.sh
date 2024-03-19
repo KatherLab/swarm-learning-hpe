@@ -92,7 +92,13 @@ if [ $ACTION = server_setup ]; then
   sh ./workspace/automate_scripts/server_setup/gpu_env_setup.sh
   sh ./workspace/automate_scripts/sl_env_setup/gen_cert.sh -i "$host_index"
   sh ./workspace/automate_scripts/sl_env_setup/setup_sl-cli-lib.sh -w "$workspace_name"
-  #sudo sh ./workspace/automate_scripts/server_setup/setup_vpntunnel.sh -d "$host_index" -n
+  # if --goodaccess is not provided, the script will not run the VPN setup
+  if [ -z "$goodaccess" ]; then
+    echo "VPN setup skipped"
+    exit 0
+  fi
+
+  sudo sh ./workspace/automate_scripts/server_setup/setup_vpntunnel.sh -d "$host_index" -n
   #echo waiting for VPN to get connected
   sleep 10
   ip_addr=$(ip addr show tailscale0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
