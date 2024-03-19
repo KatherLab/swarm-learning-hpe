@@ -1,4 +1,5 @@
 # SWAG consortium
+Please switch to branch 'dev_swag_diffusion' for the latest updates.
 
 ## Connection using tailscale
 ### Install tailscale
