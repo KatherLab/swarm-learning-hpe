@@ -9,12 +9,13 @@ from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
-from data.datasets import DUKE_Dataset3D
-from data.datasets import DUKE_Dataset3D_external
+from data.datasets import DUKE_Dataset3D, DUKE_Dataset3D_external, DUKE_Dataset3D_collab
 from data.datamodules import DataModule
 from utils.roc_curve import plot_roc_curve, cm2acc, cm2x
 import torch
 from models import ResNet, VisionTransformer, EfficientNet, EfficientNet3D, EfficientNet3Db7, DenseNet121, UNet3D
+from sklearn.metrics import f1_score
+
 
 def predict(model_dir, test_data_dir, model_name, last_flag, prediction_flag):
     # ------------ Settings/Defaults ----------------
@@ -24,7 +25,7 @@ def predict(model_dir, test_data_dir, model_name, last_flag, prediction_flag):
     #path_run = Path(
         #'/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user-odelia-breast-mri-192.168.33.102/data-and-scratch/scratch/2023_02_06_224851')
     #path_out = Path().cwd() / 'results' / path_run.name
-    path_out = Path(path_run)
+    path_out = Path(path_run/prediction_flag)
     print("path_out.absolute()", path_out.absolute())
     path_out.mkdir(parents=True, exist_ok=True)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -45,9 +46,16 @@ def predict(model_dir, test_data_dir, model_name, last_flag, prediction_flag):
             flip=False,
             path_root=test_data_dir
         )
+    elif prediction_flag == 'collab':
+        ds = DUKE_Dataset3D_collab(
+            flip=False,
+            path_root=test_data_dir
+        )
     # only get 10 samples
     #ds_test = torch.utils.data.Subset(ds, range(10))
     ds_test = ds
+    print('number of test data')
+    print(len(ds_test))
 
     dm = DataModule(
         ds_test=ds_test,
@@ -131,27 +139,53 @@ def predict(model_dir, test_data_dir, model_name, last_flag, prediction_flag):
     model.eval()
 
     results = {'GT': [], 'NN': [], 'NN_pred': []}
+    threshold = 0.5  # Threshold for binary classification
+
     for batch in tqdm(dm.test_dataloader()):
         source, target = batch['source'], batch['target']
 
         # Run Model
         pred = model(source.to(device)).cpu()
-        pred = torch.sigmoid(pred)
-        pred_binary = torch.argmax(pred, dim=1)
-
+        pred_proba = torch.sigmoid(pred).squeeze()  # Assuming single output for positive class probability
+        pred_binary = (pred_proba > threshold).long()  # Classify based on threshold
+        #print(pred_proba)
+        #print(pred_binary)
         results['GT'].extend(target.tolist())
-        results['NN'].extend(pred_binary.tolist())
-        results['NN_pred'].extend(pred[:, 0].tolist())
+        if isinstance(pred_binary.tolist(), int):
+            # If pred_binary.tolist() is an integer, convert it to a list with a single element
+            pred_binary_list = [pred_binary.tolist()]
+            #print(pred_binary_list)
+        else:
+            # Otherwise, use the list directly
+            pred_binary_list = pred_binary.tolist()
+            #print(pred_binary_list)
+
+        if isinstance(pred_proba.tolist(), float):
+            # If pred_binary.tolist() is an integer, convert it to a list with a single element
+            pred_proba_list = [pred_proba.tolist()]
+            #print(pred_proba_list)
+        else:
+            # Otherwise, use the list directly
+            pred_proba_list = pred_proba.tolist()
+            #print(pred_proba_list)
+
+        results['NN'].extend(pred_binary_list)
+        results['NN_pred'].extend(pred_proba_list)
 
     df = pd.DataFrame(results)
     if last_flag:
         df.to_csv(path_out / 'results_last.csv')
     else:
         df.to_csv(path_out / 'results.csv')
-
+    #  -------------------------- F1 score-------------------------
+    f1 = f1_score(df['GT'], df['NN'])
+    logger.info("F1 Score: {:.2f}".format(f1))
+    print("F1 Score: {:.2f}".format(f1))
     #  -------------------------- Confusion Matrix -------------------------
     cm = confusion_matrix(df['GT'], df['NN'])
     tn, fp, fn, tp = cm.ravel()
+    # print tn, fp, fn, tp
+
     n = len(df)
     logger.info(
         "Confusion Matrix: TN {} ({:.2f}%), FP {} ({:.2f}%), FN {} ({:.2f}%), TP {} ({:.2f}%)".format(tn, tn / n * 100,
@@ -208,13 +242,16 @@ def predict(model_dir, test_data_dir, model_name, last_flag, prediction_flag):
 
     # -------------------------- Save Metrics -------------------------
     with open(path_out / 'metrics.txt', 'w') as f:
-        f.write(f"ACC: {acc:.2f}\n")
         f.write(f"AUC: {auc_val:.2f}\n")
-        f.write(f"AP: {ap:.2f}\n")
-        f.write(f"PPV: {ppv:.2f}\n")
-        f.write(f"NPV: {npv:.2f}\n")
+        f.write(f"F1 Score: {f1:.2f}\n")
         f.write(f"Sensitivity: {sens:.2f}\n")
         f.write(f"Specificity: {spec:.2f}\n")
+        f.write(f"PPV: {ppv:.2f}\n")
+        f.write(f"NPV: {npv:.2f}\n")
+        f.write(f"ACC: {acc:.2f}\n")
+        f.write(f"AP: {ap:.2f}\n")
+
+
 
     del model
     torch.cuda.empty_cache()
@@ -222,8 +259,10 @@ def predict(model_dir, test_data_dir, model_name, last_flag, prediction_flag):
 if __name__ == "__main__":
     predict(
         model_dir = Path(
-        '/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user/data-and-scratch/scratch/2024_03_13_163526_multi_ext_ResNet101_swarm_learning'),
-        test_data_dir='/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user/data-and-scratch/data/DUKE_ext/test',
+        '/mnt/sda1/odelia_paper_trained_results/2023_07_03_162224_DUKE_ext_ResNet101_swarm_learning/'),
+        test_data_dir='/mnt/sda1/swarm-learning/preprocessed_re',
+        #/mnt/sda1/swarm-learning/preprocessed_re
+        #'/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user/data-and-scratch/data/DUKE_ext/test',
         model_name='ResNet101',
         last_flag=False,
-        prediction_flag='ext')
+        prediction_flag='collab')
