@@ -60,8 +60,8 @@ fi
   --sn-ip="$ip_addr"\
   --sn-api-port=30304 \
   --sl-fs-port=16000 \
-  --key=/opt/hpe/swarm-learning-hpe/cert/sl-TUD-key.pem \
-  --cert=/opt/hpe/swarm-learning-hpe/cert/sl-TUD-cert.pem \
+  --key=/opt/hpe/swarm-learning-hpe/cert/sl-TUD_dl0-key.pem \
+  --cert=/opt/hpe/swarm-learning-hpe/cert/sl-TUD_dl0-cert.pem \
   --capath=/opt/hpe/swarm-learning-hpe/cert/ca/capath \
   --ml-it \
   --ml-image="$ml_image" \
