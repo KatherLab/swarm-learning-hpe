@@ -3,7 +3,7 @@
 
 # Default values
 workspace="swag-latent-diffusion"
-sentinel="192.168.33.100"
+sentinel="100.125.38.128"
 
 # Get the IP address of the current machine
 ip_addr=$(ip addr show tailscale0 | awk '/inet / {print $2}' | cut -d'/' -f1)

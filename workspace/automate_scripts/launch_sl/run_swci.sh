@@ -3,7 +3,7 @@
 
 # Default values
 workspace="swag-latent-diffusion"
-sentinel="192.168.33.100"
+sentinel="100.125.38.128"
 
 # Print usage message
 usage() {

@@ -135,7 +135,7 @@ sh /workspace/automate_scripts/server_setup/replace_network_interface.sh --tails
 ### Setting up the Swarm Learning Environment
 **PLEASE REPLACE THE `<PLACEHOLDER>` WITH THE CORRESPONDING VALUE!**
 
-`<sentinel_ip>` = `192.168.33.100` currently it's the IP assigned by VPN server for TUD host.
+`<sentinel_ip>` = `100.125.38.128` currently it's the IP assigned by VPN server for TUD host.
 
 `<host_index>` = Your institute's name. For ODELIA project should be chosen from `TUD` `Ribera` `VHIO` `Radboud` `UKA` `Utrecht` `Mitera` `Cambridge` `Zurich`
 

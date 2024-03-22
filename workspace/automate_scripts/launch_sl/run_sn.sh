@@ -3,7 +3,7 @@
 
 # Default values
 host=""
-sentinel="192.168.33.100"
+sentinel="100.125.38.128"
 script_name=$(basename "${0}")
 script_dir=$(realpath $(dirname "${0}"))
 
