@@ -17,7 +17,7 @@ from models import ResNet, VisionTransformer, EfficientNet, EfficientNet3D, Effi
 from sklearn.metrics import f1_score
 
 
-def predict(model_dir, test_data_dir, model_name, last_flag, prediction_flag):
+def predict(model_dir, test_data_dir, model_name, last_flag, prediction_flag, cohort_flag='aachen'):
     # ------------ Settings/Defaults ----------------
     # path_run = Path.cwd() / 'runs/2023_02_06_175325'
     # path_run = Path('/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user-odelia-breast-mri-192.168.33.102/data-and-scratch/scratch/2023_02_06_205810/')
@@ -25,7 +25,7 @@ def predict(model_dir, test_data_dir, model_name, last_flag, prediction_flag):
     #path_run = Path(
         #'/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user-odelia-breast-mri-192.168.33.102/data-and-scratch/scratch/2023_02_06_224851')
     #path_out = Path().cwd() / 'results' / path_run.name
-    path_out = Path(path_run/prediction_flag)
+    path_out = Path(path_run, f"{prediction_flag}_{cohort_flag}")
     print("path_out.absolute()", path_out.absolute())
     path_out.mkdir(parents=True, exist_ok=True)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -138,7 +138,7 @@ def predict(model_dir, test_data_dir, model_name, last_flag, prediction_flag):
     model.to(device)
     model.eval()
 
-    results = {'GT': [], 'NN': [], 'NN_pred': []}
+    results = {'uid': [],'GT': [], 'NN': [], 'NN_pred': []}
     threshold = 0.5  # Threshold for binary classification
 
     for batch in tqdm(dm.test_dataloader()):
@@ -171,6 +171,7 @@ def predict(model_dir, test_data_dir, model_name, last_flag, prediction_flag):
 
         results['NN'].extend(pred_binary_list)
         results['NN_pred'].extend(pred_proba_list)
+        results['uid'].extend(batch['uid'])
 
     df = pd.DataFrame(results)
     if last_flag:
@@ -180,7 +181,7 @@ def predict(model_dir, test_data_dir, model_name, last_flag, prediction_flag):
     #  -------------------------- F1 score-------------------------
     f1 = f1_score(df['GT'], df['NN'])
     logger.info("F1 Score: {:.2f}".format(f1))
-    print("F1 Score: {:.2f}".format(f1))
+    #print("F1 Score: {:.2f}".format(f1))
     #  -------------------------- Confusion Matrix -------------------------
     cm = confusion_matrix(df['GT'], df['NN'])
     tn, fp, fn, tp = cm.ravel()
@@ -198,7 +199,7 @@ def predict(model_dir, test_data_dir, model_name, last_flag, prediction_flag):
     y_pred_lab = np.asarray(df['NN_pred'])
     y_true_lab = np.asarray(df['GT'])
     tprs, fprs, auc_val, thrs, opt_idx, cm = plot_roc_curve(y_true_lab, y_pred_lab, axis, fontdict=fontdict)
-    print ('auc_val: ',auc_val)
+    #print ('auc_val: ',auc_val)
     fig.tight_layout()
     if last_flag:
         fig.savefig(path_out / f'roc_last.png', dpi=300)
@@ -251,18 +252,32 @@ def predict(model_dir, test_data_dir, model_name, last_flag, prediction_flag):
         f.write(f"ACC: {acc:.2f}\n")
         f.write(f"AP: {ap:.2f}\n")
 
+    # -------------------------- print Metrics -------------------------
+    print(f"AUC: {auc_val:.2f}")
+    print(f"F1 Score: {f1:.2f}")
+    print(f"Sensitivity: {sens:.2f}")
+    print(f"Specificity: {spec:.2f}")
+    print(f"PPV: {ppv:.2f}")
+    print(f"NPV: {npv:.2f}")
+    print(f"ACC: {acc:.2f}")
+    print(f"AP: {ap:.2f}")
+
 
 
     del model
     torch.cuda.empty_cache()
 
 if __name__ == "__main__":
+    wouter_data_path = "/mnt/sda1/swarm-learning/wouter_data/preprocessed_re/"
+    athens_data_path = "/mnt/sda1/swarm-learning/athens_data/preprocessed_athens/"
     predict(
         model_dir = Path(
-        '/mnt/sda1/odelia_paper_trained_results/2023_07_03_162224_DUKE_ext_ResNet101_swarm_learning/'),
-        test_data_dir='/mnt/sda1/swarm-learning/preprocessed_re',
-        #/mnt/sda1/swarm-learning/preprocessed_re
+        '/mnt/sda1/odelia_paper_trained_results/2023_07_04_180000_DUKE_ext_ResNet101_swarm_learning'),
+        test_data_dir=athens_data_path,
+
+
         #'/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user/data-and-scratch/data/DUKE_ext/test',
         model_name='ResNet101',
         last_flag=False,
-        prediction_flag='collab')
+        prediction_flag='collab',
+        cohort_flag = 'athens')
