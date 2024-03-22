@@ -3,7 +3,7 @@ device: cuda
 data:
   dataset: xray
   category: NA
-  data_dir: /home/jeff/projects/vinDr_png_generative_set_small
+  data_dir: data
   image_size: 256
   num_classes: 3
   classes: ['No_finding','Cardiomegaly','Pleural_effusion']

@@ -38,7 +38,7 @@ def parse_args_and_config():
     parser.add_argument('-i', '--sampling_folder', type=str, default='image_samples', help="The folder name of samples")
     parser.add_argument('--ni', action='store_true',
                         help="No interaction. Suitable for Slurm Job launcher")
-    sys.argv = ['main.py', '--config', 'pathology.yml', '--doc', 'test', '--conditional']
+    sys.argv = ['main.py', '--config', 'xrayVinDrConditional.yml', '--doc', 'test', '--conditional']
 
 
     args = parser.parse_args()

@@ -98,5 +98,5 @@ Note: The images do not necessarily need to be the same size as the data loader 
 **User specific path settings:**
 
 - In [swop_profile.yaml](workspace%2Fscore-based-model%2Fswop%2Fswop_profile.yaml) file, set the `privatedata` to the path of the parent folder of your dataset on your local machine. 
-Under the data-and-scratch folder there should be a dataset directory: data-and-scratch/data, and a folder for storing the logs and resutls: data-and-scratch/scratch.
+Under the data-and-scratch folder there should be a dataset directory: data-and-scratch/data, and a folder for storing the logs and results: data-and-scratch/scratch.
 
