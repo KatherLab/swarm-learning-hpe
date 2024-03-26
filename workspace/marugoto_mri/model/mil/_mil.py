@@ -108,7 +108,8 @@ def train(
     #useCuda = torch.cuda.is_available()
     #device = torch.device("cuda" if useCuda else "cpu")
     if model_type == "transformer":
-        model = ViT(num_classes=2)  # Transformer(num_classes=2)
+        model = MILModel(batch[0].shape[-1], batch[-1].shape[-1])
+        # model = ViT(num_classes=2)  # Transformer(num_classes=2)
         #model.to(torch.device('cuda' if torch.cuda.is_available() else 'cpu'))  #
     else:
         model = MILModel(batch[0].shape[-1], batch[-1].shape[-1])
