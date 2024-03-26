@@ -38,7 +38,8 @@ def parse_args_and_config():
     parser.add_argument('-i', '--sampling_folder', type=str, default='image_samples', help="The folder name of samples")
     parser.add_argument('--ni', action='store_true',
                         help="No interaction. Suitable for Slurm Job launcher")
-    sys.argv = ['main.py', '--config', 'xrayVinDrConditional.yml', '--doc', 'test', '--conditional']
+
+    config_file = 'xrayVinDrConditional.yml'
 
 
     args = parser.parse_args()
@@ -49,9 +50,11 @@ def parse_args_and_config():
     args.max_peers = int(os.getenv('MAX_PEERS', 7))
     args.sync_frequency = int(os.getenv('SYNC_FREQUENCY', 1024))
     args.node_weightage = 100
+    args.exp = config_file.split('.')[0]
 
     args.exp = os.path.join(scratch_dir, args.exp)
 
+    sys.argv = ['main.py', '--config', config_file, '--doc', 'test', '--conditional', '--exp', args.exp]
 
     args.log_path = os.path.join(
         args.exp, 'logs', args.doc, f'conditional' if args.conditional else 'unconditional')
