@@ -52,8 +52,6 @@ def parse_args_and_config():
     args.node_weightage = 100
     args.exp = config_file.split('.')[0]
 
-    args.exp = os.path.join(scratch_dir, args.exp)
-
     sys.argv = ['main.py', '--config', config_file, '--doc', 'test', '--conditional', '--exp', args.exp]
 
     args.log_path = os.path.join(
