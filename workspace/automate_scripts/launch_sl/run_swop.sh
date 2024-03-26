@@ -2,7 +2,7 @@
 #set -eux
 
 # Default values
-workspace="swag-latent-diffusion"
+workspace="score-based-model"
 sentinel="100.125.38.128"
 
 # Get the IP address of the current machine
