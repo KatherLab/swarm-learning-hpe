@@ -54,13 +54,13 @@ if __name__ == "__main__":
     model_type = model_type,
     )
 
-    deploy_categorical_model_(
-    clini_table = Path(os.path.join(dataDir, data_split, 'clinical_table.csv')),
-    slide_csv = Path(os.path.join(dataDir, data_split, 'slide_table.csv')),
-    feature_dir = Path(test_dir),
-    output_path = Path(out_dir),
-    model_path= Path(os.path.join(out_dir, 'export.pkl')),
-    target_label = "Disease")
+    # deploy_categorical_model_(
+    #clini_table = Path(os.path.join(dataDir, data_split, 'clinical_table.csv')),
+    #slide_csv = Path(os.path.join(dataDir, data_split, 'slide_table.csv')),
+    #feature_dir = Path(test_dir),
+    #output_path = Path(out_dir),
+    #model_path= Path(os.path.join(out_dir, 'export.pkl')),
+    #target_label = "Disease")
 
     categorical_aggregated_(os.path.join(out_dir,'patient-preds.csv'), outpath = (out_dir), target_label = "Disease")
 
