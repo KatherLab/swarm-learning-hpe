@@ -40,8 +40,8 @@ else:
 
 if __name__ == "__main__":
     train_categorical_model_(
-    clini_table = Path(os.path.join(feature_dir_path, 'clinical_table.csv')),
-    slide_csv = Path(os.path.join(feature_dir_path, 'slide_table.csv')),
+    clini_table = Path(os.path.join(dataDir, data_split, 'clinical_table.csv')),
+    slide_csv = Path(os.path.join(dataDir, data_split, 'slide_table.csv')),
     feature_dir = Path(feature_dir_path),
     output_path = Path(out_dir),
     target_label = "Disease",
@@ -55,8 +55,8 @@ if __name__ == "__main__":
     )
 
     deploy_categorical_model_(
-    clini_table = Path(os.path.join(feature_dir_path, 'clinical_table.csv')),
-    slide_csv = Path(os.path.join(feature_dir_path, 'slide_table.csv')),
+    clini_table = Path(os.path.join(dataDir, data_split, 'clinical_table.csv')),
+    slide_csv = Path(os.path.join(dataDir, data_split, 'slide_table.csv')),
     feature_dir = Path(test_dir),
     output_path = Path(out_dir),
     model_path= Path(os.path.join(out_dir, 'export.pkl')),
