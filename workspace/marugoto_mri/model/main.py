@@ -29,7 +29,7 @@ syncFrequency = int(os.getenv('SYNC_FREQUENCY', 32))
 model_type = os.getenv('MODEL_TYPE', 'transformer')
 current_time = datetime.now().strftime("%Y_%m_%d_%H%M%S")
 
-data_split = 'WP1'
+data_split = 'Liver'
 
 feature_dir_path = os.path.join(dataDir, data_split, 'train_val')
 test_dir = os.path.join(dataDir, data_split, 'test')
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     slide_csv = Path(os.path.join(dataDir, 'slide_table.csv')),
     feature_dir = Path(feature_dir_path),
     output_path = Path(out_dir),
-    target_label = "Malign",
+    target_label = "Disease",
     n_epoch = num_epochs,
     local_compare_flag = local_compare_flag,
     min_peers = min_peers,
@@ -60,8 +60,8 @@ if __name__ == "__main__":
     feature_dir = Path(test_dir),
     output_path = Path(out_dir),
     model_path= Path(os.path.join(out_dir, 'export.pkl')),
-    target_label = "Malign")
+    target_label = "Disease")
 
-    categorical_aggregated_(os.path.join(out_dir,'patient-preds.csv'), outpath = (out_dir), target_label = "Malign")
+    categorical_aggregated_(os.path.join(out_dir,'patient-preds.csv'), outpath = (out_dir), target_label = "Disease")
 
-    plot_roc_curves_([os.path.join(out_dir,'patient-preds.csv')], outpath = Path(out_dir), target_label = "Malign", true_label='1', subgroup_label=None, clini_table=None, subgroups=None)
+    plot_roc_curves_([os.path.join(out_dir,'patient-preds.csv')], outpath = Path(out_dir), target_label = "Disease", true_label='1', subgroup_label=None, clini_table=None, subgroups=None)
