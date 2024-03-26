@@ -51,7 +51,7 @@ def parse_args_and_config():
     args.max_peers = int(os.getenv('MAX_PEERS', 7))
     args.sync_frequency = int(os.getenv('SYNC_FREQUENCY', 1024))
     args.node_weightage = 100
-    args.exp = exp
+    args.exp = os.path.join(scratch_dir, exp)
 
 
     args.log_path = os.path.join(
