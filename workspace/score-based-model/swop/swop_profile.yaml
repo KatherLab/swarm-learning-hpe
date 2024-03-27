@@ -50,7 +50,7 @@ nodes:
       slport: 16000
       usrhostname: user-<MODULE-NAME>-<HOST-IPADDRESS>
       privatedata:
-        src: "/home/swag/data-and-scratch"
+        src: "/mnt/dlhd1/sbm/data-and-scratch/"
         mType: BIND
       slenvvars: null
       usrenvvars: null

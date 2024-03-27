@@ -100,3 +100,32 @@ Note: The images do not necessarily need to be the same size as the data loader 
 - In [swop_profile.yaml](workspace%2Fscore-based-model%2Fswop%2Fswop_profile.yaml) file, set the `privatedata` to the path of the parent folder of your dataset on your local machine. 
 Under the data-and-scratch folder there should be a dataset directory: data-and-scratch/data, and a folder for storing the logs and results: data-and-scratch/scratch.
 
+## Rerun the Training
+
+1. Terminate all the SL containers:
+   ```
+   ./workspace/swarm_learning_scripts/stop-swarm
+   ```
+
+2. Ensure no `user-env-pyt1.13-sbm-swop` containers are still running:
+   ```
+   docker ps -a
+   ```
+   If a `user-env-pyt1.13-sbm-swop` container is still running, stop it using:
+   ```
+   docker stop <container_id>
+   ```
+
+3. Replace the path in `/opt/hpe/swarm-learning-hpe/workspace/score-based-model/swop/swop_profile.yaml` at:
+   ```
+   privatedata:
+     src: "/mnt/dlhd1/sbm/data-and-scratch/"
+   ```
+   to your local data dir, since it has got overwritten by `git pull`.
+
+4. Run the environment setup script with your specific parameters:
+   ```
+   sh workspace/automate_scripts/sl_env_setup/replacement.sh -n 2 -s 100.125.38.128 -w score-based-model -e 100 -d <your_institute_name>
+   ```
+
+5. Move the `Cardiomegaly`, `No_finding`, `Pleural_effusion` data dirs from `data-and-scratch/data/` to `data-and-scratch/data/xray_data/` folder.
