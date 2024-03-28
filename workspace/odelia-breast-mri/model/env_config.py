@@ -19,15 +19,8 @@ def load_environment_variables():
 
 def load_prediction_modules(prediction_flag):
     """Dynamically load prediction modules based on the prediction flag."""
-    if prediction_flag == 'ext':
-        from predict_ext import predict
-        from predict_last_ext import predict_last
-    elif prediction_flag == 'internal':
-        from predict import predict
-        from predict_last import predict_last
-    else:
-        raise Exception("Invalid prediction flag specified")
-    return predict, predict_last
+    from predict import predict
+    return predict, prediction_flag
 
 def prepare_dataset(task_data_name, data_dir):
     """Prepare the dataset based on task data name."""
