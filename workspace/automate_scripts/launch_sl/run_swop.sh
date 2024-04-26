@@ -60,7 +60,7 @@ if [ -z "$workspace" ] || [ -z "$sentinel" ] || [ -z "$host_index" ]; then
 fi
 
 # Run the SWOP container
-sudo $script_dir/../../swarm_learning_scripts/run-swop --rm -d\
+sudo $script_dir/../../swarm_learning_scripts/run-swop --rm \
   --name=swop"$ip_addr" \
   --network=host-net \
   --sn-ip="$sentinel" \

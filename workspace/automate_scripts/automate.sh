@@ -124,6 +124,7 @@ fi
 fi
 
 if [ $ACTION = final_setup ]; then
+  sh ./workspace/automate_scripts/server_setup/test_open_exposed_ports.sh
   if [ -z "$workspace_name" ] || [ -z "$sentinel_ip" ] || [ -z "$host_index" ];
     then
        echo "workspace_name and sentinel_ip are required"

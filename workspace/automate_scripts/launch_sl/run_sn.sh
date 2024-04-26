@@ -6,26 +6,30 @@ host=""
 sentinel="100.125.38.128"
 script_name=$(basename "${0}")
 script_dir=$(realpath $(dirname "${0}"))
+detach_flag="-d"  # Default to detached mode
 
 # Help function
 help()
 {
    echo ""
-   echo "Usage: sh ${script_name} -i <host> -s <sentinel_ip> -d <host_index>"
+   echo "Usage: sh ${script_name} -i <host> -s <sentinel_ip> -d <host_index> -t"
    echo ""
    echo "Options:"
    echo "-s    The sentinel IP address, $sentinel by default"
    echo "-d    The host index, chose from [TUD, Ribera, VHIO, Radboud, UKA, Utrecht, Mitera, Cambridge, Zurich] for your site"
+   echo "-t    Run in non-detached mode, removing -d flag"
    echo "-h    Show help"
    echo ""
    exit 1
 }
+
 # Process command options
-while getopts "s:d:h" opt
+while getopts "s:d:th" opt
 do
    case "$opt" in
       s ) sentinel="$OPTARG" ;;
       d ) host_index="$OPTARG" ;;
+      t ) detach_flag="" ;;  # If -t is specified, empty the detach_flag
       h ) help ;;
       ? ) help ;;
    esac
@@ -61,7 +65,7 @@ else
 fi
 
 sudo $script_dir/../../swarm_learning_scripts/run-sn \
-     -d --rm \
+     $detach_flag --rm \
      --name=sn_node \
      --network=host-net \
      --host-ip="$ip_addr" \
@@ -73,8 +77,7 @@ sudo $script_dir/../../swarm_learning_scripts/run-sn \
      --capath=cert/ca/capath \
      --apls-ip="$sentinel" \
      -e SWARM_LOG_LEVEL=DEBUG \
-      -e SL_DEVMODE_KEY=REVWTU9ERS0yMDI0LTAzLTI4 \
-
+     -e SL_DEVMODE_KEY=REVWTU9ERS0yMDI0LTAzLTI4 \
 
 echo "SN node started, waiting for the network to be ready"
 echo "Use 'cklog --sn' to follow the logs of the SN node"
