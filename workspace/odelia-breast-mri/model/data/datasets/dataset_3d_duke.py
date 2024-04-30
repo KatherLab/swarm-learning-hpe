@@ -35,7 +35,7 @@ class DUKE_Dataset3D(SimpleDataset3D):
     def get_labels(self):
         # Assuming 'Malign' is a column in self.df after combining datasets
         # This method should return a list or array of labels corresponding to each item in the dataset
-        return self.df['Malign'].values
+        return self.df.loc[self.item_pointers, 'Malign'].tolist()
     def __len__(self):
         return len(self.item_pointers)
 
