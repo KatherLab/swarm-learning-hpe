@@ -50,7 +50,7 @@ nodes:
       slport: 16000
       usrhostname: user-<MODULE-NAME>-<HOST-IPADDRESS>
       privatedata:
-        src: "/mnt/dlhd1/sbm/data-and-scratch/"
+        src: "/mnt/swarm_alpha/sbm/data-and-scratch/"
         mType: BIND
       slenvvars: null
       usrenvvars: null
