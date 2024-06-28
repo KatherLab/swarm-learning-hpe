@@ -114,8 +114,8 @@ def loadData(dataDir, experiment, organ, label):
     # Check if the experiment is found
     if target_exp:
         exp_id = target_exp['exp']
-        training_data_id = target_exp['train_ind']
-        test_data_id = target_exp['test_ind']
+        training_data_id = target_exp['training_data']
+        test_data_id = target_exp['test_data']
 
         # Print selected experiment with Datasets
         print(
