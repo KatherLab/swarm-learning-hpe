@@ -323,7 +323,7 @@ def main():
     max_epochs = int(os.getenv('MAX_EPOCHS', str(default_max_epochs)))
     min_peers = int(os.getenv('MIN_PEERS', str(default_min_peers)))
     syncFrequency = int(
-        os.getenv('SYNC_FREQUENCY', str(default_syncFrequency))
+        os.getenv('SYNC_FREQUENCY', str(default_syncFrequency)))
     experiment = os.getenv('EXPERIMENT')
     experiment_name = os.getenv('EXPERIMENT_NAME', default_experiment_name)
     dataDir, scratchDir = directory(experiment_name)
