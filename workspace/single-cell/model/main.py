@@ -127,7 +127,7 @@ def loadData(dataDir, experiment, organ, label):
     studies = sorted(adata.obs['study'].unique())
 
     # Train and test split
-    train = adata[adata.obs['study'].isin([studies[ind] for ind in training_data_id])]
+    train = adata[adata.obs['study'] == studies[training_data_id]]
     test = adata[adata.obs['study'] == studies[test_data_id]]
     test_study = str.replace(studies[test_data_id], ' ', '_')
     del adata  # to save RAM
