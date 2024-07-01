@@ -338,7 +338,7 @@ def main():
     device = torch.device("cuda" if usecuda else "cpu")
 
     #! CHANGE ORGAN AND TYPE HERE
-    organ = "breast"
+    organ = "heart"
     label = "cell_type"
     dataDir=os.getenv('DATA_DIR')
     
