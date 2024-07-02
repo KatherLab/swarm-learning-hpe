@@ -337,7 +337,8 @@ def main():
         print('CUDA is accessable')
     else:
         print('CUDA  is not accesable')
-    device = torch.device("cuda" if usecuda else "cpu")
+    #device = torch.device("cuda" if usecuda else "cpu")
+    device = torch.device("cpu")
 
     #! CHANGE ORGAN AND TYPE HERE
     organ = "heart"
