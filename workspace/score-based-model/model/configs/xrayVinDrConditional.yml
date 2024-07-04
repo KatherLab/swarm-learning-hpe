@@ -3,7 +3,7 @@ device: cuda
 data:
   dataset: xray
   category: NA
-  data_dir: data
+  data_dir: data/xray_data
   image_size: 256
   num_classes: 3
   classes: ['No_finding','Cardiomegaly','Pleural_effusion']
