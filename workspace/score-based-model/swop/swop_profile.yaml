@@ -51,7 +51,7 @@ nodes:
       slport: 16000
       usrhostname: user-<MODULE-NAME>-<HOST-IPADDRESS>
       privatedata:
-        src: "/mnt/dlhd1/sbm/data-and-scratch/"
+        src: "/mnt/sda1/sl-diffusion-exp/data-and-scratch"
         mType: BIND
       slenvvars: null
       usrenvvars: null
