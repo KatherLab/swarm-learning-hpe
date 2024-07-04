@@ -101,10 +101,10 @@ if [ $ACTION = server_setup ]; then
   sudo sh ./workspace/automate_scripts/server_setup/setup_vpntunnel.sh -d "$host_index" -n
   #echo waiting for VPN to get connected
   sleep 10
-  ip_addr=$(ip addr show eno1 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
+  ip_addr=$(ip addr show tailscale0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
 
 if [ -z "$ip_addr" ]; then
-    echo "Error: eno1 interface not found. Please connect to the tailscale VPN first."
+    echo "Error: tailscale0 interface not found. Please connect to the tailscale VPN first."
     exit 1
 fi
   if [ $ip_addr = $sentinel_ip ]
@@ -124,6 +124,7 @@ fi
 fi
 
 if [ $ACTION = final_setup ]; then
+  sh ./workspace/automate_scripts/server_setup/test_open_exposed_ports.sh
   if [ -z "$workspace_name" ] || [ -z "$sentinel_ip" ] || [ -z "$host_index" ];
     then
        echo "workspace_name and sentinel_ip are required"
@@ -131,7 +132,7 @@ if [ $ACTION = final_setup ]; then
   fi
 
   echo Please ensure the previous steps are completed on all the other hosts before running this step
- ip_addr=$(ip addr show eno1 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
+ ip_addr=$(ip addr show tailscale0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -f1 -d'/')
   if [ $ip_addr = $sentinel_ip ]
     then
       echo "This host a sentinel node and will skip certs sharing"
@@ -140,7 +141,7 @@ if [ $ACTION = final_setup ]; then
       sh ./workspace/automate_scripts/sl_env_setup/share_cert.sh -t "$sentinel_ip"
   fi
 if [ -z "$ip_addr" ]; then
-    echo "Error: eno1 interface not found. Please connect to the VPN first."
+    echo "Error: tailscale0 interface not found. Please connect to the VPN first."
     exit 1
 fi
   # Checks

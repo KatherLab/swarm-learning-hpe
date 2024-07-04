@@ -52,10 +52,10 @@ if [ -z "$sentinel" ] || [ -z "$host_index" ]; then
 fi
 
 # Check if this host is the sentinel
-ip_addr=$(ip addr show eno1 | awk '/inet / {print $2}' | cut -d'/' -f1)
+ip_addr=$(ip addr show tailscale0 | awk '/inet / {print $2}' | cut -d'/' -f1)
 
 if [ -z "$ip_addr" ]; then
-    echo "Error: eno1 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"
+    echo "Error: tailscale0 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"
     exit 1
 fi
 #if [ "$ip_addr" != "$sentinel" ]; then
@@ -94,7 +94,7 @@ sudo "$script_dir/../../swarm_learning_scripts/run-swci" \
   -e "SWCI_RUN_TASK_MAX_WAIT_TIME=5000" \
   -e "SWCI_GENERIC_TASK_MAX_WAIT_TIME=5000" \
   -e SWARM_LOG_LEVEL=DEBUG \
-   -e SL_DEVMODE_KEY=REVWTU9ERS0yMDI0LTAzLTI2 \
+   -e SL_DEVMODE_KEY=REVWTU9ERS0yMDI0LTA1LTEw \
 
 
 echo "SWCI container started successfully"
