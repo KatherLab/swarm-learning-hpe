@@ -39,10 +39,10 @@ def parse_args_and_config():
     parser.add_argument('--ni', action='store_true',
                         help="No interaction. Suitable for Slurm Job launcher")
 
-    config_file = 'xrayVinDrConditional.yml'
+    config_file = 'pathology.yml'
     exp = config_file.split('.')[0]
-    #sys.argv = ['main.py', '--config', config_file, '--doc', 'test', '--exp', exp, "--conditional"]
-    sys.argv = ['main.py', '--config', config_file, '--doc', 'test', '--exp', exp]
+    sys.argv = ['main.py', '--config', config_file, '--doc', 'test', '--exp', exp, '--resume_training', "--conditional"]
+    #sys.argv = ['main.py', '--config', config_file, '--doc', 'test', '--exp', exp, '--resume_training', '--sample', '-i', ]
 
     args = parser.parse_args()
 
