@@ -342,7 +342,7 @@ def main():
     device = torch.device("cpu")
 
     #! CHANGE ORGAN AND TYPE HERE
-    organ = "lung"
+    organ = "breast"
     label = "cell_subtype"
     dataDir=os.getenv('DATA_DIR')
     
