@@ -4,6 +4,7 @@ import os
 import glob
 import json
 import datetime
+import time
 from re import L
 # Computation
 import pandas as pd
@@ -432,5 +433,8 @@ def main():
 
 
 if __name__ == '__main__':
-  main()
-    
+    start_time = time.time()
+    main()
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"Elapsed time: {elapsed_time} seconds")
