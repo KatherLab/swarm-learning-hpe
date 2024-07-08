@@ -137,9 +137,9 @@ def loadData(dataDir, experiment, organ, label):
     print(f"Test: {test.obs['study'].value_counts().values}")
     
     # Define categories for categories encoder
-    # y_categories = sorted(train.obs[label].unique())
+     y_categories = sorted(train.obs[label].unique())
     #! CHANGE CATEGORIES HERE
-    y_categories = ['Adipocytes', 'Cardiomyocytes', 'Endocardial', 'Endothelial', 'Epicardium', 'Fibroblast', 'Ischemic cells (MI)', 'Lymphatic EC', 'Lymphocytes', 'Mast cells', 'Monocytes', 'Neuronal', 'Pericytes', 'VSMC']
+    #y_categories = ['Adipocytes', 'Cardiomyocytes', 'Endocardial', 'Endothelial', 'Epicardium', 'Fibroblast', 'Ischemic cells (MI)', 'Lymphatic EC', 'Lymphocytes', 'Mast cells', 'Monocytes', 'Neuronal', 'Pericytes', 'VSMC']
 
     # Create categories encoder
     ohe = OneHotEncoder(handle_unknown='ignore', sparse_output=False)
@@ -337,12 +337,13 @@ def main():
         print('CUDA is accessable')
     else:
         print('CUDA  is not accesable')
+    #!
     #device = torch.device("cuda" if usecuda else "cpu")
     device = torch.device("cpu")
 
     #! CHANGE ORGAN AND TYPE HERE
-    organ = "heart"
-    label = "cell_type"
+    organ = "lung"
+    label = "cell_subtype"
     dataDir=os.getenv('DATA_DIR')
     
     # Load data
