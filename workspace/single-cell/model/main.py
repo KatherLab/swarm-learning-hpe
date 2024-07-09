@@ -96,7 +96,7 @@ def loadData(dataDir, experiment, organ, label):
     """
 
     # Load data
-    data_path = glob.glob(os.path.join(dataDir, organ+'_clean_subset_4_union_hvgs.h5ad'))
+    data_path = glob.glob(os.path.join(dataDir, organ+'_clean_subset_4_union_hvgs_new.h5ad'))
     data_path = data_path[0]
     print(f'Loading data from {data_path}')
     # backed='r': save RAM with partial reading
@@ -347,7 +347,7 @@ def main():
     device = torch.device("cpu")
 
     #! CHANGE ORGAN AND TYPE HERE
-    organ = "breast"
+    organ = "heart"
     label = "cell_subtype"
     dataDir=os.getenv('DATA_DIR')
     
