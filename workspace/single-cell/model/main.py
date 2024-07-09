@@ -101,6 +101,7 @@ def loadData(dataDir, experiment, organ, label):
     print(f'Loading data from {data_path}')
     # backed='r': save RAM with partial reading
     adata = sc.read_h5ad(data_path, backed='r')
+    adata = adata[~adata.obs[label].isna()] #! for heart
     print("Data loaded successfully")
 
     # Read the JSON file for experiment information
@@ -128,8 +129,11 @@ def loadData(dataDir, experiment, organ, label):
     studies = sorted(adata.obs['study'].unique())
 
     # Train and test split
-    train = adata[adata.obs['study'] == studies[training_data_id]]
-    test = adata[adata.obs['study'] == studies[test_data_id]]
+    adata_copy = adata.to_memory() #! for heart
+    train = adata_copy[adata_copy.obs['study'] == studies[training_data_id]] #! for heart
+    test = adata_copy[adata_copy.obs['study'] == studies[test_data_id]] #! for heart
+    #train = adata[adata.obs['study'] == studies[training_data_id]]
+    #test = adata[adata.obs['study'] == studies[test_data_id]]
     test_study = str.replace(studies[test_data_id], ' ', '_')
     del adata  # to save RAM
 
