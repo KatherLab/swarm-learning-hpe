@@ -16,7 +16,7 @@ Body:
     - RUN conda install pip
     - ' '
     - COPY requirements.txt /tmp/
-    - RUN pip3 install --upgrade pip && pip3 install -r /tmp/requirements.txt
+    - RUN pip3 install --upgrade pip==24.0 && pip3 install -r /tmp/requirements.txt
     - RUN pip3 install torchmetrics
 
 
