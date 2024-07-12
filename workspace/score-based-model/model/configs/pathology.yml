@@ -19,7 +19,7 @@ training:
   batch_size: 4
   n_epochs: 3000000
   n_iters: 3000001
-  snapshot_freq: 2000
+  snapshot_freq: 80000
   snapshot_sampling: true
   anneal_power: 2
   log_all_sigmas: false

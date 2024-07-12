@@ -91,8 +91,8 @@ sudo "$script_dir/../../swarm_learning_scripts/run-swci" \
   --cert="cert/swci-$host_index-cert.pem" \
   --capath="cert/ca/capath" \
   -e "http_proxy=" -e "https_proxy=" --apls-ip="$sentinel" \
-  -e "SWCI_RUN_TASK_MAX_WAIT_TIME=5000" \
-  -e "SWCI_GENERIC_TASK_MAX_WAIT_TIME=5000" \
+  -e "SWCI_RUN_TASK_MAX_WAIT_TIME=5000000" \
+  -e "SWCI_GENERIC_TASK_MAX_WAIT_TIME=5000000" \
   -e SWARM_LOG_LEVEL=DEBUG \
    -e SL_DEVMODE_KEY=REVWTU9ERS0yMDI0LTA1LTEw \
 

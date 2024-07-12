@@ -15,7 +15,7 @@ Body:
              "MIN_PEERS": <NUM-MIN_PEERS>,
              "LOCAL_COMPARE_FLAG": False,
              "USE_ADAPTIVE_SYNC": False,
-             "SYNC_FREQUENCY": 4096,
+             "SYNC_FREQUENCY": 80000,
 
 ]
   PrivateContent: /tmp/test/data-and-scratch
