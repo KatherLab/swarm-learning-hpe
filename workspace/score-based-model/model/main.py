@@ -41,7 +41,7 @@ def parse_args_and_config():
 
     config_file = 'xrayVinDrConditional.yml'
     exp = config_file.split('.')[0]
-    sys.argv = ['main.py', '--config', config_file, '--doc', 'test', '--exp', exp, "--conditional"]
+    sys.argv = ['main.py', '--config', config_file, '--doc', 'test', '--exp', exp, "--conditional", '--resume_training']
     #sys.argv = ['main.py', '--config', config_file, '--doc', 'test', '--exp', exp, '--resume_training', '--sample', '-i', ]
 
     args = parser.parse_args()
