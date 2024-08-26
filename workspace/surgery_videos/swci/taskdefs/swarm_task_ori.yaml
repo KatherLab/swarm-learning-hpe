@@ -10,13 +10,10 @@ Body:
   Envvars: [ "DATA_DIR": data-and-scratch/data,
              "SCRATCH_DIR": data-and-scratch/scratch,
              "MODEL_DIR": model,
-             "MAX_EPOCHS": <NUM-MAX_EPOCHS>,
              "MIN_PEERS": <NUM-MIN_PEERS>,
              "LOCAL_COMPARE_FLAG": False,
              "USE_ADAPTIVE_SYNC": False,
              "SYNC_FREQUENCY": 100,
-             "EXPERIMENT": 3,
-             "EXPERIMENT_NAME": "swarm learning test 3",
            ]
   PrivateContent: /tmp/test/data-and-scratch
   SharedContent:
