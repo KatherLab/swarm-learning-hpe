@@ -32,8 +32,11 @@ skip = [20, 8, 4, 2, 0] # Frames 10, 25, 50, 100, 200
 temporal = [True, False]
 middleframe = [True, False]
 
-# Generate all experiment combinations
-combinations = itertools.product(skip, temporal, middleframe)
+# Generate all combinations
+all_combinations = itertools.product(middleframe, skip, temporal)
+
+# Filter combinations to use either skip or middleframe, but not both
+filtered_combinations = [(m, s, t) for m, s, t in all_combinations if (s == 0 or not m)]
 
 # Define hyperparameters
 num_class = 6
@@ -51,7 +54,7 @@ min_peers = int(os.getenv('MIN_PEERS', str(default_min_peers)))
 syncFrequency = int(os.getenv('SYNC_FREQUENCY', str(default_syncFrequency)))
 
 # Iterate through combinations 
-for skip, temporal, middleframe in tqdm(combinations):
+for middleframe, skip, temporal in tqdm(filtered_combinations):
     # Define trial name and define directories
     # Get directory information from swarm learning platform
     dataDir = os.getenv('DATA_DIR', '/platform/data')
