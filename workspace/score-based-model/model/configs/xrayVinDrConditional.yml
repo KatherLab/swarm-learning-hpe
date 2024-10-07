@@ -17,16 +17,16 @@ data:
 
 training:
   batch_size: 4
-  n_epochs: 500000
-  n_iters: 500001
-  snapshot_freq: 5000
+  n_epochs: 5000000
+  n_iters: 5000001
+  snapshot_freq: 50000
   snapshot_sampling: true
   anneal_power: 2
   log_all_sigmas: false
 
 sampling:
   batch_size: 4
-  num_batches: 10
+  num_batches: 1
   data_init: false
   step_lr: 0.0000018
   n_steps_each: 3
