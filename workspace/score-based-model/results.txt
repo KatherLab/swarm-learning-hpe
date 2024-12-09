@@ -1,0 +1,1408 @@
+Results for step 2000:
+Accuracy: 0.5
+AUC-ROC: 0.9765625
+F1 Score: 0.6666666666666666
+Precision (PPV): 0.5
+Recall (Sensitivity): 1.0
+Specificity: 0.0
+NPV: nan
+Results for step 4000:
+Accuracy: 0.5625
+AUC-ROC: 0.9453125
+F1 Score: 0.6956521739130435
+Precision (PPV): 0.5333333333333333
+Recall (Sensitivity): 1.0
+Specificity: 0.125
+NPV: 1.0
+Results for step 6000:
+Accuracy: 0.5
+AUC-ROC: 0.8359375
+F1 Score: 0.6666666666666666
+Precision (PPV): 0.5
+Recall (Sensitivity): 1.0
+Specificity: 0.0
+NPV: nan
+Results for step 8000:
+Accuracy: 0.53125
+AUC-ROC: 1.0
+F1 Score: 0.6808510638297872
+Precision (PPV): 0.5161290322580645
+Recall (Sensitivity): 1.0
+Specificity: 0.0625
+NPV: 1.0
+Results for step 10000:
+Accuracy: 1.0
+AUC-ROC: 1.0
+F1 Score: 1.0
+Precision (PPV): 1.0
+Recall (Sensitivity): 1.0
+Specificity: 1.0
+NPV: 1.0
+Results for step 12000:
+Accuracy: 0.90625
+AUC-ROC: 0.99609375
+F1 Score: 0.9142857142857143
+Precision (PPV): 0.8421052631578947
+Recall (Sensitivity): 1.0
+Specificity: 0.8125
+NPV: 1.0
+Results for step 14000:
+Accuracy: 0.96875
+AUC-ROC: 1.0
+F1 Score: 0.9696969696969697
+Precision (PPV): 0.9411764705882353
+Recall (Sensitivity): 1.0
+Specificity: 0.9375
+NPV: 1.0
+Results for step 16000:
+Accuracy: 0.5
+AUC-ROC: 0.9921875
+F1 Score: 0.6666666666666666
+Precision (PPV): 0.5
+Recall (Sensitivity): 1.0
+Specificity: 0.0
+NPV: nan
+Results for step 18000:
+Accuracy: 0.625
+AUC-ROC: 1.0
+F1 Score: 0.7272727272727273
+Precision (PPV): 0.5714285714285714
+Recall (Sensitivity): 1.0
+Specificity: 0.25
+NPV: 1.0
+Results for step 20000:
+Accuracy: 0.90625
+AUC-ROC: 1.0
+F1 Score: 0.9142857142857143
+Precision (PPV): 0.8421052631578947
+Recall (Sensitivity): 1.0
+Specificity: 0.8125
+NPV: 1.0
+Results for step 22000:
+Accuracy: 0.65625
+AUC-ROC: 1.0
+F1 Score: 0.7441860465116279
+Precision (PPV): 0.5925925925925926
+Recall (Sensitivity): 1.0
+Specificity: 0.3125
+NPV: 1.0
+Results for step 24000:
+Accuracy: 0.84375
+AUC-ROC: 0.9921875
+F1 Score: 0.8648648648648649
+Precision (PPV): 0.7619047619047619
+Recall (Sensitivity): 1.0
+Specificity: 0.6875
+NPV: 1.0
+Results for step 26000:
+Accuracy: 0.90625
+AUC-ROC: 1.0
+F1 Score: 0.9142857142857143
+Precision (PPV): 0.8421052631578947
+Recall (Sensitivity): 1.0
+Specificity: 0.8125
+NPV: 1.0
+Results for step 28000:
+Accuracy: 0.78125
+AUC-ROC: 0.984375
+F1 Score: 0.8205128205128205
+Precision (PPV): 0.6956521739130435
+Recall (Sensitivity): 1.0
+Specificity: 0.5625
+NPV: 1.0
+Results for step 30000:
+Accuracy: 0.75
+AUC-ROC: 1.0
+F1 Score: 0.8
+Precision (PPV): 0.6666666666666666
+Recall (Sensitivity): 1.0
+Specificity: 0.5
+NPV: 1.0
+Results for step 32000:
+Accuracy: 0.9375
+AUC-ROC: 1.0
+F1 Score: 0.9411764705882353
+Precision (PPV): 0.8888888888888888
+Recall (Sensitivity): 1.0
+Specificity: 0.875
+NPV: 1.0
+Results for step 34000:
+Accuracy: 0.625
+AUC-ROC: 1.0
+F1 Score: 0.7272727272727273
+Precision (PPV): 0.5714285714285714
+Recall (Sensitivity): 1.0
+Specificity: 0.25
+NPV: 1.0
+Results for step 36000:
+Accuracy: 0.71875
+AUC-ROC: 0.93359375
+F1 Score: 0.7804878048780488
+Precision (PPV): 0.64
+Recall (Sensitivity): 1.0
+Specificity: 0.4375
+NPV: 1.0
+Results for step 38000:
+Accuracy: 0.96875
+AUC-ROC: 1.0
+F1 Score: 0.9696969696969697
+Precision (PPV): 0.9411764705882353
+Recall (Sensitivity): 1.0
+Specificity: 0.9375
+NPV: 1.0
+Results for step 40000:
+Accuracy: 0.84375
+AUC-ROC: 0.9765625
+F1 Score: 0.8648648648648649
+Precision (PPV): 0.7619047619047619
+Recall (Sensitivity): 1.0
+Specificity: 0.6875
+NPV: 1.0
+Results for step 42000:
+Accuracy: 0.8125
+AUC-ROC: 0.9609375
+F1 Score: 0.8421052631578947
+Precision (PPV): 0.7272727272727273
+Recall (Sensitivity): 1.0
+Specificity: 0.625
+NPV: 1.0
+Results for step 44000:
+Accuracy: 0.84375
+AUC-ROC: 1.0
+F1 Score: 0.8648648648648649
+Precision (PPV): 0.7619047619047619
+Recall (Sensitivity): 1.0
+Specificity: 0.6875
+NPV: 1.0
+Results for step 46000:
+Accuracy: 0.875
+AUC-ROC: 1.0
+F1 Score: 0.8888888888888888
+Precision (PPV): 0.8
+Recall (Sensitivity): 1.0
+Specificity: 0.75
+NPV: 1.0
+Results for step 48000:
+Accuracy: 0.90625
+AUC-ROC: 1.0
+F1 Score: 0.9142857142857143
+Precision (PPV): 0.8421052631578947
+Recall (Sensitivity): 1.0
+Specificity: 0.8125
+NPV: 1.0
+Results for step 50000:
+Accuracy: 0.96875
+AUC-ROC: 1.0
+F1 Score: 0.9696969696969697
+Precision (PPV): 0.9411764705882353
+Recall (Sensitivity): 1.0
+Specificity: 0.9375
+NPV: 1.0
+Results for step 52000:
+Accuracy: 0.9375
+AUC-ROC: 1.0
+F1 Score: 0.9411764705882353
+Precision (PPV): 0.8888888888888888
+Recall (Sensitivity): 1.0
+Specificity: 0.875
+NPV: 1.0
+Results for step 54000:
+Accuracy: 0.84375
+AUC-ROC: 1.0
+F1 Score: 0.8648648648648649
+Precision (PPV): 0.7619047619047619
+Recall (Sensitivity): 1.0
+Specificity: 0.6875
+NPV: 1.0
+Results for step 56000:
+Accuracy: 0.90625
+AUC-ROC: 1.0
+F1 Score: 0.9142857142857143
+Precision (PPV): 0.8421052631578947
+Recall (Sensitivity): 1.0
+Specificity: 0.8125
+NPV: 1.0
+Results for step 58000:
+Accuracy: 0.8125
+AUC-ROC: 1.0
+F1 Score: 0.8421052631578947
+Precision (PPV): 0.7272727272727273
+Recall (Sensitivity): 1.0
+Specificity: 0.625
+NPV: 1.0
+Results for step 60000:
+Accuracy: 0.78125
+AUC-ROC: 0.939453125
+F1 Score: 0.8205128205128205
+Precision (PPV): 0.6956521739130435
+Recall (Sensitivity): 1.0
+Specificity: 0.5625
+NPV: 1.0
+Results for step 62000:
+Accuracy: 0.71875
+AUC-ROC: 0.96484375
+F1 Score: 0.7804878048780488
+Precision (PPV): 0.64
+Recall (Sensitivity): 1.0
+Specificity: 0.4375
+NPV: 1.0
+Results for step 64000:
+Accuracy: 0.75
+AUC-ROC: 0.984375
+F1 Score: 0.8
+Precision (PPV): 0.6666666666666666
+Recall (Sensitivity): 1.0
+Specificity: 0.5
+NPV: 1.0
+Results for step 66000:
+Accuracy: 0.78125
+AUC-ROC: 0.99609375
+F1 Score: 0.8205128205128205
+Precision (PPV): 0.6956521739130435
+Recall (Sensitivity): 1.0
+Specificity: 0.5625
+NPV: 1.0
+Results for step 68000:
+Accuracy: 0.875
+AUC-ROC: 1.0
+F1 Score: 0.8888888888888888
+Precision (PPV): 0.8
+Recall (Sensitivity): 1.0
+Specificity: 0.75
+NPV: 1.0
+Results for step 70000:
+Accuracy: 0.9375
+AUC-ROC: 1.0
+F1 Score: 0.9411764705882353
+Precision (PPV): 0.8888888888888888
+Recall (Sensitivity): 1.0
+Specificity: 0.875
+NPV: 1.0
+Results for step 72000:
+Accuracy: 0.78125
+AUC-ROC: 1.0
+F1 Score: 0.8205128205128205
+Precision (PPV): 0.6956521739130435
+Recall (Sensitivity): 1.0
+Specificity: 0.5625
+NPV: 1.0
+Results for step 74000:
+Accuracy: 0.78125
+AUC-ROC: 1.0
+F1 Score: 0.8205128205128205
+Precision (PPV): 0.6956521739130435
+Recall (Sensitivity): 1.0
+Specificity: 0.5625
+NPV: 1.0
+Results for step 76000:
+Accuracy: 0.90625
+AUC-ROC: 0.9921875
+F1 Score: 0.9142857142857143
+Precision (PPV): 0.8421052631578947
+Recall (Sensitivity): 1.0
+Specificity: 0.8125
+NPV: 1.0
+Results for step 78000:
+Accuracy: 0.9375
+AUC-ROC: 1.0
+F1 Score: 0.9411764705882353
+Precision (PPV): 0.8888888888888888
+Recall (Sensitivity): 1.0
+Specificity: 0.875
+NPV: 1.0
+Results for step 80000:
+Accuracy: 0.71875
+AUC-ROC: 1.0
+F1 Score: 0.7804878048780488
+Precision (PPV): 0.64
+Recall (Sensitivity): 1.0
+Specificity: 0.4375
+NPV: 1.0
+Results for step 82000:
+Accuracy: 0.8125
+AUC-ROC: 1.0
+F1 Score: 0.8421052631578947
+Precision (PPV): 0.7272727272727273
+Recall (Sensitivity): 1.0
+Specificity: 0.625
+NPV: 1.0
+Results for step 84000:
+Accuracy: 0.78125
+AUC-ROC: 1.0
+F1 Score: 0.8205128205128205
+Precision (PPV): 0.6956521739130435
+Recall (Sensitivity): 1.0
+Specificity: 0.5625
+NPV: 1.0
+Results for step 86000:
+Accuracy: 0.96875
+AUC-ROC: 1.0
+F1 Score: 0.9696969696969697
+Precision (PPV): 0.9411764705882353
+Recall (Sensitivity): 1.0
+Specificity: 0.9375
+NPV: 1.0
+Results for step 88000:
+Accuracy: 0.96875
+AUC-ROC: 1.0
+F1 Score: 0.9696969696969697
+Precision (PPV): 0.9411764705882353
+Recall (Sensitivity): 1.0
+Specificity: 0.9375
+NPV: 1.0
+Results for step 90000:
+Accuracy: 0.9375
+AUC-ROC: 1.0
+F1 Score: 0.9411764705882353
+Precision (PPV): 0.8888888888888888
+Recall (Sensitivity): 1.0
+Specificity: 0.875
+NPV: 1.0
+Results for step 92000:
+Accuracy: 0.75
+AUC-ROC: 0.98828125
+F1 Score: 0.8
+Precision (PPV): 0.6666666666666666
+Recall (Sensitivity): 1.0
+Specificity: 0.5
+NPV: 1.0
+Results for step 94000:
+Accuracy: 0.6875
+AUC-ROC: 0.96875
+F1 Score: 0.7619047619047619
+Precision (PPV): 0.6153846153846154
+Recall (Sensitivity): 1.0
+Specificity: 0.375
+NPV: 1.0
+Results for step 96000:
+Accuracy: 0.78125
+AUC-ROC: 0.97265625
+F1 Score: 0.8205128205128205
+Precision (PPV): 0.6956521739130435
+Recall (Sensitivity): 1.0
+Specificity: 0.5625
+NPV: 1.0
+Results for step 98000:
+Accuracy: 0.90625
+AUC-ROC: 1.0
+F1 Score: 0.9142857142857143
+Precision (PPV): 0.8421052631578947
+Recall (Sensitivity): 1.0
+Specificity: 0.8125
+NPV: 1.0
+Results for step 100000:
+Accuracy: 0.96875
+AUC-ROC: 1.0
+F1 Score: 0.9696969696969697
+Precision (PPV): 0.9411764705882353
+Recall (Sensitivity): 1.0
+Specificity: 0.9375
+NPV: 1.0
+Results for step 102000:
+Accuracy: 0.78125
+AUC-ROC: 1.0
+F1 Score: 0.8205128205128205
+Precision (PPV): 0.6956521739130435
+Recall (Sensitivity): 1.0
+Specificity: 0.5625
+NPV: 1.0
+Results for step 104000:
+Accuracy: 0.875
+AUC-ROC: 0.99609375
+F1 Score: 0.8888888888888888
+Precision (PPV): 0.8
+Recall (Sensitivity): 1.0
+Specificity: 0.75
+NPV: 1.0
+Results for step 106000:
+Accuracy: 0.84375
+AUC-ROC: 1.0
+F1 Score: 0.8648648648648649
+Precision (PPV): 0.7619047619047619
+Recall (Sensitivity): 1.0
+Specificity: 0.6875
+NPV: 1.0
+Results for step 108000:
+Accuracy: 0.875
+AUC-ROC: 0.99609375
+F1 Score: 0.8888888888888888
+Precision (PPV): 0.8
+Recall (Sensitivity): 1.0
+Specificity: 0.75
+NPV: 1.0
+Results for step 110000:
+Accuracy: 0.71875
+AUC-ROC: 0.96484375
+F1 Score: 0.7804878048780488
+Precision (PPV): 0.64
+Recall (Sensitivity): 1.0
+Specificity: 0.4375
+NPV: 1.0
+Results for step 112000:
+Accuracy: 0.84375
+AUC-ROC: 0.984375
+F1 Score: 0.8648648648648649
+Precision (PPV): 0.7619047619047619
+Recall (Sensitivity): 1.0
+Specificity: 0.6875
+NPV: 1.0
+Results for step 114000:
+Accuracy: 0.90625
+AUC-ROC: 0.99609375
+F1 Score: 0.9142857142857143
+Precision (PPV): 0.8421052631578947
+Recall (Sensitivity): 1.0
+Specificity: 0.8125
+NPV: 1.0
+Results for step 116000:
+Accuracy: 0.8125
+AUC-ROC: 1.0
+F1 Score: 0.8421052631578947
+Precision (PPV): 0.7272727272727273
+Recall (Sensitivity): 1.0
+Specificity: 0.625
+NPV: 1.0
+Results for step 118000:
+Accuracy: 0.75
+AUC-ROC: 1.0
+F1 Score: 0.8
+Precision (PPV): 0.6666666666666666
+Recall (Sensitivity): 1.0
+Specificity: 0.5
+NPV: 1.0
+Results for step 120000:
+Accuracy: 0.78125
+AUC-ROC: 0.94921875
+F1 Score: 0.8205128205128205
+Precision (PPV): 0.6956521739130435
+Recall (Sensitivity): 1.0
+Specificity: 0.5625
+NPV: 1.0
+Results for step 122000:
+Accuracy: 0.8125
+AUC-ROC: 1.0
+F1 Score: 0.8421052631578947
+Precision (PPV): 0.7272727272727273
+Recall (Sensitivity): 1.0
+Specificity: 0.625
+NPV: 1.0
+Results for step 124000:
+Accuracy: 0.78125
+AUC-ROC: 1.0
+F1 Score: 0.8205128205128205
+Precision (PPV): 0.6956521739130435
+Recall (Sensitivity): 1.0
+Specificity: 0.5625
+NPV: 1.0
+Results for step 126000:
+Accuracy: 0.96875
+AUC-ROC: 1.0
+F1 Score: 0.9696969696969697
+Precision (PPV): 0.9411764705882353
+Recall (Sensitivity): 1.0
+Specificity: 0.9375
+NPV: 1.0
+Results for step 128000:
+Accuracy: 0.90625
+AUC-ROC: 0.97265625
+F1 Score: 0.9142857142857143
+Precision (PPV): 0.8421052631578947
+Recall (Sensitivity): 1.0
+Specificity: 0.8125
+NPV: 1.0
+Results for step 130000:
+Accuracy: 0.875
+AUC-ROC: 1.0
+F1 Score: 0.8888888888888888
+Precision (PPV): 0.8
+Recall (Sensitivity): 1.0
+Specificity: 0.75
+NPV: 1.0
+Results for step 132000:
+Accuracy: 0.75
+AUC-ROC: 0.9921875
+F1 Score: 0.8
+Precision (PPV): 0.6666666666666666
+Recall (Sensitivity): 1.0
+Specificity: 0.5
+NPV: 1.0
+Results for step 134000:
+Accuracy: 0.65625
+AUC-ROC: 0.99609375
+F1 Score: 0.7441860465116279
+Precision (PPV): 0.5925925925925926
+Recall (Sensitivity): 1.0
+Specificity: 0.3125
+NPV: 1.0
+Results for step 136000:
+Accuracy: 0.8125
+AUC-ROC: 0.9921875
+F1 Score: 0.8421052631578947
+Precision (PPV): 0.7272727272727273
+Recall (Sensitivity): 1.0
+Specificity: 0.625
+NPV: 1.0
+Results for step 138000:
+Accuracy: 0.75
+AUC-ROC: 0.9921875
+F1 Score: 0.8
+Precision (PPV): 0.6666666666666666
+Recall (Sensitivity): 1.0
+Specificity: 0.5
+NPV: 1.0
+Results for step 140000:
+Accuracy: 0.875
+AUC-ROC: 0.99609375
+F1 Score: 0.8888888888888888
+Precision (PPV): 0.8
+Recall (Sensitivity): 1.0
+Specificity: 0.75
+NPV: 1.0
+Results for step 142000:
+Accuracy: 0.6875
+AUC-ROC: 0.92578125
+F1 Score: 0.7619047619047619
+Precision (PPV): 0.6153846153846154
+Recall (Sensitivity): 1.0
+Specificity: 0.375
+NPV: 1.0
+Results for step 144000:
+Accuracy: 0.78125
+AUC-ROC: 0.9765625
+F1 Score: 0.8205128205128205
+Precision (PPV): 0.6956521739130435
+Recall (Sensitivity): 1.0
+Specificity: 0.5625
+NPV: 1.0
+Results for step 146000:
+Accuracy: 0.78125
+AUC-ROC: 0.99609375
+F1 Score: 0.8205128205128205
+Precision (PPV): 0.6956521739130435
+Recall (Sensitivity): 1.0
+Specificity: 0.5625
+NPV: 1.0
+Results for step 148000:
+Accuracy: 0.78125
+AUC-ROC: 1.0
+F1 Score: 0.8205128205128205
+Precision (PPV): 0.6956521739130435
+Recall (Sensitivity): 1.0
+Specificity: 0.5625
+NPV: 1.0
+Results for step 150000:
+Accuracy: 0.71875
+AUC-ROC: 0.94140625
+F1 Score: 0.7804878048780488
+Precision (PPV): 0.64
+Recall (Sensitivity): 1.0
+Specificity: 0.4375
+NPV: 1.0
+Results for step 152000:
+Accuracy: 0.75
+AUC-ROC: 0.98828125
+F1 Score: 0.8
+Precision (PPV): 0.6666666666666666
+Recall (Sensitivity): 1.0
+Specificity: 0.5
+NPV: 1.0
+Results for step 154000:
+Accuracy: 0.6875
+AUC-ROC: 0.99609375
+F1 Score: 0.7619047619047619
+Precision (PPV): 0.6153846153846154
+Recall (Sensitivity): 1.0
+Specificity: 0.375
+NPV: 1.0
+Results for step 156000:
+Accuracy: 0.75
+AUC-ROC: 1.0
+F1 Score: 0.8
+Precision (PPV): 0.6666666666666666
+Recall (Sensitivity): 1.0
+Specificity: 0.5
+NPV: 1.0
+Results for step 158000:
+Accuracy: 0.6875
+AUC-ROC: 0.953125
+F1 Score: 0.7619047619047619
+Precision (PPV): 0.6153846153846154
+Recall (Sensitivity): 1.0
+Specificity: 0.375
+NPV: 1.0
+Results for step 160000:
+Accuracy: 0.71875
+AUC-ROC: 0.96875
+F1 Score: 0.7804878048780488
+Precision (PPV): 0.64
+Recall (Sensitivity): 1.0
+Specificity: 0.4375
+NPV: 1.0
+Results for step 162000:
+Accuracy: 0.78125
+AUC-ROC: 0.98828125
+F1 Score: 0.8205128205128205
+Precision (PPV): 0.6956521739130435
+Recall (Sensitivity): 1.0
+Specificity: 0.5625
+NPV: 1.0
+Results for step 164000:
+Accuracy: 0.75
+AUC-ROC: 0.99609375
+F1 Score: 0.8
+Precision (PPV): 0.6666666666666666
+Recall (Sensitivity): 1.0
+Specificity: 0.5
+NPV: 1.0
+Results for step 166000:
+Accuracy: 0.84375
+AUC-ROC: 0.984375
+F1 Score: 0.8648648648648649
+Precision (PPV): 0.7619047619047619
+Recall (Sensitivity): 1.0
+Specificity: 0.6875
+NPV: 1.0
+Results for step 168000:
+Accuracy: 0.71875
+AUC-ROC: 0.99609375
+F1 Score: 0.7804878048780488
+Precision (PPV): 0.64
+Recall (Sensitivity): 1.0
+Specificity: 0.4375
+NPV: 1.0
+Results for step 170000:
+Accuracy: 0.84375
+AUC-ROC: 1.0
+F1 Score: 0.8648648648648649
+Precision (PPV): 0.7619047619047619
+Recall (Sensitivity): 1.0
+Specificity: 0.6875
+NPV: 1.0
+Results for step 172000:
+Accuracy: 0.6875
+AUC-ROC: 0.9921875
+F1 Score: 0.7619047619047619
+Precision (PPV): 0.6153846153846154
+Recall (Sensitivity): 1.0
+Specificity: 0.375
+NPV: 1.0
+Results for step 174000:
+Accuracy: 0.6875
+AUC-ROC: 0.98828125
+F1 Score: 0.7619047619047619
+Precision (PPV): 0.6153846153846154
+Recall (Sensitivity): 1.0
+Specificity: 0.375
+NPV: 1.0
+Results for step 176000:
+Accuracy: 0.84375
+AUC-ROC: 1.0
+F1 Score: 0.8648648648648649
+Precision (PPV): 0.7619047619047619
+Recall (Sensitivity): 1.0
+Specificity: 0.6875
+NPV: 1.0
+Results for step 178000:
+Accuracy: 0.90625
+AUC-ROC: 1.0
+F1 Score: 0.9142857142857143
+Precision (PPV): 0.8421052631578947
+Recall (Sensitivity): 1.0
+Specificity: 0.8125
+NPV: 1.0
+Results for step 180000:
+Accuracy: 0.65625
+AUC-ROC: 0.9921875
+F1 Score: 0.7441860465116279
+Precision (PPV): 0.5925925925925926
+Recall (Sensitivity): 1.0
+Specificity: 0.3125
+NPV: 1.0
+Results for step 182000:
+Accuracy: 0.75
+AUC-ROC: 0.98828125
+F1 Score: 0.8
+Precision (PPV): 0.6666666666666666
+Recall (Sensitivity): 1.0
+Specificity: 0.5
+NPV: 1.0
+Results for step 184000:
+Accuracy: 0.8125
+AUC-ROC: 1.0
+F1 Score: 0.8421052631578947
+Precision (PPV): 0.7272727272727273
+Recall (Sensitivity): 1.0
+Specificity: 0.625
+NPV: 1.0
+Results for step 186000:
+Accuracy: 0.6875
+AUC-ROC: 1.0
+F1 Score: 0.7619047619047619
+Precision (PPV): 0.6153846153846154
+Recall (Sensitivity): 1.0
+Specificity: 0.375
+NPV: 1.0
+Results for step 188000:
+Accuracy: 0.75
+AUC-ROC: 1.0
+F1 Score: 0.8
+Precision (PPV): 0.6666666666666666
+Recall (Sensitivity): 1.0
+Specificity: 0.5
+NPV: 1.0
+Results for step 190000:
+Accuracy: 0.8125
+AUC-ROC: 1.0
+F1 Score: 0.8421052631578947
+Precision (PPV): 0.7272727272727273
+Recall (Sensitivity): 1.0
+Specificity: 0.625
+NPV: 1.0
+Results for step 192000:
+Accuracy: 0.71875
+AUC-ROC: 1.0
+F1 Score: 0.7804878048780488
+Precision (PPV): 0.64
+Recall (Sensitivity): 1.0
+Specificity: 0.4375
+NPV: 1.0
+Results for step 194000:
+Accuracy: 0.625
+AUC-ROC: 0.9765625
+F1 Score: 0.7272727272727273
+Precision (PPV): 0.5714285714285714
+Recall (Sensitivity): 1.0
+Specificity: 0.25
+NPV: 1.0
+Results for step 196000:
+Accuracy: 0.78125
+AUC-ROC: 1.0
+F1 Score: 0.8205128205128205
+Precision (PPV): 0.6956521739130435
+Recall (Sensitivity): 1.0
+Specificity: 0.5625
+NPV: 1.0
+Results for step 198000:
+Accuracy: 0.90625
+AUC-ROC: 1.0
+F1 Score: 0.9142857142857143
+Precision (PPV): 0.8421052631578947
+Recall (Sensitivity): 1.0
+Specificity: 0.8125
+NPV: 1.0
+Results for step 200000:
+Accuracy: 0.65625
+AUC-ROC: 0.9453125
+F1 Score: 0.7441860465116279
+Precision (PPV): 0.5925925925925926
+Recall (Sensitivity): 1.0
+Specificity: 0.3125
+NPV: 1.0
+Results for step 202000:
+Accuracy: 0.9375
+AUC-ROC: 0.99609375
+F1 Score: 0.9411764705882353
+Precision (PPV): 0.8888888888888888
+Recall (Sensitivity): 1.0
+Specificity: 0.875
+NPV: 1.0
+Results for step 204000:
+Accuracy: 0.96875
+AUC-ROC: 1.0
+F1 Score: 0.9696969696969697
+Precision (PPV): 0.9411764705882353
+Recall (Sensitivity): 1.0
+Specificity: 0.9375
+NPV: 1.0
+Results for step 206000:
+Accuracy: 0.9375
+AUC-ROC: 1.0
+F1 Score: 0.9411764705882353
+Precision (PPV): 0.8888888888888888
+Recall (Sensitivity): 1.0
+Specificity: 0.875
+NPV: 1.0
+Results for step 208000:
+Accuracy: 0.8125
+AUC-ROC: 0.96875
+F1 Score: 0.8421052631578947
+Precision (PPV): 0.7272727272727273
+Recall (Sensitivity): 1.0
+Specificity: 0.625
+NPV: 1.0
+Results for step 210000:
+Accuracy: 0.96875
+AUC-ROC: 1.0
+F1 Score: 0.9696969696969697
+Precision (PPV): 0.9411764705882353
+Recall (Sensitivity): 1.0
+Specificity: 0.9375
+NPV: 1.0
+Results for step 212000:
+Accuracy: 0.84375
+AUC-ROC: 1.0
+F1 Score: 0.8648648648648649
+Precision (PPV): 0.7619047619047619
+Recall (Sensitivity): 1.0
+Specificity: 0.6875
+NPV: 1.0
+Results for step 214000:
+Accuracy: 0.625
+AUC-ROC: 0.953125
+F1 Score: 0.7272727272727273
+Precision (PPV): 0.5714285714285714
+Recall (Sensitivity): 1.0
+Specificity: 0.25
+NPV: 1.0
+Results for step 216000:
+Accuracy: 0.75
+AUC-ROC: 0.94921875
+F1 Score: 0.7894736842105263
+Precision (PPV): 0.6818181818181818
+Recall (Sensitivity): 0.9375
+Specificity: 0.5625
+NPV: 0.9
+Results for step 218000:
+Accuracy: 0.75
+AUC-ROC: 0.99609375
+F1 Score: 0.8
+Precision (PPV): 0.6666666666666666
+Recall (Sensitivity): 1.0
+Specificity: 0.5
+NPV: 1.0
+Results for step 220000:
+Accuracy: 0.96875
+AUC-ROC: 1.0
+F1 Score: 0.9696969696969697
+Precision (PPV): 0.9411764705882353
+Recall (Sensitivity): 1.0
+Specificity: 0.9375
+NPV: 1.0
+Results for step 222000:
+Accuracy: 0.6875
+AUC-ROC: 0.9609375
+F1 Score: 0.7619047619047619
+Precision (PPV): 0.6153846153846154
+Recall (Sensitivity): 1.0
+Specificity: 0.375
+NPV: 1.0
+Results for step 224000:
+Accuracy: 0.71875
+AUC-ROC: 0.96875
+F1 Score: 0.7804878048780488
+Precision (PPV): 0.64
+Recall (Sensitivity): 1.0
+Specificity: 0.4375
+NPV: 1.0
+Results for step 226000:
+Accuracy: 0.75
+AUC-ROC: 1.0
+F1 Score: 0.8
+Precision (PPV): 0.6666666666666666
+Recall (Sensitivity): 1.0
+Specificity: 0.5
+NPV: 1.0
+Results for step 228000:
+Accuracy: 0.625
+AUC-ROC: 1.0
+F1 Score: 0.7272727272727273
+Precision (PPV): 0.5714285714285714
+Recall (Sensitivity): 1.0
+Specificity: 0.25
+NPV: 1.0
+Results for step 230000:
+Accuracy: 0.6875
+AUC-ROC: 0.94921875
+F1 Score: 0.7619047619047619
+Precision (PPV): 0.6153846153846154
+Recall (Sensitivity): 1.0
+Specificity: 0.375
+NPV: 1.0
+Results for step 232000:
+Accuracy: 0.75
+AUC-ROC: 0.96875
+F1 Score: 0.8
+Precision (PPV): 0.6666666666666666
+Recall (Sensitivity): 1.0
+Specificity: 0.5
+NPV: 1.0
+Results for step 234000:
+Accuracy: 0.625
+AUC-ROC: 0.98046875
+F1 Score: 0.7272727272727273
+Precision (PPV): 0.5714285714285714
+Recall (Sensitivity): 1.0
+Specificity: 0.25
+NPV: 1.0
+Results for step 236000:
+Accuracy: 0.78125
+AUC-ROC: 1.0
+F1 Score: 0.8205128205128205
+Precision (PPV): 0.6956521739130435
+Recall (Sensitivity): 1.0
+Specificity: 0.5625
+NPV: 1.0
+Results for step 238000:
+Accuracy: 0.65625
+AUC-ROC: 0.98046875
+F1 Score: 0.7441860465116279
+Precision (PPV): 0.5925925925925926
+Recall (Sensitivity): 1.0
+Specificity: 0.3125
+NPV: 1.0
+Results for step 240000:
+Accuracy: 0.6875
+AUC-ROC: 1.0
+F1 Score: 0.7619047619047619
+Precision (PPV): 0.6153846153846154
+Recall (Sensitivity): 1.0
+Specificity: 0.375
+NPV: 1.0
+Results for step 242000:
+Accuracy: 0.84375
+AUC-ROC: 0.97265625
+F1 Score: 0.8648648648648649
+Precision (PPV): 0.7619047619047619
+Recall (Sensitivity): 1.0
+Specificity: 0.6875
+NPV: 1.0
+Results for step 244000:
+Accuracy: 0.59375
+AUC-ROC: 1.0
+F1 Score: 0.7111111111111111
+Precision (PPV): 0.5517241379310345
+Recall (Sensitivity): 1.0
+Specificity: 0.1875
+NPV: 1.0
+Results for step 246000:
+Accuracy: 0.84375
+AUC-ROC: 1.0
+F1 Score: 0.8648648648648649
+Precision (PPV): 0.7619047619047619
+Recall (Sensitivity): 1.0
+Specificity: 0.6875
+NPV: 1.0
+Results for step 248000:
+Accuracy: 0.75
+AUC-ROC: 0.9921875
+F1 Score: 0.8
+Precision (PPV): 0.6666666666666666
+Recall (Sensitivity): 1.0
+Specificity: 0.5
+NPV: 1.0
+Results for step 250000:
+Accuracy: 0.8125
+AUC-ROC: 0.98046875
+F1 Score: 0.8421052631578947
+Precision (PPV): 0.7272727272727273
+Recall (Sensitivity): 1.0
+Specificity: 0.625
+NPV: 1.0
+Results for step 252000:
+Accuracy: 0.78125
+AUC-ROC: 0.99609375
+F1 Score: 0.8205128205128205
+Precision (PPV): 0.6956521739130435
+Recall (Sensitivity): 1.0
+Specificity: 0.5625
+NPV: 1.0
+Results for step 254000:
+Accuracy: 0.59375
+AUC-ROC: 0.87109375
+F1 Score: 0.7111111111111111
+Precision (PPV): 0.5517241379310345
+Recall (Sensitivity): 1.0
+Specificity: 0.1875
+NPV: 1.0
+Results for step 256000:
+Accuracy: 0.625
+AUC-ROC: 1.0
+F1 Score: 0.7272727272727273
+Precision (PPV): 0.5714285714285714
+Recall (Sensitivity): 1.0
+Specificity: 0.25
+NPV: 1.0
+Results for step 258000:
+Accuracy: 0.90625
+AUC-ROC: 1.0
+F1 Score: 0.9142857142857143
+Precision (PPV): 0.8421052631578947
+Recall (Sensitivity): 1.0
+Specificity: 0.8125
+NPV: 1.0
+Results for step 260000:
+Accuracy: 0.5625
+AUC-ROC: 0.96484375
+F1 Score: 0.6956521739130435
+Precision (PPV): 0.5333333333333333
+Recall (Sensitivity): 1.0
+Specificity: 0.125
+NPV: 1.0
+Results for step 262000:
+Accuracy: 0.8125
+AUC-ROC: 0.98828125
+F1 Score: 0.8421052631578947
+Precision (PPV): 0.7272727272727273
+Recall (Sensitivity): 1.0
+Specificity: 0.625
+NPV: 1.0
+Results for step 264000:
+Accuracy: 0.75
+AUC-ROC: 1.0
+F1 Score: 0.8
+Precision (PPV): 0.6666666666666666
+Recall (Sensitivity): 1.0
+Specificity: 0.5
+NPV: 1.0
+Results for step 266000:
+Accuracy: 0.8125
+AUC-ROC: 1.0
+F1 Score: 0.8421052631578947
+Precision (PPV): 0.7272727272727273
+Recall (Sensitivity): 1.0
+Specificity: 0.625
+NPV: 1.0
+Results for step 268000:
+Accuracy: 0.875
+AUC-ROC: 1.0
+F1 Score: 0.8888888888888888
+Precision (PPV): 0.8
+Recall (Sensitivity): 1.0
+Specificity: 0.75
+NPV: 1.0
+Results for step 270000:
+Accuracy: 0.84375
+AUC-ROC: 1.0
+F1 Score: 0.8648648648648649
+Precision (PPV): 0.7619047619047619
+Recall (Sensitivity): 1.0
+Specificity: 0.6875
+NPV: 1.0
+Results for step 272000:
+Accuracy: 0.65625
+AUC-ROC: 0.98828125
+F1 Score: 0.7441860465116279
+Precision (PPV): 0.5925925925925926
+Recall (Sensitivity): 1.0
+Specificity: 0.3125
+NPV: 1.0
+Results for step 274000:
+Accuracy: 0.71875
+AUC-ROC: 0.9453125
+F1 Score: 0.7804878048780488
+Precision (PPV): 0.64
+Recall (Sensitivity): 1.0
+Specificity: 0.4375
+NPV: 1.0
+Results for step 276000:
+Accuracy: 0.875
+AUC-ROC: 0.99609375
+F1 Score: 0.8888888888888888
+Precision (PPV): 0.8
+Recall (Sensitivity): 1.0
+Specificity: 0.75
+NPV: 1.0
+Results for step 278000:
+Accuracy: 0.9375
+AUC-ROC: 1.0
+F1 Score: 0.9411764705882353
+Precision (PPV): 0.8888888888888888
+Recall (Sensitivity): 1.0
+Specificity: 0.875
+NPV: 1.0
+Results for step 280000:
+Accuracy: 0.625
+AUC-ROC: 1.0
+F1 Score: 0.7272727272727273
+Precision (PPV): 0.5714285714285714
+Recall (Sensitivity): 1.0
+Specificity: 0.25
+NPV: 1.0
+Results for step 282000:
+Accuracy: 0.8125
+AUC-ROC: 1.0
+F1 Score: 0.8421052631578947
+Precision (PPV): 0.7272727272727273
+Recall (Sensitivity): 1.0
+Specificity: 0.625
+NPV: 1.0
+Results for step 284000:
+Accuracy: 0.8125
+AUC-ROC: 0.9921875
+F1 Score: 0.8421052631578947
+Precision (PPV): 0.7272727272727273
+Recall (Sensitivity): 1.0
+Specificity: 0.625
+NPV: 1.0
+Results for step 286000:
+Accuracy: 0.8125
+AUC-ROC: 0.951171875
+F1 Score: 0.8421052631578947
+Precision (PPV): 0.7272727272727273
+Recall (Sensitivity): 1.0
+Specificity: 0.625
+NPV: 1.0
+Results for step 288000:
+Accuracy: 0.6875
+AUC-ROC: 0.99609375
+F1 Score: 0.7619047619047619
+Precision (PPV): 0.6153846153846154
+Recall (Sensitivity): 1.0
+Specificity: 0.375
+NPV: 1.0
+Results for step 290000:
+Accuracy: 0.75
+AUC-ROC: 1.0
+F1 Score: 0.8
+Precision (PPV): 0.6666666666666666
+Recall (Sensitivity): 1.0
+Specificity: 0.5
+NPV: 1.0
+Results for step 292000:
+Accuracy: 0.6875
+AUC-ROC: 1.0
+F1 Score: 0.7619047619047619
+Precision (PPV): 0.6153846153846154
+Recall (Sensitivity): 1.0
+Specificity: 0.375
+NPV: 1.0
+Results for step 294000:
+Accuracy: 0.59375
+AUC-ROC: 0.95703125
+F1 Score: 0.7111111111111111
+Precision (PPV): 0.5517241379310345
+Recall (Sensitivity): 1.0
+Specificity: 0.1875
+NPV: 1.0
+Results for step 296000:
+Accuracy: 0.75
+AUC-ROC: 0.9921875
+F1 Score: 0.8
+Precision (PPV): 0.6666666666666666
+Recall (Sensitivity): 1.0
+Specificity: 0.5
+NPV: 1.0
+Results for step 298000:
+Accuracy: 0.78125
+AUC-ROC: 0.99609375
+F1 Score: 0.8205128205128205
+Precision (PPV): 0.6956521739130435
+Recall (Sensitivity): 1.0
+Specificity: 0.5625
+NPV: 1.0
+Results for step 300000:
+Accuracy: 0.9375
+AUC-ROC: 1.0
+F1 Score: 0.9411764705882353
+Precision (PPV): 0.8888888888888888
+Recall (Sensitivity): 1.0
+Specificity: 0.875
+NPV: 1.0
+Results for step 302000:
+Accuracy: 0.65625
+AUC-ROC: 0.99609375
+F1 Score: 0.7441860465116279
+Precision (PPV): 0.5925925925925926
+Recall (Sensitivity): 1.0
+Specificity: 0.3125
+NPV: 1.0
+Results for step 304000:
+Accuracy: 0.875
+AUC-ROC: 1.0
+F1 Score: 0.8888888888888888
+Precision (PPV): 0.8
+Recall (Sensitivity): 1.0
+Specificity: 0.75
+NPV: 1.0
+Results for step 306000:
+Accuracy: 0.65625
+AUC-ROC: 0.984375
+F1 Score: 0.7441860465116279
+Precision (PPV): 0.5925925925925926
+Recall (Sensitivity): 1.0
+Specificity: 0.3125
+NPV: 1.0
+Results for step 308000:
+Accuracy: 0.71875
+AUC-ROC: 0.98828125
+F1 Score: 0.7804878048780488
+Precision (PPV): 0.64
+Recall (Sensitivity): 1.0
+Specificity: 0.4375
+NPV: 1.0
+Results for step 310000:
+Accuracy: 0.625
+AUC-ROC: 0.95703125
+F1 Score: 0.7272727272727273
+Precision (PPV): 0.5714285714285714
+Recall (Sensitivity): 1.0
+Specificity: 0.25
+NPV: 1.0
+Results for step 312000:
+Accuracy: 0.6875
+AUC-ROC: 0.94140625
+F1 Score: 0.7619047619047619
+Precision (PPV): 0.6153846153846154
+Recall (Sensitivity): 1.0
+Specificity: 0.375
+NPV: 1.0
+Results for step 314000:
+Accuracy: 0.59375
+AUC-ROC: 0.9375
+F1 Score: 0.7111111111111111
+Precision (PPV): 0.5517241379310345
+Recall (Sensitivity): 1.0
+Specificity: 0.1875
+NPV: 1.0
+Results for step 316000:
+Accuracy: 0.625
+AUC-ROC: 1.0
+F1 Score: 0.7272727272727273
+Precision (PPV): 0.5714285714285714
+Recall (Sensitivity): 1.0
+Specificity: 0.25
+NPV: 1.0
+Results for step 318000:
+Accuracy: 0.5
+AUC-ROC: 0.99609375
+F1 Score: 0.6666666666666666
+Precision (PPV): 0.5
+Recall (Sensitivity): 1.0
+Specificity: 0.0
+NPV: nan
+Results for step 320000:
+Accuracy: 0.71875
+AUC-ROC: 0.98828125
+F1 Score: 0.7804878048780488
+Precision (PPV): 0.64
+Recall (Sensitivity): 1.0
+Specificity: 0.4375
+NPV: 1.0
+Results for step 322000:
+Accuracy: 0.75
+AUC-ROC: 0.98046875
+F1 Score: 0.8
+Precision (PPV): 0.6666666666666666
+Recall (Sensitivity): 1.0
+Specificity: 0.5
+NPV: 1.0
+Results for step 324000:
+Accuracy: 0.625
+AUC-ROC: 0.984375
+F1 Score: 0.7272727272727273
+Precision (PPV): 0.5714285714285714
+Recall (Sensitivity): 1.0
+Specificity: 0.25
+NPV: 1.0
+Results for step 326000:
+Accuracy: 0.9375
+AUC-ROC: 0.99609375
+F1 Score: 0.9411764705882353
+Precision (PPV): 0.8888888888888888
+Recall (Sensitivity): 1.0
+Specificity: 0.875
+NPV: 1.0
+Results for step 328000:
+Accuracy: 0.78125
+AUC-ROC: 0.99609375
+F1 Score: 0.8205128205128205
+Precision (PPV): 0.6956521739130435
+Recall (Sensitivity): 1.0
+Specificity: 0.5625
+NPV: 1.0
+Results for step 330000:
+Accuracy: 0.84375
+AUC-ROC: 1.0
+F1 Score: 0.8648648648648649
+Precision (PPV): 0.7619047619047619
+Recall (Sensitivity): 1.0
+Specificity: 0.6875
+NPV: 1.0
+Results for step 332000:
+Accuracy: 0.625
+AUC-ROC: 0.93359375
+F1 Score: 0.7142857142857143
+Precision (PPV): 0.5769230769230769
+Recall (Sensitivity): 0.9375
+Specificity: 0.3125
+NPV: 0.8333333333333334
+Results for step 334000:
+Accuracy: 0.8125
+AUC-ROC: 0.98046875
+F1 Score: 0.8421052631578947
+Precision (PPV): 0.7272727272727273
+Recall (Sensitivity): 1.0
+Specificity: 0.625
+NPV: 1.0
+Results for step 336000:
+Accuracy: 0.90625
+AUC-ROC: 1.0
+F1 Score: 0.9142857142857143
+Precision (PPV): 0.8421052631578947
+Recall (Sensitivity): 1.0
+Specificity: 0.8125
+NPV: 1.0
+Results for step 338000:
+Accuracy: 0.71875
+AUC-ROC: 0.9296875
+F1 Score: 0.7804878048780488
+Precision (PPV): 0.64
+Recall (Sensitivity): 1.0
+Specificity: 0.4375
+NPV: 1.0
+Results for step 340000:
+Accuracy: 0.6875
+AUC-ROC: 1.0
+F1 Score: 0.7619047619047619
+Precision (PPV): 0.6153846153846154
+Recall (Sensitivity): 1.0
+Specificity: 0.375
+NPV: 1.0
+Results for step 342000:
+Accuracy: 0.75
+AUC-ROC: 0.9921875
+F1 Score: 0.8
+Precision (PPV): 0.6666666666666666
+Recall (Sensitivity): 1.0
+Specificity: 0.5
+NPV: 1.0
+Results for step 344000:
+Accuracy: 0.625
+AUC-ROC: 1.0
+F1 Score: 0.7272727272727273
+Precision (PPV): 0.5714285714285714
+Recall (Sensitivity): 1.0
+Specificity: 0.25
+NPV: 1.0
+Results for step 346000:
+Accuracy: 0.875
+AUC-ROC: 0.98046875
+F1 Score: 0.8888888888888888
+Precision (PPV): 0.8
+Recall (Sensitivity): 1.0
+Specificity: 0.75
+NPV: 1.0
+Results for step 348000:
+Accuracy: 0.5625
+AUC-ROC: 0.9921875
+F1 Score: 0.6956521739130435
+Precision (PPV): 0.5333333333333333
+Recall (Sensitivity): 1.0
+Specificity: 0.125
+NPV: 1.0
+Results for step 350000:
+Accuracy: 0.65625
+AUC-ROC: 1.0
+F1 Score: 0.7441860465116279
+Precision (PPV): 0.5925925925925926
+Recall (Sensitivity): 1.0
+Specificity: 0.3125
+NPV: 1.0
+Results for step 352000:
+Accuracy: 0.78125
+AUC-ROC: 0.98046875
+F1 Score: 0.8205128205128205
+Precision (PPV): 0.6956521739130435
+Recall (Sensitivity): 1.0
+Specificity: 0.5625
+NPV: 1.0
