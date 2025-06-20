@@ -91,7 +91,7 @@ if [[ -z "$ip_addr" ]]; then
 fi
   if [ $ip_addr = $sentinel_ip ]
       then
-      sudo sh ./workspace/automate_scripts/server_setup/install_apls.sh
+      #sudo sh ./workspace/automate_scripts/server_setup/install_apls.sh
   fi
   sh ./workspace/automate_scripts/server_setup/test_open_exposed_ports.sh
   if [ $ip_addr != $sentinel_ip ]
