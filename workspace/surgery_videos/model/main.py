@@ -158,8 +158,8 @@ def main():
             train_loader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=num_workers)
             val_loader = torch.utils.data.DataLoader(val_set, batch_size=batch_size, shuffle=False, num_workers=num_workers)
 
-            train_sets = [train_loader]
-            val_sets = [val_loader]
+        train_sets = [train_loader]
+        val_sets = [val_loader]
         
         # Update weights
         n_samples = np.sum(weights)
