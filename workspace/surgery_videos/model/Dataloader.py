@@ -30,7 +30,7 @@ stage = [["Stage 0",
 
 
 class AppendectomyDataset(data.Dataset):
-    def __init__(self, data_folder, op, width, height, transform=None, middleframe=True, skip=0):
+    def __init__(self, data_folder, op, width, height, transform=None, middleframe=True, skip=0, binary=False):
         self.transform = transform
         manager = multiprocessing.Manager()
         self.images = manager.list()
@@ -70,11 +70,15 @@ class AppendectomyDataset(data.Dataset):
                     self.lbl = int(row[2])
 
                     break
+
+        if binary:
+            self.lbl =  0 if self.lbl in [0, 1, 2, 3] else 1 
+
         print(data_folder, self.lbl)
         assert(self.lbl > -1)
         
         for frame in files:
-            #print(frame)
+            print(frame)
             
 
             self.images.append((frame, None))
