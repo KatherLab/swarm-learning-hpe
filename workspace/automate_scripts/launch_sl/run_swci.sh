@@ -74,9 +74,9 @@ echo "  Timestamp: $time_stamp"
 # Update configuration files
 cp "workspace/$workspace/swci/taskdefs/swarm_task_pre.yaml" "workspace/$workspace/swci/taskdefs/swarm_task.yaml"
 cp "workspace/$workspace/swci/taskdefs/user_env_build_task_pre.yaml" "workspace/$workspace/swci/taskdefs/user_env_build_task.yaml"
-cp "workspace/$workspace/swci/taskdefs/swarm_task_local_compare_pre.yaml" "workspace/$workspace/swci/taskdefs/swarm_task_local_compare.yaml"
+#cp "workspace/$workspace/swci/taskdefs/swarm_task_local_compare_pre.yaml" "workspace/$workspace/swci/taskdefs/swarm_task_local_compare.yaml"
 cp "workspace/$workspace/swci/swci-init_pre" "workspace/$workspace/swci/swci-init"
-sed -i "s+<TIME_STAMP>+$time_stamp+g" "workspace/$workspace/swci/taskdefs/swarm_task.yaml" "workspace/$workspace/swci/taskdefs/user_env_build_task.yaml" "workspace/$workspace/swci/taskdefs/swarm_task_local_compare.yaml" "workspace/$workspace/swci/swci-init"
+sed -i "s+<TIME_STAMP>+$time_stamp+g" "workspace/$workspace/swci/taskdefs/swarm_task.yaml" "workspace/$workspace/swci/taskdefs/user_env_build_task.yaml" "workspace/$workspace/swci/swci-init"
 
 # Start the SWCI container
 sudo "$script_dir/../../swarm_learning_scripts/run-swci" \

@@ -55,7 +55,7 @@ sudo cp workspace/"$WORKSPACE"/swci/taskdefs/user_env_build_task_ori.yaml worksp
 
 
 # Loop over the files to update
-for file in workspace/"$WORKSPACE"/swop/swop_profile_"$IP_ADDR".yaml workspace/"$WORKSPACE"/swci/swci-init_pre workspace/"$WORKSPACE"/swci/taskdefs/swarm_task_pre.yaml workspace/"$WORKSPACE"/swci/taskdefs/user_env_build_task_pre.yaml workspace/"$WORKSPACE"/swci/taskdefs/swarm_task_local_compare_pre.yaml
+for file in workspace/"$WORKSPACE"/swop/swop_profile_"$IP_ADDR".yaml workspace/"$WORKSPACE"/swci/swci-init_pre workspace/"$WORKSPACE"/swci/taskdefs/swarm_task_pre.yaml workspace/"$WORKSPACE"/swci/taskdefs/user_env_build_task_pre.yaml
 do
    # Replace placeholders with values
    sed -i "s+<CURRENT-PATH>+$(pwd)+g" "$file"
