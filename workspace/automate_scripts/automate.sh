@@ -129,7 +129,7 @@ if [ $ACTION = final_setup ]; then
          #echo sharing certificate with ip address $value
          #sh ./workspace/automate_scripts/sl_env_setup/share_cert.sh -t "$value" -w "$workspace_name"
         #done
-     sh ./workspace/automate_scripts/sl_env_setup/license_server_fix.sh
+     #sh ./workspace/automate_scripts/sl_env_setup/license_server_fix.sh
   else
      echo "This host is not a sentinel node and will not be used for initiating the cluster, only as swarm network node"
      #sn_command="--sentinel-ip=$sentinel_ip"

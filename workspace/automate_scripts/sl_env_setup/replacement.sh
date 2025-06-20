@@ -51,7 +51,7 @@ sudo cp workspace/"$WORKSPACE"/swop/swop_profile.yaml workspace/"$WORKSPACE"/swo
 sudo cp workspace/"$WORKSPACE"/swci/swci-init_ori workspace/"$WORKSPACE"/swci/swci-init_pre
 sudo cp workspace/"$WORKSPACE"/swci/taskdefs/swarm_task_ori.yaml workspace/"$WORKSPACE"/swci/taskdefs/swarm_task_pre.yaml
 sudo cp workspace/"$WORKSPACE"/swci/taskdefs/user_env_build_task_ori.yaml workspace/"$WORKSPACE"/swci/taskdefs/user_env_build_task_pre.yaml
-sudo cp workspace/"$WORKSPACE"/swci/taskdefs/swarm_task_local_compare_ori.yaml workspace/"$WORKSPACE"/swci/taskdefs/swarm_task_local_compare_pre.yaml
+#sudo cp workspace/"$WORKSPACE"/swci/taskdefs/swarm_task_local_compare_ori.yaml workspace/"$WORKSPACE"/swci/taskdefs/swarm_task_local_compare_pre.yaml
 
 
 # Loop over the files to update
