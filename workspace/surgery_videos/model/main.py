@@ -267,7 +267,7 @@ def main():
                     else:
                         optimized = False
 
-                    train_loss += loss.item()
+                    train_loss += loss
                     predicted = torch.argmax(pred, dim=1)
                     if temporal:
                         predicted = predicted[-1:]
