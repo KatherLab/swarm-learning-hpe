@@ -368,6 +368,8 @@ def main():
         
         # Handles what to do when training ends
         swarmCallback.on_train_end()
+        
+        net.save(output_folder + "last.pkl")
 
         # Close and remove handlers after each combination
         logger = logging.getLogger()
