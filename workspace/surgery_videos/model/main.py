@@ -151,14 +151,16 @@ def main():
             else:
                 val_sets.append(dataset)
 
-        
-        train_set = torch.utils.data.ConcatDataset(train_sets)
-        val_set = torch.utils.data.ConcatDataset(val_sets)
-        train_loader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=num_workers)
-        val_loader = torch.utils.data.DataLoader(val_set, batch_size=batch_size, shuffle=False, num_workers=num_workers)
-        train_sets = [train_loader]
-        val_sets = [val_loader]
-        
+        if not temporal:
+            train_set = torch.utils.data.ConcatDataset(train_sets)
+            val_set = torch.utils.data.ConcatDataset(val_sets)
+            
+            train_loader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=num_workers)
+            val_loader = torch.utils.data.DataLoader(val_set, batch_size=batch_size, shuffle=False, num_workers=num_workers)
+            
+            train_sets = [train_loader]
+            val_sets = [val_loader]
+
         # Update weights
         n_samples = np.sum(weights)
         weights = n_samples/(num_class*weights)
@@ -194,7 +196,7 @@ def main():
         swarmCallback = SwarmCallback(syncFrequency=syncFrequency,
                                     minPeers=min_peers,
                                     useAdaptiveSync=False,
-                                    adsValData=val_loader,
+                                    adsValData=val_sets,
                                     adsValBatchSize=batch_size,
                                     model=net)
 
