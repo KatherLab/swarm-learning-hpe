@@ -240,28 +240,31 @@ def main():
 
                     if temporal:
                         pred, hidden_state = net(images, hidden_state)
+                        # Detach hidden state after EVERY forward pass
+                        if hidden_state is not None:
+                            h, c = hidden_state
+                            hidden_state = (h.detach(), c.detach())
                     else:
                         pred = net(images)
                     
                     if temporal:
                         mid = pred.shape[0]//2
-                        loss += criterion(pred[mid:], labels[mid:])
+                        batch_loss = criterion(pred[mid:], labels[mid:])
                     else:
-                        loss += criterion(pred, labels)
+                        batch_loss = criterion(pred, labels)
 
+                    # Scale the loss by the number of accumulation steps
+                    batch_loss = batch_loss / 3
+                    batch_loss.backward()
+                    
+                    loss += batch_loss.item() * 3  # For logging purposes
+                    
                     batch += 1
                     if batch % 3 == 0:
-                        loss.backward()
                         optimizer.step()
                         optimizer.zero_grad()
                         optimized = True
-                        if temporal:
-                            h, c = hidden_state
-                            h = h.detach()
-                            c = c.detach()
-                            hidden_state = (h, c)
                     else:
-                        loss.backward(retain_graph=True)
                         optimized = False
 
                     train_loss += loss.item()
