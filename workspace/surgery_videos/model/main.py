@@ -34,7 +34,7 @@ def main():
     skip = [2] # 100 Frames 
     temporal = [True]
     middleframe = [False]
-    binary = False
+    binary = True
       
     # Generate all combinations
     all_combinations = itertools.product(middleframe, skip, temporal)
@@ -68,7 +68,7 @@ def main():
         scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')   
     
         frames = 200 if skip == 0 else 200 / skip
-        trial_name = f"Mul_Appendectomy_Classification_swarm_temp{temporal}_mid{middleframe}_{frames}frames"
+        trial_name = f"bi_Appendectomy_Classification_swarm_temp{temporal}_mid{middleframe}_{frames}frames"
 
         data_folder = dataDir
         
