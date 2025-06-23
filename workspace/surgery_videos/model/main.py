@@ -34,7 +34,7 @@ def main():
     skip = [2] # 100 Frames 
     temporal = [True]
     middleframe = [False]
-    binary = True
+    binary = False
       
     # Generate all combinations
     all_combinations = itertools.product(middleframe, skip, temporal)
@@ -46,7 +46,7 @@ def main():
     if binary:
         num_class = 2
     else:
-        num_class = 6
+        num_class = 4
     width = 480
     height = 270
     batch_size = 64
