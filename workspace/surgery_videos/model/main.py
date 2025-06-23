@@ -68,7 +68,7 @@ def main():
         scratchDir = os.getenv('SCRATCH_DIR', '/platform/scratch')   
     
         frames = 200 if skip == 0 else 200 / skip
-        trial_name = f"bi_Appendectomy_Classification_swarm_temp{temporal}_mid{middleframe}_{frames}frames"
+        trial_name = f"his_Appendectomy_Classification_swarm_temp{temporal}_mid{middleframe}_{frames}frames"
 
         data_folder = dataDir
         
