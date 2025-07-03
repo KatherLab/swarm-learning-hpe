@@ -2,31 +2,12 @@ from __future__ import print_function
 from PIL import Image
 import os
 import os.path
-import errno
-import numpy as np
 import torch.utils.data as data
 import csv
 import scipy.ndimage.interpolation
-import skimage.color
-import skimage.transform
-import matplotlib.pyplot as plt
-import torch
 import glob
 import csv
 import multiprocessing
-
-lbl_sta = ["Histopathological stage of appendicitis", "Histopathologisches Stadium der Appendizitis"]
-stage = [["Stage 0", 
-        "Stage 1",
-        "Stage 2",
-        "Stage 3",
-        "N/A",],
-        ["Stadium 0",
-        "Stadium 1",
-        "Stadium 2",
-        "Stadium 3",
-        "N/A"
-        ]]
 
 
 class AppendectomyDataset(data.Dataset):
@@ -41,8 +22,6 @@ class AppendectomyDataset(data.Dataset):
 
         files = glob.glob(self.image_path + '/*.png')
         files.sort()
-
-        
 
         if middleframe:
             middle = len(files)//2
@@ -79,7 +58,6 @@ class AppendectomyDataset(data.Dataset):
         
         for frame in files:
             print(frame)
-            
 
             self.images.append((frame, None))
             self.target.append(self.lbl)
@@ -112,7 +90,6 @@ class AppendectomyDataset(data.Dataset):
         target = self.target[index]
         img = self.images[index][1]
         
-
         if self.transform is not None:
             img = self.transform(img)
 

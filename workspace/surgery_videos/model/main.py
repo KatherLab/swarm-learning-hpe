@@ -1,9 +1,8 @@
 # Import Libraries
-import sys
+import time
 import os.path
 import datetime
 import itertools
-import argparse
 from shutil import copy2
 import random
 import logging
@@ -13,18 +12,15 @@ import torch
 import torch.utils
 import torch.utils.data
 import torch.nn as nn
-import torch.nn.functional as F
 import torch.optim as optim
-import torchvision
 import torchvision.transforms as transforms
 import torchvision.models.resnet
-from torch.autograd import Variable
 import numpy as np
 from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 # Swarm Learning
 from swarmlearning.pyt import SwarmCallback
-import time
+
 
 def main():
     # Assume that we are on a CUDA machine, then this should print a CUDA device
@@ -46,7 +42,7 @@ def main():
     if binary:
         num_class = 2
     else:
-        num_class = 4
+        num_class = 6 # histopathological classes: numclass = 4
     width = 480
     height = 270
     batch_size = 64
