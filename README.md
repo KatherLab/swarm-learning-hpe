@@ -1,17 +1,8 @@
-# swarm-learning-hpe
+# swarm-learning-hpe | SurgerySwarm
 
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
 Swarm learning based on HPE platform
-
-This repository contains:
-
-1. SWARM Learning For Histopathology Image Analysis and Radiology Image Analysis
-2. [Work flow](https://github.com/KatherLab/projects/4) to help keep track of what's under process.
-3. [Issue section](https://github.com/KatherLab/swarm-learning-hpe/issues) where people can dump ideas and raise
-   questions encountered when using this repo.
-4. Working version of [marugoto_mri](workspace%2Fmarugoto_mri) for Attention MIL based model, originally suitable for histopathology images but Marta has modified it to work with MRI images.
-5. Working version of [odelia-breast-mri](workspace%2Fodelia-breast-mri) for 3D-CNN model by [@Gustav](gumueller@ukaachen.de).
 
 ## Table of Contents
 
@@ -19,8 +10,6 @@ This repository contains:
 - [Install](#install)
 - [Usage](#usage)
 - [Maintainers](#maintainers)
-- [Milestone](#milestone)
-- [NotionPage](#notionpage)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -76,39 +65,29 @@ $ sudo su - swarm
 
 ```sh
 $ cd / && sudo mkdir opt/hpe && cd opt/hpe && sudo chmod 777 -R /opt/hpe
-$ git clone https://github.com/KatherLab/swarm-learning-hpe.git && cd swarm-learning-hpe && git checkout dev_radiology
+$ git clone https://github.com/KatherLab/swarm-learning-hpe.git && cd swarm-learning-hpe && git checkout surgery_swarm
 ```
 Requirements and dependencies will be automatically installed by the script mentioned in the following section.
 
 ### Setting up the Swarm Learning Environment
 **PLEASE REPLACE THE `<PLACEHOLDER>` WITH THE CORRESPONDING VALUE!**
 
-`<sentinel_ip>` = `172.24.40.65` currently it's the IP assigned by VPN server for TUD host.
+`<sentinel_ip>` = `192.168.0.1` IP address of your sentinel host.
 
-`<host_index>` = Your institute's name. For ODELIA project should be chosen from `TUD` `Ribera` `VHIO` `Radboud` `UKA` `Utrecht` `Mitera` `Cambridge` `Zurich`
+`<host_index>` = Your institute's name.
 
-`<workspace_name>` = The name of the workspace you want to work on. You can find available modules under `workspace/` folder. Each module corresonds to a radiology model. Currently we suggest to use `odelia-breast-mri` or `marogoto_mri` here.
+`<workspace_name>` = The name of the workspace you want to work on. You can find available modules under `workspace/` folder. For SurgerySwarm we suggest to use `surgery_swarm` here.
 
 **Please only proceed to the next step by observing "... is done successfully" from the log**
-
-0. Optional: download preprocessed datasets. This will take a long time. Just run with either command, `get_dataset_gdown.sh` is recommended to run before you have done step 2, `get_dataset_scp.sh` is recommended to run after you have done step 2.
-`get_dataset_gdown.sh` will download the dataset from Google Drive.
-```sh
-$ sh workspace/automate_scripts/sl_env_setup/get_dataset_gdown.sh
-```
-The [-s sentinel_ip] flag is only necessary for `get_dataset_scp.sh` The script will download the dataset from the sentinel node.
-```sh
-$ sh workspace/automate_scripts/sl_env_setup/get_dataset_scp.sh -s <sentinel_ip>
-```
 1. `Prerequisite`: Runs scripts that check for required software and open/exposed ports.
 ```sh
 $ sh workspace/automate_scripts/automate.sh -a
 ```
-2. `Server setup`: Runs scripts that set up the swarm learning environment on a server.
+1. `Server setup`: Runs scripts that set up the swarm learning environment on a server.
 ```sh
 $ sh workspace/automate_scripts/automate.sh -b -s <sentinel_ip> -d <host_index>
 ```
-3. `Final setup`: Runs scripts that finalize the setup of the swarm learning environment. Only <> is required. The [-n num_peers] and [-e num_epochs] flags are optional.
+1. `Final setup`: Runs scripts that finalize the setup of the swarm learning environment. Only <> is required. The [-n num_peers] and [-e num_epochs] flags are optional.
 ```sh
 $ sh workspace/automate_scripts/automate.sh -c -w <workspace_name> -s <sentinel_ip> -d <host_index> [-n num_peers] [-e num_epochs]
 ```
@@ -121,28 +100,9 @@ If any problem occurs, please first try to figure out which step is going wrong,
 ## Usage
 
 ### Data Preparation
-1. Make sure you have downloaded Duke data.
-    
-2. Create the folder `WP1` and in it `test` and `train_val`
-```bash
-mkdir workspace/<workspace-name>/user/data-and-scratch/data/WP1
-mkdir workspace/<workspace-name>/user/data-and-scratch/data/WP1/{test,train_val}
-```
-3. Search for your institution in the [Node list](#nodelist) and note the data series in the column "Data"
-   
-4. Copy the clinic table and slide table into WP1
+1. Make sure you placed your data in the data folder.
 ```sh
-cp workspace/<workspace-name>/user/data-and-scratch/data/{clinical_table,slide_table}.csv workspace/<workspace-name>/user/data-and-scratch/data/WP1
-```
-   
-5. Copy the features from feature folder into `WP1/test` from 801 to 922
-```sh
-cp workspace/<workspace-name>/user/data-and-scratch/data/features_odelia_sub_imagenet/Breast_MRI_{801..922}_{right,left}.h5 workspace/<workspace-name>/user/data-and-scratch/data/WP1/test
-```
-   
-6. Copy the features from feature folder with the order you noted into `WP1/train_val` from xxx to yyy
-```sh
-cp workspace/<workspace-name>/user/data-and-scratch/data/features_odelia_sub_imagenet/Breast_MRI_{<first_number>..<second_number>}_{right,left}.h5 workspace/<workspace-name>/user/data-and-scratch/data/WP1/test
+mkdir workspace/<workspace-name>/user/data-and-scratch/data/
 ```
 
 ### Running Swarm Learning Nodes
@@ -171,59 +131,19 @@ $ ./workspace/automate_scripts/launch_sl/check_latest_logs.sh
 ```sh
 $ ./workspace/swarm_learning_scripts/stop-swarm --[node_type]
 ```
-
-- To view results, see logs under `workspace/<workspace_name>/user/data-and-scratch/scratch`
+### Viewing Results
+```sh
+ $ ./workspace/<workspace_name>/user/data-and-scratch/scratch
+```
 
 Please observe [Troubleshooting.md](Troubleshooting.md) section 10 for successful running logs of swop and sn nodes. The process will be keep running and displaying logs so you will need to open new terminal to run other commands.
-
-## Workflow
-
-![Workflow.png](assets%2FWorkflow.png)
-![Swarm model training protocol .png](assets%2FSwarm%20model%20training%20protocol%20.png)
-
-## Node list
-
-Nodes will be added to vpn and will be able to communicate with each other after setting up the Swarm Learning Environment with [Install](#install)
-| Project | Node Name | IP address       | Location           | Hostname  | Data      | Maintainer                                 |
-| ------- | --------- | ----------------| ------------------| ---------| --------- | ------------------------------------------|
-| Sentinel node | TUD       | 172.24.40.65    | Dresden, Germany  | swarm     | 1-100     | [@Jeff](https://github.com/Ultimate-Storm) |
-| ODELIA  | VHIO      | 172.24.40.67    | Madrid, Spain      | radiomics | 401-500   | [@Adrià](adriamarcos@vhio.net)           |
-|         | UKA       | 172.24.40.71    | Aachen, Germany    | swarm     | 101-200   | [@Gustav](gumueller@ukaachen.de)         |
-|         | RADBOUD   | 172.24.40.73    | Nijmegen, Netherlands | swarm | 501-600   | [@Tianyu](t.zhang@nki.nl)                |
-|         | MITERA    | 172.24.40.75    |                    |           | 201-300   |                                            |
-|         | RIBERA    | 172.24.40.77    |                    |           | 301-400   |                                            |
-|         | UTRECHT   | 172.24.40.79    |                    |           | 601-700   |                                            |
-|         | CAMBRIDGE | 172.24.40.81    |                    |           | 701-800   |                                            |
-|         | ZURICH    | 172.24.40.83    |                    |           |           |                                            |
-| Other nodes | UCHICAGO  | 172.24.40.69    | Chicago, USA       | swarm     |           | [@Sid](Siddhi.Ramesh@uchospitals.edu)    |
-
-## Models implemented
-
-TUD benchmarking on Duke breast mri dataset:![TUD experiments result.png](assets%2FTUD%20experiments%20result.png)
-
-Report: [Swarm learning report.pdf](assets%2FSwarm%20learning%20report.pdf)
 
 ## Maintainers
 
 TUD Swarm learning team
-
-[@Jeff](https://github.com/Ultimate-Storm).
-
-Wanna a 24-hours support? Configure your TeamViewer with the following steps and contact me through slack. Thanks [@Adrià](adriamarcos@vhio.net) for instructions.
-
-1. Enable remote control in the ubuntu settings
-![ubuntu_remote_control.png](assets%2Fubuntu_remote_control.png)
-2. Install TeamViewer and login with username: `adriamarcos@vhio.net` and password: `2wuHih4qC5tEREM`
-3. Add the computer to the account ones, so that it can be controlled. You have it here: [link](https://community.teamviewer.com/English/kb/articles/4464-assign-a-device-to-your-accountuthorize)![TV add device.png](assets%2FTV%20add%20device.png)
-4. I'd advise you to set the computer to never enter the sleeping mode or darken the screen just in case. Also, if you want to use different users remember this has to be done in all them and the TV session need to be signed in all them as well.
-
-## Milestone
-
-See this [link](https://github.com/KatherLab/swarm-learning-hpe/milestones)
-
-## NotionPage
-
-See this [link](https://www.notion.so/SWARM-Learning-87a7b920c88e445d81420573afb0e8ab)
+[@Oliver](https://github.com/oliversaldanha25)
+[@Jeff](https://github.com/Ultimate-Storm)
+[@Kevin](https://github.com/pfeifferis)
 
 ## Contributing
 
@@ -232,12 +152,6 @@ Feel free to dive in! [Open an issue](https://github.com/KatherLab/swarm-learnin
 Before creating a pull request, please take some time to take a look at
 our [wiki page](https://github.com/KatherLab/swarm-learning-hpe/wiki), to ensure good code quality and sufficient
 documentation. Don't need to follow all of the guidelines at this moment, but it would be really helpful!
-
-### Contributors
-
-This project exists thanks to all the people who contribute.
-[@Oliver](https://github.com/oliversaldanha25)
-[@Kevin](https://github.com/kevinxpfeiffer)
 
 ## Credits
 
