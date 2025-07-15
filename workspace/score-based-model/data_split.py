@@ -3,8 +3,8 @@ import shutil
 from sklearn.model_selection import train_test_split
 
 # Define paths
-base_dir = '/mnt/swarm_alpha/KIRC_4grading/data_ctrans/'
-output_dir = '/mnt/swarm_alpha/KIRC_4grading/data_ctrans_train_val_test/'
+base_dir = '/mnt/swarm_alpha/KIRC_survival_data'
+output_dir = '/mnt/swarm_alpha/KIRC_survival_data_train_val_test/'
 
 # Define the split sizes
 train_size = 0.7
@@ -17,7 +17,7 @@ for split in ['train', 'val', 'test']:
     if not os.path.exists(split_dir):
         os.makedirs(split_dir)
 
-    for grade in ['KIRC_G1', 'KIRC_G2', 'KIRC_G3', 'KIRC_G4']:
+    for grade in ['KIRC_5YSS_Alive', 'KIRC_5YSS_Deceased']:
         grade_dir = os.path.join(split_dir, grade)
         if not os.path.exists(grade_dir):
             os.makedirs(grade_dir)
@@ -37,7 +37,7 @@ def split_and_copy_files(grade_dir, grade, train_size, val_size, test_size):
         shutil.copy(os.path.join(grade_dir, file), os.path.join(output_dir, 'test', grade, file))
 
 # Perform the split for each grade
-for grade in ['KIRC_G1', 'KIRC_G2', 'KIRC_G3', 'KIRC_G4']:
+for grade in ['KIRC_5YSS_Alive', 'KIRC_5YSS_Deceased']:
     grade_dir = os.path.join(base_dir, grade)
     split_and_copy_files(grade_dir, grade, train_size, val_size, test_size)
 

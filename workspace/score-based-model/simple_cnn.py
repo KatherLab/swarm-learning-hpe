@@ -12,9 +12,9 @@ import copy
 from tqdm import tqdm
 
 # Paths to the data directories
-base_dir = '/mnt/swarm_alpha/KIRC_4grading/data/'  # Replace with your actual base directory path
+base_dir = '/mnt/swarm_alpha/KIRC_survival_data_train_val_test'  # Replace with your actual base directory path
 train_dir = os.path.join(base_dir, 'train')
-val_dir = os.path.join(base_dir, 'validation')
+val_dir = os.path.join(base_dir, 'val')
 test_dir = os.path.join(base_dir, 'test')
 
 # Hyperparameters
@@ -75,7 +75,7 @@ log_dir = "logs/fit/" + datetime.now().strftime("%Y%m%d-%H%M%S")
 writer = SummaryWriter(log_dir)
 
 # Directory to save the best model
-model_dir = 'saved_models_4grading'
+model_dir = 'saved_models_KIRC_survival_data'
 os.makedirs(model_dir, exist_ok=True)
 best_model_path = os.path.join(model_dir, 'best_model.pth')
 

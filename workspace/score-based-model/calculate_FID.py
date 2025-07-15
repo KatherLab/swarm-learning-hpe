@@ -71,15 +71,16 @@ def compare_folders(folder1, folder2):
     fid_score = calculate_fid(mu1, sigma1, mu2, sigma2)
 
     # Calculate duplicity
-    duplicity_score = compute_duplicity(features1, features2)
+    #duplicity_score = compute_duplicity(features1, features2)
 
-    return fid_score, duplicity_score
-
+    #return fid_score, duplicity_score
+    return fid_score
 
 if __name__ == "__main__":
-    folder1 = "/mnt/dlhd1/sbm/KIRC_survival/data-and-scratch/data/KIRC_5YSS_Alive"  # Original images
-    folder2 = "/mnt/dlhd1/sbm/KIRC_survival/data-and-scratch/data/KIRC_5YSS_Deceased"  # Generated images
+    folder1 = "/mnt/swarm_alpha/more_samples/KIRC_survival/990000_cut/Alive"  # Original images
+    folder2 = "/mnt/swarm_alpha/more_samples/KIRC_survival/990000_cut/Deceased"  # Generated images
 
-    fid, duplicity = compare_folders(folder1, folder2)
+    #fid, duplicity = compare_folders(folder1, folder2)
+    fid = compare_folders(folder1, folder2)
     print(f"FID Score: {fid}")
-    print(f"Duplicity: {duplicity * 100:.2f}%")
+    #print(f"Duplicity: {duplicity * 100:.2f}%")
