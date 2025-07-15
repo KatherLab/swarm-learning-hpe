@@ -12,7 +12,7 @@ apls:
     port: ~
 apisrv:
   locator:
-    host: <HOST-IPADDRESS>
+    host: <SN-IPADDRESS>
     port: ~
 envvars:
   - http_proxy: ~
@@ -21,7 +21,8 @@ envvars:
   - HTTP_PROXY: ~
   - HTTPS_PROXY: ~
   - NO_PROXY: ~
-  - SWARM_LOG_LEVEL: INFO
+  - SWARM_LOG_LEVEL: DEBUG
+  - SL_DEVMODE_KEY: REVWTU9ERS0yMDI0LTAzLTE5
 nodes:
   - slnodedef:
       idx: 0
