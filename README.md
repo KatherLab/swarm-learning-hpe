@@ -1,21 +1,12 @@
-# swarm-learning-hpe
+# SwarmLearning Hpe
 
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
 Swarm learning based on HPE platform, experiments performed based on HPE Swarm Learning version number 2.2.0
 
-This repository contains:
-
-1. SWARM Learning For Histopathology Image Analysis and Radiology Image Analysis
-2. [Work flow](https://github.com/KatherLab/projects/4) to help keep track of what's under process.
-3. [Issue section](https://github.com/KatherLab/swarm-learning-hpe/issues) where people can dump ideas and raise
-   questions encountered when using this repo.
-4. Working version of [marugoto_mri](workspace%2Fmarugoto_mri) for Attention MIL based model, originally suitable for histopathology images but Marta has modified it to work with MRI images.
-5. Working version of [odelia-breast-mri](workspace%2Fodelia-breast-mri) for 3D-CNN model by [@Gustav](gumueller@ukaachen.de).
-
+Background information about HPE Swarm Learning and required hardware can be found in the [Background&requirement.md](assets/Background%26requirement.md)
 ## Table of Contents
 
-- [Background](#background)
 - [Install](#install)
 - [Usage](#usage)
 - [Maintainers](#maintainers)
@@ -24,48 +15,11 @@ This repository contains:
 - [Contributing](#contributing)
 - [License](#license)
 
-## Background
-
-### Brief description about HPE platform
-
-Course of Swarm Leaning explained in a generally understandable
-way: [https://learn.software.hpe.com/swarm-learning-essentials](https://learn.software.hpe.com/swarm-learning-essentials)
-
-HPE Swarm Learning extends the **concept of federated learning** to **decentralized learning** by adding functionality
-that **obviates the need for a central leader**. It combines the use of **AI**, **edge computing**, and **blockchain**.
-
-HPE Swarm Learning is a **decentralized, privacy-preserving Machine Learning (ML) framework**. Swarm Learning framework
-uses the computing power at, or near, the distributed data sources to run the ML algorithms that train the models. It
-uses the security of a blockchain platform to share learning with peers safely and securely. In Swarm Learning, training
-of the model occurs at the edge, where data is most recent, and where prompt, data-driven decisions are mostly
-necessary. In this decentralized architecture, **only the insights learned are shared** with the collaborating ML peers,
-not the raw data. This tremendously enhances data security and privacy.
-
-The following image provides an overview of the Swarm Learning framework. Only the model parameters (learnings) are
-exchanged between the various edge nodes and not the raw data. This ensures that the privacy of data is preserved.
-![img.png](assets/SL_structure.png)
-
-This is the Swarm Learning framework:
-![sl_node_structure.png](assets%2Fsl_node_structure.png)
 
 ## Install
 
-### Prerequisites
-#### Hardware recommendations
-* 64 GB of RAM (32 GB is the absolute minimum)
-* 16 CPU cores (8 is the absolute minimum)
-* an NVIDIA GPU with 48 GB of RAM (24 is the  minimum)
-* 8 TB of Storage (4 TB is the absolute minimum)
-* We deliberately want to show that we can work with lightweight hardware like this. Here are three quotes for systems like this for less than 10k EUR (Lambda, Dell Precision, and Dell Alienware)
-* Typical installation time can take 30 minutes to build up the necessary dependencies and another 1 hour to build up the environment for running demo experiments
-  
-#### Operating System
-* Ubuntu 20.04 LTS
-  * We have tested the Swarm Learning Environment on [Ubuntu 20.04 LTS, Ubuntu 22.04.2 LTS, Ubuntu 20.04.5 LTS] and they work fine. 
-  *  Any experimental release of Ubuntu greater than LTS 20.04 MAY result in unsuccessful swop node running.
-  * It also works on WSL2(Ubuntu 20.04.2 LTS) on Windows systems. WSL1 may have some issues with the docker service.
 
-### Upgrade the Swarm Learning Environment from Older Version
+### Upgrade the Swarm Learning Environment from Older Version(Optional)
 1. Run the following command to upgrade the Swarm Learning Environment from 1.x.x to 2.x.x
 ```sh
 sh workspace/automate_scripts/server_setup/cleanup_old_sl.sh
@@ -158,43 +112,8 @@ All the processes are automated, so you can just run the above command and wait 
 If any problem occurs, please first try to figure out which step is going wrong, try to google for solutions and find solution in [Troubleshooting.md](Troubleshooting.md). Then contact the maintainer of the Swarm Learning Environment and document the error in the Troubleshooting.md file.
 
 ## Usage
-### Ensuring Dataset Structure
-
-To ensure proper organization of your dataset, please follow the steps outlined below:
-
-1. **Directory Location**
-
-   Place your dataset under the specified path:
-
-/workspace/odelia-breast-mri/user/data-and-scratch/data
-
-
-Within this path, create a folder named `multi_ext`. Your directory structure should then resemble:
-/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user/data-and-scratch/data
-└── multi_ext
-├── datasheet.csv # Your clinical tabular data
-├── test # External validation dataset
-├── train_val # Your own site training data
-└── segmentation_metadata_unilateral.csv # External validation table
-
-2. **Data Organization**
-
-Inside the `train_val` or `test` directories, place folders that directly contain NIfTI files. The folders should be named according to the following convention:
-
-<patientID>_right
-<patientID>_left
-
-Here, `<patientID>` should correspond with the patient ID in your tables (`datasheet.csv` and `segmentation_metadata_unilateral.csv`). This convention assists in linking the imaging data with the respective clinical information efficiently.
-
-#### Summary
-
-- **Step 1:** Ensure your dataset is placed within `/workspace/odelia-breast-mri/user/data-and-scratch/data/multi_ext`.
-- **Step 2:** Organize your clinical tabular data, external validation dataset, your own site training data, and external validation table as described.
-- **Step 3:** Name folders within `train_val` and `test` as `<patientID>_right` or `<patientID>_left`, matching the patient IDs in your datasheets.
-
-Following these structured steps will help in maintaining a well-organized dataset, thereby enhancing data management and processing in your projects.
-
-
+- For Odelia consortium, see the [Odelia.md](ODELIA.md) file for more details about how to run the experiments.
+- For DECADE consortium, see the [DECADE.md](DECADE.md) file for more details about how to run the experiments.
 
 ### Running Swarm Learning Nodes
 To run a Swarm Network node -> Swarm SWOP Node -> Swarm SWCI node. Please open a terminal for each of the nodes to run. Observe the following commands:
@@ -253,51 +172,6 @@ Please observe [Troubleshooting.md](Troubleshooting.md) section 10 for successfu
 * Typical run time can take 3 hours for experiments trained on the DUKE dataset with ResNet50-3D with three nodes involved.
 
 
-## Workflow
-
-![Workflow.png](assets%2FWorkflow.png)
-![Swarm model training protocol .png](assets%2FSwarm%20model%20training%20protocol%20.png)
-
-## Node list
-
-Nodes will be added to vpn and will be able to communicate with each other after setting up the Swarm Learning Environment with [Install](#install)
-| Project | Node Name | Location           | Hostname  | Data      | Maintainer                                 |
-| ------- | --------- | ------------------| ---------| --------- | ------------------------------------------|
-| Sentinel node | TUD       | Dresden, Germany  | swarm     | | [@Jeff](https://github.com/Ultimate-Storm) |
-| ODELIA  | VHIO      | Madrid, Spain      | radiomics |  | [@Adrià](adriamarcos@vhio.net)           |
-|         | UKA       | Aachen, Germany    | swarm     |   | [@Gustav](gumueller@ukaachen.de)         |
-|         | RADBOUD   | Nijmegen, Netherlands | swarm |   | [@Tianyu](t.zhang@nki.nl)                |
-|         | MITERA    | Paul, Greece  |           |   |                                            |
-|         | RIBERA    | Lopez, Spain    |           |   |                                            |
-|         | UTRECHT   |                    |           |  |                                            |
-|         | CAMBRIDGE |  Nick, Britain  |           |  |                                            |
-|         | ZURICH    |  Sreenath, Switzerland   |           |           |                                            |
-| SWAG |        |   | swarm     |      |  |
-
-| DECADE |        |   | swarm     |      | |
-
-
-| Other nodes | UCHICAGO  | Chicago, USA       | swarm     |           | [@Sid](Siddhi.Ramesh@uchospitals.edu)    |
-
-## Models implemented
-
-TUD benchmarking on Duke breast mri dataset:![TUD experiments result.png](assets%2FTUD%20experiments%20result.png)
-
-Report: [Swarm learning report.pdf](assets%2FSwarm%20learning%20report.pdf)
-
-## Maintainers
-
-TUD Swarm learning team
-
-[@Jeff](https://github.com/Ultimate-Storm).
-
-Wanna a 24-hours support? Configure your TeamViewer with the following steps and contact me through slack. Thanks [@Adrià](adriamarcos@vhio.net) for instructions.
-
-1. Enable remote control in the ubuntu settings
-![ubuntu_remote_control.png](assets%2Fubuntu_remote_control.png)
-2. Install TeamViewer and login with username: `adriamarcos@vhio.net` and password: `2wuHih4qC5tEREM`
-3. Add the computer to the account ones, so that it can be controlled. You have it here: [link](https://community.teamviewer.com/English/kb/articles/4464-assign-a-device-to-your-accountuthorize)![TV add device.png](assets%2FTV%20add%20device.png)
-4. I'd advise you to set the computer to never enter the sleeping mode or darken the screen just in case. Also, if you want to use different users remember this has to be done in all them and the TV session need to be signed in all them as well.
 
 ## Milestone
 
