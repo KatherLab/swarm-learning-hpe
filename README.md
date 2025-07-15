@@ -76,14 +76,17 @@ Requirements and dependencies will be automatically installed by the script ment
 Determine how your server will connect to the network. You have the option to configure the network interface for a VPN connection using GoodAccess, direct Ethernet connection, or through Tailscale. Follow the instructions below to set up the network interface based on your choice:
 
 - For a Tailscale connection(For DECADE, SWAG project, this is the recommended method.)
+```sh
 sh /workspace/automate_scripts/server_setup/replace_network_interface.sh --tailscale
-
+```
 - For a VPN connection using GoodAccess(For Odelia project, this is the recommended method.)
+```sh
 sh /workspace/automate_scripts/server_setup/replace_network_interface.sh --goodaccess
-
+```
 - For a direct Ethernet connection(For proof of concept, this is the recommended method.)
+```sh
 sh /workspace/automate_scripts/server_setup/replace_network_interface.sh --local
-
+```
 
 
 ### Setting up the Swarm Learning Environment
