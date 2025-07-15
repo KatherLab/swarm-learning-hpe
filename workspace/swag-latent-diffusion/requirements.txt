@@ -62,7 +62,7 @@ sympy==1.12
 tensorboard==2.16.2
 tensorboard-data-server==0.7.2
 tifffile==2024.2.12
-torch==2.2.1
+torch==2.7.1
 torchio==0.19.6
 torchvision==0.17.1
 torchxrayvision==1.2.2
