@@ -1,16 +1,17 @@
 #!/bin/sh
 set -eux
+
 # Print usage information
 usage() {
     echo "Usage: $0 [-w workspace]" >&2
     echo "  -h             display this help and exit" >&2
-    echo "  -w workspace   specify the workspace to use" >&2
+    echo "  -w workspace   optionally specify the workspace to use" >&2
     exit 1
 }
 
 # Initialize default values
 workspace=""
-sl_cli_lib="sl-cli-lib" # Default value
+sl_cli_lib="sl-cli-lib" # Default
 
 # Parse command-line options
 while getopts ":hw:" opt; do
@@ -32,7 +33,7 @@ while getopts ":hw:" opt; do
     esac
 done
 
-# Check and set sl_cli_lib based on workspace argument
+# Set sl_cli_lib based on workspace if provided
 case $workspace in
     swag-latent-diffusion)
         sl_cli_lib="sl-cli-lib-latent-diffusion"
@@ -41,37 +42,37 @@ case $workspace in
         sl_cli_lib="sl-cli-lib-sbm"
         ;;
     *)
-        sl_cli_lib="sl-cli-lib" # Default case
+        sl_cli_lib="sl-cli-lib" # Default
         ;;
 esac
 
-# Ensure a workspace is provided
-if [ -z "$workspace" ]; then
-    echo "Workspace not specified." >&2
-    usage
-fi
-
-# Rest of the script where $sl_cli_lib is now set based on the workspace argument
+# Volume setup
 sudo docker volume rm -f "$sl_cli_lib" || true
 sudo docker volume create "$sl_cli_lib"
 sudo docker container create --name helper -v "$sl_cli_lib":/data hello-world
+
+# Copy swarmlearning wheel
 sudo docker cp -L /opt/hpe/swarm-learning-hpe/sllib/swarmlearning-client-py3-none-manylinux_2_24_x86_64.whl helper:/data
 
-# Adjust the docker cp command to use the specified workspace for requirements.txt
+# Copy requirements.txt only if workspace is given
 if [ -n "$workspace" ]; then
-    sudo docker cp -L "/opt/hpe/swarm-learning-hpe/workspace/${workspace}/requirements.txt" helper:/data
+    req_path="/opt/hpe/swarm-learning-hpe/workspace/${workspace}/requirements.txt"
+    if [ -f "$req_path" ]; then
+        sudo docker cp -L "$req_path" helper:/data
+    else
+        echo "Warning: requirements.txt not found for workspace '$workspace'"
+    fi
 fi
 
+# Clean up helper container
 sudo docker rm helper
 
-# Docker network setup and error handling remain unchanged
+# Docker network setup
 host_network="host-net"
 if sudo docker network list | grep -q "$host_network"; then
     sudo docker network rm "$host_network"
 fi
-sudo docker network create "$host_network" #--subnet="$ip_addr/"24
-if [ $? -ne 0 ]; then
-    echo "An error occurred while running the script. Please check the output above for more details."
-    exit 1
-fi
+
+sudo docker network create "$host_network"
+
 echo "SL CLI library volume created successfully."

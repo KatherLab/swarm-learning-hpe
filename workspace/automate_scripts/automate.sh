@@ -82,21 +82,19 @@ if [ $ACTION = server_setup ]; then
        echo "sentinel_ip required"
        help
   fi
-  if [ -z "$workspace_name" ];
-    then
-       echo "workspace_name required"
-       help
-  fi
+
 
   sh ./workspace/automate_scripts/server_setup/install_containers.sh
   sh ./workspace/automate_scripts/server_setup/gpu_env_setup.sh
   sh ./workspace/automate_scripts/sl_env_setup/gen_cert.sh -i "$host_index"
-  sh ./workspace/automate_scripts/sl_env_setup/setup_sl-cli-lib.sh -w "$workspace_name"
-  # if --goodaccess is not provided, the script will not run the VPN setup
-  if [ -z "$goodaccess" ]; then
-    echo "VPN setup skipped"
+ # sh ./workspace/automate_scripts/sl_env_setup/setup_sl-cli-lib.sh -w "$workspace_name"
+  sh ./workspace/automate_scripts/sl_env_setup/setup_sl-cli-lib.sh
+  # If --goodaccess is not provided, skip VPN setup gracefully
+  if [ -z "${goodaccess:-}" ]; then
+    echo "VPN setup skipped: --goodaccess option not provided."
     exit 0
   fi
+
 
   sudo sh ./workspace/automate_scripts/server_setup/setup_vpntunnel.sh -d "$host_index" -n
   #echo waiting for VPN to get connected

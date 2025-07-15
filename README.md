@@ -111,7 +111,7 @@ sh workspace/automate_scripts/automate.sh -a
 ```
 2. `Server setup`: Runs scripts that set up the swarm learning environment on a server.
 ```sh
-sh workspace/automate_scripts/automate.sh -b -s <sentinel_ip> -d <host_index>  -w <workspace_name>
+sh workspace/automate_scripts/automate.sh -b -s <sentinel_ip> -d <host_index>
 ```
 3. `Final setup`: Runs scripts that finalize the setup of the swarm learning environment. Only <> is required. The [-n num_peers] and [-e num_epochs] flags are optional.
 ```sh
