@@ -1,4 +1,14 @@
+## Repo contents
 
+This repository contains:
+
+1. SWARM Learning For Histopathology Image Analysis and Radiology Image Analysis
+2. [Work flow](https://github.com/KatherLab/projects/4) to help keep track of what's under process.
+3. [Issue section](https://github.com/KatherLab/swarm-learning-hpe/issues) where people can dump ideas and raise
+   questions encountered when using this repo.
+4. Working version of [marugoto_mri](workspace%2Fmarugoto_mri) for Attention MIL based model, originally suitable for histopathology images but Marta has modified it to work with MRI images.
+5. Working version of [odelia-breast-mri](workspace%2Fodelia-breast-mri) for 3D-CNN model by [@Gustav](gumueller@ukaachen.de). Related instructions please refer to [ODELIA.md](ODELIA.md) and following installation steps.
+6. Working version of diffusion model for generating histopathology images and Xray images, [score-based-model](workspace%2Fscore-based-model) and [swag-latent-diffusion](workspace%2Fswag-latent-diffusion). Related instructions please refer to [SWAG.md](SWAG.md) and following installation steps.
 ## Prerequisites
 ### Hardware recommendations
 * 64 GB of RAM (32 GB is the absolute minimum)

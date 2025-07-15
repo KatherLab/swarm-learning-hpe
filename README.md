@@ -75,14 +75,15 @@ Requirements and dependencies will be automatically installed by the script ment
 ### Decide on the connection method
 Determine how your server will connect to the network. You have the option to configure the network interface for a VPN connection using GoodAccess, direct Ethernet connection, or through Tailscale. Follow the instructions below to set up the network interface based on your choice:
 
+- For a Tailscale connection(For DECADE, SWAG project, this is the recommended method.)
+sh /workspace/automate_scripts/server_setup/replace_network_interface.sh --tailscale
+
 - For a VPN connection using GoodAccess(For Odelia project, this is the recommended method.)
 sh /workspace/automate_scripts/server_setup/replace_network_interface.sh --goodaccess
 
 - For a direct Ethernet connection(For proof of concept, this is the recommended method.)
 sh /workspace/automate_scripts/server_setup/replace_network_interface.sh --local
 
-- For a Tailscale connection(For Swag project, this is the recommended method.)
-sh /workspace/automate_scripts/server_setup/replace_network_interface.sh --tailscale
 
 
 ### Setting up the Swarm Learning Environment
@@ -90,9 +91,12 @@ sh /workspace/automate_scripts/server_setup/replace_network_interface.sh --tails
 
 `<sentinel_ip>` = `100.125.38.128` currently it's the IP assigned by VPN server for TUD host.
 
-`<host_index>` = Your institute's name. For ODELIA project should be chosen from `TUD` `Ribera` `VHIO` `Radboud` `UKA` `Utrecht` `Mitera` `Cambridge` `Zurich`
+`<host_index>` = Your institute's name. 
+- For DECADE project should be chosen from `Bonn` `Heidelberg` `Mainz` `Dusseldorf`
+- For ODELIA project should be chosen from `TUD` `Ribera` `VHIO` `Radboud` `UKA` `Utrecht` `Mitera` `Cambridge` `Zurich`
 
-`<workspace_name>` = The name of the workspace you want to work on. You can find available modules under `workspace/` folder. Each module corresonds to a radiology model. Currently we suggest to use `odelia-breast-mri` or `marogoto_mri` here.
+`<workspace_name>` = The name of the workspace you want to work on. For DECADE `stamp`. You can find available modules under `workspace/` folder. Each module corresonds to a radiology model. 
+
 
 **Please only proceed to the next step by observing "... is done successfully" from the log**
 
@@ -111,7 +115,7 @@ sh workspace/automate_scripts/automate.sh -b -s <sentinel_ip> -d <host_index>
 sh workspace/automate_scripts/automate.sh -c -w <workspace_name> -s <sentinel_ip> -d <host_index> [-n num_peers] [-e num_epochs]
 ```
 
-Optional 5. Reconnect to VPN
+Optional 5. Reconnect to VPN(only for Odelia consortium, DECADE consortium uses Tailscale so not needed)
 ```sh
 sh /workspace/automate_scripts/server_setup/setup_vpntunnel.sh
 ```
