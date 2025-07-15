@@ -95,7 +95,7 @@ sh ./workspace/automate_scripts/server_setup/replace_network_interface.sh --loca
 `<sentinel_ip>` = `100.125.38.128` currently it's the IP assigned by VPN server for TUD host.
 
 `<host_index>` = Your institute's name. 
-- For DECADE project should be chosen from `Bonn` `Heidelberg` `Mainz` `Dusseldorf`
+- For DECADE project should be chosen from `TUD` `Bonn` `Heidelberg` `Mainz` `Dusseldorf`
 - For ODELIA project should be chosen from `TUD` `Ribera` `VHIO` `Radboud` `UKA` `Utrecht` `Mitera` `Cambridge` `Zurich`
 
 `<workspace_name>` = The name of the workspace you want to work on. For DECADE `stamp`. You can find available modules under `workspace/` folder. Each module corresonds to a radiology model. 
@@ -111,7 +111,7 @@ sh workspace/automate_scripts/automate.sh -a
 ```
 2. `Server setup`: Runs scripts that set up the swarm learning environment on a server.
 ```sh
-sh workspace/automate_scripts/automate.sh -b -s <sentinel_ip> -d <host_index>
+sh workspace/automate_scripts/automate.sh -b -s <sentinel_ip> -d <host_index>  -w <workspace_name>
 ```
 3. `Final setup`: Runs scripts that finalize the setup of the swarm learning environment. Only <> is required. The [-n num_peers] and [-e num_epochs] flags are optional.
 ```sh
