@@ -56,4 +56,30 @@ Here, `<patientID>` should correspond with the patient ID in your tables (`datas
 - **Step 2:** Organize your clinical tabular data, external validation dataset, your own site training data, and external validation table as described.
 - **Step 3:** Name folders within `train_val` and `test` as `<patientID>_right` or `<patientID>_left`, matching the patient IDs in your datasheets.
 
-Following these structured steps will help in maintaining a well-organized dataset, thereby enhancing data management and processing in your projects.
+## Data Preparation
+### Notes
+This will take a long time. Just run with either command, `get_dataset_gdown.sh` is recommended to run before you have done step 2, `get_dataset_scp.sh` is recommended to run after you have done step 2.
+`get_dataset_gdown.sh` will download the dataset from Google Drive.
+```sh
+$ sh workspace/automate_scripts/sl_env_setup/get_dataset_gdown.sh
+```
+The [-s sentinel_ip] flag is only necessary for `get_dataset_scp.sh` The script will download the dataset from the sentinel node.
+```sh
+$ sh workspace/automate_scripts/sl_env_setup/get_dataset_scp.sh -s <sentinel_ip>
+```
+
+### Instructions
+
+1. Make sure you have downloaded Duke data.
+    
+2. Create the folder `WP1` and in it `test` and `train_val`
+```bash
+mkdir workspace/<workspace-name>/user/data-and-scratch/data/WP1
+mkdir workspace/<workspace-name>/user/data-and-scratch/data/WP1/{test,train_val}
+```
+3. Search for your institution in the [Node list](#nodelist) and note the data series in the column "Data"
+
+4. Prepare the clinical tables
+```sh
+cp workspace/<workspace-name>/user/data-and-scratch/data/*.xlsx workspace/<workspace-name>/user/data-and-scratch/data/WP1
+```

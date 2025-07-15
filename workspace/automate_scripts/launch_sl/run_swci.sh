@@ -2,8 +2,8 @@
 #set -eux
 
 # Default values
-workspace="odelia-breast-mri"
-sentinel="172.24.4.67"
+workspace="score-based-model"
+sentinel="100.125.38.128"
 
 # Print usage message
 usage() {
@@ -52,10 +52,10 @@ if [ -z "$sentinel" ] || [ -z "$host_index" ]; then
 fi
 
 # Check if this host is the sentinel
-ip_addr=$(ip addr show tun0 | awk '/inet / {print $2}' | cut -d'/' -f1)
+ip_addr=$(ip addr show tailscale0 | awk '/inet / {print $2}' | cut -d'/' -f1)
 
 if [ -z "$ip_addr" ]; then
-    echo "Error: tun0 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"
+    echo "Error: tailscale0 interface not found. Please connect to the VPN first. Use script setup_vpntunnel.sh"
     exit 1
 fi
 #if [ "$ip_addr" != "$sentinel" ]; then
@@ -91,10 +91,11 @@ sudo "$script_dir/../../swarm_learning_scripts/run-swci" \
   --cert="cert/swci-$host_index-cert.pem" \
   --capath="cert/ca/capath" \
   -e "http_proxy=" -e "https_proxy=" --apls-ip="$sentinel" \
-  -e "SWCI_RUN_TASK_MAX_WAIT_TIME=5000" \
-  -e "SWCI_GENERIC_TASK_MAX_WAIT_TIME=5000" \
+  -e "SWCI_RUN_TASK_MAX_WAIT_TIME=5000000" \
+  -e "SWCI_GENERIC_TASK_MAX_WAIT_TIME=5000000" \
   -e SWARM_LOG_LEVEL=DEBUG \
-  -e SL_DEVMODE_KEY=REVWTU9ERS0yMDI0LTAzLTE5 \
+   -e SL_DEVMODE_KEY=REVWTU9ERS0yMDI0LTA3LTA0 \
+
 
 echo "SWCI container started successfully"
 echo "Use 'cklog --swci' to follow the logs of the SWCI node"

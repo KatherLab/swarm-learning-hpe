@@ -1,0 +1,69 @@
+device: cuda
+
+data:
+  dataset: xray
+  category: NA
+  data_dir: /home/domainHomes/aokolie/Desktop/Augustine Workspace/SWAG PROJECT/datasets/X-Rays/datasets/CXR14/CXR14/files/images_010
+  image_size: 384
+  num_classes: 1
+  channels: 1
+  logit_transform: false
+  uniform_dequantization: false
+  gaussian_dequantization: false
+  random_flip: true
+  rescaled: false
+  num_workers: 4
+
+training:
+  batch_size: 4
+  n_epochs: 500000
+  n_iters: 500001
+  snapshot_freq: 10000
+  snapshot_sampling: true
+  anneal_power: 2
+  log_all_sigmas: false
+
+sampling:
+  batch_size: 4
+  num_batches: 10
+  data_init: false
+  step_lr: 0.0000018
+  n_steps_each: 3
+  ckpt_id: 
+  final_only: true
+  fid: false
+  denoise: true
+  num_samples4fid: 10000
+  inpainting: false
+  interpolation: false
+  n_interpolations: 10
+
+  isreconstruct: false
+  all_slice: false
+
+model:
+  sigma_begin: 232
+  noise_steps: 2311
+  ema: true
+  ema_rate: 0.999
+  spec_norm: false
+  sigma_dist: geometric
+  sigma_end: 0.0066
+
+  channel: 128
+  channel_multiplier: [1, 1, 2, 2, 4, 4]
+  n_res_blocks: 2
+  attn_strides: [16]
+  attn_heads: 1
+  use_affine_time: false
+  dropout: 0.0
+  fold: 1
+
+
+optim:
+  weight_decay: 0.000
+  optimizer: Adam
+  lr: 0.0001
+  beta1: 0.9
+  amsgrad: false
+  eps: 0.00000001

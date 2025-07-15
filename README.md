@@ -72,10 +72,23 @@ sudo modprobe nvidia
 ```
 Requirements and dependencies will be automatically installed by the script mentioned in the following section.
 
+### Decide on the connection method
+Determine how your server will connect to the network. You have the option to configure the network interface for a VPN connection using GoodAccess, direct Ethernet connection, or through Tailscale. Follow the instructions below to set up the network interface based on your choice:
+
+- For a VPN connection using GoodAccess(For Odelia project, this is the recommended method.)
+sh /workspace/automate_scripts/server_setup/replace_network_interface.sh --goodaccess
+
+- For a direct Ethernet connection(For proof of concept, this is the recommended method.)
+sh /workspace/automate_scripts/server_setup/replace_network_interface.sh --local
+
+- For a Tailscale connection(For Swag project, this is the recommended method.)
+sh /workspace/automate_scripts/server_setup/replace_network_interface.sh --tailscale
+
+
 ### Setting up the Swarm Learning Environment
 **PLEASE REPLACE THE `<PLACEHOLDER>` WITH THE CORRESPONDING VALUE!**
 
-`<sentinel_ip>` = `172.24.4.67` currently it's the IP assigned by VPN server for TUD host.
+`<sentinel_ip>` = `100.125.38.128` currently it's the IP assigned by VPN server for TUD host.
 
 `<host_index>` = Your institute's name. For ODELIA project should be chosen from `TUD` `Ribera` `VHIO` `Radboud` `UKA` `Utrecht` `Mitera` `Cambridge` `Zurich`
 
@@ -83,7 +96,7 @@ Requirements and dependencies will be automatically installed by the script ment
 
 **Please only proceed to the next step by observing "... is done successfully" from the log**
 
-0. Optional: download preprocessed datasets. Please refer to the [Data Preparation](DUKE_dataset_preparation.md) section for more details.
+0. Optional: download preprocessed datasets. Please refer to the [Data Preparation](ODELIA) section for more details.
 
 1. `Prerequisite`: Runs scripts that check for required software and open/exposed ports.
 ```sh
