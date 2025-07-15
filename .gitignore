@@ -159,3 +159,7 @@ dmypy.json
 assets/openvpn_configs/good_access/*.ovpn
 /assets/Odelia_credentials.txt
 /workspace/odelia-breast-mri/results/
+/swarm_logs/
+/workspace/score-based-model/saved_models_ctrans/
+/workspace/score-based-model/saved_models/
+/workspace/score-based-model/logs/

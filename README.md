@@ -11,7 +11,8 @@ This repository contains:
 3. [Issue section](https://github.com/KatherLab/swarm-learning-hpe/issues) where people can dump ideas and raise
    questions encountered when using this repo.
 4. Working version of [marugoto_mri](workspace%2Fmarugoto_mri) for Attention MIL based model, originally suitable for histopathology images but Marta has modified it to work with MRI images.
-5. Working version of [odelia-breast-mri](workspace%2Fodelia-breast-mri) for 3D-CNN model by [@Gustav](gumueller@ukaachen.de).
+5. Working version of [odelia-breast-mri](workspace%2Fodelia-breast-mri) for 3D-CNN model by [@Gustav](gumueller@ukaachen.de). Related instructions please refer to [ODELIA.md](ODELIA.md) and following installation steps.
+6. Working version of diffusion model for generating histopathology images and Xray images, [score-based-model](workspace%2Fscore-based-model) and [swag-latent-diffusion](workspace%2Fswag-latent-diffusion). Related instructions please refer to [SWAG.md](SWAG.md) and following installation steps.
 
 ## Table of Contents
 
@@ -54,7 +55,7 @@ This is the Swarm Learning framework:
 #### Hardware recommendations
 * 64 GB of RAM (32 GB is the absolute minimum)
 * 16 CPU cores (8 is the absolute minimum)
-* an NVIDIA GPU with 48 GB of RAM (24 is the  minimum)
+* an NVIDIA GPU with 48 GB of RAM (24 is the minimum)
 * 8 TB of Storage (4 TB is the absolute minimum)
 * We deliberately want to show that we can work with lightweight hardware like this. Here are three quotes for systems like this for less than 10k EUR (Lambda, Dell Precision, and Dell Alienware)
 * Typical installation time can take 30 minutes to build up the necessary dependencies and another 1 hour to build up the environment for running demo experiments
@@ -118,10 +119,23 @@ sudo modprobe nvidia
 ```
 Requirements and dependencies will be automatically installed by the script mentioned in the following section.
 
+### Decide on the connection method
+Determine how your server will connect to the network. You have the option to configure the network interface for a VPN connection using GoodAccess, direct Ethernet connection, or through Tailscale. Follow the instructions below to set up the network interface based on your choice:
+
+- For a VPN connection using GoodAccess(For Odelia project, this is the recommended method.)
+sh /workspace/automate_scripts/server_setup/replace_network_interface.sh --goodaccess
+
+- For a direct Ethernet connection(For proof of concept, this is the recommended method.)
+sh /workspace/automate_scripts/server_setup/replace_network_interface.sh --local
+
+- For a Tailscale connection(For Swag project, this is the recommended method.)
+sh /workspace/automate_scripts/server_setup/replace_network_interface.sh --tailscale
+
+
 ### Setting up the Swarm Learning Environment
 **PLEASE REPLACE THE `<PLACEHOLDER>` WITH THE CORRESPONDING VALUE!**
 
-`<sentinel_ip>` = `172.24.4.67` currently it's the IP assigned by VPN server for TUD host.
+`<sentinel_ip>` = `100.125.38.128` currently it's the IP assigned by VPN server for TUD host.
 
 `<host_index>` = Your institute's name. For ODELIA project should be chosen from `TUD` `Ribera` `VHIO` `Radboud` `UKA` `Utrecht` `Mitera` `Cambridge` `Zurich`
 
@@ -129,7 +143,7 @@ Requirements and dependencies will be automatically installed by the script ment
 
 **Please only proceed to the next step by observing "... is done successfully" from the log**
 
-0. Optional: download preprocessed datasets. Please refer to the [Data Preparation](DUKE_dataset_preparation.md) section for more details.
+0. Optional: download preprocessed datasets. Please refer to the [Data Preparation](ODELIA) section for more details.
 
 1. `Prerequisite`: Runs scripts that check for required software and open/exposed ports.
 ```sh
@@ -157,40 +171,6 @@ All the processes are automated, so you can just run the above command and wait 
 
 If any problem occurs, please first try to figure out which step is going wrong, try to google for solutions and find solution in [Troubleshooting.md](Troubleshooting.md). Then contact the maintainer of the Swarm Learning Environment and document the error in the Troubleshooting.md file.
 
-## Usage
-### Ensuring Dataset Structure
-
-To ensure proper organization of your dataset, please follow the steps outlined below:
-
-1. **Directory Location**
-
-   Place your dataset under the specified path:
-
-/workspace/odelia-breast-mri/user/data-and-scratch/data
-
-
-Within this path, create a folder named `multi_ext`. Your directory structure should then resemble:
-/opt/hpe/swarm-learning-hpe/workspace/odelia-breast-mri/user/data-and-scratch/data
-└── multi_ext
-├── datasheet.csv # Your clinical tabular data
-├── test # External validation dataset
-├── train_val # Your own site training data
-└── segmentation_metadata_unilateral.csv # External validation table
-
-2. **Data Organization**
-
-Inside the `train_val` or `test` directories, place folders that directly contain NIfTI files. The folders should be named according to the following convention:
-
-<patientID>_right
-<patientID>_left
-
-Here, `<patientID>` should correspond with the patient ID in your tables (`datasheet.csv` and `segmentation_metadata_unilateral.csv`). This convention assists in linking the imaging data with the respective clinical information efficiently.
-
-#### Summary
-
-- **Step 1:** Ensure your dataset is placed within `/workspace/odelia-breast-mri/user/data-and-scratch/data/multi_ext`.
-- **Step 2:** Organize your clinical tabular data, external validation dataset, your own site training data, and external validation table as described.
-- **Step 3:** Name folders within `train_val` and `test` as `<patientID>_right` or `<patientID>_left`, matching the patient IDs in your datasheets.
 
 Following these structured steps will help in maintaining a well-organized dataset, thereby enhancing data management and processing in your projects.
 
@@ -258,26 +238,7 @@ Please observe [Troubleshooting.md](Troubleshooting.md) section 10 for successfu
 ![Workflow.png](assets%2FWorkflow.png)
 ![Swarm model training protocol .png](assets%2FSwarm%20model%20training%20protocol%20.png)
 
-## Node list
 
-Nodes will be added to vpn and will be able to communicate with each other after setting up the Swarm Learning Environment with [Install](#install)
-| Project | Node Name | Location           | Hostname  | Data      | Maintainer                                 |
-| ------- | --------- | ------------------| ---------| --------- | ------------------------------------------|
-| Sentinel node | TUD       | Dresden, Germany  | swarm     | | [@Jeff](https://github.com/Ultimate-Storm) |
-| ODELIA  | VHIO      | Madrid, Spain      | radiomics |  | [@Adrià](adriamarcos@vhio.net)           |
-|         | UKA       | Aachen, Germany    | swarm     |   | [@Gustav](gumueller@ukaachen.de)         |
-|         | RADBOUD   | Nijmegen, Netherlands | swarm |   | [@Tianyu](t.zhang@nki.nl)                |
-|         | MITERA    | Paul, Greece  |           |   |                                            |
-|         | RIBERA    | Lopez, Spain    |           |   |                                            |
-|         | UTRECHT   |                    |           |  |                                            |
-|         | CAMBRIDGE |  Nick, Britain  |           |  |                                            |
-|         | ZURICH    |  Sreenath, Switzerland   |           |           |                                            |
-| SWAG |        |   | swarm     |      |  |
-
-| DECADE |        |   | swarm     |      | |
-
-
-| Other nodes | UCHICAGO  | Chicago, USA       | swarm     |           | [@Sid](Siddhi.Ramesh@uchospitals.edu)    |
 
 ## Models implemented
 
