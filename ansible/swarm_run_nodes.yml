@@ -1,0 +1,47 @@
+- name: Run Swarm Learning Nodes
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Create script directory
+      ansible.builtin.file:
+        path: /home/swarm/swarm_scripts
+        state: directory
+        mode: '0755'
+      become: yes
+
+    - name: Copy Swarm Learning scripts to remote machines
+      ansible.builtin.copy:
+        src: ./swarm_scripts/
+        dest: /home/swarm/swarm_scripts/
+        mode: '0755'
+      become: yes
+
+    - name: Run Swarm Network (sentinel) node
+      ansible.builtin.shell: >
+        /home/swarm/swarm_scripts/run_sn.sh -s {{ sentinel_ip_address }} -d {{ host_index }}
+      args:
+        executable: /bin/bash
+      async: 0
+      poll: 0
+      register: sn_result
+      when: "'sentinel' in group_names"
+
+    - name: Run Swarm SWOP node
+      ansible.builtin.shell: >
+        /home/swarm/swarm_scripts/run_swop.sh -w {{ workspace_name }} -s {{ sentinel_ip_address }} -d {{ host_index }}
+      args:
+        executable: /bin/bash
+      async: 0
+      poll: 0
+      register: swop_result
+
+    - name: Run Swarm SWCI node
+      ansible.builtin.shell: >
+        /home/swarm/swarm_scripts/run_swci.sh -w {{ workspace_name }} -s {{ sentinel_ip_address }} -d {{ host_index }}
+      args:
+        executable: /bin/bash
+      async: 0
+      poll: 0
+      register: swci_result
+      when: "'sentinel' in group_names"
+

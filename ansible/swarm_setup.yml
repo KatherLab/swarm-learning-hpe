@@ -1,0 +1,33 @@
+---
+- name: Setup Swarm Learning Environment
+  hosts: swarm_nodes
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: Create swarm user
+      user:
+        name: swarm
+        groups: sudo
+        append: yes
+
+    - name: Set up repository
+      git:
+        repo: https://github.com/KatherLab/swarm-learning-hpe.git
+        dest: /opt/hpe/swarm-learning-hpe
+        force: yes
+
+    - name: Ensure CUDA environment and NVIDIA drivers are installed
+      # Put the necessary tasks to install CUDA and NVIDIA drivers here
+
+    - name: Run prerequisite script
+      command: sh workspace/automate_scripts/automate.sh -a
+
+    - name: Run server setup script
+      command: sh workspace/automate_scripts/automate.sh -b -s 172.24.40.65 -d {{ inventory_hostname }}
+
+    - name: Run final setup script
+      command: sh workspace/automate_scripts/automate.sh -c -w odelya-breast-mri -s 172.24.40.65 -d {{ inventory_hostname }}
+
+    - name: Download datasets
+      # Put the necessary tasks to download datasets here
+
