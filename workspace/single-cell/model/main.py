@@ -96,7 +96,7 @@ def loadData(dataDir, experiment, organ, label):
     """
 
     # Load data
-    data_path = glob.glob(os.path.join(dataDir, organ+'_clean_subset_4_union_hvgs_v2.h5ad'))
+    data_path = glob.glob(os.path.join(dataDir, organ+'_clean_subset_4_union_hvgs_renorm.h5ad'))
     
     if not data_path:
         raise FileNotFoundError(
@@ -148,6 +148,7 @@ def loadData(dataDir, experiment, organ, label):
     # Define categories for categories encoder
     y_categories = sorted(train.obs[label].unique())
     #! CHANGE CATEGORIES HERE
+    print(y_categories)
     #y_categories = ['Adipocytes', 'Cardiomyocytes', 'Endocardial', 'Endothelial', 'Epicardium', 'Fibroblast', 'Ischemic cells (MI)', 'Lymphatic EC', 'Lymphocytes', 'Mast cells', 'Monocytes', 'Neuronal', 'Pericytes', 'VSMC']
 
     # Create categories encoder
@@ -352,7 +353,7 @@ def main():
 
     #! CHANGE ORGAN AND TYPE HERE
     organ = "breast"
-    label = "cell_subtype"
+    label = "cell_type"
     dataDir=os.getenv('DATA_DIR')
     
     # Load data
