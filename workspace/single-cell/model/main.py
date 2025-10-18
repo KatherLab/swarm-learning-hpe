@@ -352,7 +352,7 @@ def main():
 
     #! CHANGE ORGAN AND TYPE HERE
     organ = "heart"
-    label = "cell_subtype"
+    label = "cell_type"
     dataDir=os.getenv('DATA_DIR')
     
     # Load data
