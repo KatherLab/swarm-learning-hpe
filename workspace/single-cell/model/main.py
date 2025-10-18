@@ -97,6 +97,13 @@ def loadData(dataDir, experiment, organ, label):
 
     # Load data
     data_path = glob.glob(os.path.join(dataDir, organ+'_clean_subset_4_union_hvgs_v2.h5ad'))
+    
+    if not data_path:
+        raise FileNotFoundError(
+            f"No data file found matching pattern '{organ}_clean_subset_4_union_hvgs_v2.h5ad' "
+            f"in directory '{dataDir}'. Please check if the file exists."
+        )
+    
     data_path = data_path[0]
     print(f'Loading data from {data_path}')
     # backed='r': save RAM with partial reading
