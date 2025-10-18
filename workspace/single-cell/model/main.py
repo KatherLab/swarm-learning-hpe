@@ -96,7 +96,7 @@ def loadData(dataDir, experiment, organ, label):
     """
 
     # Load data
-    data_path = glob.glob(os.path.join(dataDir, organ+'_clean_subset_4_union_hvgs_renorm.h5ad'))
+    data_path = glob.glob(os.path.join(dataDir, organ+'_clean_subset_4_union_hvgs.h5ad'))
     
     if not data_path:
         raise FileNotFoundError(
@@ -352,7 +352,7 @@ def main():
     device = torch.device("cpu")
 
     #! CHANGE ORGAN AND TYPE HERE
-    organ = "breast"
+    organ = "lung"
     label = "cell_type"
     dataDir=os.getenv('DATA_DIR')
     
