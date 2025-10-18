@@ -351,8 +351,8 @@ def main():
     device = torch.device("cpu")
 
     #! CHANGE ORGAN AND TYPE HERE
-    organ = "heart"
-    label = "cell_type"
+    organ = "breast"
+    label = "cell_subtype"
     dataDir=os.getenv('DATA_DIR')
     
     # Load data
