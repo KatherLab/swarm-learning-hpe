@@ -147,8 +147,8 @@ def loadData(dataDir, experiment, organ, label):
     
     # Define categories for categories encoder
     #! CHANGE CATEGORIES HERE when using heart cell types
-    #y_categories = sorted(train.obs[label].unique())
-    y_categories = ['Adipocytes', 'Cardiomyocytes', 'Endocardial', 'Endothelial', 'Epicardium', 'Fibroblast', 'Ischemic cells (MI)', 'Lymphatic EC', 'Lymphocytes', 'Mast cells', 'Monocytes', 'Neuronal', 'Pericytes', 'VSMC']
+    y_categories = sorted(train.obs[label].unique())
+    #y_categories = ['Adipocytes', 'Cardiomyocytes', 'Endocardial', 'Endothelial', 'Epicardium', 'Fibroblast', 'Ischemic cells (MI)', 'Lymphatic EC', 'Lymphocytes', 'Mast cells', 'Monocytes', 'Neuronal', 'Pericytes', 'VSMC']
 
     # Create categories encoder
     ohe = OneHotEncoder(handle_unknown='ignore', sparse_output=False)
@@ -351,8 +351,8 @@ def main():
     device = torch.device("cpu")
 
     #! CHANGE ORGAN AND TYPE HERE
-    organ = "heart"
-    label = "cell_type"
+    organ = "breast"
+    label = "cell_subtype"
     dataDir=os.getenv('DATA_DIR')
     
     # Load data
