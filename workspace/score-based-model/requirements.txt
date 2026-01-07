@@ -70,7 +70,7 @@ trio-websocket==0.10.2
 triton==2.0.0
 typer==0.7.0
 tzdata==2023.3
-urllib3==1.26.15
+urllib3==2.6.3
 video-diffusion-pytorch==0.6.0
 Werkzeug==2.2.3
 wrapt==1.15.0
