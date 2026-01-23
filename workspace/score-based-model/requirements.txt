@@ -35,7 +35,7 @@ opencv-python==4.7.0.72
 opencv-python-headless==4.7.0.72
 pathtools==0.1.2
 Pillow==9.5.0
-protobuf==3.20.1
+protobuf==7.34.0rc1
 pydicom==2.3.1
 python-dotenv==1.0.0
 python-gdcm==3.0.21
