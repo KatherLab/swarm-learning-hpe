@@ -27,7 +27,7 @@ matplotlib==3.7.1
 nibabel==5.1.0
 nilearn==0.10.0
 ninja==1.11.1
-nltk==3.8.1
+nltk==3.9.2
 numpy==1.24.2
 oauthlib==3.2.2
 omegaconf==2.3.0
