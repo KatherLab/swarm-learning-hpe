@@ -1,0 +1,24 @@
+{
+  "upload_type": "software",
+  "title": "swarm-learning-hpe: swarm learning workflows on the HPE Swarm Learning platform, with the model workspaces used in the SWAG histopathology study",
+  "description": "Swarm learning framework and training workflows on the HPE Swarm Learning platform, with model workspaces for histopathology and radiology. The SWAG consortium's histopathology study on swarm-trained generative models (Schulz, Zhu, Saldanha et al.) ran from workspace/score-based-model (score-based diffusion models trained by swarm learning; the training code has not changed since March 2024, evaluation and plotting scripts were added in December 2024 and partly revised in July 2025) and used latent diffusion scripts adapted from workspace/swag-latent-diffusion (MONAI-based 2d_autoencoder.py, 2d_ldm.py and 2d_ldm_sample.py). Third-party components keep their own licences: MONAI generative package (Apache-2.0), ncsnv2 by Yang Song (MIT) and the UNet of rosinality/denoising-diffusion-pytorch (MIT, Kim Seonghyeon).",
+  "creators": [
+    {
+      "name": "Zhu, Jiefu",
+      "affiliation": "Else Kroener Fresenius Center for Digital Health, Faculty of Medicine and University Hospital Carl Gustav Carus, TUD Dresden University of Technology, Dresden, Germany"
+    },
+    {
+      "name": "Pfeiffer, Kevin",
+      "affiliation": "TUD Dresden University of Technology, Dresden, Germany"
+    }
+  ],
+  "license": "mit",
+  "access_right": "open",
+  "keywords": [
+    "swarm learning",
+    "generative models",
+    "diffusion models",
+    "medical imaging",
+    "privacy-preserving machine learning"
+  ]
+}

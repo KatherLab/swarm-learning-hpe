@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: If you use this software, please cite it as below.
+type: software
+title: "swarm-learning-hpe"
+license: MIT
+repository-code: "https://github.com/KatherLab/swarm-learning-hpe"
+authors:
+  - family-names: "Zhu"
+    given-names: "Jiefu"
+    affiliation: "Else Kroener Fresenius Center for Digital Health, Faculty of Medicine and University Hospital Carl Gustav Carus, TUD Dresden University of Technology, Dresden, Germany"
+  - family-names: "Pfeiffer"
+    given-names: "Kevin"
+    affiliation: "TUD Dresden University of Technology, Dresden, Germany"
